@@ -15,7 +15,8 @@
 <link href="<?php echo base_url('assets/template/css/responsive.css'); ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('assets/template/css/icons.css'); ?>" rel="stylesheet" type="text/css" />
 
-<link rel="stylesheet" href="<?php echo base_url('assets/template/css/fontawesome/font-awesome.min.css'); ?>">
+<link rel="stylesheet" href="<?php  echo base_url('assets/template/css/fontawesome/font-awesome.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/template/css/fontawesome4/css/font-awesome.min.css'); ?>">
 <!--[if IE 7]>
   <link rel="stylesheet" href="assets/css/fontawesome/font-awesome-ie7.min.css">
 <![endif]-->
@@ -24,6 +25,25 @@
   <link href="assets/css/ie8.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+<style media="screen">
+  .navbar {
+    background: #1c1a55;
+    border-bottom: 4px solid #141333;
+  }
+  .navbar .nav > li:active, .navbar .nav li.dropdown.open > .dropdown-toggle, .navbar .nav li.dropdown.active > .dropdown-toggle, .navbar .nav li.dropdown.open.active > .dropdown-toggle, .navbar .toggle-sidebar:active {
+    background: #141333;
+  }
+  .dropdown-menu.extended li p {
+    background-color: #1c1a55;
+  }
+  .project-switcher {
+    background-color : #141333;
+  }
+  .dropdown-menu li a:hover {
+    background: #141333;
+  }
+</style>
 
 <!--=== JavaScript ===-->
 
@@ -75,8 +95,8 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/noty/themes/default.js"></script>
 
 <!-- Forms -->
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/uniform/jquery.uniform.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/select2/select2.min.js"></script>
+<!-- <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/uniform/jquery.uniform.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/select2/select2.min.js"></script> -->
 
 <!-- App -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/app.js"></script>
