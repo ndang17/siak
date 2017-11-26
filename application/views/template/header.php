@@ -35,7 +35,11 @@
     <!-- Top Right Menu -->
     <ul class="nav navbar-nav navbar-right">
 
-
+      <li>
+        <a href="javascript:void(0);">
+          Dept : <span style="color:yellow;">Akademik</span>
+        </a>
+      </li>
       <!-- Messages -->
       <li class="dropdown hidden-xs hidden-sm">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

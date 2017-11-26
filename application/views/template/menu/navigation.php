@@ -2,14 +2,22 @@
   <div id="sidebar-content">
 
     <!--=== Navigation ===-->
+
     <ul id="nav">
-      <li class="current">
-        <a href="index.html">
-          <i class="fa fa-dashboard"></i>
-          Dashboard
-        </a>
-      </li>
-      <li>
+      <?php foreach ($navigation as $item) { ?>
+        <li class="current">
+          <a href="index.html">
+            <i class="<?php echo $item['icon']; ?>"></i>
+            <?php echo $item['name']; ?>
+
+          </a>
+        </li>
+      <?php } ?>
+
+
+
+      <!-- DROPDOWN -->
+      <!-- <li>
         <a href="javascript:void(0);">
           <i class="fa fa-desktop"></i>
           UI Features
@@ -17,146 +25,16 @@
         </a>
         <ul class="sub-menu">
           <li>
-            <a href="ui_general.html">
-            <i class="fa fa-angle-right"></i>
-            General
-            </a>
-          </li>
-          <li>
-            <a href="ui_buttons.html">
-            <i class="fa fa-angle-right"></i>
-            Buttons
-            </a>
-          </li>
-          <li>
-            <a href="ui_tabs_accordions.html">
-            <i class="fa fa-angle-right"></i>
-            Tabs &amp; Accordions
-            </a>
-          </li>
-          <li>
-            <a href="ui_sliders.html">
-            <i class="fa fa-angle-right"></i>
-            Sliders
-            </a>
-          </li>
-          <li>
-            <a href="ui_nestable_list.html">
-            <i class="fa fa-angle-right"></i>
-            Nestable List
-            </a>
-          </li>
-          <li>
-            <a href="ui_typography.html">
-            <i class="fa fa-angle-right"></i>
-            Typography / fa fas
-            </a>
-          </li>
-          <li>
-            <a href="ui_google_maps.html">
-            <i class="fa fa-angle-right"></i>
-            Google Maps
-            </a>
-          </li>
-          <li>
             <a href="ui_grid.html">
             <i class="fa fa-angle-right"></i>
             Grid
             </a>
           </li>
         </ul>
-      </li>
-      <li>
-        <a href="javascript:void(0);">
-          <i class="fa fa-edit"></i>
-          Form Elements
-        </a>
-        <ul class="sub-menu">
-          <li>
-            <a href="form_components.html">
-            <i class="fa fa-angle-right"></i>
-            Form Components
-            </a>
-          </li>
-          <li>
-            <a href="form_layouts.html">
-            <i class="fa fa-angle-right"></i>
-            Form Layouts
-            </a>
-          </li>
-          <li>
-            <a href="form_validation.html">
-            <i class="fa fa-angle-right"></i>
-            Form Validation
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="javascript:void(0);">
-          <i class="fa fa-table"></i>
-          Tables
-        </a>
-        <ul class="sub-menu">
-          <li>
-            <a href="tables_static.html">
-            <i class="fa fa-angle-right"></i>
-            Static Tables
-            </a>
-          </li>
-          <li>
-            <a href="tables_dynamic.html">
-            <i class="fa fa-angle-right"></i>
-            Dynamic Tables (DataTables)
-            </a>
-          </li>
-          <li>
-            <a href="tables_responsive.html">
-            <i class="fa fa-angle-right"></i>
-            Responsive Tables
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="charts.html">
-          <i class="fa fa-bar-chart"></i>
-          Charts &amp; Statistics
-        </a>
-      </li>
-      <li>
-        <a href="javascript:void(0);">
-          <i class="fa fa-folder-open-alt"></i>
-          Pages
-        </a>
-        <ul class="sub-menu">
-          <li>
-            <a href="login.html">
-            <i class="fa fa-angle-right"></i>
-            Login
-            </a>
-          </li>
-          <li>
-            <a href="pages_user_profile.html">
-            <i class="fa fa-angle-right"></i>
-            User Profile
-            </a>
-          </li>
-          <li>
-            <a href="pages_calendar.html">
-            <i class="fa fa-angle-right"></i>
-            Calendar
-            </a>
-          </li>
-          <li>
-            <a href="pages_invoice.html">
-            <i class="fa fa-angle-right"></i>
-            Invoice
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li>
+      </li> -->
+
+      <!-- MENU LEVEL -->
+      <!-- <li>
         <a href="javascript:void(0);">
           <i class="fa fa-list-ol"></i>
           4 Level Menu
@@ -205,7 +83,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> -->
     </ul>
 
 
