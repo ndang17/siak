@@ -50,9 +50,14 @@ CREATE TABLE `menu` (
   `url` varchar(200) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_menu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `menu` */
+
+insert  into `menu`(`id_menu`,`id_departement`,`icon`,`name`,`url`,`status`) values 
+(1,1,'fa fa-quora','Dari Master','m',0),
+(2,2,'fa fa-id-badge','D Finance','f',0),
+(3,3,'fa fa-eercast','D Akademik','akd',0);
 
 /*Table structure for table `menu_sub` */
 
