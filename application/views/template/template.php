@@ -23,7 +23,7 @@
 					<ul id="breadcrumbs" class="breadcrumb">
 						<li>
 							<i class="icon-home"></i>
-							<a href="index.html">Dashboard</a>
+							<a href="index.html">Dashboard ko</a>
 						</li>
 						<li class="current">
 							<a href="pages_calendar.html" title="">Calendar</a>
