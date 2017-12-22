@@ -28,10 +28,17 @@ $ex_protocol = explode('/',$_SERVER['SERVER_PROTOCOL']);
 $protocol = $ex_protocol[0];
 $domain = ($_SERVER['HTTP_HOST']=='localhost') ? $_SERVER['HTTP_HOST'] : $_SERVER['HTTP_HOST'];
 $ex_project = explode('/',$_SERVER['REQUEST_URI']);
-$project = ($_SERVER['SERVER_NAME']=='localhost' || $_SERVER['SERVER_NAME']=='192.168.1.5') ? $ex_project[1] : '' ;
+
+// Nyalakan Jika di lokal
+$project = $ex_project[1] ;
+
+// Nyalakan jika di hosting belum fix
+// $project = ($_SERVER['SERVER_NAME']=='localhost' || $_SERVER['SERVER_NAME']=='192.168.1.5') ? $ex_project[1] : '' ;
+
 $bs_url = $protocol.'://'.$domain.'/'.$project;
 
 $config['base_url'] = $bs_url;
+// $config['base_url'] = 'http://10.1.10.27:8080/siak/';
 
 /*
 |--------------------------------------------------------------------------

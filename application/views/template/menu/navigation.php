@@ -102,3 +102,13 @@
   <div id="divider" class="resizeable"></div>
 </div>
 <!-- /Sidebar -->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    console.log(localStorage.getItem('departement'));
+  });
+
+  function load_navigation() {
+
+  }
+</script>

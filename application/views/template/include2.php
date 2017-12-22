@@ -6,7 +6,7 @@
 <!-- jQuery UI -->
 <!--<link href="plugins/jquery-ui/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" />-->
 <!--[if lt IE 9]>
-<link rel="stylesheet" type="text/css" href="plugins/jquery-ui/jquery.ui.1.10.2.ie.css"/>
+  <link rel="stylesheet" type="text/css" href="plugins/jquery-ui/jquery.ui.1.10.2.ie.css"/>
 <![endif]-->
 
 <!-- Theme -->
@@ -14,28 +14,26 @@
 <link href="<?php echo base_url('assets/template/css/plugins.css'); ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('assets/template/css/responsive.css'); ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url('assets/template/css/icons.css'); ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url('assets/template/plugins/animate/animate.css'); ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url('assets/template/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="<?php  echo base_url('assets/template/css/fontawesome/font-awesome.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/template/css/fontawesome4/css/font-awesome.min.css'); ?>">
 <!--[if IE 7]>
-<link rel="stylesheet" href="assets/css/fontawesome/font-awesome-ie7.min.css">
+  <link rel="stylesheet" href="assets/css/fontawesome/font-awesome-ie7.min.css">
 <![endif]-->
 
 <!--[if IE 8]>
-<link href="assets/css/ie8.css" rel="stylesheet" type="text/css" />
+  <link href="assets/css/ie8.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
 <style media="screen">
 
-    .project-switcher {
-        background-color : #0f1f4b;
-    }
-    .dropdown-menu li a:hover {
-        background: #0f1f4b;
-    }
+  .project-switcher {
+    background-color : #0f1f4b;
+  }
+  .dropdown-menu li a:hover {
+    background: #0f1f4b;
+  }
 
 
 </style>
@@ -50,7 +48,7 @@
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-<script src="assets/js/libs/html5shiv.js"></script>
+  <script src="assets/js/libs/html5shiv.js"></script>
 <![endif]-->
 
 <!-- Smartphone Touch Events -->
@@ -64,12 +62,11 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/cookie/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/toastr/toastr.min.js"></script>
 
 <!-- Page specific plugins -->
 <!-- Charts -->
 <!--[if lt IE 9]>
-<script type="text/javascript" src="plugins/flot/excanvas.min.js"></script>
+  <script type="text/javascript" src="plugins/flot/excanvas.min.js"></script>
 <![endif]-->
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/flot/jquery.flot.min.js"></script>
@@ -91,7 +88,7 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/noty/themes/default.js"></script>
 
 <!-- Forms -->
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/uniform/jquery.uniform.min.js"></script>
+ <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/uniform/jquery.uniform.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/select2/select2.min.js"></script>
 
 <!-- App -->
@@ -103,13 +100,13 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>plugins/validation/jquery.validate.min.js"></script>
 
 <script>
-    $(document).ready(function(){
-        "use strict";
+$(document).ready(function(){
+  "use strict";
 
-        App.init(); // Init layout and core plugins
-        Plugins.init(); // Init all plugins
-        FormComponents.init(); // Init all form-specific plugins
-    });
+  App.init(); // Init layout and core plugins
+  Plugins.init(); // Init all plugins
+  FormComponents.init(); // Init all form-specific plugins
+});
 </script>
 
 <!-- Demo JS -->
@@ -122,44 +119,12 @@
 
 <!-- Custom -->
 <script type="text/javascript">
-    function load_navigation() {
-        localStorage.getItem('departement');
-    }
+  function load_navigation() {
+    localStorage.getItem('departement');
+  }
 
-    $(document).ready(function () {
-        window.base_url_js = "<?php echo base_url(); ?>";
-        // $('#navigation').html('');
-        // $('#navigation').load("<?php echo base_url('c_departement/navigation/1'); ?>");
-    });
-
-    $.fn.extend({
-        animateCss: function (animationName, callback) {
-            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-            this.addClass('animated ' + animationName).one(animationEnd, function() {
-                $(this).removeClass('animated ' + animationName);
-                if (callback) {
-                    callback();
-                }
-            });
-            return this;
-        }
-    });
-
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": true,
-        "progressBar": true,
-        "positionClass": "toast-bottom-full-width",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
+  $(document).ready(function () {
+    // $('#navigation').html('');
+    // $('#navigation').load("<?php echo base_url('c_departement/navigation/1'); ?>");
+  });
 </script>

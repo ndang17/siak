@@ -9,8 +9,9 @@ class MY_Controller extends CI_Controller {
     $this->load->model('master/m_master');
   }
 
-  public function template($content,$id_departement)
+  public function template($content)
   {
+    $id_departement = 1;
 
     $data['include'] = $this->load->view('template/include','',true);
 
@@ -23,6 +24,14 @@ class MY_Controller extends CI_Controller {
 		$data['navigation'] = $this->load->view('template/menu/navigation',$navigation,true);
 		$this->load->view('template/template',$data);
 
+  }
+
+  public function blank_temp($content){
+      $data['include'] = $this->load->view('template/include','',true);
+      $data['content'] = $content;
+
+
+      $this->load->view('template/blank',$data);
   }
 
 

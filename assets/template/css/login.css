@@ -42,7 +42,7 @@
   width: 350px;
   margin: 0 auto;
   border: 1px solid #d9d9d9;
-  border-top: 5px solid #4d7496;
+  border-top: 5px solid #083f88;
   /* * * * * * * * * * * *
 		 * Inner Box
 		 * * * * * * * * * * * */
@@ -74,7 +74,7 @@
   margin: 0;
 }
 .login .box .input-icon input {
-  border-left: 2px solid #4d7496;
+  border-left: 2px solid #083f88;
 }
 .login .box .has-error .input-icon input {
   border-left-color: #b94a48;

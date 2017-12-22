@@ -9,8 +9,8 @@
       <?php
         foreach ($departement as $item) {
       ?>
-      <li>
-        <a href="<?php echo base_url().$item['url']; ?>">
+      <li class="departement" data-id="<?php echo $item['id_departement']; ?>">
+        <a href="javascript:void(0);">
           <span class="image"><i class="<?php echo $item['icon']; ?>"></i></span>
           <span class="title"><?php echo $item['name']; ?></span>
         </a>
@@ -31,3 +31,12 @@
     </ul>
   </div> <!-- /#frame -->
 </div> <!-- /#project-switcher -->
+
+<script type="text/javascript">
+  $('.departement').click(function () {
+    var id_departement = $(this).attr('data-id');
+    $('.departement').removeClass('current');
+    $(this).addClass('current');
+    localStorage.setItem('departement',id_departement);
+  })
+</script>
