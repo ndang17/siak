@@ -4,20 +4,20 @@
     <!--=== Navigation ===-->
 
     <ul id="nav">
-      <?php foreach ($navigation as $item) { ?>
-        <li class="current">
-          <a href="index.html">
-            <i class="<?php echo $item['icon']; ?>"></i>
-            <?php echo $item['name']; ?>
-
-          </a>
-        </li>
-      <?php } ?>
+<!--      --><?php //foreach ($navigation as $item) { ?>
+<!--        <li class="current">-->
+<!--          <a href="index.html">-->
+<!--            <i class="--><?php //echo $item['icon']; ?><!--"></i>-->
+<!--            --><?php //echo $item['name']; ?>
+<!---->
+<!--          </a>-->
+<!--        </li>-->
+<!--      --><?php //} ?>
 
 
 
       <!-- DROPDOWN -->
-      <!-- <li>
+      <li>
         <a href="javascript:void(0);">
           <i class="fa fa-desktop"></i>
           UI Features
@@ -31,10 +31,10 @@
             </a>
           </li>
         </ul>
-      </li> -->
+      </li>
 
       <!-- MENU LEVEL -->
-      <!-- <li>
+       <li>
         <a href="javascript:void(0);">
           <i class="fa fa-list-ol"></i>
           4 Level Menu
@@ -83,7 +83,7 @@
             </a>
           </li>
         </ul>
-      </li> -->
+      </li>
     </ul>
 
 

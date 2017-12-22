@@ -6,27 +6,27 @@
 
   <div id="frame">
     <ul class="project-list">
-      <?php
-        foreach ($departement as $item) {
-      ?>
-      <li class="departement" data-id="<?php echo $item['id_departement']; ?>">
-        <a href="javascript:void(0);">
-          <span class="image"><i class="<?php echo $item['icon']; ?>"></i></span>
-          <span class="title"><?php echo $item['name']; ?></span>
-        </a>
-      </li>
+<!--      --><?php
+//        foreach ($departement as $item) {
+//      ?>
+<!--      <li class="departement" data-id="--><?php //echo $item['id_departement']; ?><!--">-->
+<!--        <a href="javascript:void(0);">-->
+<!--          <span class="image"><i class="--><?php //echo $item['icon']; ?><!--"></i></span>-->
+<!--          <span class="title">--><?php //echo $item['name']; ?><!--</span>-->
+<!--        </a>-->
+<!--      </li>-->
+<!---->
+<!--      --><?php //}
+//
+//       ?>
 
-      <?php }
-
-       ?>
-
-      <!-- AKTIF
+      <!-- AKTIF -->
       <li class="current">
         <a href="javascript:void(0);">
-          <span class="image"><i class="fa fa-book"></i></span>
+          <span class="image"><i class="fa fa-id-card-o"></i></span>
           <span class="title">Akademik</span>
         </a>
-      </li> -->
+      </li>
 
     </ul>
   </div> <!-- /#frame -->

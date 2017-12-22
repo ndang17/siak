@@ -3,36 +3,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
-  function __construct()
-  {
-    parent::__construct();
-    $this->load->model('master/m_master');
-  }
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model('master/m_master');
+    }
 
-  public function template($content)
-  {
-    $id_departement = 1;
+    public function template($content)
+    {
+        $id_departement = 1;
 
-    $data['include'] = $this->load->view('template/include','',true);
+        $data['include'] = $this->load->view('template/include','',true);
 
-    $data_departement ['departement'] = $this->m_master->get_departement();
-    $data_nav['departement'] = $this->load->view('template/menu/departement',$data_departement,true);
+//        $data_departement ['departement'] = $this->m_master->get_departement();
 
-		$data['header'] = $this->load->view('template/header',$data_nav,true);
+        $departement = $this->uri->segment(1);
+        $data_nav['departement'] = $this->load->view('template/menu/departement/menu_'.$departement,'',true);
 
-    $navigation['navigation'] = $this->db->query('SELECT * FROM db_navigation.menu WHERE id_departement ='.$id_departement)->result_array();
-		$data['navigation'] = $this->load->view('template/menu/navigation',$navigation,true);
-		$this->load->view('template/template',$data);
+        $data['header'] = $this->load->view('template/header',$data_nav,true);
 
-  }
-
-  public function blank_temp($content){
-      $data['include'] = $this->load->view('template/include','',true);
-      $data['content'] = $content;
+//        $navigation['navigation'] = $this->db->query('SELECT * FROM db_navigation.menu WHERE id_departement ='.$id_departement)->result_array();
+        $data['navigation'] = $this->load->view('template/menu/navigation','',true);
 
 
-      $this->load->view('template/blank',$data);
-  }
+        $this->load->view('template/template',$data);
+
+    }
+
+    public function blank_temp($content){
+        $data['include'] = $this->load->view('template/include','',true);
+        $data['content'] = $content;
+
+
+        $this->load->view('template/blank',$data);
+    }
 
 
 }

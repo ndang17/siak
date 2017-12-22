@@ -17,6 +17,6 @@ $route['db/(:any)'] = 'auth/c_auth/db/$1';
 
 
 // === Dashboard ===
-$route['dashboard'] = 'dashboard/c_dashboard';
+$route['akademic/dashboard'] = 'dashboard/c_dashboard';
 
 
