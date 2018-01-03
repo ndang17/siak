@@ -37,6 +37,10 @@
         background: #0f1f4b;
     }
 
+    #ui-datepicker-div {
+        z-index : 1041 !important;
+    }
+
 
 </style>
 
@@ -80,6 +84,7 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/easy-pie-chart/jquery.easy-pie-chart.min.js"></script> -->
 
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/daterangepicker/moment.min.js"></script>
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/daterangepicker/moment_id.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/daterangepicker/daterangepicker.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/blockui/jquery.blockUI.min.js"></script>
 
@@ -93,6 +98,12 @@
 <!-- Forms -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/uniform/jquery.uniform.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/select2/select2.min.js"></script>
+
+<!-- Pickers -->
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/bootstrap-colorpicker/bootstrap-colorpicker.min.js"></script>
 
 <!-- App -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/app.js"></script>
@@ -109,6 +120,9 @@
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins
         FormComponents.init(); // Init all form-specific plugins
+
+
+
     });
 </script>
 
@@ -122,15 +136,17 @@
 
 <!-- Custom -->
 <script type="text/javascript">
+    window.base_url_js = "<?php echo base_url(); ?>";
+        
     function load_navigation() {
         localStorage.getItem('departement');
     }
 
-    $(document).ready(function () {
-        window.base_url_js = "<?php echo base_url(); ?>";
-        // $('#navigation').html('');
-        // $('#navigation').load("<?php echo base_url('c_departement/navigation/1'); ?>");
-    });
+    //$(document).ready(function () {
+    //    window.base_url_js = "<?php //echo base_url(); ?>//";
+    //    // $('#navigation').html('');
+    //    // $('#navigation').load("<?php //echo base_url('c_departement/navigation/1'); ?>//");
+    //});
 
     $.fn.extend({
         animateCss: function (animationName, callback) {
@@ -161,5 +177,36 @@
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
+    }
+
+    function loading_page(element) {
+        $(''+element).html('<div class="row">' +
+            '<div class="col-md-12" style="text-align: center;">' +
+            '<h3 class="animated flipInX"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> <span>Loading page . . .</span></h3>' +
+            '</div>' +
+            '</div>');
+    }
+    
+    function convertDateMMtomm(mounth) {
+        var arr_mounth = {
+            'January': 0,
+            'February': 1,
+            'March': 2,
+            'April': 3,
+            'May': 4,
+            'June': 5,
+            'July': 6,
+            'August': 7,
+            'September': 8,
+            'October': 9,
+            'November': 10,
+            'December': 11,
+        }
+
+        return arr_mounth[mounth];
+    }
+
+    function log(data) {
+        console.log(data);
     }
 </script>

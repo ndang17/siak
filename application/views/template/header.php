@@ -1,3 +1,10 @@
+
+<style>
+    .navbar .nav > li.current > a {
+        background: #0f1f4b85;
+    }
+</style>
+
 <!-- Header -->
 <header class="header navbar navbar-fixed-top" role="banner">
   <!-- Top Navigation Bar -->
@@ -24,8 +31,8 @@
 
     <!-- Top Left Menu -->
     <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
-      <li>
-        <a href="">
+      <li class="<?php if($this->uri->segment(1)=='dashboard'){echo 'current';} ?>">
+        <a href="<?php echo base_url('dashboard'); ?>">
           Dashboard
         </a>
       </li>
@@ -37,7 +44,7 @@
 
       <li>
         <a href="javascript:void(0);">
-          Dept : <span style="color:yellow;">Akademik</span>
+          Dept : <span style="color:yellow;"><?php echo ucwords($departement); ?></span>
         </a>
       </li>
       <!-- Messages -->
@@ -129,6 +136,23 @@
   </div>
   <!-- /top navigation bar -->
 
-  <?php echo $departement; ?>
+  <?php echo $page_departement; ?>
 
 </header> <!-- /.header -->
+
+<!-- Modal -->
+<div class="modal fade" id="modalLoadDepartement" tabindex="1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog animated jackInTheBox" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <center>
+                    <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                    <br/>
+                    Loading departement . . .
+                </center>
+            </div>
+
+        </div>
+    </div>
+</div>

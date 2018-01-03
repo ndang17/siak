@@ -42,7 +42,7 @@ class C_auth extends MY_Controller {
     }
 
     public function db($table=''){
-        
+
 //        $this->load->view('md5');
 
         if($table=='karyawan'){
@@ -185,6 +185,41 @@ class C_auth extends MY_Controller {
 
                 $this->db->insert('db_students.ta20'.$angkatan,$arr);
             }
+        } else if($table=='prodi'){
+            $data = $this->db_server->query('SELECT * FROM siak4.programstudi')->result_array();
+            for($i=0;$i<count($data);$i++){
+                $EducationLevelID = $data[$i]['JenjangID'];
+                if($EducationLevelID==8) { $EducationLevelID = 5;}
+                else if($EducationLevelID==6) { $EducationLevelID = 4;}
+                $arr = array(
+                    'EducationLevelID' => $EducationLevelID,
+                    'FacultyID' => $data[$i]['FakultasID'],
+                    'KaprodiID' => $data[$i]['KaProdiID'],
+                    'DiktiID' => $data[$i]['ProdiDiktiID'],
+                    'Code' => $data[$i]['Kode'],
+                    'Name' => $data[$i]['Nama'],
+                    'NameEng' => $data[$i]['NamaInggris'],
+                    'Akreditasi' => $data[$i]['Akreditasi'],
+                    'AkreditasiDate' => $data[$i]['TglAK'],
+                    'NoSK' => $data[$i]['NoSK'],
+                    'SKDate' => $data[$i]['TglSK'],
+                    'TotalSKS' => $data[$i]['JmlSKS'],
+                    'Email' => $data[$i]['Email'],
+                    'NoSKBANPT' => $data[$i]['NoSKBAN'],
+                    'SKBANPTDate' => $data[$i]['TglSKBAN'],
+                    'AkreditasiBANPTDate' => $data[$i]['TglABAN'],
+                    'Visi' => $data[$i]['Visi'],
+                    'Misi' => $data[$i]['Misi']
+                );
+                $this->db->insert('db_akademik.program_study',$arr);
+            }
+        } else if($table=='mk'){
+            $data = $this->db_server->query('SELECT dt.*,mk.nama,k.nama as K FROM siak4.detailkurikulum dt 
+                                                  JOIN siak4.matakuliah mk ON (dt.MKID=mk.ID)
+                                                  JOIN siak4.kurikulum k ON (dt.KurikulumID = k.ID)')->result_array();
+
+            print_r($data);
+
         }
 
 

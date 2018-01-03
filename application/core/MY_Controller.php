@@ -6,25 +6,25 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+
+        $departement = $this->__getDepartement();
+        if($departement==''){
+            $this->session->set_userdata('departement_nav', 'academic');
+        }
+
         $this->load->model('master/m_master');
     }
 
     public function template($content)
     {
-        $id_departement = 1;
 
         $data['include'] = $this->load->view('template/include','',true);
 
-//        $data_departement ['departement'] = $this->m_master->get_departement();
+        $data['header'] = $this->menu_header();
+        $data['navigation'] = $this->menu_navigation();
+        $data['crumbs'] = $this->crumbs();
 
-        $departement = $this->uri->segment(1);
-        $data_nav['departement'] = $this->load->view('template/menu/departement/menu_'.$departement,'',true);
-
-        $data['header'] = $this->load->view('template/header',$data_nav,true);
-
-//        $navigation['navigation'] = $this->db->query('SELECT * FROM db_navigation.menu WHERE id_departement ='.$id_departement)->result_array();
-        $data['navigation'] = $this->load->view('template/menu/navigation','',true);
-
+        $data['content'] = $content;
 
         $this->load->view('template/template',$data);
 
@@ -36,6 +36,41 @@ class MY_Controller extends CI_Controller {
 
 
         $this->load->view('template/blank',$data);
+    }
+
+
+    private function menu_header(){
+//        $data_departement ['departement'] = $this->m_master->get_departement();
+//        $data_nav['departement'] = $this->load->view('template/menu/departement',$data_departement,true);
+
+        $nav_departement['departement'] = $this->__getDepartement();
+        $data['page_departement'] = $this->load->view('template/navigation_departement',$nav_departement,true);
+        $page = $this->load->view('template/header',$data,true);
+        return $page;
+    }
+    private function menu_navigation(){
+
+        $data['departement'] = $this->__getDepartement();
+        $page = $this->load->view('page/'.$data['departement'].'/menu_navigation','',true);
+        return $page;
+    }
+
+    private function crumbs(){
+        $data['crumbs_departement'] = $this->session->userdata('departement_nav');
+        $data['segment'] = $this->uri->segment_array();
+        $page = $this->load->view('template/crumbs',$data,true);
+        return $page;
+    }
+
+
+    //==== Get Set ===
+    public function __getDepartement(){
+        return $this->session->userdata('departement_nav');
+    }
+
+    public function __setDepartement($dpt)
+    {
+        $this->session->set_userdata('departement_nav', ''.$dpt);
     }
 
 
