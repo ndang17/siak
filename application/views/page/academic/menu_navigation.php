@@ -1,23 +1,3 @@
-<style>
-    #sidebar ul#nav > li.current {
-        background: #918b51fc;
-    }
-
-    #sidebar ul#nav > li.current > a {
-        border-right: 10px solid #b30011;
-    }
-
-    #sidebar ul#nav > li.current > a , #sidebar ul#nav > li.current > a > .fa {
-        color: #ffffff;
-        text-shadow : none;
-    }
-
-    #sidebar ul#nav li a:hover {
-        background: #083f8814;
-    }
-</style>
-
-
 <div id="sidebar" class="sidebar-fixed">
     <div id="sidebar-content">
 
@@ -27,21 +7,8 @@
 
             <li class="<?php if($this->uri->segment(2)=='kurikulum'){echo "current";} ?>">
                 <a href="<?php echo base_url('academic/kurikulum'); ?>">
-                    <i class="fa fa-database"></i>
+                    <i class="fa fa-archive"></i>
                     Kurikulum
-                </a>
-            </li>
-
-            <li class="">
-                <a href="#">
-                    <i class="fa fa-user"></i>
-                    Data Dosen
-                </a>
-            </li>
-            <li class="">
-                <a href="#">
-                    <i class="fa fa-user"></i>
-                    Data Mahasiswa
                 </a>
             </li>
 
@@ -67,7 +34,7 @@
             </li>
             <li class="">
                 <a href="#">
-                    <i class="fa fa-archive"></i>
+                    <i class="fa fa-calendar-check-o"></i>
                     Jadwal
                 </a>
             </li>
@@ -131,20 +98,4 @@
     <div id="divider" class="resizeable"></div>
 </div>
 <!-- /Sidebar -->
-<style>
-    #sidebar ul#nav ul.sub-menu li.current a {
-        color: #ffffff;
-        background: #083f8882;
-    }
-
-    #sidebar ul#nav ul.sub-menu li.current a i {
-        color: #ffffff;
-    }
-</style>
-<script>
-    $(document).ready(function () {
-        var lisub = "<?php echo $this->uri->segment(2); ?>";
-        $( "ul.sub-menu" ).find( "."+lisub ).addClass('current');
-    });
-</script>
 

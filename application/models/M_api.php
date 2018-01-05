@@ -13,8 +13,21 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
-    public function __getGradeByIDKurikulum($IDKurikulum){
-        $data = $this->db->query('SELECT * FROM db_akademik.grade WHERE CurriculumID = "'.$IDKurikulum.'" ');
+    public function __getGradeByIDKurikulum($CurriculumID){
+        $data = $this->db->query('SELECT * FROM db_akademik.grade WHERE CurriculumID = "'.$CurriculumID.'" ');
+        return $data->result_array();
+    }
+
+    public function __getMataKuliahByIDKurikulum($CurriculumID){
+        $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
+                                          mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
+                                          cd.Semester , cd.TotalSKS,
+                                          em.Name AS NameLecturer
+                                    FROM db_akademik.mata_kuliah mk 
+                                    JOIN db_akademik.curriculum_details cd ON (mk.ID = cd.MKID)
+                                    JOIN db_akademik.program_study ps ON (cd.ProdiID = ps.ID)
+                                    JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
+                                    WHERE cd.CurriculumID="'.$CurriculumID.'" ORDER BY ProdiName');
         return $data->result_array();
     }
 

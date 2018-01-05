@@ -28,6 +28,7 @@
 <![endif]-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
+
 <style media="screen">
 
     .project-switcher {
@@ -41,6 +42,48 @@
         z-index : 1041 !important;
     }
 
+    #sidebar ul#nav ul.sub-menu li.current a {
+        color: #ffffff;
+        background: #083f8882;
+    }
+
+    #sidebar ul#nav ul.sub-menu li.current a i {
+        color: #ffffff;
+    }
+
+    #sidebar ul#nav > li.current {
+        background: #918b51fc;
+    }
+
+    #sidebar ul#nav > li.current > a {
+        border-right: 10px solid #b30011;
+    }
+
+    #sidebar ul#nav > li.current > a , #sidebar ul#nav > li.current > a > .fa {
+        color: #ffffff;
+        text-shadow : none;
+    }
+
+    #sidebar ul#nav li a:hover {
+        background: #083f8814;
+    }
+
+
+    /*Custom Button*/
+    .btn-default-danger {
+        color: red;
+    }
+
+    .btn-default-success {
+        color: green;
+    }
+    .btn-default-primary {
+        color: blue;
+    }
+
+    .dropdown-menu {
+        min-width: 100%;
+    }
 
 </style>
 
@@ -91,9 +134,20 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/fullcalendar/fullcalendar.min.js"></script>
 
 <!-- Noty -->
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/noty/jquery.noty.js"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/noty/layouts/top.js"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/noty/themes/default.js"></script>
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/noty/jquery.noty.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/noty/layouts/top.js"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/noty/themes/default.js"></script>-->
+
+<!-- DataTables -->
+<!-- DataTables -->
+
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/datatables/jquery.dataTables.min.js"></script>-->
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/datatables/tes/jquery.dataTables.js"></script>
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/datatables/tes/dataTables.bootstrap.min.js"></script>-->
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/datatables/tabletools/TableTools.min.js"></script> <!-- optional -->
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/datatables/colvis/ColVis.min.js"></script> <!-- optional -->
+<script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/datatables/DT_bootstrap.js"></script>
+<!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/'); ?><!--plugins/datatables/dataTables.rowReorder.js"></script>-->
 
 <!-- Forms -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/'); ?>plugins/uniform/jquery.uniform.min.js"></script>
@@ -113,7 +167,19 @@
 <!-- Form Validation -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>plugins/validation/jquery.validate.min.js"></script>
 
-<script>
+
+
+<!-- Demo JS -->
+<script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/custom.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/pages_calendar.js"></script>
+<!-- <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/charts/chart_filled_blue.js"></script> -->
+<!-- <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/charts/chart_simple.js"></script> -->
+
+
+<!-- Custom -->
+<script type="text/javascript">
+    window.base_url_js = "<?php echo base_url(); ?>";
+
     $(document).ready(function(){
         "use strict";
 
@@ -124,19 +190,6 @@
 
 
     });
-</script>
-
-<!-- Demo JS -->
-<script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/custom.js"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/pages_calendar.js"></script>
-<!-- <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/charts/chart_filled_blue.js"></script> -->
-<!-- <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/charts/chart_simple.js"></script> -->
-
-
-
-<!-- Custom -->
-<script type="text/javascript">
-    window.base_url_js = "<?php echo base_url(); ?>";
         
     function load_navigation() {
         localStorage.getItem('departement');

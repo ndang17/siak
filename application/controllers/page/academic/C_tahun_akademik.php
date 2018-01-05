@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class C_kurikulum extends MY_Controller {
+class C_tahun_akademik extends MY_Controller {
 
     function __construct()
     {
         parent::__construct();
 //        $this->session->set_userdata('departement_nav', 'academic');
-        $this->load->model('m_kurikulum');
+        $this->load->model('akademik/m_tahun_akademik');
     }
 
 
@@ -16,44 +16,31 @@ class C_kurikulum extends MY_Controller {
         parent::template($content);
     }
 
-    public function kurikulum()
+    public function tahun_akademik()
     {
         $data['department'] = parent::__getDepartement();
-        $data['kurikulum'] = $this->m_kurikulum->__getKurikulum();
+        $data['semester'] = $this->m_tahun_akademik->__getSemester();
 //        print_r($data['kurikulum']);
-        $data['last_kurikulum'] = $data['kurikulum'][0]['Year'];
-        $content = $this->load->view('page/'.$data['department'].'/kurikulum',$data,true);
+        $content = $this->load->view('page/'.$data['department'].'/tahun_akademik',$data,true);
         $this->temp($content);
     }
 
-    public function kurikulum_detail(){
+    public function tahun_akademik_detail(){
         $data_json = $this->input->post('data_json');
         $data['department'] = parent::__getDepartement();
 
         $data['data_json'] = $data_json;
 
-        $this->load->view('page/'.$data['department'].'/kurikulum_detail',$data);
+        $this->load->view('page/'.$data['department'].'/tahun_akademik_detail',$data);
     }
 
-    public function kurikulum_detail_mk(){
+    public function tahun_akademik_detail_date(){
         $data_json = $this->input->post('data_json');
         $data['department'] = parent::__getDepartement();
 
         $data['data_json'] = $data_json;
 
-        $this->load->view('page/'.$data['department'].'/kurikulum_detail_mk',$data);
+        $this->load->view('page/'.$data['department'].'/tahun_akademik_detail_date',$data);
     }
-
-
-    // ========= API =========
-    public function __getKurikulumByYear(){
-        $year = $this->input->post('year');
-
-    }
-
-
-
-
-
 
 }

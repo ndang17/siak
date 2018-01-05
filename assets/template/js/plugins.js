@@ -292,7 +292,7 @@ var Plugins = function() {
 								"xls",
 								"pdf"
 							],
-							"sSwfPath": "assets/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
+							"sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
 						}
 					});
 				}

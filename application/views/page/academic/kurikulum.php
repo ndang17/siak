@@ -11,13 +11,26 @@
 </style>
 
 <div class="row" style="margin-top: 30px;">
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="widget box">
             <div class="widget-header">
-                <h4 class=""><i class="icon-reorder"></i> Daftar Kurikulum</h4>
+                <h4 class=""><i class="icon-reorder"></i> Kurikulum</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group">
+                        <span class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+											Manage <i class="icon-angle-down"></i>
+										</span>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#"><i class="icon-plus"></i> Add</a></li>
+                            <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="widget-content">
-                <div class="list-group">
+            <div class="widget-content no-padding">
+                <div class="list-group" style="margin: 0px;">
                     <?php $no=1; foreach ($kurikulum as $item){ ?>
                     <a href="#<?php echo $item['Year']; ?>" data-year="<?php echo $item['Year']; ?>" class="item-kurikulum list-group-item <?php if($no==1) { echo  'active' ;} ?>">
                         <?php echo $item['Name']; ?>
@@ -31,28 +44,15 @@
 
                 </div>
 
-                <button class="btn btn-success btn-block"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Kurikulum</button>
             </div>
         </div>
 
+        <div id="page_grade"></div>
     </div>
 
-    <div class="col-md-10">
-        <div class="widget box" style="display: block;">
-            <div class="widget-header">
-                <h4 class="header"><i class="fa fa-arrow-right" aria-hidden="true"></i> Detail Kurikulum</h4>
-                <div class="toolbar no-padding">
-                    <div class="btn-group">
-                        <span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span>
-                    </div>
-                </div>
-            </div>
-            <div class="widget-content" id="detail_kurikulum">
+    <div class="col-md-8">
 
-
-
-            </div>
-        </div>
+        <div id="detail_kurikulum"></div>
 
     </div>
 </div>
@@ -74,10 +74,11 @@
 
         var url = base_url_js+"api/__getKurikulumByYear";
         loading_page('#detail_kurikulum');
+        loading_page('#page_grade');
         $.get(url,{year:year},function (data) {
             // console.log(data);
             if(data!=null){
-                var url = base_url_js+"academic/kurikulum-detail";
+                var url = base_url_js+"academic/kurikulum-detail-mk";
                 $.post(url,{data_json:data},function (html) {
 
                     setTimeout(function(){
@@ -85,6 +86,12 @@
                     }, 2000);
                 });
                 // console.log(window.location);
+                var url_grade = base_url_js+"academic/kurikulum-detail";
+                $.post(url_grade,{data_json:data},function (html) {
+                    setTimeout(function(){
+                        $('#page_grade').html(html);
+                    }, 2000);
+                });
 
             } else {
                 setTimeout(function(){

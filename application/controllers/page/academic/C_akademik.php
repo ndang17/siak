@@ -16,24 +16,6 @@ class C_akademik extends MY_Controller {
         parent::template($content);
     }
 
-    public function tahun_akademik()
-    {
-        $data['department'] = parent::__getDepartement();
-        $data['kurikulum'] = $this->m_kurikulum->__getKurikulum();
-//        print_r($data['kurikulum']);
-        $data['last_kurikulum'] = $data['kurikulum'][0]['Year'];
-        $content = $this->load->view('page/'.$data['department'].'/tahun_akademik',$data,true);
-        $this->temp($content);
-    }
-
-    public function tahun_akademik_detail(){
-        $data_json = $this->input->post('data_json');
-        $data['department'] = parent::__getDepartement();
-
-        $data['data_json'] = $data_json;
-
-        $this->load->view('page/'.$data['department'].'/tahun_akademik_detail',$data);
-    }
 
     public function ketersediaan_dosen()
     {

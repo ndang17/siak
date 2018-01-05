@@ -5,11 +5,11 @@
 <!--            <a href="index.html"> --><?php //echo ucwords('Dashboard '.$crumbs_departement); ?><!--</a>-->
             <a href="<?php echo base_url(); ?>">Dashboard</a>
         </li>
-        <?php for($i=1;$i<=count($segment);$i++){ ?>
+        <?php for($i=1;$i<=count($segment);$i++){ if($i==2){ ?>
             <li class="current">
                 <a href="javascript:void(0);" title=""><?php echo ucwords(str_replace("-"," ",$segment[$i])); ?></a>
             </li>
-        <?php } ?>
+        <?php } } ?>
 
     </ul>
 

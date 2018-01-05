@@ -9,6 +9,12 @@
 
             <li class="">
                 <a href="#">
+                    <i class="fa fa-user-circle"></i>
+                    Calon Mahasiswa
+                </a>
+            </li>
+            <li class="">
+                <a href="#">
                     <i class="fa fa-download"></i>
                     Penerimaan Pembayaran
                 </a>
@@ -17,24 +23,6 @@
                 <a href="#">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     Tagihan Mahasiswa
-                </a>
-            </li>
-            <li class="">
-                <a href="#">
-                    <i class="fa fa-calendar"></i>
-                    Tanggal Cair
-                </a>
-            </li>
-            <li class="">
-                <a href="#">
-                    <i class="fa fa-refresh"></i>
-                    Deposit Mahasiswa
-                </a>
-            </li>
-            <li class="">
-                <a href="#">
-                    <i class="fa fa-user-secret"></i>
-                    Mr. X
                 </a>
             </li>
 

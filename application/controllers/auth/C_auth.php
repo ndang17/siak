@@ -214,11 +214,134 @@ class C_auth extends MY_Controller {
                 $this->db->insert('db_akademik.program_study',$arr);
             }
         } else if($table=='mk'){
-            $data = $this->db_server->query('SELECT dt.*,mk.nama,k.nama as K FROM siak4.detailkurikulum dt 
-                                                  JOIN siak4.matakuliah mk ON (dt.MKID=mk.ID)
-                                                  JOIN siak4.kurikulum k ON (dt.KurikulumID = k.ID)')->result_array();
+            $data = $this->db_server->query('SELECT * FROM siak4.matakuliah')->result_array();
 
-            print_r($data);
+
+            // Double MKCode
+            //SELECT * FROM db_akademik.mata_kuliah WHERE MKCode IN (SELECT MKCode FROM db_akademik.mata_kuliah GROUP BY MKCode HAVING count(*) > 1);
+
+            foreach($data as $item){
+                $ProdiID = $item['BaseProdiID'];
+
+                if($ProdiID=='3') {
+                    $ProdiID = 1;
+                }
+                else if($ProdiID=='4'){
+                    $ProdiID = 2;
+                }
+                else if($ProdiID=='6'){
+                    $ProdiID = 3;
+                }
+                else if($ProdiID=='7'){
+                    $ProdiID = 4;
+                }
+                else if($ProdiID=='13'){
+                    $ProdiID = 5;
+                }
+                else if($ProdiID=='14'){
+                    $ProdiID = 6;
+                }
+                else if($ProdiID=='15'){
+                    $ProdiID = 7;
+                }
+                else if($ProdiID=='16'){
+                    $ProdiID = 8;
+                }
+                else if($ProdiID=='17'){
+                    $ProdiID = 9;
+                }
+                else if($ProdiID=='18'){
+                    $ProdiID = 10;
+                }
+                else if($ProdiID=='19'){
+                    $ProdiID = 11;
+                }
+                $arr = array(
+                    'ID' => $item['ID'],
+                    'MKCode' => $item['MKKode'],
+                    'Name' => $item['NamaIndo'],
+                    'NameEng' => $item['NamaInggris'],
+                    'BaseProdiID' => $ProdiID,
+                    'UpdateBy' => '2017090',
+                    'UpdateAt' => '2017-01-09 10:10:10'
+                );
+                print_r($arr);
+
+                $this->db->insert('db_akademik.mata_kuliah',$arr);
+            }
+
+
+        } else if($table=='kur'){
+            $data = $this->db_server->query('SELECT dt.*,mk.nama,k.nama as K,mk.MKKode as MKCode , d.NIP FROM siak4.detailkurikulum dt 
+                                                  JOIN siak4.matakuliah mk ON (dt.MKID=mk.ID)
+                                                  JOIN siak4.kurikulum k ON (dt.KurikulumID = k.ID)
+                                                  LEFT JOIN siak4.dosen d ON (dt.DosenPeng = d.ID)')->result_array();
+
+//            print_r($data);
+//exit;
+            foreach ($data as $item){
+                $ProdiID = $item['ProdiID'];
+
+                if($ProdiID=='3') {
+                    $ProdiID = 1;
+                }
+                    else if($ProdiID=='4'){
+                    $ProdiID = 2;
+                }
+                    else if($ProdiID=='6'){
+                    $ProdiID = 3;
+                }
+                    else if($ProdiID=='7'){
+                    $ProdiID = 4;
+                }
+                    else if($ProdiID=='13'){
+                    $ProdiID = 5;
+                }
+                    else if($ProdiID=='14'){
+                    $ProdiID = 6;
+                }
+                    else if($ProdiID=='15'){
+                    $ProdiID = 7;
+                }
+                    else if($ProdiID=='16'){
+                    $ProdiID = 8;
+                }
+                    else if($ProdiID=='17'){
+                    $ProdiID = 9;
+                }
+                    else if($ProdiID=='18'){
+                    $ProdiID = 10;
+                }
+                    else if($ProdiID=='19'){
+                    $ProdiID = 11;
+                }
+
+
+                $arr = array(
+                    'CurriculumID' => $item['KurikulumID'],
+                    'MKID' => $item['MKID'],
+                    'MKCode' => $item['MKCode'],
+//                    'ProdiIDBefore' => $item['ProdiID'],
+                    'ProdiID' => $ProdiID,
+                    'LecturerNIP' => $item['NIP'],
+
+                    'Semester' => $item['Semester'],
+                    'TotalSKS' => $item['TotalSKS'],
+                    'SKSTatapMuka' => $item['SKSTatapMuka'],
+                    'SKSPraktikum' => $item['SKSPraktikum'],
+                    'SKSPraktikLapangan' => $item['SKSPraktekLap'],
+                    'Silabus' => $item['Silabus'],
+                    'SAP' => $item['SAP'],
+                    'UpdateBy' => '2017090',
+                    'UpdateAt' => '2018-01-08 10:10:10'
+                );
+
+
+//                $this->db->insert('db_akademik.curriculum_details',$arr);
+            }
+
+            print_r(count($data));
+
 
         }
 

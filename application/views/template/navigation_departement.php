@@ -27,7 +27,13 @@
             //
             //       ?>
 
-            <!-- AKTIF -->
+
+            <li class="departement <?php if($departement=='admission'){echo 'current';} ?>" data-dpt="admission">
+                <a href="javascript:void(0);">
+                    <span class="image"><i class="fa fa-users"></i></span>
+                    <span class="title">Admission</span>
+                </a>
+            </li>
             <li class="departement <?php if($departement=='academic'){echo 'current';} ?>" data-dpt="academic">
                 <a href="javascript:void(0);">
                     <span class="image"><i class="fa fa-graduation-cap"></i></span>

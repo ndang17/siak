@@ -23,6 +23,7 @@ class C_api extends MY_Controller {
 
         if($data['detail']!=null){
             $data['grade'] = $this->m_api->__getGradeByIDKurikulum($data['detail'][0]['ID']);
+            $data['mk'] = $this->m_api->__getMataKuliahByIDKurikulum($data['detail'][0]['ID']);
             $result = $data;
         }
 
