@@ -46,4 +46,10 @@ $route['academic/modal-tahun-akademik-detail-lecturer'] = 'page/academic/c_akade
 
 // ====== API ======
 $route['api/__getKurikulumByYear'] = 'api/c_api/getKurikulumByYear';
+$route['api/__getBaseProdi'] = 'api/c_api/getProdi';
+$route['api/__getMKByID'] = 'api/c_api/getMKByID';
+$route['api/__getSemester'] = 'api/c_api/getSemester';
+$route['api/__getLecturer'] = 'api/c_api/getLecturer';
+$route['api/__getAllMK'] = 'api/c_api/getAllMK';
+
 

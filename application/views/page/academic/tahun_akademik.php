@@ -25,11 +25,18 @@
                 <div class="list-group" style="margin: 0px;">
                     <?php foreach ($semester as $item_smt) { ?>
                     <a href="#" class="list-group-item">
-                        <?php echo $item_smt['YearCode'].' | '.$item_smt['Name']; ?><i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <?php
+                            echo $item_smt['YearCode'].' | '.$item_smt['Name'];
+                            if($item_smt['Status']==1){
+                                echo '<i class="fa fa-check-circle" aria-hidden="true"></i>';
+                            }
+                            ?>
+                       <br/>
+                        Program : <strong>Reguler</strong>
                         <hr/>
-                        <div class="">
-                            Program : <strong>Reguler</strong>
-                        </div>
+                        <div style="text-align: right;">
+                        <?php echo $item_smt['NameEmployee']; ?>
+                        | <?php echo date("d F Y h:m", strtotime($item_smt['UpdateAt'])); ?></div>
 
                     </a>
 

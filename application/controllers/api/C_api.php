@@ -8,6 +8,7 @@ class C_api extends MY_Controller {
         parent::__construct();
         header('Content-Type: application/json');
         $this->load->model('m_api');
+        $this->load->model('akademik/m_tahun_akademik');
     }
 
 
@@ -31,12 +32,31 @@ class C_api extends MY_Controller {
         return print_r(json_encode($result));
     }
 
-    private function getGradeByIDKurikulum($ID){
-
+    public function getProdi(){
+        $data = $this->m_api->__getBaseProdi();
+        return print_r(json_encode($data));
     }
 
+    public function getMKByID(){
+        $ID = $this->input->post('idMK');
+        $data = $this->m_api->__getMKByID($ID);
+        return print_r(json_encode($data));
+    }
 
+    public function getSemester(){
+        $data = $this->m_tahun_akademik->__getSemester();
+        return print_r(json_encode($data));
+    }
 
+    public function getLecturer(){
+        $data = $this->m_api->__getLecturer();
+        return print_r(json_encode($data));
+    }
+
+    public function getAllMK(){
+        $data = $this->m_api->__getAllMK();
+        return print_r(json_encode($data));
+    }
 
 
 

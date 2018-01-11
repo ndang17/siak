@@ -172,6 +172,7 @@
 <!-- Demo JS -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/custom.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/pages_calendar.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/form_components.js"></script>
 <!-- <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/charts/chart_filled_blue.js"></script> -->
 <!-- <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/demo/charts/chart_simple.js"></script> -->
 

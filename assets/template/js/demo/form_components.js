@@ -10,22 +10,22 @@ $(document).ready(function(){
 
 	//===== Autocomplete =====//
 	// Using typehead.js-library
-	$('#autocomplete-example').typeahead({
-		name: 'autocomplete-example',
-		local: [
-			'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Dakota','North Carolina','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
-		]
-	});
+	// $('#autocomplete-example').typeahead({
+	// 	name: 'autocomplete-example',
+	// 	local: [
+	// 		'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Dakota','North Carolina','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+	// 	]
+	// });
 
 	//===== Tags =====//
 	// @see: for normal tags, see assets/js/plugins.form-components.js (initTags())
 
 	// Custom Tags
-	$('.tags-autocomplete').tagsInput({
-		width: '100%',
-		height: 'auto',
-		autocomplete_url: 'assets/js/plugins/tagsinput/tags_autocomplete.html'
-	});
+	// $('.tags-autocomplete').tagsInput({
+	// 	width: '100%',
+	// 	height: 'auto',
+	// 	autocomplete_url: 'template/assets/js/plugins/tagsinput/tags_autocomplete.html'
+	// });
 
 
 	//===== Select2 =====//
