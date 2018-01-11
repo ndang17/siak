@@ -50,26 +50,3 @@
         </ul>
     </div> <!-- /#frame -->
 </div> <!-- /#project-switcher -->
-
-
-
-<script type="text/javascript">
-    $('.departement').click(function () {
-        var url = base_url_js+'change-departement';
-        var departement = $(this).attr('data-dpt');
-        $.post(url,{departement:departement},function () {
-            $('#modalLoadDepartement').modal({
-                'backdrop' : 'static',
-                'show' : true
-            });
-
-            setTimeout(function () {
-                $('#modalLoadDepartement').modal('hide');
-                window.location.href = base_url_js+'dashboard';
-            },3000);
-        });
-
-
-
-    })
-</script>

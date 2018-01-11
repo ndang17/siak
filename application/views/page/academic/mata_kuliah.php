@@ -25,16 +25,14 @@
                         <tr>
                             <th>Kode MK</th>
                             <th>Nama Mata Kuliah</th>
-                            <th>Nama Mata Kuliah Eng</th>
                             <th>Base Prodi</th>
-                            <th>Action</th>
+                            <th>action</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Kode MK</th>
-                            <th>Nama Mata Kuliah</th>
-                            <th>Nama Mata Kuliah Eng</th>
+                            <th>Nama mata Kuliah</th>
                             <th>Base Prodi</th>
                             <th>Action</th>
                         </tr>
@@ -45,8 +43,13 @@
                                 <td>
                                     <div><?php echo $item_mk['MKCode']; ?></div>
                                 </td>
-                                <td><?php echo $item_mk['Name']; ?></td>
-                                <td><?php echo $item_mk['NameEng']; ?></td>
+                                <td>
+                                    <div>
+                                        <b><?php echo $item_mk['Name']; ?></b><br/>
+                                        <i><?php echo $item_mk['NameEng']; ?></i>
+                                    </div>
+                                </td>
+
                                 <td><?php echo $item_mk['Code'].' | '.$item_mk['NameProdi']; ?></td>
                                 <td>
                                     <div class="btn-group">

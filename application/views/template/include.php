@@ -85,6 +85,14 @@
         min-width: 100%;
     }
 
+    .left-margin {
+        margin-left: 5px;
+    }
+
+    .right-margin {
+        margin-right: 5px;
+    }
+
 </style>
 
 <!--=== JavaScript ===-->

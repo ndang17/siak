@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="javascript:void(0);" id="btn_announcement">
                     <i class="fa fa-bullhorn" aria-hidden="true"></i>
                     <span>Announcement</span>
                 </a>
@@ -61,10 +61,10 @@
 <!--                    <i class="icon-caret-down small"></i>-->
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Dosen</a></li>
-                    <li><a href="#">Mahasiswa</a></li>
+                    <li><a href="<?php echo base_url('database/lecturers'); ?>">Dosen</a></li>
+                    <li><a href="<?php echo base_url('database/students'); ?>">Mahasiswa</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Karyawan</a></li>
+                    <li><a href="<?php echo base_url('database/employees'); ?>">Karyawan</a></li>
                 </ul>
             </li>
 
@@ -154,19 +154,54 @@
 
 </header> <!-- /.header -->
 
-<!-- Modal -->
-<div class="modal fade" id="modalLoadDepartement" tabindex="1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog animated jackInTheBox" role="document">
-        <div class="modal-content">
+<!-- Global Modal -->
+<div class="modal fade" id="GlobalModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content animated jackInTheBox">
+            <div class="modal-header"></div>
+            <div class="modal-body"></div>
+            <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-            <div class="modal-body">
-                <center>
-                    <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-                    <br/>
-                    Loading departement . . .
-                </center>
-            </div>
+<script>
+    $(document).on('click','#btn_announcement',function () {
+        $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+            '<h4 class="modal-title">Announcement</h4>');
+        $('#GlobalModal .modal-body').html('Announcement');
+        $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                                                '<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o right-margin" aria-hidden="true"></i> Publish</button>');
+        $('#GlobalModal').modal({
+            'show' : true,
+            'backdrop' : 'static'
+        });
+    });
 
-        </div>
-    </div>
-</div>
+    $('.departement').click(function () {
+        var url = base_url_js+'change-departement';
+        var departement = $(this).attr('data-dpt');
+        $.post(url,{departement:departement},function () {
+
+            $('#GlobalModal .modal-header').addClass('hide');
+            $('#GlobalModal .modal-body').html('<center>' +
+                '                    <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>' +
+                '                    <br/>' +
+                '                    Loading departement . . .' +
+                '                </center>');
+            $('#GlobalModal .modal-footer').addClass('hide');
+            $('#GlobalModal').modal({
+                'backdrop' : 'static',
+                'show' : true
+            });
+
+            setTimeout(function () {
+                $('#GlobalModal').modal('hide');
+                window.location.href = base_url_js+'dashboard';
+            },3000);
+        });
+
+
+
+    })
+</script>

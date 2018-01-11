@@ -41,7 +41,10 @@ $route['academic/modal-tahun-akademik-detail-lecturer'] = 'page/academic/c_akade
 
 
 
-
+// ====== Database =====
+$route['database/lecturers'] = 'page/database/c_database/lecturers';
+$route['database/students'] = 'page/database/c_database/students';
+$route['database/employees'] = 'page/database/c_database/employees';
 
 
 // ====== API ======
