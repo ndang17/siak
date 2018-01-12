@@ -58,6 +58,32 @@ class C_api extends MY_Controller {
         return print_r(json_encode($data));
     }
 
+    public function setLecturersAvailability($action){
+
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = $this->jwt->decode($token,$key);
+//        print_r($data_arr);
+
+        if($action=='insert'){
+            $this->db->insert('db_akademik.lecturers_availability',$data_arr);
+            return print_r($this->db->insert_id());
+        }
+
+    }
+
+    public function setLecturersAvailabilityDetail($action){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = $this->jwt->decode($token,$key);
+
+        print_r($data_arr);
+        if($action=='insert'){
+            $this->db->insert('db_akademik.lecturers_availability_detail',$data_arr);
+            return $this->db->insert_id();
+        }
+    }
+
 
 
 }

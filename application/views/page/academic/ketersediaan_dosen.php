@@ -136,9 +136,11 @@
 <script>
     $(document).ready(function () {
         window.ArrnoElement = [1];
+        window.widgetElement = [1];
         loadSemester('form_semester');
         fillDays('NameDay11','Eng');
         fillMK('dataMK1');
+
 
         var url = base_url_js+'api/__getLecturer';
         $.get(url,function (data) {
@@ -185,7 +187,7 @@
 
         noElmtMK += 1;
 
-        ArrnoElement.push(noElmtMK);
+        widgetElement.push(noElmtMK);
 
         var mk = '<div class="widget box multyMKForm animated fadeInDown" id="divMK'+noElmtMK+'">' +
             '            <div class="widget-header">' +
@@ -239,53 +241,121 @@
 
     $(document).on('click','#saveData',function () {
 
-        $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',true);
-        $(this).html('<i class="fa fa-refresh fa-spin fa-fw"></i> Saving...');
-        setTimeout(function(){
-            $('.select2-select-00').val(null).trigger('change')
-            $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',false);
-            $('#saveData').html('Save');
-            $('.multyMKForm').animateCss('slideOutLeft',function () {
-                $('.multyMKForm').remove();
-            });
-        }, 3000);
+        // $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',true);
+        // $(this).html('<i class="fa fa-refresh fa-spin fa-fw"></i> Saving...');
+        // setTimeout(function(){
+        //     $('.select2-select-00').val(null).trigger('change');
+        //     $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',false);
+        //     $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').val('');
+        //     $('#saveData').html('Save');
+        //     $('.multyMKForm').animateCss('slideOutLeft',function () {
+        //         $('.multyMKForm').remove();
+        //     });
+        // }, 3000);
+
+        // log(widgetElement);
+        var UpdateBy = '2017090';
+        var UpdateAt = moment().format('YYYY-MM-DD HH:mm:ss');
+        var SemesterID = $('#form_semester').find(":selected").val();
+        var LecturerID = $('#form_lecturer').find(":selected").val();
 
 
-        log(ArrnoElement);
-        for(var ar=0;ar<ArrnoElement.length;ar++){
-            var arr_dayName = [];
-            var arr_timeStart = [];
-            var arr_timeEnd = [];
+        // console.log(widgetElement);
+        for(var ar=0;ar<widgetElement.length;ar++){
 
-            $('select[name^="DayName1"]').find(":selected").each(function() {
-                arr_dayName.push($(this).val());
-            });
+            var data_mk = $('#dataMK'+widgetElement[ar]).find(":selected").val().split('.');
+            var MKID = $.trim(data_mk[0]);
+            var MKCode = $.trim(data_mk[1]);
 
-            $('input[name^="timeStart1"]').each(function() {
-                // log();
-                arr_timeStart.push($(this).val());
-            });
 
-            $('input[name^="timeEnd1"]').each(function() {
-                // log();
-                arr_timeEnd.push($(this).val());
-            });
+            // Insert Into db_akademik.lecturers_availability
 
-            log(arr_dayName);
-            log(arr_timeStart);
-            log(arr_timeEnd);
+            var data = {
+                'SemesterID' : SemesterID,
+                'LecturerID' : LecturerID,
+                'MKID' : MKID,
+                'MKCode' : MKCode,
+                'UpdateBy' : UpdateBy,
+                'UpdateAt' : UpdateAt
+            };
+
+            ins2(ar,data)
+
+
         }
 
 
-        ArrnoElement = [1];
+
+        // widgetElement = [1];
 
     });
+
+    function ins2(ar,data) {
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'api/__setLecturersAvailability/insert';
+        $.post(url,{ token : token },function (insert_id) {
+            LecturerDetail(ar,insert_id);
+        });
+    }
+    
+    function LecturerDetail(i,insert_id) {
+        var arr_dayName = [];
+        var arr_timeStart = [];
+        var arr_timeEnd = [];
+
+        var data_detail = [];
+
+        // for(var i=0;i<widgetElement.length;i++){
+            data_detail.push(i);
+            console.log(widgetElement[i]);
+            // console.log(widgetElement[i]);
+            //--- Detail ---
+            $('select[name^="DayName'+widgetElement[i]+'"]').find(":selected").each(function() {
+                arr_dayName[i] = $(this).val();
+            });
+            $('input[name^="timeStart'+widgetElement[i]+'"]').each(function() {
+                arr_timeStart[i] = $(this).val();
+            });
+            $('input[name^="timeEnd'+widgetElement[i]+'"]').each(function() {
+                data_detail[i] = {
+                    'LecturersAvailabilityID' : insert_id,
+                    'DayID' : arr_dayName[i],
+                    'Start' : arr_timeStart[i],
+                    'End' : $(this).val()
+                };
+            });
+
+
+        // }
+
+        console.log(data_detail);
+
+        // var url_detail = base_url_js+'api/__setLecturersAvailabilityDetail/insert';
+        //
+        // for(var i2=0;i2<arr_timeStart.length;i2++){
+        //     var data_detail = {
+        //         'LecturersAvailabilityID' : insert_id,
+        //         'DayID' : arr_dayName[i2],
+        //         'Start' : arr_timeStart[i2],
+        //         'End' : arr_timeEnd[i2]
+        //     }
+        //
+        //     console.log(data_detail);
+        //     var token_detail = jwt_encode(data_detail,'UAP)(*');
+        //     $.post(url_detail,{token:token_detail},function () {
+        //
+        //     });
+        // }
+
+
+
+    }
 
     $(document).on('click','.removeFormMK',function () {
         var noElm = $(this).attr('data-elment');
 
 
-        ArrnoElement = $.grep(ArrnoElement, function(value) {
+        widgetElement = $.grep(widgetElement, function(value) {
             return value != noElm;
         });
 
@@ -301,7 +371,7 @@
 
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
-                option.append('<option>'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
+                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
             }
         });
     }

@@ -8,6 +8,7 @@ class C_database extends MY_Controller {
         parent::__construct();
 //        $this->session->set_userdata('departement_nav', 'academic');
         $this->load->model('database/m_database');
+//        $this->load->library('JWT');
     }
 
 
@@ -19,7 +20,21 @@ class C_database extends MY_Controller {
 
     public function lecturers()
     {
-        $content = $this->load->view('page/database/lecturers','',true);
+        $dt = array(
+            'ID' => 123,
+            'Name' => 'Nandang Mulyadi'
+        );
+        $key = 'PUCUY';
+        $data['jwt'] = $this->jwt->encode($dt,$key);
+
+        $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMzNywidXNlcm5hbWUiOiJOYW5kYW5nIE11bHlhZGkifQ.1aZjVTXydpoZtYjWUnumzEHiaQJ8tLCYJ-dmbiBKCbQ';
+        $key2 = 'Nandang Mulyadi';
+        $data['jwt_'] = $this->jwt->decode($token,$key2);
+
+//        print_r($data['jwt']);
+//        print_r($data['jwt_']);
+//        exit;
+        $content = $this->load->view('page/database/lecturers',$data,true);
         $this->temp($content);
     }
 

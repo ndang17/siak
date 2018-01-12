@@ -13,6 +13,7 @@ class MY_Controller extends CI_Controller {
         }
 
         $this->load->model('master/m_master');
+        $this->load->library('JWT');
     }
 
     public function template($content)

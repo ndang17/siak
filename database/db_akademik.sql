@@ -1086,9 +1086,15 @@ CREATE TABLE `lecturers_availability` (
   `UpdateBy` varchar(45) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability` */
+
+insert  into `lecturers_availability`(`ID`,`SemesterID`,`LecturerID`,`MKID`,`MKCode`,`UpdateBy`,`UpdateAt`) values 
+(1,7,'2114002',4,'SOC1001','2017090','2018-01-12 16:59:24'),
+(2,7,'2114002',9,'ARC1021','2017090','2018-01-12 16:59:24'),
+(3,7,'2114002',4,'SOC1001','2017090','2018-01-12 17:00:10'),
+(4,7,'2114002',9,'ARC1021','2017090','2018-01-12 17:00:10');
 
 /*Table structure for table `lecturers_availability_detail` */
 
