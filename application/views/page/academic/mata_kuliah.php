@@ -53,7 +53,7 @@
                                 <td><?php echo $item_mk['Code'].' | '.$item_mk['NameProdi']; ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button type="button" class="btn btn-default btn-default-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Action <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -98,9 +98,7 @@
     $(document).ready(function() {
 
         var table = $('#tableMK2').DataTable({
-            'iDisplayLength' : 25,
-            'scrollY' : '700px',
-            "ordering": true,
+            'iDisplayLength' : 10,
             initComplete: function () {
                 this.api().columns().every( function () {
                     var column = this;

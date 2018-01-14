@@ -7,7 +7,7 @@
 
             <li class="<?php if($this->uri->segment(2)=='kurikulum'){echo "current";} ?>">
                 <a href="<?php echo base_url('academic/kurikulum'); ?>">
-                    <i class="fa fa-archive"></i>
+                    <i class="fa fa-university"></i>
                     Kurikulum
                 </a>
             </li>
@@ -22,7 +22,7 @@
 
             <li class="<?php if($this->uri->segment(2)=='tahun-akademik'){echo "current";} ?>">
                 <a href="<?php echo base_url('academic/tahun-akademik'); ?>">
-                    <i class="fa fa-calendar"></i>
+                    <i class="fa fa-calendar-check-o"></i>
                     Tahun Akademik
                 </a>
             </li>
@@ -34,7 +34,7 @@
             </li>
             <li class="">
                 <a href="#">
-                    <i class="fa fa-calendar-check-o"></i>
+                    <i class="fa fa-calendar"></i>
                     Jadwal
                 </a>
             </li>

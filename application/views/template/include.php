@@ -68,6 +68,10 @@
         background: #083f8814;
     }
 
+    .theme-dark #content {
+        background-color : #ffffff;
+    }
+
 
     /*Custom Button*/
     .btn-default-danger {

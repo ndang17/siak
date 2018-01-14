@@ -25,7 +25,16 @@ class C_tahun_akademik extends MY_Controller {
         $this->temp($content);
     }
 
-    public function tahun_akademik_detail(){
+    public function tahun_akademik_detail($detail)
+    {
+        $data['department'] = parent::__getDepartement();
+        $data['semester'] = $detail;
+//        print_r($data['kurikulum']);
+        $content = $this->load->view('page/'.$data['department'].'/tahun_akademik_detail',$data,true);
+        $this->temp($content);
+    }
+
+    public function tahun_akademik_detail2(){
         $data_json = $this->input->post('data_json');
         $data['department'] = parent::__getDepartement();
 

@@ -17,8 +17,9 @@ $route['db/(:any)'] = 'auth/c_auth/db/$1';
 
 
 // === Dashboard ===
-$route['dashboard'] = 'c_dashboard';
-$route['change-departement'] = 'c_dashboard/change_departement';
+$route['dashboard'] = 'dashboard/c_dashboard';
+$route['profile/(:any)'] = 'dashboard/c_dashboard/profile/$1';
+$route['change-departement'] = 'dashboard/c_dashboard/change_departement';
 
 
 // === Academic ===
@@ -28,7 +29,9 @@ $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_de
 $route['academic/matakuliah'] = 'page/academic/c_matakuliah/mata_kuliah';
 
 $route['academic/tahun-akademik'] = 'page/academic/c_tahun_akademik/tahun_akademik';
-$route['academic/tahun-akademik-detail'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail';
+$route['academic/tahun-akademik/(:any)'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail/$1';
+
+$route['academic/tahun-akademik-detail'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail2';
 $route['academic/tahun-akademik-detail-date'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail_date';
 
 

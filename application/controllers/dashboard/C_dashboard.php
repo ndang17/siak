@@ -5,17 +5,28 @@ class C_dashboard extends MY_Controller {
 
 
 
-	public function temp($content)
-	{
-		$id_departement = 1;
-		parent::template($content,$id_departement);
-	}
+    public function temp($content)
+    {
+        parent::template($content);
+    }
 
-	public function index()
-	{
-		$content = $this->load->view('dashboard/dashboard','',true);
-		$this->temp($content);
-	}
+    public function index()
+    {
+        $data['department'] = parent::__getDepartement();
+        $content = $this->load->view('dashboard/dashboard',$data,true);
+        $this->temp($content);
+    }
+
+    public function change_departement(){
+        $dpt = $this->input->post('departement');
+        parent::__setDepartement($dpt);
+    }
+
+    public function profile($username=''){
+        $data['']=123;
+        $content = $this->load->view('dashboard/profile','',true);
+        $this->temp($content);
+    }
 
 
 }

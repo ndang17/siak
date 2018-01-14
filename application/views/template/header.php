@@ -54,17 +54,17 @@
                     Dept : <span style="color:yellow;"><?php echo ucwords($departement); ?></span>
                 </a>
             </li>
-            <li class="dropdown">
+            <li class="dropdown <?php if($this->uri->segment(1)=='database'){echo 'current';} ?>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-database"></i>
                     <span>Database</span>
 <!--                    <i class="icon-caret-down small"></i>-->
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url('database/lecturers'); ?>">Dosen</a></li>
-                    <li><a href="<?php echo base_url('database/students'); ?>">Mahasiswa</a></li>
+                    <li class="<?php if($this->uri->segment(2)=='lecturers'){echo 'active';} ?>"><a href="<?php echo base_url('database/lecturers'); ?>">Dosen</a></li>
+                    <li class="<?php if($this->uri->segment(2)=='students'){echo 'active';} ?>"><a href="<?php echo base_url('database/students'); ?>">Mahasiswa</a></li>
                     <li class="divider"></li>
-                    <li><a href="<?php echo base_url('database/employees'); ?>">Karyawan</a></li>
+                    <li class="<?php if($this->uri->segment(2)=='employees'){echo 'active';} ?>"><a href="<?php echo base_url('database/employees'); ?>">Karyawan</a></li>
                 </ul>
             </li>
 
@@ -130,14 +130,17 @@
 
             <!-- User Login Dropdown -->
             <li class="dropdown user">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 8px;padding-bottom: 5px;">
                     <!--<img alt="" src="assets/img/avatar1_small.jpg" />-->
-                    <i class="fa fa-male"></i>
-                    <span class="username">John Doe</span>
+<!--                    <i class="fa fa-male"></i>-->
+                    <img src="<?php echo base_url('images/avatar.png'); ?>" class="img-circle" style="max-width: 35px;border: 3px solid #0f1f4b;"/>
+                    <span class="username">John</span>
                     <i class="fa fa-caret-down small"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="pages_user_profile.html"><i class="fa fa-user"></i> My Profile</a></li>
+                    <li><a href="<?php echo base_url('profile/Nandang-Mulyadi'); ?>">
+                            <i class="fa fa-user"></i>
+                            My Profile</a></li>
 <!--                    <li><a href="pages_calendar.html"><i class="fa fa-calendar"></i> My Calendar</a></li>-->
 <!--                    <li><a href="#"><i class="fa fa-tasks"></i> My Tasks</a></li>-->
                     <li class="divider"></li>

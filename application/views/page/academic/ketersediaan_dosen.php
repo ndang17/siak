@@ -5,9 +5,9 @@
         padding-bottom: 5px;
     }
 
-
     .form-time {
         padding-left: 0px;
+        padding-right: 0px;
     }
     .row-kesediaan .fa-plus-circle {
         color: green;
@@ -68,8 +68,8 @@
 
                 <!-- Kesediaan Hari dan Jam -->
                 <div class="row row-kesediaan">
-                    <label class="col-xs-3 control-label">Day</label>
-                    <div class="col-xs-9">
+<!--                    <label class="col-xs-3 control-label">Day</label>-->
+                    <div class="col-xs-12">
                         <div class="row">
                             <div class="col-xs-4 form-day">
                                 <select class="form-control" name="DayName1[]" id="NameDay11"></select>
@@ -205,8 +205,7 @@
             '                    </div>' +
             '                </div>' +
             '                <div class="row row-kesediaan">' +
-            '                    <label class="col-xs-3 control-label">Day</label>' +
-            '                    <div class="col-xs-9">' +
+            '                    <div class="col-xs-12">' +
             '                        <div class="row">' +
             '                            <div class="col-xs-4 form-day">' +
             '                                <select class="form-control" name="DayName'+noElmtMK+'[]" id="NameDay'+noElmtMK+'1"></select>' +
@@ -291,62 +290,71 @@
     });
 
     function ins2(ar,data) {
+        console.log(data);
         var token = jwt_encode(data,'UAP)(*');
         var url = base_url_js+'api/__setLecturersAvailability/insert';
         $.post(url,{ token : token },function (insert_id) {
             LecturerDetail(ar,insert_id);
         });
     }
-    
+
+    window.n = '';
     function LecturerDetail(i,insert_id) {
-        var arr_dayName = [];
-        var arr_timeStart = [];
-        var arr_timeEnd = [];
+        console.log(i);
 
-        var data_detail = [];
 
-        // for(var i=0;i<widgetElement.length;i++){
+            var arr_dayName = [];
+            var arr_timeStart = [];
+            var arr_timeEnd = [];
+
+            var data_detail = [];
+
+            // for(var i=0;i<widgetElement.length;i++){
             data_detail.push(i);
-            console.log(widgetElement[i]);
+            // console.log(widgetElement[i]);
             // console.log(widgetElement[i]);
             //--- Detail ---
-            $('select[name^="DayName'+widgetElement[i]+'"]').find(":selected").each(function() {
-                arr_dayName[i] = $(this).val();
+            $('select[name^="DayName' + widgetElement[i] + '"]').find(":selected").each(function () {
+                arr_dayName.push($(this).val());
+                // arr_dayName[i] = $(this).val();
             });
-            $('input[name^="timeStart'+widgetElement[i]+'"]').each(function() {
-                arr_timeStart[i] = $(this).val();
+            $('input[name^="timeStart' + widgetElement[i] + '"]').each(function () {
+                arr_timeStart.push($(this).val());
+                // arr_timeStart[i] = $(this).val();
             });
-            $('input[name^="timeEnd'+widgetElement[i]+'"]').each(function() {
-                data_detail[i] = {
+            $('input[name^="timeEnd' + widgetElement[i] + '"]').each(function () {
+                arr_timeEnd.push($(this).val());
+                // data_detail[i] = {
+                //     'LecturersAvailabilityID' : insert_id,
+                //     'DayID' : arr_dayName[i],
+                //     'Start' : arr_timeStart[i],
+                //     'End' : $(this).val()
+                // };
+            });
+
+
+            // }
+
+            console.log(arr_dayName);
+            console.log(arr_timeStart);
+            console.log(arr_timeEnd);
+
+            var url_detail = base_url_js+'api/__setLecturersAvailabilityDetail/insert';
+
+            for(var i2=0;i2<arr_timeStart.length;i2++){
+                var data_detail = {
                     'LecturersAvailabilityID' : insert_id,
-                    'DayID' : arr_dayName[i],
-                    'Start' : arr_timeStart[i],
-                    'End' : $(this).val()
-                };
-            });
+                    'DayID' : arr_dayName[i2],
+                    'Start' : arr_timeStart[i2],
+                    'End' : arr_timeEnd[i2]
+                }
 
+                // console.log(data_detail);
+                var token_detail = jwt_encode(data_detail,'UAP)(*');
+                $.post(url_detail,{token:token_detail},function () {
 
-        // }
-
-        console.log(data_detail);
-
-        // var url_detail = base_url_js+'api/__setLecturersAvailabilityDetail/insert';
-        //
-        // for(var i2=0;i2<arr_timeStart.length;i2++){
-        //     var data_detail = {
-        //         'LecturersAvailabilityID' : insert_id,
-        //         'DayID' : arr_dayName[i2],
-        //         'Start' : arr_timeStart[i2],
-        //         'End' : arr_timeEnd[i2]
-        //     }
-        //
-        //     console.log(data_detail);
-        //     var token_detail = jwt_encode(data_detail,'UAP)(*');
-        //     $.post(url_detail,{token:token_detail},function () {
-        //
-        //     });
-        // }
-
+                });
+            }
 
 
     }
@@ -371,7 +379,7 @@
 
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
-                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
+                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].MKCode+' | '+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
             }
         });
     }
