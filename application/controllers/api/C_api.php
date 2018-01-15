@@ -77,11 +77,23 @@ class C_api extends MY_Controller {
         $key = "UAP)(*";
         $data_arr = $this->jwt->decode($token,$key);
 
-        print_r($data_arr);
+//        print_r($data_arr);
         if($action=='insert'){
             $this->db->insert('db_akademik.lecturers_availability_detail',$data_arr);
             return $this->db->insert_id();
         }
+    }
+
+    public function changeTahunAkademik(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+
+        $data['department'] = parent::__getDepartement();
+        $data['dosen'] = $this->m_tahun_akademik->__getKetersediaanDosenByTahunAkademik($data_arr['ID']);
+        print_r(json_encode($data['dosen']));
+//        $this->load->view('page/'.$data['department'].'/ketersediaan_dosen_detail',$data);
     }
 
 

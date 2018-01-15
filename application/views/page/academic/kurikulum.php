@@ -79,8 +79,7 @@
             // console.log(data);
             if(data!=null){
                 var url = base_url_js+"academic/kurikulum-detail-mk";
-                $.post(url,{data_json:data},function (html) {
-
+                $.post(url, {data_json:data}, function (html) {
                     setTimeout(function(){
                         $('#detail_kurikulum').html(html);
                     }, 2000);

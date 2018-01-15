@@ -97,6 +97,10 @@
         margin-right: 5px;
     }
 
+    .td-center, .th-center , .tr-center {
+        text-align: center;
+    }
+
 </style>
 
 <!--=== JavaScript ===-->
@@ -179,6 +183,9 @@
 <!-- Form Validation -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>plugins/validation/jquery.validate.min.js"></script>
 
+<!-- IMG Fitter -->
+<script type="text/javascript" src="<?php echo base_url('assets/');?>plugins/img-fitter/jquery.imgFitter.js"></script>
+
 
 
 <!-- Demo JS -->
@@ -206,9 +213,6 @@
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins
         FormComponents.init(); // Init all form-specific plugins
-
-
-
     });
         
     function load_navigation() {

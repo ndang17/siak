@@ -3,9 +3,6 @@
     #tableTahunAkademik tr th {
         text-align: center;
     }
-    .td-center {
-        text-align: center;
-    }
 </style>
 <div class="row" style="margin-top: 30px;">
     <div class="col-md-12">

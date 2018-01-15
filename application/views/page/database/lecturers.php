@@ -17,27 +17,29 @@
                 <div class="table-responsive">
                     <table id="tableLecturers" class="table table-striped table-bordered table-hover table-responsive">
                         <thead>
-                        <tr>
-                            <th style="width: 5%;">Foto</th>
-                            <th>NIP</th>
-                            <th>NIDN</th>
-                            <th>Name</th>
-                            <th style="width: 5%;">JK</th>
-                            <th>Jabatan</th>
-                            <th>Prodi</th>
-                            <th style="width: 5%;">Action</th>
+                        <tr class="tr-center">
+                            <th class="th-center" style="width: 5%;">Foto</th>
+                            <th class="th-center">NIP</th>
+                            <th class="th-center">NIDN</th>
+                            <th class="th-center">Name</th>
+                            <th class="th-center" style="width: 5%;">JK</th>
+                            <th class="th-center">Jabatan</th>
+                            <th class="th-center">Prodi</th>
+                            <th class="th-center" style="width: 5%;">Action</th>
                         </tr>
                         </thead>
-                        <!--                        <tfoot>-->
-                        <!--                        <tr>-->
-                        <!--                            <th colspan="2">Lecturer</th>-->
-                        <!--                            <th>KTP</th>-->
-                        <!--                            <th>TTL</th>-->
-                        <!--                            <th>Email</th>-->
-                        <!--                            <th>Email PU</th>-->
-                        <!--                            <th>Alamat</th>-->
-                        <!--                        </tr>-->
-                        <!--                        </tfoot>-->
+                        <tfoot>
+                        <tr>
+                            <th class="th-center">Foto</th>
+                            <th class="th-center">NIP</th>
+                            <th class="th-center">NIDN</th>
+                            <th class="th-center">Name</th>
+                            <th class="th-center">JK</th>
+                            <th class="th-center">Jabatan</th>
+                            <th class="th-center">Prodi</th>
+                            <th class="th-center">Action</th>
+                        </tr>
+                        </tfoot>
                         <tbody id="data_lecturers">
 
                         </tbody>
@@ -60,12 +62,13 @@
         var tr = $('#data_lecturers');
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
+                var imgsrc = 'http://siak.podomorouniversity.ac.id/includes/foto/'+data[i].Photo;
                 tr.append('<tr>'+
-                    '<td><img src="<?php echo base_url('images/avatar.png'); ?>" class="img-circle" style="max-width: 30px;border: 1px solid #0f1f4b;"/></td>' +
+                    '<td class="td-center"><img src="'+imgsrc+'" class="img-rounded" width="30" height="30" style="max-width: 30px;object-fit: scale-down;"/></td>' +
                     '<td>'+data[i].NIP+'</td>'+
                     '<td>'+data[i].NIDN+'</td>'+
                     '<td><a href="javascript:void(0)"><b>'+data[i].TitleAhead+' '+data[i].Name+' '+data[i].TitleBehind+'</b></a></td>'+
-                    '<td>'+data[i].Gender+'</td>'+
+                    '<td class="td-center">'+data[i].Gender+'</td>'+
                     '<td>Jabatan</td>' +
                     '<td>Posisi</td>' +
                     '<td><div class="btn-group">' +
@@ -84,6 +87,8 @@
                 'iDisplayLength' : 10,
                 'ordering': false
             });
+
+
         });
 
     }

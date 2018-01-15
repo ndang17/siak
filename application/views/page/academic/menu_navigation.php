@@ -32,8 +32,8 @@
                     Ketersediaan Dosen
                 </a>
             </li>
-            <li class="">
-                <a href="#">
+            <li class="<?php if($this->uri->segment(2)=='jadwal'){echo "current";} ?>">
+                <a href="<?php echo base_url('academic/jadwal'); ?>">
                     <i class="fa fa-calendar"></i>
                     Jadwal
                 </a>

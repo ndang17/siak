@@ -19,6 +19,10 @@
 
         text-align: right;
     }
+
+    #tableDetailTahun thead th {
+        text-align: center;
+    }
 </style>
 
 <div class="row" style="margin-top: 30px;">
@@ -33,6 +37,7 @@
                 </div>
             </div>
         </div>
+        <hr/>
         <div class="thumbnail" style="padding: 15px;margin-bottom: 15px;">
             <!-- Nama Dosen -->
             <div class="row">
@@ -58,7 +63,7 @@
                     <div class="col-xs-9">
                         <div class="row">
                             <div class="col-xs-12">
-                                <select class="select2-select-00 col-md-12 full-width-fix" id="dataMK1">
+                                <select class="select2-select-00 col-md-12 full-width-fix" id="dataMK">
                                     <option></option>
                                 </select>
                             </div>
@@ -68,65 +73,66 @@
 
                 <!-- Kesediaan Hari dan Jam -->
                 <div class="row row-kesediaan">
-<!--                    <label class="col-xs-3 control-label">Day</label>-->
+                    <!--                    <label class="col-xs-3 control-label">Day</label>-->
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-xs-4 form-day">
-                                <select class="form-control" name="DayName1[]" id="NameDay11"></select>
+                                <select class="form-control" id="DayName1" ></select>
                             </div>
                             <div class="col-xs-3 form-time">
-                                <input type="time" name="timeStart1[]" class="form-control">
+                                <input type="time" id="timeStart1" class="form-control">
                             </div>
                             <div class="col-xs-3 form-time">
-                                <input type="time" name="timeEnd1[]" class="form-control">
+                                <input type="time" id="timeEnd1" class="form-control">
                             </div>
                             <div class="col-xs-2 btn-action">
                                 <button class="btn btn-default btn-sm addFormDay" data-elment="1"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                             </div>
                         </div>
-                        <div id="MultyDay1"></div>
+                        <div id="MultyDay"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="multyMK"></div>
-
         <div style="text-align: right;">
             <hr/>
-            <button class="btn btn-default btn-default-success" id="btnAddMK">Tambah Mata Kuliah</button>
+<!--            <button class="btn btn-default btn-default-success" id="btnAddMK">Tambah Mata Kuliah</button>-->
             <button class="btn btn-success" id="saveData">Save</button>
             <hr/>
         </div>
 
     </div>
-    <div class="col-md-7">
+    <div class="col-md-5">
+        <div class="widget box widget-closed">
+            <div class="widget-header">
+                <h4 class="header"><i class="icon-reorder" aria-hidden="true"></i> Detail Kesediaan Dosen Mengajar</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group">
+                        <span class="btn btn-xs widget-collapse"><i class="icon-angle-up"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content no-padding" style="min-height: 200px;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
         <div class="widget box" style="display: block;">
             <div class="widget-header">
-                <h4 class="header"><i class="fa fa-arrow-right" aria-hidden="true"></i> Detail Kesediaan Dosen Mengajar</h4>
-
+                <h4 class="header"><i class="icon-reorder" aria-hidden="true"></i> Detail Kesediaan Dosen Mengajar</h4>
                 <div class="toolbar no-padding">
-
                     <div class="btn-group">
-                        <span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span>
-                    </div>
+                        <span class="btn btn-xs" id="addData">
+											<i class="icon-plus"></i> Add Data
+										</span>
 
-                </div>
-
-
-            </div>
-            <div class="widget-content" id="kesediaan_dosen">
-
-                <div class="row">
-
-                    <div class="col-md-7">
-                        <div class="thumbnail" style="min-height: 100px;">
-
-                        </div>
                     </div>
                 </div>
-
             </div>
+            <div class="widget-content no-padding" id="detailKetersediaanDosen"></div>
         </div>
     </div>
 </div>
@@ -135,11 +141,12 @@
 
 <script>
     $(document).ready(function () {
-        window.ArrnoElement = [1];
-        window.widgetElement = [1];
+
+        window.arr_ElementDay = [1];
+        window.noElement=1;
         loadSemester('form_semester');
-        fillDays('NameDay11','Eng');
-        fillMK('dataMK1');
+        fillDays('DayName1','Eng');
+        fillMK('dataMK');
 
 
         var url = base_url_js+'api/__getLecturer';
@@ -152,122 +159,60 @@
 
     });
 
-    var noElement=1;
     $(document).on('click','.addFormDay',function () {
         noElement +=1;
-        var dataElm = $(this).attr('data-elment');
-        var rwElement = "rwDays"+noElement;
-        $('#MultyDay'+dataElm).append('<div id="'+rwElement+'" class="row" style="margin-top: 10px;">' +
+
+        arr_ElementDay.push(noElement);
+
+        $('#MultyDay').append('<div id="rwDays'+noElement+'" class="row" style="margin-top: 10px;">' +
             '<div class="col-xs-4 form-day">' +
-            '<select class="form-control" name="DayName'+dataElm+'[]" id="NameDay'+noElement+'"></select>' +
+            '<select class="form-control" id="DayName'+noElement+'"></select>' +
             '</div>' +
             '<div class="col-xs-3 form-time">' +
-            '<input type="time"  name="timeStart'+dataElm+'[]" class="form-control">' +
+            '<input type="time"  id="timeStart'+noElement+'" class="form-control">' +
             '</div>' +
             '<div class="col-xs-3 form-time">' +
-            '<input type="time" name="timeEnd'+dataElm+'[]" class="form-control">' +
+            '<input type="time" id="timeEnd'+noElement+'" class="form-control">' +
             '</div>' +
             '<div class="col-xs-2 btn-action">' +
-            '<button class="btn btn-default btn-sm remove-days" data-element="'+rwElement+'"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>' +
+            '<button class="btn btn-default btn-sm remove-days" data-element="'+noElement+'"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>' +
             '</div></div>');
-        $('#'+rwElement).animateCss('slideInDown');
-        fillDays('NameDay'+noElement,'Eng');
+        $('#rwDays'+noElement).animateCss('slideInDown');
+        fillDays('DayName'+noElement,'Eng');
+        console.log(arr_ElementDay);
     });
 
     $(document).on('click','.remove-days',function () {
         var rwElement = $(this).attr('data-element');
-        $('#'+rwElement).animateCss('fadeOutUp',function () {
-            $('#'+rwElement).remove();
+        $('#rwDays'+rwElement).animateCss('fadeOutUp',function () {
+            $('#rwDays'+rwElement).remove();
+            arr_ElementDay = $.grep(arr_ElementDay, function(value) {
+                return value != rwElement;
+            });
         });
 
     });
 
-    var noElmtMK = 1;
-    $(document).on('click','#btnAddMK',function () {
 
-        noElmtMK += 1;
-
-        widgetElement.push(noElmtMK);
-
-        var mk = '<div class="widget box multyMKForm animated fadeInDown" id="divMK'+noElmtMK+'">' +
-            '            <div class="widget-header">' +
-            '                <h4 class="header"><i class="icon-reorder"></i> Mata Kuliah</h4>' +
-            '            </div>' +
-            '            <div class="widget-content">' +
-            '                <div class="row row-kesediaan">' +
-            '                    <label class="col-xs-3 control-label">Mata Kuliah</label>' +
-            '                    <div class="col-xs-9">' +
-            '                        <div class="row">' +
-            '                            <div class="col-xs-12">' +
-            '                                <select class="select2-select-00 col-md-12 full-width-fix" id="dataMK'+noElmtMK+'"><option></option></select>' +
-            '                            </div>' +
-            '                        </div>' +
-            '                    </div>' +
-            '                </div>' +
-            '                <div class="row row-kesediaan">' +
-            '                    <div class="col-xs-12">' +
-            '                        <div class="row">' +
-            '                            <div class="col-xs-4 form-day">' +
-            '                                <select class="form-control" name="DayName'+noElmtMK+'[]" id="NameDay'+noElmtMK+'1"></select>' +
-            '                            </div>' +
-            '                            <div class="col-xs-3 form-time">' +
-            '                                <input type="time" name="timeStart'+noElmtMK+'[]" class="form-control">' +
-            '                            </div>' +
-            '                            <div class="col-xs-3 form-time">' +
-            '                                <input type="time" name="timeEnd'+noElmtMK+'[]" class="form-control">' +
-            '                            </div>' +
-            '                            <div class="col-xs-2 btn-action">' +
-            '                                <button class="btn btn-default btn-sm addFormDay" data-elment="'+noElmtMK+'"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>' +
-            '                            </div>' +
-            '                        </div>' +
-            '                        <div id="MultyDay'+noElmtMK+'"></div>' +
-            '                    </div>' +
-            '                </div>' +
-            '            </div>' +
-            '           <div  style="text-align: right;">' +
-            '               <button class="btn btn-danger removeFormMK"  data-elment="'+noElmtMK+'">Remove</button>' +
-            '           </div>' +
-            '   </div>';
-
-        $('#multyMK').append(mk);
-        fillDays('NameDay'+noElmtMK+'1','Eng');
-        fillMK('dataMK'+noElmtMK);
-        $('#dataMK'+noElmtMK).select2({
-            allowClear: true
-        });
-
-    });
 
     $(document).on('click','#saveData',function () {
 
-        // $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',true);
-        // $(this).html('<i class="fa fa-refresh fa-spin fa-fw"></i> Saving...');
-        // setTimeout(function(){
-        //     $('.select2-select-00').val(null).trigger('change');
-        //     $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',false);
-        //     $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').val('');
-        //     $('#saveData').html('Save');
-        //     $('.multyMKForm').animateCss('slideOutLeft',function () {
-        //         $('.multyMKForm').remove();
-        //     });
-        // }, 3000);
-
-        // log(widgetElement);
         var UpdateBy = '2017090';
         var UpdateAt = moment().format('YYYY-MM-DD HH:mm:ss');
         var SemesterID = $('#form_semester').find(":selected").val();
         var LecturerID = $('#form_lecturer').find(":selected").val();
+        var data_mk = $('#dataMK').find(":selected").val().split('.');
+        var MKID = $.trim(data_mk[0]);
+        var MKCode = $.trim(data_mk[1]);
 
-
-        // console.log(widgetElement);
-        for(var ar=0;ar<widgetElement.length;ar++){
-
-            var data_mk = $('#dataMK'+widgetElement[ar]).find(":selected").val().split('.');
-            var MKID = $.trim(data_mk[0]);
-            var MKCode = $.trim(data_mk[1]);
-
-
-            // Insert Into db_akademik.lecturers_availability
+        if(SemesterID==0){
+            // alert('');
+            toastr.error('Form Required', 'Select Semester');
+        } else if (LecturerID==''){
+            toastr.error('Form Required', 'Select Lecturer');
+        } else if(data_mk==''){
+            toastr.error('Form Required', 'Select Mata Kuliah');
+        } else {
 
             var data = {
                 'SemesterID' : SemesterID,
@@ -278,100 +223,180 @@
                 'UpdateAt' : UpdateAt
             };
 
-            ins2(ar,data)
+            //Cek data time
+            var lanjut = true;
+            for(var i=0;i<arr_ElementDay.length;i++){
+                var DayID = $('#DayName'+arr_ElementDay[i]).find(":selected").val();
+                var tStart = $('#timeStart'+arr_ElementDay[i]).val();
+                var tEnd = $('#timeEnd'+arr_ElementDay[i]).val();
+                if(tStart=='' || tEnd=='' || DayID==''){
+                    lanjut = false;
+                    toastr.error('Form Required', 'Please Set Time Start / End');
+                    break;
+                } else if(tStart>=tEnd){
+                    lanjut = false;
+                    toastr.error('Form Required', 'Please Set Time End > Start');
+                    break;
+                }
+            }
+
+            if(lanjut==true){
+                $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',true);
+                $(this).html('<i class="fa fa-refresh fa-spin fa-fw"></i> Saving...');
+                setTimeout(function(){
+                    $('.select2-select-00').val(null).trigger('change');
+                    $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').prop('disabled',false);
+                    $('.formAddFormKD .select2-select-00, .formAddFormKD .form-control, #btnAddMK').val('');
+                    $('#saveData').html('Save');
+                }, 3000);
+
+                // Insert MK
+                var token = jwt_encode(data,'UAP)(*');
+                var url = base_url_js+'api/__setLecturersAvailability/insert';
+                $.post(url,{ token : token },function (insert_id) {
+                    LecturerDetail(insert_id);
+                });
+            }
+
 
 
         }
 
 
 
-        // widgetElement = [1];
-
     });
 
-    function ins2(ar,data) {
-        console.log(data);
+    $('#form_semester').change(function () {
+        var year = $(this).find(":selected").val();
+        page_detailDosen(year);
+    });
+    $(document).on('change','#form_semester1',function () {
+        var year = $(this).find(":selected").val();
+        page_detailDosen(year);
+    });
+
+
+    function page_detailDosen(ID) {
+        loading_page('#detailKetersediaanDosen');
+
+        var day = {
+            1 : 'Monday',
+            2 : 'Tuesday',
+            3 : 'Wednesday',
+            4 : 'Thrusday',
+            5 : 'Friday',
+        };
+
+        var url = base_url_js+"api/__changeTahunAkademik";
+        var data = {
+            ID : ID
+        }
         var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+'api/__setLecturersAvailability/insert';
-        $.post(url,{ token : token },function (insert_id) {
-            LecturerDetail(ar,insert_id);
-        });
-    }
+        $.post(url,{token:token},function (data_json) {
 
-    window.n = '';
-    function LecturerDetail(i,insert_id) {
-        console.log(i);
+            var div = $('#detailKetersediaanDosen');
 
+            setTimeout(function(){
+                div.html('<table id="tableDetailTahun" class="table table-bordered table-striped" xmlns="http://www.w3.org/1999/html">' +
+                    '                    <thead>' +
+                    '                    <tr>' +
+                    '                        <th rowspan="2" style="width: 30%;">Name</th>' +
+                    '                        <th rowspan="2">Mata Kuliah</th>' +
+                    '                        <th rowspan="2" style="width: 10%;">Day</th>' +
+                    '                        <th colspan="2">Time</th>' +
+                    '                    </tr>' +
+                    '                    <tr>' +
+                    '                        <th style="width: 10%;">Start</th>' +
+                    '                        <th style="width: 10%;">End</th>' +
+                    '                    </tr>' +
+                    '                    </thead>' +
+                    '                    <tfoot>' +
+                    '                    <tr>' +
+                    '                        <th>Name</th>' +
+                    '                        <th>Mata Kuliah</th>' +
+                    '                        <th>Day</th>' +
+                    '                        <th>Start</th>' +
+                    '                        <th>End</th>' +
+                    '                    </tr>' +
+                    '                    </tfoot>' +
+                    '                    <tbody id="TrdataDetailDosen">' +
+                    '                    </tbody>' +
+                    '                </table>');
+                var tr = $('#TrdataDetailDosen');
+                for(var i=0;i<data_json.length;i++){
 
-            var arr_dayName = [];
-            var arr_timeStart = [];
-            var arr_timeEnd = [];
-
-            var data_detail = [];
-
-            // for(var i=0;i<widgetElement.length;i++){
-            data_detail.push(i);
-            // console.log(widgetElement[i]);
-            // console.log(widgetElement[i]);
-            //--- Detail ---
-            $('select[name^="DayName' + widgetElement[i] + '"]').find(":selected").each(function () {
-                arr_dayName.push($(this).val());
-                // arr_dayName[i] = $(this).val();
-            });
-            $('input[name^="timeStart' + widgetElement[i] + '"]').each(function () {
-                arr_timeStart.push($(this).val());
-                // arr_timeStart[i] = $(this).val();
-            });
-            $('input[name^="timeEnd' + widgetElement[i] + '"]').each(function () {
-                arr_timeEnd.push($(this).val());
-                // data_detail[i] = {
-                //     'LecturersAvailabilityID' : insert_id,
-                //     'DayID' : arr_dayName[i],
-                //     'Start' : arr_timeStart[i],
-                //     'End' : $(this).val()
-                // };
-            });
-
-
-            // }
-
-            console.log(arr_dayName);
-            console.log(arr_timeStart);
-            console.log(arr_timeEnd);
-
-            var url_detail = base_url_js+'api/__setLecturersAvailabilityDetail/insert';
-
-            for(var i2=0;i2<arr_timeStart.length;i2++){
-                var data_detail = {
-                    'LecturersAvailabilityID' : insert_id,
-                    'DayID' : arr_dayName[i2],
-                    'Start' : arr_timeStart[i2],
-                    'End' : arr_timeEnd[i2]
+                    tr.append('<tr>' +
+                        '<td>'+data_json[i].LecturerName+'</td>' +
+                        '<td>' +
+                        '<div><b>'+data_json[i].MKName+'</b><br/><i>'+data_json[i].MKNameEng+'</i></div>' +
+                        '</td>' +
+                        '<td>'+day[data_json[i].DayID]+'</td>' +
+                        '<td class="td-center">'+data_json[i].Start+'</td>' +
+                        '<td class="td-center">'+data_json[i].End+'</td>' +
+                        '</tr>');
                 }
 
-                // console.log(data_detail);
-                var token_detail = jwt_encode(data_detail,'UAP)(*');
-                $.post(url_detail,{token:token_detail},function () {
+                var table = $('#tableDetailTahun').DataTable({
+                    'iDisplayLength' : 10,
+                    initComplete: function () {
+                        this.api().columns().every( function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo( $(column.footer()).empty() )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
 
+                                    column
+                                        .search( val ? '^'+val+'$' : '', true, false )
+                                        .draw();
+                                } );
+                            column.data().unique().sort().each( function ( d, j ) {
+                                var f = d.split('div');
+                                if(f.length<=1){
+                                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                                } else {
+                                    select.prop('disabled',true);
+                                }
+                            } );
+                        } );
+                    }
                 });
+
+            }, 2000);
+
+        });
+    }
+
+    function LecturerDetail(insert_id) {
+
+        var url_detail = base_url_js+'api/__setLecturersAvailabilityDetail/insert';
+
+        for(var i=0;i<arr_ElementDay.length;i++){
+            var DayID = $('#DayName'+arr_ElementDay[i]).find(":selected").val();
+            var tStart = $('#timeStart'+arr_ElementDay[i]).val();
+            var tEnd = $('#timeEnd'+arr_ElementDay[i]).val();
+
+            var data_detail = {
+                'LecturersAvailabilityID' : insert_id,
+                'DayID' : DayID,
+                'Start' : tStart,
+                'End' : tEnd
             }
+
+            var token_detail = jwt_encode(data_detail,'UAP)(*');
+            $.post(url_detail,{token:token_detail},function () {
+
+            });
+
+
+        }
+        // noElement = 1;
+        // arr_ElementDay = [1];
 
 
     }
-
-    $(document).on('click','.removeFormMK',function () {
-        var noElm = $(this).attr('data-elment');
-
-
-        widgetElement = $.grep(widgetElement, function(value) {
-            return value != noElm;
-        });
-
-
-        $('#divMK'+noElm).animateCss('fadeOutUp',function () {
-            $('#divMK'+noElm).remove();
-        });
-    });
 
     function fillMK(element) {
         var url = base_url_js+'api/__getAllMK';
@@ -404,7 +429,7 @@
         var url = base_url_js+'api/__getSemester';
         $.get(url,function (data) {
             var option = $('#'+element);
-            option.append('<option selected disabled>----- Semester -----</option>');
+            option.append('<option value="0" selected disabled>----- Semester -----</option>');
             for(var i=0;i<data.length;i++){
                 option.append('<option value="'+data[i].ID+'">'+data[i].YearCode+' | '+data[i].Name+'</option>');
             }

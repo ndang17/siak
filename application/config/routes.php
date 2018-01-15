@@ -37,6 +37,10 @@ $route['academic/tahun-akademik-detail-date'] = 'page/academic/c_tahun_akademik/
 
 $route['academic/ketersediaan-dosen'] = 'page/academic/c_akademik/ketersediaan_dosen';
 
+$route['academic/jadwal'] = 'page/academic/c_jadwal';
+$route['academic/jadwal/jadwal'] = 'page/academic/c_jadwal';
+$route['academic/jadwal/group-kelas'] = 'page/academic/c_jadwal/groubKelas';
+
 // --- Modal Academic ----
 $route['academic/modal-tahun-akademik-detail-prodi'] = 'page/academic/c_akademik/modal_tahun_akademik_detail_prodi';
 $route['academic/modal-tahun-akademik-detail-lecturer'] = 'page/academic/c_akademik/modal_tahun_akademik_detail_lecturer';
@@ -60,5 +64,7 @@ $route['api/__getAllMK'] = 'api/c_api/getAllMK';
 
 $route['api/__setLecturersAvailability/(:any)'] = 'api/c_api/setLecturersAvailability/$1';
 $route['api/__setLecturersAvailabilityDetail/(:any)'] = 'api/c_api/setLecturersAvailabilityDetail/$1';
+
+$route['api/__changeTahunAkademik'] = 'api/c_api/changeTahunAkademik';
 
 
