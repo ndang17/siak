@@ -26,7 +26,7 @@
 </style>
 
 <div class="row" style="margin-top: 30px;">
-    <div class="col-md-5 formAddFormKD">
+    <div class="col-md-10 formAddFormKD">
         <div class="thumbnail" style="padding: 15px;margin-bottom: 15px;background: lightyellow;">
             <div class="row">
                 <label class="col-xs-3 control-label">
@@ -38,83 +38,78 @@
             </div>
         </div>
         <hr/>
-        <div class="thumbnail" style="padding: 15px;margin-bottom: 15px;">
-            <!-- Nama Dosen -->
-            <div class="row">
-                <label class="col-xs-3 control-label">Name</label>
-                <div class="col-xs-9">
-                    <div class="form-group">
-                        <select id="form_lecturer" class="select2-select-00 col-md-12 full-width-fix">
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="widget box">
-            <div class="widget-header">
-                <h4 class="header"><i class="icon-reorder"></i> Mata Kuliah</h4>
-            </div>
-            <div class="widget-content">
-                <!-- Kesediaan Mata Kuliah -->
-                <div class="row row-kesediaan">
-                    <label class="col-xs-3 control-label">Mata Kuliah</label>
+        <div class="collapse" id="collapseDataAdd">
+            <div class="well">
+                <div class="row">
+                    <label class="col-xs-3 control-label">Name</label>
                     <div class="col-xs-9">
-                        <div class="row">
+                        <div class="form-group">
+                            <select id="form_lecturer" class="select2-select-00 col-md-12 full-width-fix">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget box">
+                    <div class="widget-header">
+                        <h4 class="header"><i class="icon-reorder"></i> Mata Kuliah</h4>
+                    </div>
+                    <div class="widget-content">
+                        <!-- Kesediaan Mata Kuliah -->
+                        <div class="row row-kesediaan">
+                            <label class="col-xs-3 control-label">Mata Kuliah</label>
+                            <div class="col-xs-9">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <select class="select2-select-00 col-md-12 full-width-fix" id="dataMK">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kesediaan Hari dan Jam -->
+                        <div class="row row-kesediaan">
+                            <!--                    <label class="col-xs-3 control-label">Day</label>-->
                             <div class="col-xs-12">
-                                <select class="select2-select-00 col-md-12 full-width-fix" id="dataMK">
-                                    <option></option>
-                                </select>
+                                <div class="row">
+                                    <div class="col-xs-4 form-day">
+                                        <select class="form-control" id="DayName1" ></select>
+                                    </div>
+                                    <div class="col-xs-3 form-time">
+                                        <input type="time" id="timeStart1" class="form-control">
+                                    </div>
+                                    <div class="col-xs-3 form-time">
+                                        <input type="time" id="timeEnd1" class="form-control">
+                                    </div>
+                                    <div class="col-xs-2 btn-action">
+                                        <button class="btn btn-default btn-sm addFormDay" data-elment="1"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                                <div id="MultyDay"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Kesediaan Hari dan Jam -->
-                <div class="row row-kesediaan">
-                    <!--                    <label class="col-xs-3 control-label">Day</label>-->
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="col-xs-4 form-day">
-                                <select class="form-control" id="DayName1" ></select>
-                            </div>
-                            <div class="col-xs-3 form-time">
-                                <input type="time" id="timeStart1" class="form-control">
-                            </div>
-                            <div class="col-xs-3 form-time">
-                                <input type="time" id="timeEnd1" class="form-control">
-                            </div>
-                            <div class="col-xs-2 btn-action">
-                                <button class="btn btn-default btn-sm addFormDay" data-elment="1"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                        <div id="MultyDay"></div>
-                    </div>
+                <div style="text-align: right;">
+                    <hr/>
+                    <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseDataAdd" aria-expanded="false" aria-controls="collapseExample">Cencle</button>
+                    <button class="btn btn-success" id="saveData">Save</button>
+                    <hr/>
                 </div>
             </div>
         </div>
 
-        <div style="text-align: right;">
-            <hr/>
-<!--            <button class="btn btn-default btn-default-success" id="btnAddMK">Tambah Mata Kuliah</button>-->
-            <button class="btn btn-success" id="saveData">Save</button>
-            <hr/>
-        </div>
+
+
+
 
     </div>
-    <div class="col-md-5">
-        <div class="widget box widget-closed">
-            <div class="widget-header">
-                <h4 class="header"><i class="icon-reorder" aria-hidden="true"></i> Detail Kesediaan Dosen Mengajar</h4>
-                <div class="toolbar no-padding">
-                    <div class="btn-group">
-                        <span class="btn btn-xs widget-collapse"><i class="icon-angle-up"></i></span>
-                    </div>
-                </div>
-            </div>
-            <div class="widget-content no-padding" style="min-height: 200px;"></div>
-        </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDataAdd" aria-expanded="false" aria-controls="collapseExample">Add data</button>
     </div>
 </div>
 
@@ -123,14 +118,14 @@
         <div class="widget box" style="display: block;">
             <div class="widget-header">
                 <h4 class="header"><i class="icon-reorder" aria-hidden="true"></i> Detail Kesediaan Dosen Mengajar</h4>
-                <div class="toolbar no-padding">
-                    <div class="btn-group">
-                        <span class="btn btn-xs" id="addData">
-											<i class="icon-plus"></i> Add Data
-										</span>
-
-                    </div>
-                </div>
+<!--                <div class="toolbar no-padding">-->
+<!--                    <div class="btn-group">-->
+<!--                        <span class="btn btn-xs" id="addData">-->
+<!--											<i class="icon-plus"></i> Add Data-->
+<!--										</span>-->
+<!---->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <div class="widget-content no-padding" id="detailKetersediaanDosen"></div>
         </div>
@@ -302,12 +297,12 @@
                     '                    <tr>' +
                     '                        <th rowspan="2" style="width: 30%;">Name</th>' +
                     '                        <th rowspan="2">Mata Kuliah</th>' +
-                    '                        <th rowspan="2" style="width: 10%;">Day</th>' +
+                    '                        <th rowspan="2" style="width: 5%;">Day</th>' +
                     '                        <th colspan="2">Time</th>' +
                     '                    </tr>' +
                     '                    <tr>' +
-                    '                        <th style="width: 10%;">Start</th>' +
-                    '                        <th style="width: 10%;">End</th>' +
+                    '                        <th style="width: 5%;">Start</th>' +
+                    '                        <th style="width: 5%;">End</th>' +
                     '                    </tr>' +
                     '                    </thead>' +
                     '                    <tfoot>' +
