@@ -37,6 +37,11 @@ class C_api extends MY_Controller {
         return print_r(json_encode($data));
     }
 
+    public function getProdiSelectOption(){
+        $data = $this->m_api->__getBaseProdiSelectOption();
+        return print_r(json_encode($data));
+    }
+
     public function getMKByID(){
         $ID = $this->input->post('idMK');
         $data = $this->m_api->__getMKByID($ID);

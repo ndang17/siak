@@ -25,6 +25,10 @@ $route['change-departement'] = 'dashboard/c_dashboard/change_departement';
 // === Academic ===
 $route['academic/kurikulum'] = 'page/academic/c_kurikulum/kurikulum';
 $route['academic/kurikulum-detail'] = 'page/academic/c_kurikulum/kurikulum_detail';
+
+$route['tes'] = 'page/academic/c_kurikulum/tes';
+
+
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
 $route['academic/matakuliah'] = 'page/academic/c_matakuliah/mata_kuliah';
 
@@ -38,8 +42,8 @@ $route['academic/tahun-akademik-detail-date'] = 'page/academic/c_tahun_akademik/
 $route['academic/ketersediaan-dosen'] = 'page/academic/c_akademik/ketersediaan_dosen';
 
 $route['academic/jadwal'] = 'page/academic/c_jadwal';
-$route['academic/jadwal/jadwal'] = 'page/academic/c_jadwal';
-$route['academic/jadwal/group-kelas'] = 'page/academic/c_jadwal/groubKelas';
+
+$route['academic/__setPageJadwal'] = 'page/academic/c_jadwal/setPageJadwal';
 
 // --- Modal Academic ----
 $route['academic/modal-tahun-akademik-detail-prodi'] = 'page/academic/c_akademik/modal_tahun_akademik_detail_prodi';
@@ -57,6 +61,7 @@ $route['database/employees'] = 'page/database/c_database/employees';
 // ====== API ======
 $route['api/__getKurikulumByYear'] = 'api/c_api/getKurikulumByYear';
 $route['api/__getBaseProdi'] = 'api/c_api/getProdi';
+$route['api/__getBaseProdiSelectOption'] = 'api/c_api/getProdiSelectOption';
 $route['api/__getMKByID'] = 'api/c_api/getMKByID';
 $route['api/__getSemester'] = 'api/c_api/getSemester';
 $route['api/__getLecturer'] = 'api/c_api/getLecturer';

@@ -10,34 +10,45 @@ class C_jadwal extends MY_Controller {
         $this->load->model('m_kurikulum');
     }
 
-
     public function temp($content)
     {
         parent::template($content);
     }
 
-    public function contentTabs($contenttabs){
-        $department = parent::__getDepartement();
-        $data['contenttabs'] = $contenttabs;
-        $content = $this->load->view('page/'.$department.'/jadwal',$data,true);
-        $this->temp($content);
-    }
-
-
     public function index()
     {
         $department = parent::__getDepartement();
-        $contenttabs = $this->load->view('page/'.$department.'/jadwal_tab_jadwal','',true);
-        $this->contentTabs($contenttabs);
+        $data = '';
+        $content = $this->load->view('page/'.$department.'/jadwal/tab_menu',$data,true);
+        $this->temp($content);
     }
 
-    public function groubKelas(){
+    public function setPageJadwal(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+
+        $page = $data_arr['page'];
+
         $department = parent::__getDepartement();
-        $contenttabs = $this->load->view('page/'.$department.'/jadwal_tab_groupkelas','',true);
-        $this->contentTabs($contenttabs);
+        $path = 'page/'.$department.'/jadwal';
+
+        $this->cekFileView($path,$page);
+
     }
 
+    private function cekFileView($path,$file)
+    {
 
+        $data = false;
+        if (file_exists(APPPATH."views/".$path."/{$file}.php"))
+        {
+            $data = $this->load->view($path.'/'.$file);
+//            $data = true;
+        }
 
+        return $data;
+    }
 
 }

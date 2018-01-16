@@ -37,6 +37,12 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __getBaseProdiSelectOption()
+    {
+        $data = $this->db->query('SELECT ID,Code,Name,NameEng FROM db_akademik.program_study');
+        return $data->result_array();
+    }
+
     public function __getMKByID($ID){
         $data = $this->db->query('SELECT * FROM db_akademik.mata_kuliah WHERE ID = "'.$ID.'" LIMIT 1');
         return $data->result_array();
