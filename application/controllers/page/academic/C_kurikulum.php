@@ -29,14 +29,10 @@ class C_kurikulum extends MY_Controller {
 
     public function kurikulum_detail(){
 
+        $token = $this->input->post('token');
         $data['department'] = parent::__getDepartement();
+        $data['token'] = $token;
         $this->load->view('page/'.$data['department'].'/kurikulum/kurikulum_detail',$data);
-    }
-
-    public function tes(){
-        $data = $this->m_kurikulum->__getMKFromKurikulum(2016);
-
-        print_r($data);
     }
 
     public function kurikulum_detail2(){

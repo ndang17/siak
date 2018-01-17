@@ -20,7 +20,7 @@
             <div class="widget-content no-padding">
 
                 <div class="table-responsive">
-                    <table id="tableMK2" class="table table-striped table-bordered table-hover table-responsive">
+                    <table id="tableMK2" class="table table-striped table-bordered table-hover table-tabletools table-responsive">
                         <thead>
                         <tr>
                             <th>Kode MK</th>
@@ -94,15 +94,31 @@
     </div>
 </div>
 
+<style>
+    .TableTools_collection {
+        z-index : 1;
+    }
+</style>
 <script>
     $(document).ready(function() {
 
         var table = $('#tableMK2').DataTable({
             'iDisplayLength' : 10,
+            "sDom": "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
+            "oTableTools": {
+                "aButtons": [
+                    "copy",
+                    "print",
+                    "csv",
+                    "xls",
+                    "pdf"
+                ],
+                "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
+            },
             initComplete: function () {
                 this.api().columns().every( function () {
                     var column = this;
-                    var select = $('<select><option value=""></option></select>')
+                    var select = $('<select class="form-control"><option value=""></option></select>')
                         .appendTo( $(column.footer()).empty() )
                         .on( 'change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -119,10 +135,12 @@
                             select.append( '<option value="'+d+'">'+d+'</option>' )
                         } else {
                             select.prop('disabled',true);
+                            select.addClass('hide');
                         }
                     } );
                 } );
             }
+
         });
 
 

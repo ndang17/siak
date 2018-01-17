@@ -26,8 +26,6 @@ $route['change-departement'] = 'dashboard/c_dashboard/change_departement';
 $route['academic/kurikulum'] = 'page/academic/c_kurikulum/kurikulum';
 $route['academic/kurikulum-detail'] = 'page/academic/c_kurikulum/kurikulum_detail';
 
-$route['tes'] = 'page/academic/c_kurikulum/tes';
-
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
 $route['academic/matakuliah'] = 'page/academic/c_matakuliah/mata_kuliah';

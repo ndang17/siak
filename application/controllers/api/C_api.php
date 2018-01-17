@@ -14,7 +14,7 @@ class C_api extends MY_Controller {
 
 
     // ========= API =========
-    public function getKurikulumByYear(){
+    public function getKurikulumByYear2(){
 
         $year = $this->input->get('year');
 
@@ -28,6 +28,19 @@ class C_api extends MY_Controller {
             $result = $data;
         }
 
+
+        return print_r(json_encode($result));
+    }
+
+    public function getKurikulumByYear(){
+
+//        $year = $this->input->get('year');
+
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $result = $this->m_api->__getKurikulumByYear($data_arr['year']);
 
         return print_r(json_encode($result));
     }
