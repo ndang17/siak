@@ -60,7 +60,7 @@ class M_api extends CI_Model {
 
 
     // ==== KURIKULUM ====
-    public function __getKurikulumByYear($year){
+    public function __getKurikulumByYear($year,$ProdiID){
 
         // Mendapatkan Kurikulum
         $detail_kurikulum = $this->Kurikulum($year);
@@ -72,7 +72,7 @@ class M_api extends CI_Model {
             $grade = $this->Grade($detail_kurikulum['ID']);
 
             for($i=0;$i<count($semester);$i++){
-                $semester[$i]['DetailSemester'] = $this->DetailMK($detail_kurikulum['ID'],$semester[$i]['Semester']);
+                $semester[$i]['DetailSemester'] = $this->DetailMK($detail_kurikulum['ID'],$semester[$i]['Semester'],$ProdiID);
             }
 
             $result = array(
@@ -115,8 +115,9 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
-    private function DetailMK($CurriculumID,$Semester){
-        $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
+    private function DetailMK($CurriculumID,$Semester,$ProdiID){
+        if($ProdiID!=''){
+            $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
                                            mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
                                            cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
                                            cd.SKSPraktikum, cd.SKSPraktikLapangan,
@@ -125,8 +126,38 @@ class M_api extends CI_Model {
                                                 LEFT JOIN db_akademik.mata_kuliah mk ON (cd.MKID = mk.ID)
                                                 LEFT JOIN db_akademik.program_study ps ON (cd.ProdiID = ps.ID)
                                                 LEFT JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
-                                                WHERE cd.CurriculumID="'.$CurriculumID.'" AND cd.Semester="'.$Semester.'"
+                                                WHERE cd.CurriculumID="'.$CurriculumID.'" 
+                                                AND cd.Semester="'.$Semester.'"
+                                                AND cd.ProdiID="'.$ProdiID.'"
                                                 ORDER BY mk.MKCode ASC');
+        } else {
+            $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
+                                           mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
+                                           cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
+                                           cd.SKSPraktikum, cd.SKSPraktikLapangan,
+                                           em.Name AS NameLecturer
+                                                FROM db_akademik.curriculum_details cd 
+                                                LEFT JOIN db_akademik.mata_kuliah mk ON (cd.MKID = mk.ID)
+                                                LEFT JOIN db_akademik.program_study ps ON (cd.ProdiID = ps.ID)
+                                                LEFT JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
+                                                WHERE cd.CurriculumID="'.$CurriculumID.'" 
+                                                AND cd.Semester="'.$Semester.'"
+                                                ORDER BY mk.MKCode ASC');
+        }
+
+
+        return $data->result_array();
+    }
+
+
+    public function cekTahunKurikulum($year){
+        $data = $this->db->query('SELECT * FROM db_akademik.curriculum WHERE Year = "'.$year.'"');
+
+        return $data->result_array();
+    }
+
+    public function __getKurikulumSelectOption(){
+        $data = $this->db->query('SELECT ID,Year,Name FROM db_akademik.curriculum ORDER BY Year DESC');
 
         return $data->result_array();
     }

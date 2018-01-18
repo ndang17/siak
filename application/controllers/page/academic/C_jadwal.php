@@ -7,7 +7,7 @@ class C_jadwal extends MY_Controller {
     {
         parent::__construct();
 //        $this->session->set_userdata('departement_nav', 'academic');
-        $this->load->model('m_kurikulum');
+//        $this->load->model('m_kurikulum');
     }
 
     public function temp($content)

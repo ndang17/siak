@@ -18,50 +18,55 @@
                 </div>
             </div>
             <div class="widget-content no-padding">
-
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div id="test"></div>
+                    </div>
+                </div>
                 <div class="table-responsive">
+
                     <table id="tableMK2" class="table table-striped table-bordered table-hover table-tabletools table-responsive">
                         <thead>
                         <tr>
-                            <th>Kode MK</th>
-                            <th>Nama Mata Kuliah</th>
+                            <th style="width: 50px;">No</th>
+                            <th style="width: 150px">Code MK</th>
+                            <th>Name</th>
+                            <th>Name English</th>
                             <th>Base Prodi</th>
-                            <th>action</th>
                         </tr>
                         </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Kode MK</th>
-                            <th>Nama mata Kuliah</th>
-                            <th>Base Prodi</th>
-                            <th>Action</th>
-                        </tr>
-                        </tfoot>
                         <tbody>
-                        <?php foreach ($data_mk as $item_mk) { ?>
+                        <?php $no=1; foreach ($data_mk as $item_mk) { ?>
                             <tr>
+                                <td class="td-center">
+                                    <div><?php echo $no++; ?></div>
+                                </td>
                                 <td>
                                     <div><?php echo $item_mk['MKCode']; ?></div>
                                 </td>
                                 <td>
                                     <div>
-                                        <b><?php echo $item_mk['Name']; ?></b><br/>
+                                        <a href="javascript:void(0)" data-id="<?php echo $item_mk['mkID']; ?>" data-action="edit" class="btn-mk-action" ><b><?php echo $item_mk['Name']; ?></b></a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
                                         <i><?php echo $item_mk['NameEng']; ?></i>
                                     </div>
                                 </td>
 
                                 <td><?php echo $item_mk['Code'].' | '.$item_mk['NameProdi']; ?></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-default-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="javascript:void(0)" data-id="<?php echo $item_mk['mkID']; ?>" data-action="edit" class="btn-mk-action"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
-                                            <li><a href="javascript:void(0)" data-id="<?php echo $item_mk['mkID']; ?>" data-action="delete" class="btn-mk-action"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
+<!--                                <td>-->
+<!--                                    <div class="btn-group">-->
+<!--                                        <button type="button" class="btn btn-default btn-default-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                                            Action <span class="caret"></span>-->
+<!--                                        </button>-->
+<!--                                        <ul class="dropdown-menu">-->
+<!--                                            <li><a href="javascript:void(0)" data-id="--><?php //echo $item_mk['mkID']; ?><!--" data-action="edit" class="btn-mk-action"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>-->
+<!--                                            <li><a href="javascript:void(0)" data-id="--><?php //echo $item_mk['mkID']; ?><!--" data-action="delete" class="btn-mk-action"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </td>-->
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -83,9 +88,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
-            <div class="modal-body">
-
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
@@ -104,22 +107,31 @@
 
         var table = $('#tableMK2').DataTable({
             'iDisplayLength' : 10,
-            "sDom": "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
+            "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
             "oTableTools": {
                 "aButtons": [
-                    "copy",
-                    "print",
-                    "csv",
-                    "xls",
-                    "pdf"
+                    // "copy",
+                    // "print",
+                    // "csv",
+                    {
+                        "sExtends" : "xls",
+                        "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
+                    },
+                    {
+                        "sExtends" : "pdf",
+                        "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
+                        "sPdfOrientation" : "landscape",
+                        "sPdfMessage" : "Daftar Seluruh Mata Kuliah"
+                    }
+
                 ],
                 "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
             },
             initComplete: function () {
                 this.api().columns().every( function () {
                     var column = this;
-                    var select = $('<select class="form-control"><option value=""></option></select>')
-                        .appendTo( $(column.footer()).empty() )
+                    var select = $('<select class="form-control filter-prodi"><option selected disabled>--- Base Prodi ---</option><option value="">All</option></select>')
+                        .appendTo( $('.dataTables_header .col-md-9') )
                         .on( 'change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
                                 $(this).val()
@@ -134,8 +146,8 @@
                         if(f.length<=1){
                             select.append( '<option value="'+d+'">'+d+'</option>' )
                         } else {
-                            select.prop('disabled',true);
-                            select.addClass('hide');
+                            select.remove();
+                            // select.addClass('hide');
                         }
                     } );
                 } );

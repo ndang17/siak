@@ -6,8 +6,8 @@ class C_akademik extends MY_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->session->set_userdata('departement_nav', 'academic');
-        $this->load->model('m_kurikulum');
+//        $this->session->set_userdata('departement_nav', 'academic');
+//        $this->load->model('m_kurikulum');
     }
 
 

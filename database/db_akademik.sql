@@ -34,10 +34,10 @@ CREATE TABLE `curriculum` (
 /*Data for the table `curriculum` */
 
 insert  into `curriculum`(`ID`,`Year`,`Name`,`CreateAt`,`CreateBy`,`UpdateAt`,`UpdateBy`) values 
-(1,2014,'Kurikulum 2014',NULL,NULL,'2016-10-01 14:00:13','2017090'),
-(2,2015,'Kurikulum 2015',NULL,NULL,'2017-12-20 14:00:40','2016065'),
-(3,2016,'Kurikulum 2016',NULL,NULL,'2017-10-11 14:00:55','1014026'),
-(4,2017,'Kurikulum 2017',NULL,NULL,'2017-12-14 14:00:59','1014026');
+(1,2014,'Kurikulum 2014','2016-10-01 14:00:13','2016065','2016-10-01 14:00:13','2017090'),
+(2,2015,'Kurikulum 2015','2016-10-01 14:00:13','2016065','2017-12-20 14:00:40','2016065'),
+(3,2016,'Kurikulum 2016','2016-10-01 14:00:13','2016065','2017-10-11 14:00:55','1014026'),
+(4,2017,'Kurikulum 2017','2016-10-01 14:00:13','2016065','2017-12-14 14:00:59','1014026');
 
 /*Table structure for table `curriculum_details` */
 
@@ -52,7 +52,7 @@ CREATE TABLE `curriculum_details` (
   `LecturerNIP` varchar(45) DEFAULT NULL,
   `Semester` int(11) DEFAULT NULL,
   `TotalSKS` int(11) DEFAULT NULL,
-  `SKSTatapMuka` int(11) DEFAULT NULL,
+  `SKSTeori` int(11) DEFAULT NULL,
   `SKSPraktikum` int(11) DEFAULT NULL,
   `SKSPraktikLapangan` int(11) DEFAULT NULL,
   `Silabus` text,
@@ -64,7 +64,7 @@ CREATE TABLE `curriculum_details` (
 
 /*Data for the table `curriculum_details` */
 
-insert  into `curriculum_details`(`ID`,`CurriculumID`,`MKID`,`MKCode`,`ProdiID`,`LecturerNIP`,`Semester`,`TotalSKS`,`SKSTatapMuka`,`SKSPraktikum`,`SKSPraktikLapangan`,`Silabus`,`SAP`,`UpdateBy`,`UpdateAt`) values 
+insert  into `curriculum_details`(`ID`,`CurriculumID`,`MKID`,`MKCode`,`ProdiID`,`LecturerNIP`,`Semester`,`TotalSKS`,`SKSTeori`,`SKSPraktikum`,`SKSPraktikLapangan`,`Silabus`,`SAP`,`UpdateBy`,`UpdateAt`) values 
 (1,1,1,'UNI1004',4,'1214044',1,4,4,0,0,'Syllabus__CTPS__EN_v1.docx','SAP_CTPS__EN__v1.docx','2017090','2018-01-08 10:10:10'),
 (2,1,2,'UNI1003',3,'1114058',1,4,4,0,0,'Syllabus__Rhetoric_1.pdf','SAP__Rhetoric_1.pdf','2017090','2018-01-08 10:10:10'),
 (3,1,3,'UNI1001',3,'1114005',1,3,3,0,0,'Silabus__TAEL_1.pdf','0','2017090','2018-01-08 10:10:10'),
@@ -1086,15 +1086,13 @@ CREATE TABLE `lecturers_availability` (
   `UpdateBy` varchar(45) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability` */
 
 insert  into `lecturers_availability`(`ID`,`SemesterID`,`LecturerID`,`MKID`,`MKCode`,`UpdateBy`,`UpdateAt`) values 
-(1,7,'2114002',4,'SOC1001','2017090','2018-01-12 16:59:24'),
-(2,7,'2114002',9,'ARC1021','2017090','2018-01-12 16:59:24'),
-(3,7,'2114002',4,'SOC1001','2017090','2018-01-12 17:00:10'),
-(4,7,'2114002',9,'ARC1021','2017090','2018-01-12 17:00:10');
+(1,7,'1214044',2,'UNI1003','2017090','2018-01-15 14:17:32'),
+(2,7,'2114002',1,'UNI1004','2017090','2018-01-15 14:20:07');
 
 /*Table structure for table `lecturers_availability_detail` */
 
@@ -1107,9 +1105,15 @@ CREATE TABLE `lecturers_availability_detail` (
   `Start` time DEFAULT NULL,
   `End` time DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability_detail` */
+
+insert  into `lecturers_availability_detail`(`ID`,`LecturersAvailabilityID`,`DayID`,`Start`,`End`) values 
+(1,1,1,'07:00:00','10:00:00'),
+(2,1,2,'15:00:00','17:00:00'),
+(3,2,1,'07:00:00','09:00:00'),
+(4,2,3,'08:00:00','12:00:00');
 
 /*Table structure for table `mata_kuliah` */
 

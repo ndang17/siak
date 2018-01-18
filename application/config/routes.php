@@ -25,6 +25,7 @@ $route['change-departement'] = 'dashboard/c_dashboard/change_departement';
 // === Academic ===
 $route['academic/kurikulum'] = 'page/academic/c_kurikulum/kurikulum';
 $route['academic/kurikulum-detail'] = 'page/academic/c_kurikulum/kurikulum_detail';
+$route['academic/kurikulum/add-kurikulum'] = 'page/academic/c_kurikulum/add_kurikulum';
 
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
@@ -69,5 +70,8 @@ $route['api/__setLecturersAvailability/(:any)'] = 'api/c_api/setLecturersAvailab
 $route['api/__setLecturersAvailabilityDetail/(:any)'] = 'api/c_api/setLecturersAvailabilityDetail/$1';
 
 $route['api/__changeTahunAkademik'] = 'api/c_api/changeTahunAkademik';
+
+$route['api/__insertKurikulum'] = 'api/c_api/insertKurikulum';
+$route['api/__getKurikulumSelectOption'] = 'api/c_api/getKurikulumSelectOption';
 
 

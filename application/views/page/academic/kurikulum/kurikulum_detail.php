@@ -19,17 +19,17 @@
         <div class="tab-content row">
             <!--=== Overview ===-->
             <div class="tab-pane active" id="tab_mata_kuliah">
-                <div class="col-md-12" style="text-align: center;margin-bottom: 20px;">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-default-success btn-addsmt">Add Semester</button>
-                        <button type="button" class="btn btn-default btn-default-success btn-addsmt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" id="addSmt">
-                        </ul>
-                    </div>
-                </div>
+<!--                <div class="col-md-12" style="text-align: center;margin-bottom: 20px;">-->
+<!--                    <div class="btn-group">-->
+<!--                        <button type="button" class="btn btn-default btn-default-success btn-addsmt">Add Semester</button>-->
+<!--                        <button type="button" class="btn btn-default btn-default-success btn-addsmt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                            <span class="caret"></span>-->
+<!--                            <span class="sr-only">Toggle Dropdown</span>-->
+<!--                        </button>-->
+<!--                        <ul class="dropdown-menu" id="addSmt">-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div id="DataMataKuliah"></div>
             </div>
             <div class="tab-pane" id="tab_grade">
@@ -79,10 +79,14 @@
 
 <script>
     $(document).ready(function () {
+
         var token = "<?php echo $token; ?>";
         var url = base_url_js+"api/__getKurikulumByYear";
+        window.allSmt = [];
+
 
         $.post(url,{token:token},function (data_json) {
+            allSmt = [];
 
             if(data_json!=''){
                 LoadDetailKurikulum(data_json.DetailKurikulum);
@@ -92,6 +96,7 @@
                 } else {
                     $('#DataMataKuliah').html('--- Mata Kuliah Belum Ditambahkan ---');
                 }
+                loadSemesterAdd();
             } else {
                 log('Data JSON Kosong');
             }
@@ -106,16 +111,18 @@
     });
 
     function LoadDetailMK(MataKuliah) {
-        var allSmt = [];
+
         for(var i=0;i<MataKuliah.length;i++){
             if(MataKuliah.length==8){
                 $('.btn-addsmt').prop('disabled',true);
+            } else {
+                $('.btn-addsmt').prop('disabled',false);
             }
 
             allSmt.push(parseInt(MataKuliah[i].Semester));
 
             $('#DataMataKuliah').append('<div class="col-md-12"> <div class="widget box">' +
-                '                    <div class="widget-header">' +
+                '                    <div class="widget-header" id="widgetSmt'+i+'">' +
                 '                        <h4><i class="icon-reorder"></i> SEMESTER '+MataKuliah[i].Semester+'</h4>' +
                 '<div class="toolbar no-padding">' +
                 '    <div class="btn-group">' +
@@ -129,64 +136,59 @@
                 '                        <table id="tableSemester'+i+'" class="table table-bordered table-striped table-smt">' +
                 '                            <thead>' +
                 '                            <tr>' +
-                '                                <th rowspan="2" style="width:5%;">Kode MK</th>' +
+                '                                <th rowspan="2" style="width:80px;">No</th>' +
+                '                                <th rowspan="2" style="width:150px;">Kode MK</th>' +
                 '                                <th rowspan="2">Nama MK</th>' +
                 '                                <th rowspan="2">Dosen Pengampu</th>' +
                 '                                <th rowspan="2">Base Prodi</th>' +
                 '                                <th rowspan="2">Total SKS</th>' +
                 '                                <th colspan="3">SKS</th>' +
-                '                                <th rowspan="2" style="width:5%;">Action</th>' +
                 '                            </tr>' +
                 '                            <tr>' +
-                '                                <th style="width:5%;">Teori</th>' +
-                '                                <th style="width:5%;">Praktek</th>' +
-                '                                <th style="width:5%;">Praktek Lapangan</th>' +
+                '                                <th style="width:80px;">T</th>' +
+                '                                <th style="width:80px;">P</th>' +
+                '                                <th style="width:80px;">PKL</th>' +
                 '                            </tr>' +
                 '                            </thead>' +
-                '                            <tfoot>' +
-                '                            <tr>' +
-                '                                <th>Kode MK</th>' +
-                '                                <th>Nama MK</th>' +
-                '                                <th>Dosen Pengampu</th>' +
-                '                                <th>Base Prodi</th>' +
-                '                                <th>Total SKS</th>' +
-                '                                <th>Teori</th>' +
-                '                                <th>Praktek</th>' +
-                '                                <th>Praktek Lapangan</th>' +
-                '                                <th>Action</th>' +
-                '                            </tr>' +
-                '                            </tfoot>' +
                 '                            <tbody id="dataSmt'+i+'"></tbody>' +
                 '                        </table>' +
                 '                    </div>' +
                 '                </div></div>');
 
             var detailSemester = MataKuliah[i].DetailSemester;
+            var no=1;
             for(var s=0;s<detailSemester.length;s++){
                 $('#dataSmt'+i).append('<tr>' +
-                    '<td class="td-center"><div><b>'+detailSemester[s].MKCode+'</b></div></td>' +
-                    '<td><div><b>'+detailSemester[s].NameMK+'</b><br/>' +
-                    '<i>'+detailSemester[s].NameMKEng+'</i></div>' +
+                    '<td class="td-center">'+(no++)+'</td>' +
+                    '<td class="td-center">'+detailSemester[s].MKCode+'</td>' +
+                    '<td><div><a><b>'+detailSemester[s].NameMK+'</b></a>' +
                     '</td>' +
-                    '<td>'+detailSemester[s].NameLecturer+'</td>' +
+                    '<td><div>'+detailSemester[s].NameLecturer+'</td>' +
                     '<td>'+detailSemester[s].ProdiName+'</td>' +
-                    '<td class="td-center">'+detailSemester[s].TotalSKS+'</td>' +
-                    '<td class="td-center">'+detailSemester[s].SKSTeori+'</td>' +
-                    '<td class="td-center">'+detailSemester[s].SKSPraktikum+'</td>' +
-                    '<td class="td-center">'+detailSemester[s].SKSPraktikLapangan+'</td>' +
-                    '<td class="td-center"><div><button class="btn btn-default btn-default-success">Action</button></div></td>' +
+                    '<td class="td-center"><div>'+detailSemester[s].TotalSKS+'</div></td>' +
+                    '<td class="td-center"><div>'+detailSemester[s].SKSTeori+'</div></td>' +
+                    '<td class="td-center"><div>'+detailSemester[s].SKSPraktikum+'</div></td>' +
+                    '<td class="td-center"><div>'+detailSemester[s].SKSPraktikLapangan+'</div></td>' +
                     '</tr>');
             }
 
-            LoaddataTable('tableSemester'+i);
+            LoaddataTable(i);
         }
 
+
+    }
+
+
+    function loadSemesterAdd() {
+
+        $('#addSmt').empty();
         for(var i2=1;i2<=8;i2++){
             if($.inArray(i2,allSmt)==-1){
-                $('#addSmt').append('<li><a href="#">Semester '+i2+'</a></li>');
+                $('#addSmt').append('<li><a href="javascript:void(0)" data-smt="'+i2+'" data-action="add-semester" class="btn-control">Semester '+i2+'</a></li>');
             }
 
         }
+        $('.btn-addsmt').prop('disabled',false);
     }
 
     function LoadGrade(Grade) {
@@ -231,45 +233,55 @@
     }
 
     function LoaddataTable(element) {
-        var table = $('#'+element).DataTable({
+        var table = $('#tableSemester'+element).DataTable({
             'iDisplayLength' : 5,
             'ordering' : false,
-            "sDom": "<'row'<'dataTables_header clearfix'<'col-md-4'l><'col-md-8'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
+            "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
             "oTableTools": {
                 "aButtons": [
-                    "copy",
-                    "print",
-                    "csv",
-                    "xls",
-                    "pdf"
+                    // "copy",
+                    // "print",
+                    // "csv",
+                    {
+                        "sExtends" : "xls",
+                        "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
+                    },
+                    {
+                        "sExtends" : "pdf",
+                        "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
+                        "sPdfOrientation" : "landscape",
+                        // "sPdfMessage" : "Daftar Seluruh Mata Kuliah"
+                    }
                 ],
                 "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
             },
-            initComplete: function () {
-                this.api().columns().every( function () {
-                    var column = this;
-                    var select = $('<select class="form-control"><option value=""></option></select>')
-                        .appendTo( $(column.footer()).empty() )
-                        .on( 'change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-
-                            column
-                                .search( val ? '^'+val+'$' : '', true, false )
-                                .draw();
-                        } );
-                    column.data().unique().sort().each( function ( d, j ) {
-                        var f = d.split('div');
-                        if(f.length<=1){
-                            select.append( '<option value="'+d+'">'+d+'</option>' )
-                        } else {
-                            select.prop('disabled',true);
-                            select.addClass('hide');
-                        }
-                    } );
-                } );
-            }
+            // initComplete: function () {
+            //     var elm = '#widgetSmt'+element;
+            //     console.log(elm);
+            //     this.api().columns().every( function () {
+            //
+            //         var column = this;
+            //         var select = $('<select class="form-control filter-prodi"><option value=""></option></select>')
+            //             .appendTo( $('#widgetSmt0 .dataTables_header .col-md-9'))
+            //             .on( 'change', function () {
+            //                 var val = $.fn.dataTable.util.escapeRegex(
+            //                     $(this).val()
+            //                 );
+            //
+            //                 column
+            //                     .search( val ? '^'+val+'$' : '', true, false )
+            //                     .draw();
+            //             } );
+            //         column.data().unique().sort().each( function ( d, j ) {
+            //             var f = d.split('div');
+            //             if(f.length<=1){
+            //                 select.append( '<option value="'+d+'">'+d+'</option>' )
+            //             } else {
+            //                 select.remove();
+            //             }
+            //         } );
+            //     } );
+            // }
         });
     }
 </script>

@@ -40,7 +40,7 @@ class C_api extends MY_Controller {
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
-        $result = $this->m_api->__getKurikulumByYear($data_arr['year']);
+        $result = $this->m_api->__getKurikulumByYear($data_arr['year'],$data_arr['ProdiID']);
 
         return print_r(json_encode($result));
     }
@@ -52,6 +52,11 @@ class C_api extends MY_Controller {
 
     public function getProdiSelectOption(){
         $data = $this->m_api->__getBaseProdiSelectOption();
+        return print_r(json_encode($data));
+    }
+
+    public function getKurikulumSelectOption(){
+        $data = $this->m_api->__getKurikulumSelectOption();
         return print_r(json_encode($data));
     }
 
@@ -112,6 +117,24 @@ class C_api extends MY_Controller {
         $data['dosen'] = $this->m_tahun_akademik->__getKetersediaanDosenByTahunAkademik($data_arr['ID']);
         print_r(json_encode($data['dosen']));
 //        $this->load->view('page/'.$data['department'].'/ketersediaan_dosen_detail',$data);
+    }
+
+
+    //-------- Kurikulum -----
+    public function insertKurikulum(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        // Cek Tahun
+        $data = $this->m_api->cekTahunKurikulum($data_arr['Year']);
+        if(count($data)>0){
+            return print_r(0);
+        } else {
+            $this->db->insert('db_akademik.curriculum',$data_arr);
+            return print_r(1);
+        }
+
     }
 
 

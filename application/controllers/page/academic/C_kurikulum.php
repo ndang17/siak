@@ -19,9 +19,7 @@ class C_kurikulum extends MY_Controller {
     public function kurikulum()
     {
         $data['department'] = parent::__getDepartement();
-        $data['kurikulum'] = $this->m_kurikulum->__getKurikulum();
-//        print_r($data['kurikulum']);
-        $data['last_kurikulum'] = $data['kurikulum'][0]['Year'];
+
 //        $content = $this->load->view('page/'.$data['department'].'/kurikulum',$data,true);
         $content = $this->load->view('page/'.$data['department'].'/kurikulum/kurikulum',$data,true);
         $this->temp($content);
@@ -34,6 +32,34 @@ class C_kurikulum extends MY_Controller {
         $data['token'] = $token;
         $this->load->view('page/'.$data['department'].'/kurikulum/kurikulum_detail',$data);
     }
+
+
+    //==== Modal Kurikulum =====
+    public function add_kurikulum(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>1){
+            $data['department'] = parent::__getDepartement();
+            $data['token'] = $token;
+            $data['kurikulum'] = $data_arr;
+            $this->load->view('page/'.$data['department'].'/kurikulum/modal_add_kurikulum',$data);
+        } else {
+            echo '<h3>Data Is Empty!</h3>';
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
 
     public function kurikulum_detail2(){
         $data_json = $this->input->post('data_json');

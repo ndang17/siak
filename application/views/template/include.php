@@ -101,6 +101,14 @@
         text-align: center;
     }
 
+
+    /* Untuk datatable */
+    .filter-prodi {
+        width: 250px;
+        float: right;
+        margin-right: 10px;
+    }
+
 </style>
 
 <!--=== JavaScript ===-->
@@ -242,9 +250,9 @@
         "closeButton": true,
         "debug": false,
         "newestOnTop": true,
-        "progressBar": true,
-        "positionClass": "toast-bottom-full-width",
-        "preventDuplicates": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "1000",
@@ -254,7 +262,7 @@
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+    };
 
     function loading_page(element) {
         $(''+element).html('<div class="row">' +
@@ -262,6 +270,11 @@
             '<h3 class="animated flipInX"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> <span>Loading page . . .</span></h3>' +
             '</div>' +
             '</div>');
+    }
+
+    function loading_button(element) {
+        $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
+        $(''+element).prop('disabled',true);
     }
     
     function convertDateMMtomm(mounth) {
@@ -281,6 +294,10 @@
         }
 
         return arr_mounth[mounth];
+    }
+
+    function dateTimeNow() {
+        return moment().format('YYYY-MM-DD HH:mm:ss');
     }
 
     function log(data) {
