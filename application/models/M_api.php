@@ -162,4 +162,15 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __geteducationLevel(){
+        $data = $this->db->query('SELECT * FROM db_akademik.education_level ORDER BY EducationLevelID DESC');
+
+        return $data->result_array();
+    }
+
+    public function __getDosenSelectOption(){
+        $data = $this->db->query('SELECT IDEmployee,NIP,NIDN,Name FROM db_employees.employees WHERE PositionMain = "14.7"');
+        return $data->result_array();
+    }
+
 }

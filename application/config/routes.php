@@ -26,6 +26,7 @@ $route['change-departement'] = 'dashboard/c_dashboard/change_departement';
 $route['academic/kurikulum'] = 'page/academic/c_kurikulum/kurikulum';
 $route['academic/kurikulum-detail'] = 'page/academic/c_kurikulum/kurikulum_detail';
 $route['academic/kurikulum/add-kurikulum'] = 'page/academic/c_kurikulum/add_kurikulum';
+$route['academic/kurikulum/add-semester'] = 'page/academic/c_kurikulum/add_semester';
 
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
@@ -61,6 +62,8 @@ $route['database/employees'] = 'page/database/c_database/employees';
 $route['api/__getKurikulumByYear'] = 'api/c_api/getKurikulumByYear';
 $route['api/__getBaseProdi'] = 'api/c_api/getProdi';
 $route['api/__getBaseProdiSelectOption'] = 'api/c_api/getProdiSelectOption';
+$route['api/__geteducationLevel'] = 'api/c_api/geteducationLevel';
+
 $route['api/__getMKByID'] = 'api/c_api/getMKByID';
 $route['api/__getSemester'] = 'api/c_api/getSemester';
 $route['api/__getLecturer'] = 'api/c_api/getLecturer';
@@ -73,5 +76,8 @@ $route['api/__changeTahunAkademik'] = 'api/c_api/changeTahunAkademik';
 
 $route['api/__insertKurikulum'] = 'api/c_api/insertKurikulum';
 $route['api/__getKurikulumSelectOption'] = 'api/c_api/getKurikulumSelectOption';
+
+
+$route['api/__getDosenSelectOption'] = 'api/c_api/getDosenSelectOption';
 
 

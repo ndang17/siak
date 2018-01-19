@@ -141,16 +141,8 @@
         window.noElement=1;
         loadSemester('form_semester');
         fillDays('DayName1','Eng');
-        fillMK('dataMK');
-
-
-        var url = base_url_js+'api/__getLecturer';
-        $.get(url,function (data) {
-            var option = $('#form_lecturer');
-            for(var i=0; i<data.length; i++){
-                option.append('<option value="'+data[i].NIP+'">'+data[i].NIP+' | '+data[i].Name+'</option>');
-            }
-        });
+        loadSelectOptionAllMataKuliah('#dataMK');
+        loadSelectOptionLecturers('#form_lecturer');
 
     });
 
@@ -292,7 +284,7 @@
             var div = $('#detailKetersediaanDosen');
 
             setTimeout(function(){
-                div.html('<table id="tableDetailTahun" class="table table-bordered table-striped" xmlns="http://www.w3.org/1999/html">' +
+                div.html('<table id="tableDetailTahun" class="table table-bordered table-striped">' +
                     '                    <thead>' +
                     '                    <tr>' +
                     '                        <th rowspan="2" style="width: 30%;">Name</th>' +
@@ -391,17 +383,6 @@
         // arr_ElementDay = [1];
 
 
-    }
-
-    function fillMK(element) {
-        var url = base_url_js+'api/__getAllMK';
-        var option = $('#'+element);
-
-        $.get(url,function (data) {
-            for(var i=0;i<data.length;i++){
-                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].MKCode+' | '+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
-            }
-        });
     }
 
     function fillDays(element,lang) {

@@ -40,7 +40,7 @@ class C_kurikulum extends MY_Controller {
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
-        if(count($data_arr)>1){
+        if(count($data_arr)>0){
             $data['department'] = parent::__getDepartement();
             $data['token'] = $token;
             $data['kurikulum'] = $data_arr;
@@ -53,7 +53,20 @@ class C_kurikulum extends MY_Controller {
     }
 
 
+    public function add_semester(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
 
+        if(count($data_arr)>0){
+            $data['department'] = parent::__getDepartement();
+            $data['semester'] = $data_arr['Semester'];
+            $this->load->view('page/'.$data['department'].'/kurikulum/modal_add_semester',$data);
+        } else {
+            echo '<h3>Data Is Empty!</h3>';
+        }
+
+    }
 
 
 

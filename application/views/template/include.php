@@ -303,4 +303,44 @@
     function log(data) {
         console.log(data);
     }
+
+    function loadSelectOptionBaseProdi(element) {
+        var url = base_url_js+"api/__getBaseProdiSelectOption";
+        $.get(url,function (data) {
+            for(var i=0;i<data.length;i++){
+                $(''+element).append('<option value="'+data[i].ID+'">'+data[i].Name+'</option>');
+            }
+        });
+    }
+
+    function loadSelectOptionEducationLevel(element) {
+        var url = base_url_js+"api/__geteducationLevel";
+        $.get(url,function (data) {
+            for(var i=0;i<data.length;i++){
+                $(''+element).append('<option value="'+data[i].ID+'">'+data[i].Name+'</option>');
+            }
+        });
+    }
+    
+    function loadSelectOptionAllMataKuliah(element) {
+
+        var url = base_url_js+'api/__getAllMK';
+        var option = $(''+element);
+
+        $.get(url,function (data) {
+            for(var i=0;i<data.length;i++){
+                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
+            }
+        });
+    }
+
+    function loadSelectOptionLecturers(element) {
+        var url = base_url_js+'api/__getDosenSelectOption';
+        $.get(url,function (data) {
+            var option = $(''+element);
+            for(var i=0; i<data.length; i++){
+                option.append('<option value="'+data[i].NIP+'">'+data[i].NIP+' | '+data[i].Name+'</option>');
+            }
+        });
+    }
 </script>

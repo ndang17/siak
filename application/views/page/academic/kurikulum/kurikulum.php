@@ -58,7 +58,7 @@
 <script>
     $(document).ready(function () {
         loadSelectOptionKurikulum();
-        loadSelectOption();
+        loadSelectOptionBaseProdi('#selectProdi');
         loaddataAddKurikulum();
         $('.btn-addsmt').prop('disabled',true);
 
@@ -113,14 +113,7 @@
             pageKurikulum();
         });
     }
-    function loadSelectOption() {
-        var url = base_url_js+"api/__getBaseProdiSelectOption";
-        $.get(url,function (data) {
-            for(var i=0;i<data.length;i++){
-                $('#selectProdi').append('<option value="'+data[i].ID+'">'+data[i].Name+'</option>');
-            }
-        });
-    }
+
     function loaddataAddKurikulum() {
         for(var i=0;i<4;i++){
             $('#yearAddKurikulum').append('<li>' +
@@ -153,5 +146,22 @@
     }
     function modal_add_semester(semester) {
         var url = base_url_js+"academic/kurikulum/add-semester";
+        var curriculumYear = $('#selectKurikulum').find(':selected').val();
+        var data = {
+            Semester : semester,
+            curriculumYear : curriculumYear
+        };
+        var token = jwt_encode(data,"UAP)(*");
+        $.post(url,{ token:token }, function (html) {
+            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">Add Semester '+semester+' - Kurikulum '+curriculumYear+'</h4>');
+            $('#GlobalModal .modal-body').html(html);
+            $('#GlobalModal .modal-footer').html(' ');
+            $('#GlobalModal').modal({
+                'show' : true,
+                'backdrop' : 'static'
+            });
+        })
     }
 </script>

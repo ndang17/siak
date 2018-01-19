@@ -137,6 +137,15 @@ class C_api extends MY_Controller {
 
     }
 
+    public function geteducationLevel(){
+        $data = $this->m_api->__geteducationLevel();
+        return print_r(json_encode($data));
+    }
+
+    public function getDosenSelectOption(){
+        $data = $this->m_api->__getDosenSelectOption();
+        return print_r(json_encode($data));
+    }
 
 
 }
