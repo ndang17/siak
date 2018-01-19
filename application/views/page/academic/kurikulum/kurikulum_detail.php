@@ -126,7 +126,7 @@
                 '                        <h4><i class="icon-reorder"></i> SEMESTER '+MataKuliah[i].Semester+'</h4>' +
                 '<div class="toolbar no-padding">' +
                 '    <div class="btn-group">' +
-                '                        <span data-smt="'+MataKuliah[i].Semester+'" data-id="'+MataKuliah[i].CurriculumID+'" class="btn btn-xs btn-add-mksmt">' +
+                '                        <span data-smt="'+MataKuliah[i].Semester+'" class="btn btn-xs btn-add-mksmt">' +
                 '    <i class="icon-plus"></i> Add Mata Kuliah' +
                 '     </span>' +
                 '    </div>' +

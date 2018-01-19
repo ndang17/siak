@@ -1,7 +1,7 @@
 
 
 <div class="row" style="margin-top: 30px;">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
         <div class="thumbnail">
             <div class="row">
                 <div class="col-xs-3" style="">
@@ -12,32 +12,36 @@
                         <option value="">--- All Prodi ---</option>
                     </select>
                 </div>
-<!--                <div class="col-xs-4">-->
-<!--                    <button class="btn btn-default"><i class="fa fa-download right-margin" aria-hidden="true"></i> Excel</button>-->
-<!--                    <button class="btn btn-default"><i class="fa fa-download right-margin" aria-hidden="true"></i>PDF</button>-->
-<!--                </div>-->
                 <div class="col-xs-6" style="text-align: right;">
-<!--                    <button data-page="inputjadwal" data-action="add-kurikulum" class="btn btn-success btn-action btn-control"><i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Kerikulum</button>-->
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-addkuriulum">Add Kurikulum</button>
-                        <button type="button" class="btn btn-success btn-addkuriulum dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Add Kurikulum
                             <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" id="yearAddKurikulum">
                         </ul>
                     </div>
 
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-default-success btn-addsmt">Add Semester</button>
-                        <button type="button" class="btn btn-default btn-default-success btn-addsmt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-default btn-default-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Add Semester
                             <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" id="addSmt">
                         </ul>
                     </div>
-<!--                    <button data-page="ruangan" class="btn btn-primary btn-action control-jadwal"><i class="fa fa-eye right-margin" aria-hidden="true"></i> All Mata Kuliah</button>-->
+
+                    <div class="btn-group">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Conf.
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="javascript:void(0)" data-action="ConfJenisKurikulum" class="btn-conf">Jenis Kurikulum</a></li>
+                            <li><a href="javascript:void(0)" data-action="ConfJenisKelompok" class="btn-conf">Kelompok</a></li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
 
@@ -61,12 +65,23 @@
         loadSelectOptionBaseProdi('#selectProdi');
         loaddataAddKurikulum();
         $('.btn-addsmt').prop('disabled',true);
-
     });
 
     $(document).on('change','#selectKurikulum, #selectProdi',function () {
         $('.btn-addsmt').prop('disabled',true);
         pageKurikulum();
+    });
+
+    $(document).on('click','.btn-add-mksmt', function () {
+       var semester = $(this).attr('data-smt');
+       modal_add_mk(semester);
+    });
+
+    $(document).on('click','.btn-conf',function () {
+        var action = $(this).attr('data-action');
+        if(action == 'ConfJenisKurikulum' || action == 'ConfJenisKelompok'){
+            modal_dataConf(action);
+        }
     });
 
     $(document).on('click','.btn-control',function () {
@@ -77,7 +92,7 @@
             modal_add_kurikulum(year);
         } else if(action=='add-semester'){
             var semester = $(this).attr('data-smt');
-            modal_add_semester(semester);
+            modal_add_mk(semester);
         }
 
 
@@ -113,9 +128,8 @@
             pageKurikulum();
         });
     }
-
     function loaddataAddKurikulum() {
-        for(var i=0;i<4;i++){
+        for(var i=0;i<2;i++){
             $('#yearAddKurikulum').append('<li>' +
                 '<a href="javascript:void(0)" data-year="'+moment().add(i,'years').year()+'" data-action="add-kurikulum" class="btn-control">' +
                 'Kurikulum '+moment().add(i,'years').year()+'' +
@@ -144,7 +158,7 @@
             });
         })
     }
-    function modal_add_semester(semester) {
+    function modal_add_mk(semester) {
         var url = base_url_js+"academic/kurikulum/add-semester";
         var curriculumYear = $('#selectKurikulum').find(':selected').val();
         var data = {
@@ -155,13 +169,37 @@
         $.post(url,{ token:token }, function (html) {
             $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span></button>' +
-                '<h4 class="modal-title">Add Semester '+semester+' - Kurikulum '+curriculumYear+'</h4>');
+                '<h4 class="modal-title">Add MK Semester '+semester+' - Kurikulum '+curriculumYear+'</h4>');
+            $('#GlobalModal .modal-body').css('padding-bottom','0px');
             $('#GlobalModal .modal-body').html(html);
+            $('#GlobalModal .modal-footer').css('margin-top','0px');
             $('#GlobalModal .modal-footer').html(' ');
             $('#GlobalModal').modal({
                 'show' : true,
                 'backdrop' : 'static'
             });
         })
+    }
+    function modal_dataConf(action) {
+        var url = base_url_js+'';
+
+        var header = 'Jenis Kurikulum';
+        if(action=='ConfJenisKurikulum'){
+            header = 'Kelompok';
+        }
+        
+        $.post(url,{}, function (html) {
+            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">'+header+'</h4>');
+            $('#GlobalModal .modal-body').css('padding-bottom','0px');
+            $('#GlobalModal .modal-body').html(html);
+            $('#GlobalModal .modal-footer').css('margin-top','0px');
+            $('#GlobalModal .modal-footer').html(' ');
+            $('#GlobalModal').modal({
+                'show' : true,
+                'backdrop' : 'static'
+            });
+        });
     }
 </script>

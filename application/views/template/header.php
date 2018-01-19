@@ -158,7 +158,7 @@
 </header> <!-- /.header -->
 
 <!-- Global Modal -->
-<div class="modal fade" id="GlobalModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="GlobalModal" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content animated jackInTheBox">
             <div class="modal-header"></div>
