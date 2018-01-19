@@ -68,6 +68,23 @@ class C_kurikulum extends MY_Controller {
 
     }
 
+    public function getDataConf(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $table = 'courses_groups';
+        if($data_arr['action']=='ConfJenisKurikulum') {
+            $table = 'curriulum_types';
+        }
+        $data['conf'] = $this->m_kurikulum->__getDataConf($table);
+
+        $data['department'] = parent::__getDepartement();
+
+        $this->load->view('page/'.$data['department'].'/kurikulum/kurikulum_conf',$data);
+
+    }
+
 
 
 

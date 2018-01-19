@@ -11,6 +11,12 @@ class M_kurikulum extends CI_Model {
 //        return $data->result_array();
 //    }
 
+    public function __getDataConf($table){
+        $data = $this->db->query('SELECT * FROM db_akademik.'.$table.' ORDER BY ID ASC');
+
+        return $data->result_array();
+    }
+
 
 
 

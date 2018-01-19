@@ -27,6 +27,7 @@ $route['academic/kurikulum'] = 'page/academic/c_kurikulum/kurikulum';
 $route['academic/kurikulum-detail'] = 'page/academic/c_kurikulum/kurikulum_detail';
 $route['academic/kurikulum/add-kurikulum'] = 'page/academic/c_kurikulum/add_kurikulum';
 $route['academic/kurikulum/add-semester'] = 'page/academic/c_kurikulum/add_semester';
+$route['academic/kurikulum/data-conf'] = 'page/academic/c_kurikulum/getDataConf';
 
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
@@ -79,5 +80,6 @@ $route['api/__getKurikulumSelectOption'] = 'api/c_api/getKurikulumSelectOption';
 
 
 $route['api/__getDosenSelectOption'] = 'api/c_api/getDosenSelectOption';
+
 
 

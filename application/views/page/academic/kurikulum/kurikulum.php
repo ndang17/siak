@@ -170,9 +170,7 @@
             $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span></button>' +
                 '<h4 class="modal-title">Add MK Semester '+semester+' - Kurikulum '+curriculumYear+'</h4>');
-            $('#GlobalModal .modal-body').css('padding-bottom','0px');
             $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').css('margin-top','0px');
             $('#GlobalModal .modal-footer').html(' ');
             $('#GlobalModal').modal({
                 'show' : true,
@@ -181,20 +179,23 @@
         })
     }
     function modal_dataConf(action) {
-        var url = base_url_js+'';
+        var url = base_url_js+'academic/kurikulum/data-conf';
 
-        var header = 'Jenis Kurikulum';
+        var header = 'Kelompok';
         if(action=='ConfJenisKurikulum'){
-            header = 'Kelompok';
+            header = 'Jenis Kurikulum';
         }
-        
-        $.post(url,{}, function (html) {
+
+        var data = {
+            action : action
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+        $.post(url,{token:token}, function (html) {
             $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span></button>' +
                 '<h4 class="modal-title">'+header+'</h4>');
-            $('#GlobalModal .modal-body').css('padding-bottom','0px');
             $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').css('margin-top','0px');
             $('#GlobalModal .modal-footer').html(' ');
             $('#GlobalModal').modal({
                 'show' : true,
