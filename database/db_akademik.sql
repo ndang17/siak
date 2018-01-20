@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.4.3 (64 bit)
-MySQL - 10.1.25-MariaDB : Database - db_akademik
+SQLyog Community v12.5.0 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_akademik
 *********************************************************************
 */
 
@@ -15,6 +15,27 @@ MySQL - 10.1.25-MariaDB : Database - db_akademik
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_akademik` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `db_akademik`;
+
+/*Table structure for table `courses_groups` */
+
+DROP TABLE IF EXISTS `courses_groups`;
+
+CREATE TABLE `courses_groups` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(200) DEFAULT NULL,
+  `UpdateBy` varchar(30) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+/*Data for the table `courses_groups` */
+
+insert  into `courses_groups`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
+(1,'Mk. Pengembangan Kepribadian','2017090','2018-01-01 00:18:28'),
+(2,'Mk. Keilmuan & Ketrampilan','2017090','2018-01-02 00:18:41'),
+(3,'Mk. Keahlian Berkarya','2017090','2018-01-02 00:18:41'),
+(4,'Mk. Perilaku Berkarya','2017090','2018-01-02 00:18:41'),
+(5,'Mk. Berkehidupan & Bermasyarakat','2017090','2018-01-02 00:18:41');
 
 /*Table structure for table `curriculum` */
 
@@ -994,6 +1015,24 @@ insert  into `curriculum_details`(`ID`,`CurriculumID`,`MKID`,`MKCode`,`ProdiID`,
 (927,4,123,'HOT0013',5,NULL,2,2,2,0,0,'0','0','2017090','2018-01-08 10:10:10'),
 (928,4,120,'HOT0010',5,NULL,2,2,2,0,0,'0','0','2017090','2018-01-08 10:10:10'),
 (929,4,121,'HOT0011',5,NULL,2,2,2,0,0,'0','0','2017090','2018-01-08 10:10:10');
+
+/*Table structure for table `curriculum_types` */
+
+DROP TABLE IF EXISTS `curriculum_types`;
+
+CREATE TABLE `curriculum_types` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(100) DEFAULT NULL,
+  `UpdateBy` varchar(30) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `curriculum_types` */
+
+insert  into `curriculum_types`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
+(1,'Kurikulum Inti','2017090','2018-01-01 00:17:16'),
+(2,'Kurikulum Institusional','2017090','2018-01-02 00:17:24');
 
 /*Table structure for table `education_level` */
 

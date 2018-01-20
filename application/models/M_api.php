@@ -173,4 +173,10 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __getItemKuriklum($table){
+
+        $data = $this->db->query('SELECT * FROM db_akademik.'.$table);
+        return $data->result_array();
+    }
+
 }

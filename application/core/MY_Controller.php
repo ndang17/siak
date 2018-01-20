@@ -12,6 +12,8 @@ class MY_Controller extends CI_Controller {
             $this->session->set_userdata('departement_nav', 'academic');
         }
 
+        $this->session->set_userdata('nip', '2017090');
+
         $this->load->model('master/m_master');
         $this->load->library('JWT');
     }

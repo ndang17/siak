@@ -147,5 +147,35 @@ class C_api extends MY_Controller {
         return print_r(json_encode($data));
     }
 
+    public function crudKurikulum(){
+
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+//        print_r($data_arr);
+//        exit;
+        if($data_arr['action']=='add'){
+            $insert = (array) $data_arr['data_insert'];
+            $this->db->insert('db_akademik.'.$data_arr['table'],$insert);
+            $insert_id = $this->db->insert_id();
+            return print_r($insert_id);
+        } else if($data_arr['action']=='edit'){
+            $dataupdate = (array) $data_arr['data_insert'];
+            $this->db->where('ID', $data_arr['ID']);
+            $this->db->update('db_akademik.'.$data_arr['table'],$dataupdate);
+            return print_r(1);
+        } else if($data_arr['action']=='delete'){
+            $this->db->where('ID', $data_arr['ID']);
+            $this->db->delete('db_akademik.'.$data_arr['table']);
+            return print_r(1);
+        } else if($data_arr['action']=='read'){
+            $data = $this->m_api->__getItemKuriklum($data_arr['table']);
+            return print_r(json_encode($data));
+        }
+    }
+
+
+
 
 }

@@ -149,7 +149,7 @@
 
         <div class="form-group">
             <label class="col-sm-4 control-label">Status MK</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="border-top: 1px solid #d3d3d3;">
                 <label class="radio-inline">
                     <input type="radio" name="statusMK" value="1" checked> Aktif
                 </label>
@@ -161,7 +161,7 @@
 
         <div class="form-group">
             <label class="col-sm-4 control-label">Silabus</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="border-top: 1px solid #d3d3d3;">
                 <label class="radio-inline">
                     <input type="radio" name="silabus" value="1"> Ada
                 </label>
@@ -173,7 +173,7 @@
 
         <div class="form-group">
             <label class="col-sm-4 control-label">SAP</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="border-top: 1px solid #d3d3d3;">
                 <label class="radio-inline">
                     <input type="radio" name="sap" value="1"> Ada
                 </label>
@@ -206,6 +206,18 @@
         $('#ModalSelectMK, #ModalPrasyaratSelectMK, #ModalLecturers').select2({
             allowClear: true
         });
+
+        var url = base_url_js+"api/__crudKurikulum";
+        var data = {
+            action : 'read',
+            table : 'curriculum_types'
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+
+        $.post(url,{token:token},function (data_json) {
+            console.log(data_json);
+        })
 
     });
 

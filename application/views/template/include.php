@@ -214,6 +214,7 @@
 <!-- Custom -->
 <script type="text/javascript">
     window.base_url_js = "<?php echo base_url(); ?>";
+    window.sessionNIP = "<?php echo $this->session->userdata('nip'); ?>";
 
     $(document).ready(function(){
         "use strict";
@@ -274,6 +275,11 @@
 
     function loading_button(element) {
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
+        $(''+element).prop('disabled',true);
+    }
+
+    function loading_buttonSm(element) {
+        $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw"></i>');
         $(''+element).prop('disabled',true);
     }
     

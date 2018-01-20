@@ -75,11 +75,12 @@ class C_kurikulum extends MY_Controller {
 
         $table = 'courses_groups';
         if($data_arr['action']=='ConfJenisKurikulum') {
-            $table = 'curriulum_types';
+            $table = 'curriculum_types';
         }
         $data['conf'] = $this->m_kurikulum->__getDataConf($table);
 
         $data['department'] = parent::__getDepartement();
+        $data['table'] = $table;
 
         $this->load->view('page/'.$data['department'].'/kurikulum/kurikulum_conf',$data);
 
