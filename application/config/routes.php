@@ -82,6 +82,7 @@ $route['api/__getKurikulumSelectOption'] = 'api/c_api/getKurikulumSelectOption';
 $route['api/__getDosenSelectOption'] = 'api/c_api/getDosenSelectOption';
 
 $route['api/__crudKurikulum'] = 'api/c_api/crudKurikulum';
+$route['api/__crudDetailMK'] = 'api/c_api/crudDetailMK';
 
 
 

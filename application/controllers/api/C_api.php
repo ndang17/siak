@@ -175,7 +175,17 @@ class C_api extends MY_Controller {
         }
     }
 
+    public function crudDetailMK(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
 
-
+        if($data_arr['action']=='add'){
+            $insert = (array) $data_arr['dataForm'];
+            $this->db->insert('db_akademik.curriculum_details',$insert);
+            $insert_id = $this->db->insert_id();
+            return print_r($insert_id);
+        }
+    }
 
 }

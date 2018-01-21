@@ -349,4 +349,25 @@
             }
         });
     }
+
+    function loadSelectOptionConf(element,jenis) {
+
+        var table = jenis;
+
+        var url = base_url_js+"api/__crudKurikulum";
+        var data = {
+            action : 'read',
+            table : table
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+
+        $.post(url,{token:token},function (data_json) {
+            if(data_json.length>0){
+                for(var i=0;i<data_json.length;i++){
+                    $(''+element).append('<option value="'+data_json[i].ID+'">'+data_json[i].Name+'</option>');
+                }
+            }
+        })
+    }
 </script>

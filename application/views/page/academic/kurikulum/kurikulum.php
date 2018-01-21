@@ -100,7 +100,8 @@
 
 
     function pageKurikulum() {
-        var year = $('#selectKurikulum').find(':selected').val();
+        var kurikulum = $('#selectKurikulum').find(':selected').val().split('.');
+        var year = kurikulum[1].trim();
         var prodiID = $('#selectProdi').find(':selected').val();
         loading_page('#pageKurikulum');
         var url = base_url_js+'academic/kurikulum-detail';
@@ -122,7 +123,7 @@
         $.get(url,function (data_json) {
             for(var i=0;i<data_json.length;i++){
                 var selected = (i==0) ? 'selected' : '';
-                $('#selectKurikulum').append('<option value="'+data_json[i].Year+'" '+selected+'>'+data_json[i].Name+'</option>');
+                $('#selectKurikulum').append('<option value="'+data_json[i].ID+'.'+data_json[i].Year+'" '+selected+'>'+data_json[i].Name+'</option>');
             }
         }).done(function () {
             pageKurikulum();
@@ -167,9 +168,7 @@
         };
         var token = jwt_encode(data,"UAP)(*");
         $.post(url,{ token:token }, function (html) {
-            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span></button>' +
-                '<h4 class="modal-title">Add MK Semester '+semester+' - Kurikulum '+curriculumYear+'</h4>');
+            $('#GlobalModal .modal-header').html('<h4 class="modal-title">Add MK Semester '+semester+' - Kurikulum '+curriculumYear+'</h4>');
             $('#GlobalModal .modal-body').html(html);
             $('#GlobalModal .modal-footer').html(' ');
             $('#GlobalModal').modal({
