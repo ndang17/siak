@@ -161,7 +161,7 @@
                 $('#dataSmt'+i).append('<tr>' +
                     '<td class="td-center">'+(no++)+'</td>' +
                     '<td class="td-center">'+detailSemester[s].MKCode+'</td>' +
-                    '<td><div><a><b>'+detailSemester[s].NameMK+'</b></a>' +
+                    '<td><div><a href="javascript:void(0)" class="detailMataKuliah" data-smt="'+MataKuliah[i].Semester+'" data-id="'+detailSemester[s].CDID+'"><b>'+detailSemester[s].NameMK+'</b></a>' +
                     '</td>' +
                     '<td><div>'+detailSemester[s].NameLecturer+'</td>' +
                     '<td>'+detailSemester[s].ProdiName+'</td>' +

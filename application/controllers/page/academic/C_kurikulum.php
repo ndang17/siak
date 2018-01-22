@@ -53,13 +53,15 @@ class C_kurikulum extends MY_Controller {
     }
 
 
-    public function add_semester(){
+    public function loadPageDetailMataKuliah(){
         $token = $this->input->post('token');
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
         if(count($data_arr)>0){
             $data['department'] = parent::__getDepartement();
+            $data['CDID'] = $data_arr['CDID'];
+            $data['action'] = $data_arr['Action'];
             $data['semester'] = $data_arr['Semester'];
             $this->load->view('page/'.$data['department'].'/kurikulum/modal_add_semester',$data);
         } else {

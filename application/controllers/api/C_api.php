@@ -14,23 +14,23 @@ class C_api extends MY_Controller {
 
 
     // ========= API =========
-    public function getKurikulumByYear2(){
-
-        $year = $this->input->get('year');
-
-        $data['detail'] = $this->m_api->__getKurikulumByYear($year);
-
-        $result = null;
-
-        if($data['detail']!=null){
-            $data['grade'] = $this->m_api->__getGradeByIDKurikulum($data['detail'][0]['ID']);
-            $data['mk'] = $this->m_api->__getMataKuliahByIDKurikulum($data['detail'][0]['ID']);
-            $result = $data;
-        }
-
-
-        return print_r(json_encode($result));
-    }
+//    public function getKurikulumByYear2(){
+//
+//        $year = $this->input->get('year');
+//
+//        $data['detail'] = $this->m_api->__getKurikulumByYear($year);
+//
+//        $result = null;
+//
+//        if($data['detail']!=null){
+//            $data['grade'] = $this->m_api->__getGradeByIDKurikulum($data['detail'][0]['ID']);
+//            $data['mk'] = $this->m_api->__getMataKuliahByIDKurikulum($data['detail'][0]['ID']);
+//            $result = $data;
+//        }
+//
+//
+//        return print_r(json_encode($result));
+//    }
 
     public function getKurikulumByYear(){
 
@@ -188,4 +188,17 @@ class C_api extends MY_Controller {
         }
     }
 
+    public function getdetailKurikulum(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if($data_arr>0){
+            $CDID = $data_arr['CDID'];
+            $data = $this->m_api->__getdetailKurikulum($CDID);
+
+            return print_r(json_encode($data));
+        }
+
+    }
 }

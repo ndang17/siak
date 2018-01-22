@@ -74,7 +74,7 @@
 
     $(document).on('click','.btn-add-mksmt', function () {
        var semester = $(this).attr('data-smt');
-       modal_add_mk(semester);
+       modal_add_mk(semester,'add');
     });
 
     $(document).on('click','.btn-conf',function () {
@@ -92,10 +92,16 @@
             modal_add_kurikulum(year);
         } else if(action=='add-semester'){
             var semester = $(this).attr('data-smt');
-            modal_add_mk(semester);
+            modal_add_mk(semester,'add');
         }
 
 
+    });
+
+    $(document).on('click','.detailMataKuliah',function () {
+        var semester = $(this).attr('data-smt');
+        var CDID = $(this).attr('data-id');
+        modal_add_mk(semester,'edit',CDID);
     });
 
 
@@ -159,10 +165,13 @@
             });
         })
     }
-    function modal_add_mk(semester) {
-        var url = base_url_js+"academic/kurikulum/add-semester";
-        var curriculumYear = $('#selectKurikulum').find(':selected').val();
+    function modal_add_mk(semester,action,ID='') {
+        var url = base_url_js+"academic/kurikulum/loadPageDetailMataKuliah";
+        var curriculum = $('#selectKurikulum').find(':selected').val().split('.');
+        var curriculumYear = curriculum[1];
         var data = {
+            Action : action,
+            CDID : ID,
             Semester : semester,
             curriculumYear : curriculumYear
         };

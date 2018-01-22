@@ -4,14 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_api extends CI_Model {
 
 
-    public function __getKurikulumByYear2($year)
-    {
-        $data = $this->db->query('SELECT c.*,e.Name AS UpdateByName FROM db_akademik.curriculum c 
-                                            JOIN db_employees.employees e 
-                                            ON (c.UpdateBy=e.NIP) WHERE c.Year="'.$year.'" LIMIT 1');
-
-        return $data->result_array();
-    }
+//    public function __getKurikulumByYear2($year)
+//    {
+//        $data = $this->db->query('SELECT c.*,e.Name AS UpdateByName FROM db_akademik.curriculum c
+//                                            JOIN db_employees.employees e
+//                                            ON (c.UpdateBy=e.NIP) WHERE c.Year="'.$year.'" LIMIT 1');
+//
+//        return $data->result_array();
+//    }
 
     public function __getGradeByIDKurikulum($CurriculumID){
         $data = $this->db->query('SELECT * FROM db_akademik.grade WHERE CurriculumID = "'.$CurriculumID.'" ');
@@ -119,7 +119,7 @@ class M_api extends CI_Model {
         if($ProdiID!=''){
             $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
                                            mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
-                                           cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
+                                           cd.ID AS CDID, cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
                                            cd.SKSPraktikum, cd.SKSPraktikLapangan,
                                            em.Name AS NameLecturer
                                                 FROM db_akademik.curriculum_details cd 
@@ -133,7 +133,7 @@ class M_api extends CI_Model {
         } else {
             $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
                                            mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
-                                           cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
+                                           cd.ID AS CDID, cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
                                            cd.SKSPraktikum, cd.SKSPraktikLapangan,
                                            em.Name AS NameLecturer
                                                 FROM db_akademik.curriculum_details cd 
@@ -176,6 +176,27 @@ class M_api extends CI_Model {
     public function __getItemKuriklum($table){
 
         $data = $this->db->query('SELECT * FROM db_akademik.'.$table);
+        return $data->result_array();
+    }
+
+    public function __getdetailKurikulum($CDID){
+
+        $data = $this->db->query('SELECT cd.*,
+                                    ct.Name AS NameCurriculumType,
+                                    ps.Name AS NameProdi,
+                                    el.Name AS NameEducationLevel,
+                                    cg.Name AS NameCoursesGroups,
+                                    em.Name AS NameLecturer,
+                                    mk.Name AS NameMK
+                                    FROM db_akademik.curriculum_details cd
+                                    LEFT JOIN db_akademik.curriculum_types ct ON (ct.ID = cd.CurriculumTypeID)
+                                    LEFT JOIN db_akademik.program_study ps ON (ps.ID = cd.ProdiID)
+                                    LEFT JOIN db_akademik.education_level el ON (el.ID = cd.EducationLevelID)
+                                    LEFT JOIN db_akademik.courses_groups cg ON (cg.ID = cd.CoursesGroupsID)
+                                    LEFT JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
+                                    LEFT JOIN db_akademik.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+                                    WHERE cd.ID = "'.$CDID.'" ');
+
         return $data->result_array();
     }
 

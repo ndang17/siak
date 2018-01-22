@@ -26,7 +26,8 @@ $route['change-departement'] = 'dashboard/c_dashboard/change_departement';
 $route['academic/kurikulum'] = 'page/academic/c_kurikulum/kurikulum';
 $route['academic/kurikulum-detail'] = 'page/academic/c_kurikulum/kurikulum_detail';
 $route['academic/kurikulum/add-kurikulum'] = 'page/academic/c_kurikulum/add_kurikulum';
-$route['academic/kurikulum/add-semester'] = 'page/academic/c_kurikulum/add_semester';
+$route['academic/kurikulum/loadPageDetailMataKuliah'] = 'page/academic/c_kurikulum/loadPageDetailMataKuliah';
+
 $route['academic/kurikulum/data-conf'] = 'page/academic/c_kurikulum/getDataConf';
 
 
@@ -83,6 +84,8 @@ $route['api/__getDosenSelectOption'] = 'api/c_api/getDosenSelectOption';
 
 $route['api/__crudKurikulum'] = 'api/c_api/crudKurikulum';
 $route['api/__crudDetailMK'] = 'api/c_api/crudDetailMK';
+
+$route['api/__getdetailKurikulum'] = 'api/c_api/getdetailKurikulum';
 
 
 

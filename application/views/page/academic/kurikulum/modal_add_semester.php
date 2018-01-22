@@ -1,4 +1,3 @@
-
 <div class="col-md-12" id="modalAddSmester">
     <form class="form-horizontal">
         <div class="form-group">
@@ -53,7 +52,8 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">Mata Kuliah</label>
             <div class="col-sm-8">
-                <select class="select2-select-00 full-width-fix" size="5" id="ModalSelectMK">
+                <select class="select2-select-00 full-width-fix"
+                        size="5" id="ModalSelectMK">
                     <option value=""></option>
                 </select>
             </div>
@@ -72,14 +72,19 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">Pra Syarat</label>
             <div class="col-sm-8">
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="ModalPrasyarat" value="0" checked> Tidak Ada
-                </label>
-                <div style="margin-top: 10px;">
-                    <select class="select2-select-00 full-width-fix" size="5" multiple disabled id="ModalPrasyaratSelectMK">
-                        <option value=""></option>
-                    </select>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="ModalPrasyarat" value="0" checked> Tidak Ada
+                        </label>
+                        <div style="margin-top: 10px;">
+                            <select class="select2-select-00 full-width-fix" size="5" multiple disabled id="ModalPrasyaratSelectMK">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -196,6 +201,7 @@
 
 <script>
     $(document).ready(function () {
+
         loadSelectOptionBaseProdi('#ModalSelectProdi');
         loadSelectOptionEducationLevel('#ModalSelectJenjang');
         loadSelectOptionAllMataKuliah('#ModalSelectMK');
@@ -205,9 +211,67 @@
         loadSelectOptionConf('#ModalJenisKurikulum','curriculum_types');
         loadSelectOptionConf('#ModalKelompokMK','courses_groups');
 
-        $('#ModalSelectMK, #ModalPrasyaratSelectMK, #ModalLecturers').select2({
-            allowClear: true
-        });
+        $('#ModalPrasyaratSelectMK').select2({allowClear: true});
+
+        var action = '<?php echo $action; ?>';
+        if(action=='add'){
+            $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+            log('add');
+        } else if(action=='edit'){
+
+            $('.rw-view').removeClass('hide');
+            $('.rw-form').addClass('hide');
+            $('input[name=jenisMK]').prop('disabled',true);
+
+            var CDID = '<?php echo $CDID; ?>';
+            var data = {
+                CDID : CDID
+            }
+
+            var url = base_url_js+"api/__getdetailKurikulum";
+            var token = jwt_encode(data,"UAP)(*");
+            $.post(url,{token:token},function (data_json) {
+                var data = data_json[0];
+
+                $('#ModalJenisKurikulum').val(data.CurriculumTypeID);
+
+                $('#ModalSelectProdi').val(data.ProdiID);
+
+                $('#ModalSelectJenjang').val(data.EducationLevelID);
+
+
+                $('#ModalSelectMK').select2({allowClear: true}).val(data.MKID+'.'+data.MKCode).trigger('change');
+                $('input[name=jenisMK][value='+data.MKType+']').prop('checked',true);
+
+                $('#ModalLecturers').select2({allowClear: true}).val(data.LecturerNIP).trigger('change');
+
+                $('#ModalKelompokMK').val(data.CoursesGroupsID);
+
+
+                if(data.StatusPrecondition==1){
+                    $('#ModalPrasyarat').prop('checked',false);
+                    $('#ModalPrasyaratSelectMK').prop('disabled',false);
+                } else {
+                    $('#ModalPrasyarat').prop('checked',true);
+                }
+
+                $('#ModalLecturersVal').html(data.LecturerNIP+' | '+data.NameLecturer);
+
+                $('#ModalKelompokMKVal').html(data.NameCoursesGroups);
+
+                $('#ModalFormTotalSKS').val(data.TotalSKS);
+                $('#ModalFormSKSTeori').val(data.SKSTeori);
+                $('#ModalFormSKSPraktek').val(data.SKSPraktikum);
+                $('#ModalFormSKSPraktekLapangan').val(data.SKSPraktikLapangan);
+
+                $('input[name=statusMK][value='+data.StatusMK+']').prop('checked',true);
+                $('input[name=silabus][value='+data.StatusSilabus+']').prop('checked',true);
+                $('input[name=sap][value='+data.StatusSAP+']').prop('checked',true);
+
+            });
+        }
+
+
 
     });
 
