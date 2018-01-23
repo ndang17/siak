@@ -243,7 +243,38 @@ class C_api extends MY_Controller {
 
     public function cekMKCode(){
         $MKCode = $this->input->post('MKCode');
-        $data = $this->m_api->__cekMKCode('UNI1004');
+        $data = $this->m_api->__cekMKCode($MKCode);
         return print_r(json_encode($data));
     }
+
+    public function crudMetaKuliah(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='add'){
+                $dataInsert = (array) $data_arr['dataForm'];
+                $this->db->insert('db_akademik.mata_kuliah',$dataInsert);
+                $insert_id = $this->db->insert_id();
+
+                return print_r($insert_id);
+            }
+            else if($data_arr['action']=='edit')
+            {
+                $dataInsert = (array) $data_arr['dataForm'];
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->update('db_akademik.mata_kuliah',$dataInsert);
+
+                return print_r(1);
+            }
+            else if($data_arr['action']=='delete')
+            {
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->delete('db_akademik.mata_kuliah');
+                return print_r(1);
+            }
+        }
+    }
+
 }

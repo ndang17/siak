@@ -20,8 +20,14 @@ class C_matakuliah extends MY_Controller {
     {
         $department = parent::__getDepartement();
         $data['data_mk'] = $this->m_matakuliah->__getAllMK();
-        $content = $this->load->view('page/'.$department.'/mata_kuliah',$data,true);
+        $content = $this->load->view('page/'.$department.'/matakuliah/matakuliah',$data,true);
         $this->temp($content);
+    }
+
+    public function dataTableMK(){
+        $department = parent::__getDepartement();
+        $data['data_mk'] = $this->m_matakuliah->__getAllMK();
+        $this->load->view('page/'.$department.'/matakuliah/matakuliah_table',$data);
     }
 
 }

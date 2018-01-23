@@ -33,6 +33,7 @@ $route['academic/kurikulum/data-conf'] = 'page/academic/c_kurikulum/getDataConf'
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
 $route['academic/matakuliah'] = 'page/academic/c_matakuliah/mata_kuliah';
+$route['academic/dataTableMK'] = 'page/academic/c_matakuliah/dataTableMK';
 
 $route['academic/tahun-akademik'] = 'page/academic/c_tahun_akademik/tahun_akademik';
 $route['academic/tahun-akademik/(:any)'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail/$1';
@@ -88,6 +89,9 @@ $route['api/__crudDetailMK'] = 'api/c_api/crudDetailMK';
 $route['api/__getdetailKurikulum'] = 'api/c_api/getdetailKurikulum';
 $route['api/__genrateMKCode'] = 'api/c_api/genrateMKCode';
 $route['api/__cekMKCode'] = 'api/c_api/cekMKCode';
+
+$route['api/__crudMetaKuliah'] = 'api/c_api/crudMetaKuliah';
+
 
 
 

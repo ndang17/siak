@@ -54,7 +54,10 @@ class M_api extends CI_Model {
     }
 
     public function __getAllMK(){
-        $data = $this->db->query('SELECT mk.*,pg.Code FROM db_akademik.mata_kuliah mk JOIN db_akademik.program_study pg ON (mk.BaseProdiID = pg.ID)');
+        $data = $this->db->query('SELECT mk.*,pg.Code, pg.Name AS NameProdi 
+                                    FROM db_akademik.mata_kuliah mk 
+                                    JOIN db_akademik.program_study pg 
+                                    ON (mk.BaseProdiID = pg.ID)');
         return $data->result_array();
     }
 
