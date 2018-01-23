@@ -200,4 +200,15 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+
+    public function __genrateMKCode($ID){
+        $data = $this->db->query('SELECT count(*) AS TotalMK FROM db_akademik.mata_kuliah WHERE BaseProdiID="'.$ID.'" ');
+        return $data->result_array();
+    }
+
+    public function __cekMKCode($MKCode){
+        $data = $this->db->query('SELECT MKCode FROM db_akademik.mata_kuliah WHERE MKCode LIKE "'.$MKCode.'" ');
+        return $data->result_array();
+    }
+
 }

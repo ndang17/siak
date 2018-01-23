@@ -56,17 +56,17 @@
                                 </td>
 
                                 <td><?php echo $item_mk['Code'].' | '.$item_mk['NameProdi']; ?></td>
-<!--                                <td>-->
-<!--                                    <div class="btn-group">-->
-<!--                                        <button type="button" class="btn btn-default btn-default-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                                            Action <span class="caret"></span>-->
-<!--                                        </button>-->
-<!--                                        <ul class="dropdown-menu">-->
-<!--                                            <li><a href="javascript:void(0)" data-id="--><?php //echo $item_mk['mkID']; ?><!--" data-action="edit" class="btn-mk-action"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>-->
-<!--                                            <li><a href="javascript:void(0)" data-id="--><?php //echo $item_mk['mkID']; ?><!--" data-action="delete" class="btn-mk-action"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>-->
-<!--                                        </ul>-->
-<!--                                    </div>-->
-<!--                                </td>-->
+                                <!--                                <td>-->
+                                <!--                                    <div class="btn-group">-->
+                                <!--                                        <button type="button" class="btn btn-default btn-default-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                                <!--                                            Action <span class="caret"></span>-->
+                                <!--                                        </button>-->
+                                <!--                                        <ul class="dropdown-menu">-->
+                                <!--                                            <li><a href="javascript:void(0)" data-id="--><?php //echo $item_mk['mkID']; ?><!--" data-action="edit" class="btn-mk-action"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>-->
+                                <!--                                            <li><a href="javascript:void(0)" data-id="--><?php //echo $item_mk['mkID']; ?><!--" data-action="delete" class="btn-mk-action"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>-->
+                                <!--                                        </ul>-->
+                                <!--                                    </div>-->
+                                <!--                                </td>-->
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -81,21 +81,21 @@
 
 
 <!-- MODAL -->
-<div class="modal fade" id="modal_mk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal fade" id="modal_mk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--                <h4 class="modal-title" id="myModalLabel">Modal title</h4>-->
+<!--            </div>-->
+<!--            <div class="modal-body"></div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+<!--                <button type="button" class="btn btn-primary">Save changes</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <style>
     .TableTools_collection {
@@ -156,20 +156,32 @@
         });
 
 
-
     } );
 
     $('#btn_addmk').click(function () {
 
-        $('#modal_mk .modal-title').text('Mata Kuliah');
-        $('#modal_mk .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-            '<button type="button" class="btn btn-success">Add</button>');
-        $('#modal_mk .modal-body').html('<div class="row">' +
+        $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+            '<h4 class="modal-title">Mata Kuliah</h4>');
+        // $('#GlobalModal .modal-body').html('Announcement');
+        $('#GlobalModal .modal-body').html('<div class="row">' +
             '<table class="table">' +
+            '<tr>' +
+            '<td>Base Prodi</td>' +
+            '<td>:</td>' +
+            '<td>' +
+            '<select class="form-control" id="FormBaseProdi"></select>' +
+            '</td>' +
+            '</tr>' +
             '<tr>' +
             '<td>MKCode</td>' +
             '<td>:</td>' +
-            '<td><input class="form-control"></td>' +
+            '<td>' +
+            '<div class="row">' +
+            '       <div class="col-sm-6"><label class="checkbox-inline">' +
+            '  <input type="checkbox" id="generateMKCode" value="option1"> Genrate' +
+            '</label></div>' +
+            '       <div class="col-sm-6"><input id="formGenrate" class="form-control"></div> </div>' +
+            '</td>' +
             '</tr>' +
             '<tr>' +
             '<td>Name (Indo)</td>' +
@@ -181,18 +193,14 @@
             '<td>:</td>' +
             '<td><input class="form-control"></td>' +
             '</tr>' +
-            '<tr>' +
-            '<td>Base Prodi</td>' +
-            '<td>:</td>' +
-            '<td>' +
-            '<select class="form-control" id="FormBaseProdi"></select>' +
-            '</td>' +
-            '</tr>' +
             '</table>' +
             '</div>');
 
-        OptionBaseProdi('FormBaseProdi',false);
-        $('#modal_mk').modal({
+        loadSelectOptionBaseProdi('#FormBaseProdi','');
+
+        $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+            '<button type="button" class="btn btn-success" id="BtnAddMK">Add</button>');
+        $('#GlobalModal').modal({
             'show' : true,
             'backdrop' : 'static'
         });
@@ -207,10 +215,18 @@
         $.post(url,{idMK:idMK},function (data) {
             var valueMK = data[0];
 
-            $('#modal_mk .modal-title').text('Mata Kuliah');
+            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">Mata Kuliah</h4>');
 
-            $('#modal_mk .modal-body').html('<div class="row">' +
+            $('#GlobalModal .modal-body').html('<div class="row">' +
                 '<table class="table">' +
+                '<tr>' +
+                '<td>Base Prodi</td>' +
+                '<td>:</td>' +
+                '<td>' +
+                '<select class="form-control form-mk" id="FormBaseProdiEdit"></select>' +
+                '</td>' +
+                '</tr>' +
                 '<tr>' +
                 '<td>MKCode</td>' +
                 '<td>:</td>' +
@@ -226,51 +242,72 @@
                 '<td>:</td>' +
                 '<td><input class="form-control form-mk" value="'+valueMK.NameEng+'"></td>' +
                 '</tr>' +
-                '<tr>' +
-                '<td>Base Prodi</td>' +
-                '<td>:</td>' +
-                '<td>' +
-                '<select class="form-control form-mk" id="FormBaseProdiEdit"></select>' +
-                '</td>' +
-                '</tr>' +
                 '</table>' +
                 '<div id="toDel"></div>' +
                 '</div>');
-            OptionBaseProdi('FormBaseProdiEdit',valueMK.BaseProdiID);
+            loadSelectOptionBaseProdi('#FormBaseProdiEdit',valueMK.BaseProdiID+'.'+valueMK.MKCode);
             if(action=='delete') {
                 $('.form-mk').prop('disabled',true);
-                $('#modal_mk .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
                     '<button type="button" class="btn btn-danger">Delete</button>');
                 $('#toDel').html('<hr/>' +
                     '<div style="text-align: center;"> Are you sure to <span style="color:red;">Delete</span> ?? </div>');
 
             } else {
                 $('.form-mk').prop('disabled',false);
-                $('#modal_mk .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
                     '<button type="button" class="btn btn-success">Save</button>');
             }
-            $('#modal_mk').modal({
+            $('#GlobalModal').modal({
                 'show' : true,
                 'backdrop' : 'static'
             });
         });
     });
 
+    $(document).on('click','#BtnAddMK',function () {
 
-    function OptionBaseProdi(element,selected) {
-        var url = base_url_js+'api/__getBaseProdi';
-        $.get(url,function (data) {
-            var OptionFormBaseProdi = $('#'+element);
-            OptionFormBaseProdi.html('');
-            if(selected==false){
-                OptionFormBaseProdi.append('<option disabled selected>--------- Base Prodi ---------</option>');
-            }
+    });
 
-            for(var i=0;i<data.length;i++){
-                var selc = (data[i].ID==selected) ? 'selected' : '';
-                OptionFormBaseProdi.append('<option value="'+data[i].ID+'" '+selc+'>'+data[i].Name+'</option>');
+    $(document).on('change','#generateMKCode',function () {
+        if($(this).is(':checked')){
+            var prodi = $('#FormBaseProdi').find(':selected').val().split('.');
+            var data = {
+                ID : prodi[0],
+                ProdiCOde : prodi[1]
+            };
+            var url = base_url_js+'api/__genrateMKCode';
+            var token = jwt_encode(data,'UAP)(*');
+            $.post(url,{token:token},function (result) {
 
-            }
-        });
+
+                var MKCode = function gen (result) {
+                    var url_ = base_url_js+"api/__cekMKCode";
+                    var GenMKCode = prodi[1]+''+pad(result[0].TotalMK,4);
+                    $.post(url_,{MKCode:GenMKCode},function (data) {
+
+                        if(data.length>0){
+                            return gen (parseInt(result) + 1);
+                        } else {
+                            return GenMKCode;
+                        }
+
+                    });
+                }
+
+
+            });
+
+        } else {
+            // alert("12");
+        }
+    });
+
+
+    function pad(n, width, z) {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
+
 </script>

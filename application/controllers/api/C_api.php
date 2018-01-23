@@ -184,7 +184,32 @@ class C_api extends MY_Controller {
             $insert = (array) $data_arr['dataForm'];
             $this->db->insert('db_akademik.curriculum_details',$insert);
             $insert_id = $this->db->insert_id();
+
             return print_r($insert_id);
+        } else if($data_arr['action']=='edit'){
+            $update = (array) $data_arr['dataForm'];
+            $this->db->where('ID', $data_arr['ID']);
+            $this->db->update('db_akademik.curriculum_details',$update);
+//            print_r($data_arr);
+
+            $this->db->where('CurriculumDetailID', $data_arr['ID']);
+            $this->db->delete('db_akademik.precondition');
+
+            $insert_id = $data_arr['ID'];
+        }
+
+        if($data_arr['DataPraSyart']!=''){
+            for($i=0;$i<count($data_arr['DataPraSyart']);$i++){
+
+                $ex = explode(".",$data_arr['DataPraSyart'][$i]);
+
+                $data_Pra = array(
+                    'CurriculumDetailID' => $insert_id,
+                    'MKID' => trim($ex[0]),
+                    'MKCode' => trim($ex[1])
+                );
+                $this->db->insert('db_akademik.precondition',$data_Pra);
+            }
         }
     }
 
@@ -193,12 +218,32 @@ class C_api extends MY_Controller {
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
-        if($data_arr>0){
+        if(count($data_arr)>0){
             $CDID = $data_arr['CDID'];
             $data = $this->m_api->__getdetailKurikulum($CDID);
 
             return print_r(json_encode($data));
         }
 
+    }
+
+    public function genrateMKCode(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            $ID = $data_arr['ID'];
+            $data = $this->m_api->__genrateMKCode($ID);
+
+            return print_r(json_encode($data));
+        }
+
+    }
+
+    public function cekMKCode(){
+        $MKCode = $this->input->post('MKCode');
+        $data = $this->m_api->__cekMKCode('UNI1004');
+        return print_r(json_encode($data));
     }
 }

@@ -62,7 +62,7 @@
 <script>
     $(document).ready(function () {
         loadSelectOptionKurikulum();
-        loadSelectOptionBaseProdi('#selectProdi');
+        loadSelectOptionBaseProdi('#selectProdi','');
         loaddataAddKurikulum();
         $('.btn-addsmt').prop('disabled',true);
     });
@@ -108,7 +108,8 @@
     function pageKurikulum() {
         var kurikulum = $('#selectKurikulum').find(':selected').val().split('.');
         var year = kurikulum[1].trim();
-        var prodiID = $('#selectProdi').find(':selected').val();
+        var prodi = $('#selectProdi').find(':selected').val().split('.');
+        var prodiID = prodi[0];
         loading_page('#pageKurikulum');
         var url = base_url_js+'academic/kurikulum-detail';
         var data = {

@@ -189,9 +189,10 @@
 
 
         <div class="form-group" style="border-top: 1px solid #d3d3d3;padding-top: 10px;text-align: right;">
-            <div class="col-sm-12">
+            <div class="col-sm-12" id="BtnFooter">
                 <button type="button" id="ModalbtnCancleForm" data-dismiss="modal" class="btn btn-default">Cancle</button>
                 <button type="button" id="ModalbtnSaveForm" class="btn btn-success">Save</button>
+                <button type="button" id="ModalbtnEditForm" class="btn btn-default hide">Edit Data</button>
             </div>
         </div>
 
@@ -202,31 +203,45 @@
 <script>
     $(document).ready(function () {
 
-        loadSelectOptionBaseProdi('#ModalSelectProdi');
+        loadSelectOptionBaseProdi('#ModalSelectProdi','');
         loadSelectOptionEducationLevel('#ModalSelectJenjang');
-        loadSelectOptionAllMataKuliah('#ModalSelectMK');
+
         loadSelectOptionAllMataKuliah('#ModalPrasyaratSelectMK');
-        loadSelectOptionLecturers('#ModalLecturers');
+
 
         loadSelectOptionConf('#ModalJenisKurikulum','curriculum_types');
         loadSelectOptionConf('#ModalKelompokMK','courses_groups');
 
         $('#ModalPrasyaratSelectMK').select2({allowClear: true});
 
-        var action = '<?php echo $action; ?>';
-        if(action=='add'){
+        window.action = '<?php echo $action; ?>';
+        window.ID = 0;
+        window.StatusPrecondition = 0;
+        if(action=='add')
+        {
+            loadSelectOptionLecturersSingle('#ModalSelectMK','');
+            loadSelectOptionLecturersSingle('#ModalLecturers','');
             $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
             log('add');
-        } else if(action=='edit'){
+        }
+        else if(action=='edit')
+        {
+            $('#modalAddSmester .form-control,' +
+                '#modalAddSmester .select2-select-00,' +
+                '#modalAddSmester #ModalPrasyarat,' +
+                '#modalAddSmester input[type=radio],' +
+                '#modalAddSmester .btn[data-toggle=collapse]')
+                .prop('disabled',true);
 
-            $('.rw-view').removeClass('hide');
-            $('.rw-form').addClass('hide');
-            $('input[name=jenisMK]').prop('disabled',true);
+            $('#ModalbtnSaveForm').addClass('hide');
+            $('#ModalbtnEditForm').removeClass('hide');
+            $('#BtnFooter').append('<button type="button" class="btn btn-danger" style="float:left;">Delete</button>');
 
             var CDID = '<?php echo $CDID; ?>';
             var data = {
                 CDID : CDID
-            }
+            };
+            ID = CDID;
 
             var url = base_url_js+"api/__getdetailKurikulum";
             var token = jwt_encode(data,"UAP)(*");
@@ -240,19 +255,27 @@
                 $('#ModalSelectJenjang').val(data.EducationLevelID);
 
 
-                $('#ModalSelectMK').select2({allowClear: true}).val(data.MKID+'.'+data.MKCode).trigger('change');
+
+                loadSelectOptionAllMataKuliahSingle('#ModalSelectMK',data.MKID+'.'+data.MKCode);
+                $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+
                 $('input[name=jenisMK][value='+data.MKType+']').prop('checked',true);
 
-                $('#ModalLecturers').select2({allowClear: true}).val(data.LecturerNIP).trigger('change');
+
+                loadSelectOptionLecturersSingle('#ModalLecturers',data.LecturerNIP);
+                // $('#ModalLecturers').select2({allowClear: true});
+
+                // $('#ModalLecturers').select2({allowClear: true}).val(data.LecturerNIP).trigger('change');
 
                 $('#ModalKelompokMK').val(data.CoursesGroupsID);
 
 
-                if(data.StatusPrecondition==1){
+                StatusPrecondition = data.StatusPrecondition;
+                if(StatusPrecondition==1){
                     $('#ModalPrasyarat').prop('checked',false);
-                    $('#ModalPrasyaratSelectMK').prop('disabled',false);
+                    // $('#ModalPrasyaratSelectMK').prop('disabled',false);
                 } else {
-                    $('#ModalPrasyarat').prop('checked',true);
+                    // $('#ModalPrasyarat').prop('checked',true);
                 }
 
                 $('#ModalLecturersVal').html(data.LecturerNIP+' | '+data.NameLecturer);
@@ -307,42 +330,55 @@
 
     $('#ModalbtnSaveForm').click(function () {
 
-        $('#modalAddSmester .form-control,' +
-            '#modalAddSmester .select2-select-00,' +
-            '#modalAddSmester #ModalPrasyarat,' +
-            '#modalAddSmester input[type=radio],' +
-            '#modalAddSmester .btn')
-            .prop('disabled',true);
+        var process = true;
 
         var kurikulum = $('#selectKurikulum').find(':selected').val().split('.');
         var CurriculumID = kurikulum[0];
         var Semester = '<?php echo $semester; ?>';
         var CurriculumTypeID = $('#ModalJenisKurikulum').find(':selected').val();
-        var ProdiID = $('#ModalSelectProdi').find(':selected').val();
-        var EducationLevelID = $('#ModalSelectJenjang').find(':selected').val();
 
-        var mk = $('#ModalSelectMK').find(':selected').val().split('.');
-        var MKID = mk[0].trim();
-        var MKCode = mk[1].trim();
+
+        var ProdiID = $('#ModalSelectProdi').find(':selected').val();
+        process = formRequiredError(ProdiID,'#ModalSelectProdi');
+
+        var EducationLevelID = $('#ModalSelectJenjang').find(':selected').val();
+        process = formRequiredError(EducationLevelID,'#ModalSelectJenjang');
+
+        var Datamk = $('#ModalSelectMK').val();
+
+        if(Datamk!=null){
+            mk = Datamk.split('.');
+            var MKID = mk[0].trim();
+            var MKCode = mk[1].trim();
+            $('#s2id_ModalSelectMK').css('border','1px solid green');
+        } else {
+            $('#s2id_ModalSelectMK').css('border','1px solid red');
+            process = false;
+        }
+
 
         var MKType = $('input[name=jenisMK]:checked').val();
 
         var StatusPrecondition = 1;
+        var DataPraSyart = $('#ModalPrasyaratSelectMK').val();
 
         if($('#ModalPrasyarat').is(':checked')){
             StatusPrecondition = 0;
-            var DataPraSyart = $('#ModalPrasyaratSelectMK').val();
-
+        } else {
             if(DataPraSyart==null){
-                console.log('harus diisi');
+                toastr.error('Prasyarat Wajib Diisi','Error!!');
+                process = false;
             } else if(DataPraSyart[0]=='') {
-                console.log('harus diisi');
+                toastr.error('Prasyarat Wajib Diisi','Error!!');
+                process = false;
             }
         }
 
         var LecturerNIP = $('#ModalLecturers').val();
+        process = formRequiredError(LecturerNIP,'#s2id_ModalLecturers');
         var CoursesGroupsID = $('#ModalKelompokMK').find(':selected').val();
         var TotalSKS = $('#ModalFormTotalSKS').val();
+        process = formRequiredError(TotalSKS,'#ModalFormTotalSKS');
         var SKSTeori = $('#ModalFormSKSTeori').val();
         var SKSPraktikum = $('#ModalFormSKSPraktek').val();
         var SKSPraktikLapangan = $('#ModalFormSKSPraktekLapangan').val();
@@ -351,62 +387,95 @@
         var StatusSilabus = $('input[name=silabus]:checked').val();
         var StatusSAP = $('input[name=sap]:checked').val();
 
-        var url = base_url_js+"api/__crudDetailMK";
-        var data = {
-            action : 'add',
-            dataForm : {
-                CurriculumID : CurriculumID,
-                Semester : Semester,
-                CurriculumTypeID : CurriculumTypeID,
-                ProdiID : ProdiID,
-                EducationLevelID : EducationLevelID,
-
-                MKID : MKID,
-                MKCode : MKCode,
-                MKType : MKType,
-
-                StatusPrecondition : StatusPrecondition,
-
-                LecturerNIP : LecturerNIP,
-                CoursesGroupsID : CoursesGroupsID,
-                TotalSKS : TotalSKS,
-                SKSTeori : SKSTeori,
-                SKSPraktikum : SKSPraktikum,
-                SKSPraktikLapangan : SKSPraktikLapangan,
-
-                StatusMK : StatusMK,
-                StatusSilabus : StatusSilabus,
-                StatusSAP : StatusSAP,
-
-                UpdateBy : sessionNIP,
-                UpdateAt : dateTimeNow()
-            }
-        };
-
-        var token = jwt_encode(data,"UAP)(*");
-
-         loading_button('#ModalbtnSaveForm');
-         $.post(url,{token:token},function (result) {
-             setTimeout(function () {
-                 toastr.success('Data tersimpan','Success');
-
-                 $('#ModalbtnSaveForm').html('Save');
-                 $('#modalAddSmester .form-control,' +
-                     '#modalAddSmester .select2-select-00,' +
-                     '#modalAddSmester #ModalPrasyarat,' +
-                     '#modalAddSmester input[type=radio],' +
-                     '#modalAddSmester .btn')
-                     .prop('disabled',false);
-                 
-                 resetForm();
-                 pageKurikulum();
 
 
-             },2000);
-         });
+        // Proses Dulu
+        if(process){
+            $('#modalAddSmester .form-control,' +
+                '#modalAddSmester .select2-select-00,' +
+                '#modalAddSmester #ModalPrasyarat,' +
+                '#modalAddSmester input[type=radio],' +
+                '#modalAddSmester .btn')
+                .prop('disabled',true);
+
+
+            var data = {
+                action : action,
+                ID : ID,
+                DataPraSyart : DataPraSyart,
+                dataForm : {
+                    CurriculumID : CurriculumID,
+                    Semester : Semester,
+                    CurriculumTypeID : CurriculumTypeID,
+                    ProdiID : ProdiID,
+                    EducationLevelID : EducationLevelID,
+
+                    MKID : MKID,
+                    MKCode : MKCode,
+                    MKType : MKType,
+
+                    StatusPrecondition : StatusPrecondition,
+
+                    LecturerNIP : LecturerNIP,
+                    CoursesGroupsID : CoursesGroupsID,
+                    TotalSKS : TotalSKS,
+                    SKSTeori : SKSTeori,
+                    SKSPraktikum : SKSPraktikum,
+                    SKSPraktikLapangan : SKSPraktikLapangan,
+
+                    StatusMK : StatusMK,
+                    StatusSilabus : StatusSilabus,
+                    StatusSAP : StatusSAP,
+
+                    UpdateBy : sessionNIP,
+                    UpdateAt : dateTimeNow()
+                }
+            };
+
+            var token = jwt_encode(data,"UAP)(*");
+            var url = base_url_js+"api/__crudDetailMK";
+            loading_button('#ModalbtnSaveForm');
+            // return false;
+            $.post(url,{token:token},function (result) {
+                setTimeout(function () {
+                    toastr.success('Data tersimpan','Success');
+
+                    $('#ModalbtnSaveForm').html('Save');
+                    $('#modalAddSmester .form-control,' +
+                        '#modalAddSmester .select2-select-00,' +
+                        '#modalAddSmester #ModalPrasyarat,' +
+                        '#modalAddSmester input[type=radio],' +
+                        '#modalAddSmester .btn')
+                        .prop('disabled',false);
+
+                    resetForm();
+                    pageKurikulum();
+
+
+                },2000);
+            });
+        } else {
+            toastr.error('Form Required Wajib Diisi','Error!!');
+        }
 
 
 
+
+    });
+
+    $('#ModalbtnEditForm').click(function () {
+        $(this).addClass('hide');
+        $('#ModalbtnSaveForm').removeClass('hide');
+        $('#modalAddSmester .form-control,' +
+            '#modalAddSmester .select2-select-00,' +
+            '#modalAddSmester #ModalPrasyarat,' +
+            '#modalAddSmester input[type=radio],' +
+            '#modalAddSmester .btn[data-toggle=collapse]')
+            .prop('disabled',false);
+
+        if(StatusPrecondition!=1){
+            $('#ModalPrasyaratSelectMK').prop('disabled',true);
+        }
     });
 
     function resetForm() {
@@ -468,6 +537,17 @@
 
 
         });
+    }
+
+    function formRequiredError(value,element) {
+        if(value=='' || value==0 || value==null){
+            $(''+element).css('border','1px solid red');
+            return false;
+        } else {
+            $(''+element).css('border','1px solid green');
+            return true;
+        }
+
     }
 
 </script>

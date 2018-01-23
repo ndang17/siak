@@ -86,6 +86,8 @@ $route['api/__crudKurikulum'] = 'api/c_api/crudKurikulum';
 $route['api/__crudDetailMK'] = 'api/c_api/crudDetailMK';
 
 $route['api/__getdetailKurikulum'] = 'api/c_api/getdetailKurikulum';
+$route['api/__genrateMKCode'] = 'api/c_api/genrateMKCode';
+$route['api/__cekMKCode'] = 'api/c_api/cekMKCode';
 
 
 
