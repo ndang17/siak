@@ -187,8 +187,8 @@
 
     $(document).on('click','#saveData',function () {
 
-        var UpdateBy = '2017090';
-        var UpdateAt = moment().format('YYYY-MM-DD HH:mm:ss');
+        var UpdateBy = sessionNIP;
+        var UpdateAt = dateTimeNow();
         var SemesterID = $('#form_semester').find(":selected").val();
         var LecturerID = $('#form_lecturer').find(":selected").val();
         var data_mk = $('#dataMK').find(":selected").val().split('.');
@@ -205,12 +205,16 @@
         } else {
 
             var data = {
-                'SemesterID' : SemesterID,
-                'LecturerID' : LecturerID,
-                'MKID' : MKID,
-                'MKCode' : MKCode,
-                'UpdateBy' : UpdateBy,
-                'UpdateAt' : UpdateAt
+                action : 'add',
+                dataForm : {
+                    SemesterID : SemesterID,
+                    LecturerID : LecturerID,
+                    MKID : MKID,
+                    MKCode : MKCode,
+                    UpdateBy : UpdateBy,
+                    UpdateAt : UpdateAt
+                }
+
             };
 
             //Cek data time
@@ -242,7 +246,7 @@
 
                 // Insert MK
                 var token = jwt_encode(data,'UAP)(*');
-                var url = base_url_js+'api/__setLecturersAvailability/insert';
+                var url = base_url_js+'api/__setLecturersAvailability';
                 $.post(url,{ token : token },function (insert_id) {
                     LecturerDetail(insert_id);
                 });
@@ -268,7 +272,6 @@
 
     function page_detailDosen(ID) {
         loading_page('#detailKetersediaanDosen');
-
         var day = {
             1 : 'Monday',
             2 : 'Tuesday',
@@ -287,110 +290,120 @@
             var div = $('#detailKetersediaanDosen');
 
             setTimeout(function(){
-                div.html('<table id="tableDetailTahun" class="table table-bordered table-striped">' +
-                    '                    <thead>' +
-                    '                    <tr>' +
-                    '                        <th rowspan="2" style="width: 20%;">Name</th>' +
-                    '                        <th rowspan="2">Mata Kuliah</th>' +
-                    '                        <th rowspan="2" style="width: 5%;">Day</th>' +
-                    '                        <th colspan="2">Time</th>' +
-                    '                        <th rowspan="2" style="width: 5%;">Action</th>' +
-                    '                    </tr>' +
-                    '                    <tr>' +
-                    '                        <th style="width: 5%;">Start</th>' +
-                    '                        <th style="width: 10%;">End</th>' +
-                    '                    </tr>' +
-                    '                    </thead>' +
-                    '                    <tbody id="TrdataDetailDosen">' +
-                    '                    </tbody>' +
-                    '                </table>');
-                var tr = $('#TrdataDetailDosen');
-                for(var i=0;i<data_json.length;i++){
 
-                    tr.append('<tr>' +
-                        '<td>'+data_json[i].LecturerName+'</td>' +
-                        '<td>'+data_json[i].MKName+'</td>' +
-                        '<td>'+day[data_json[i].DayID]+'</td>' +
-                        '<td class="td-center">'+data_json[i].Start+'</td>' +
-                        '<td class="td-center">'+data_json[i].End+'</td>' +
-                        '<td class="td-center"><div>' +
-                        '<button class="btn btn-default btn-default-success btn-sm btn-action" data-id="'+data_json[i].ID+'"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>' +
-                        '</div></td>' +
-                        '</tr>');
+                if(data_json.length>0){
+                    div.html('<table id="tableDetailTahun" class="table table-bordered table-striped">' +
+                        '                    <thead>' +
+                        '                    <tr>' +
+                        '                        <th rowspan="2" style="width: 20%;">Name</th>' +
+                        '                        <th rowspan="2">Mata Kuliah</th>' +
+                        '                        <th rowspan="2" style="width: 5%;">Day</th>' +
+                        '                        <th colspan="2">Time</th>' +
+                        '                        <th rowspan="2" style="width: 5%;">Action</th>' +
+                        '                    </tr>' +
+                        '                    <tr>' +
+                        '                        <th style="width: 10%;">Start</th>' +
+                        '                        <th style="width: 10%;">End</th>' +
+                        '                    </tr>' +
+                        '                    </thead>' +
+                        '                    <tbody id="TrdataDetailDosen">' +
+                        '                    </tbody>' +
+                        '                </table>');
+                    var tr = $('#TrdataDetailDosen');
+                    for(var i=0;i<data_json.length;i++){
+
+                        var st = data_json[i].Start.split(':');
+                        var en = data_json[i].End.split(':');
+
+                        tr.append('<tr>' +
+                            '<td>'+data_json[i].LecturerName+'</td>' +
+                            '<td>'+data_json[i].MKName+'</td>' +
+                            '<td>'+day[data_json[i].DayID]+'</td>' +
+                            '<td class="td-center">'+moment().hour(st[0]).minute(st[1]).second(st[2]).format('hh:mm A')+'</td>' +
+                            '<td class="td-center">'+moment().hour(en[0]).minute(en[1]).second(en[2]).format('hh:mm A')+'</td>' +
+                            '<td class="td-center"><div>' +
+                            '<button class="btn btn-default btn-default-success btn-sm btn-action" data-id="'+data_json[i].ID+'"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>' +
+                            '</div></td>' +
+                            '</tr>');
+                    }
+
+                    var table = $('#tableDetailTahun').DataTable({
+                        'iDisplayLength' : 10,
+                        "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
+                        "oTableTools": {
+                            "aButtons": [
+                                // "copy",
+                                // "print",
+                                // "csv",
+                                {
+                                    "sExtends" : "xls",
+                                    "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
+                                },
+                                {
+                                    "sExtends" : "pdf",
+                                    "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
+                                    "sPdfOrientation" : "landscape",
+                                    // "sPdfMessage" : "Daftar Seluruh Mata Kuliah"
+                                }
+                            ],
+                            "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
+                        },
+
+                        initComplete: function () {
+                            var no=1;
+                            this.api().columns().every( function () {
+                                var column = this;
+
+                                var grid = '';
+                                var filterBy = '';
+                                if(no==1){
+                                    filterBy = '--- Lecturer ---';
+                                    grid = 'col-md-3';
+                                } else if(no==2){
+                                    filterBy = '--- Mata Kuliah ---';
+                                    grid = 'col-md-5'
+                                } else if(no==3){
+                                    filterBy = '--- Date ---';
+                                    grid = 'col-md-2';
+                                } else if(no==4){
+                                    filterBy = 'Start';
+                                    grid = 'col-md-1 filter-time';
+                                } else if (no==5) {
+                                    filterBy = 'End';
+                                    grid = 'col-md-1 filter-time';
+                                }
+                                $('#boxDetail .dataTables_header').append('<div class="'+grid+' form-filter" id="filter'+no+'"></div>');
+                                // $('#filter2').append('<div class="col-md-2"></div>');
+                                var select = $('<select class="form-control" ><option selected disabled>'+filterBy+'</option><option value="">All</option></select>')
+                                // .appendTo( $(column.footer()).empty() )
+                                    .appendTo( $('#filter'+no) )
+                                    .on( 'change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+
+                                        column
+                                            .search( val ? '^'+val+'$' : '', true, false )
+                                            .draw();
+                                    } );
+                                column.data().unique().sort().each( function ( d, j ) {
+                                    var f = d.split('div');
+                                    if(f.length<=1){
+                                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                                    } else {
+                                        select.remove();
+                                        $('#filter'+no).remove();
+                                    }
+                                } );
+                                no++;
+                            } );
+                        }
+                    });
+
+                } else {
+                    div.html('<div class="col-md-12" style="text-align: center;"><h3>Data Empty</h3></div>')
                 }
 
-                var table = $('#tableDetailTahun').DataTable({
-                    'iDisplayLength' : 10,
-                    "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
-                    "oTableTools": {
-                        "aButtons": [
-                            // "copy",
-                            // "print",
-                            // "csv",
-                            {
-                                "sExtends" : "xls",
-                                "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
-                            },
-                            {
-                                "sExtends" : "pdf",
-                                "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
-                                "sPdfOrientation" : "landscape",
-                                // "sPdfMessage" : "Daftar Seluruh Mata Kuliah"
-                            }
-                        ],
-                        "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
-                    },
-
-                    initComplete: function () {
-                        var no=1;
-                        this.api().columns().every( function () {
-                            var column = this;
-
-                            var grid = '';
-                            var filterBy = '';
-                            if(no==1){
-                                filterBy = '--- Lecturer ---';
-                                grid = 'col-md-3';
-                            } else if(no==2){
-                                filterBy = '--- Mata Kuliah ---';
-                                grid = 'col-md-5'
-                            } else if(no==3){
-                                filterBy = '--- Date ---';
-                                grid = 'col-md-2';
-                            } else if(no==4){
-                                filterBy = 'Start';
-                                grid = 'col-md-1 filter-time';
-                            } else if (no==5) {
-                                filterBy = 'End';
-                                grid = 'col-md-1 filter-time';
-                            }
-                            $('#boxDetail .dataTables_header').append('<div class="'+grid+' form-filter" id="filter'+no+'"></div>');
-                            // $('#filter2').append('<div class="col-md-2"></div>');
-                            var select = $('<select class="form-control" ><option selected disabled>'+filterBy+'</option><option value="">All</option></select>')
-                                // .appendTo( $(column.footer()).empty() )
-                                .appendTo( $('#filter'+no) )
-                                .on( 'change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                        .search( val ? '^'+val+'$' : '', true, false )
-                                        .draw();
-                                } );
-                            column.data().unique().sort().each( function ( d, j ) {
-                                var f = d.split('div');
-                                if(f.length<=1){
-                                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                                } else {
-                                    select.remove();
-                                    $('#filter'+no).remove();
-                                }
-                            } );
-                            no++;
-                        } );
-                    }
-                });
 
             }, 2000);
 
@@ -406,9 +419,9 @@
 
             $('#GlobalModal .modal-header').html('<h4 class="modal-title">Ketersediaan Dosen</h4>');
             $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').html('<button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Close</button>' +
-                '<button type="button" id="btnClose" class="btn btn-success">Save</button>' +
-                '<button type="button" id="btnClose" class="btn btn-danger" style="float: left;">Delete</button>' +
+            $('#GlobalModal .modal-footer').html('<button type="button" id="modalBtnClose" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                '<button type="button" id="modalBtnEdit" class="btn btn-success">Save</button>' +
+                '<button type="button" id="modalBtnDelete" class="btn btn-danger" style="float: left;">Delete</button>' +
                 '');
             $('#GlobalModal').modal({
                 'show' : true,

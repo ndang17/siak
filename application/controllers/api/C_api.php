@@ -81,16 +81,43 @@ class C_api extends MY_Controller {
         return print_r(json_encode($data));
     }
 
-    public function setLecturersAvailability($action){
+    public function setLecturersAvailability(){
 
         $token = $this->input->post('token');
         $key = "UAP)(*";
-        $data_arr = $this->jwt->decode($token,$key);
+        $data_arr = (array) $this->jwt->decode($token,$key);
 //        print_r($data_arr);
 
-        if($action=='insert'){
-            $this->db->insert('db_akademik.lecturers_availability',$data_arr);
+        if($data_arr['action']=='add'){
+            $dataInsert = (array) $data_arr['dataForm'];
+            $this->db->insert('db_akademik.lecturers_availability',$dataInsert);
             return print_r($this->db->insert_id());
+        } else if($data_arr['action']=='edit'){
+
+            $update_lad = (array) $data_arr['dataForm_lad'];
+            $this->db->where('ID', $data_arr['ladID']);
+            $this->db->update('db_akademik.lecturers_availability_detail',$update_lad);
+
+            return print_r(1);
+        } else if($data_arr['action']=='delete'){
+
+            // Cek apakah ID lebih dari satu
+            $dataCek = $this->m_api->__cekTotalLAD($data_arr['laID']);
+
+            if(count($dataCek)==1){
+                $this->db->where('ID', $data_arr['laID']);
+                $this->db->delete('db_akademik.lecturers_availability');
+
+                $this->db->where('ID', $data_arr['ladID']);
+                $this->db->delete('db_akademik.lecturers_availability_detail');
+            } else {
+                $this->db->where('ID', $data_arr['ladID']);
+                $this->db->delete('db_akademik.lecturers_availability_detail');
+            }
+
+
+            return print_r(1);
+
         }
 
     }

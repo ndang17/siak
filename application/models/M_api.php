@@ -216,4 +216,10 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __cekTotalLAD($ladID){
+        $data = $this->db->query('SELECT * FROM db_akademik.lecturers_availability_detail 
+                                        WHERE LecturersAvailabilityID="'.$ladID.'" ');
+
+        return $data->result_array();
+    }
 }

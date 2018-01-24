@@ -73,7 +73,7 @@ $route['api/__getSemester'] = 'api/c_api/getSemester';
 $route['api/__getLecturer'] = 'api/c_api/getLecturer';
 $route['api/__getAllMK'] = 'api/c_api/getAllMK';
 
-$route['api/__setLecturersAvailability/(:any)'] = 'api/c_api/setLecturersAvailability/$1';
+$route['api/__setLecturersAvailability'] = 'api/c_api/setLecturersAvailability';
 $route['api/__setLecturersAvailabilityDetail/(:any)'] = 'api/c_api/setLecturersAvailabilityDetail/$1';
 
 $route['api/__changeTahunAkademik'] = 'api/c_api/changeTahunAkademik';

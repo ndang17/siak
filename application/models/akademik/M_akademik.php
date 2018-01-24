@@ -11,7 +11,7 @@ class M_akademik extends CI_Model {
     }
 
     public function __getKetersediaanDosen($ID){
-        $data = $this->db->query('SELECT la.MKID, la.MKCode, em.NIP, s.Name AS Semester, em.Name AS NameLecturer, mk.Name AS NameMK, lad.DayID, lad.Start, lad.End  FROM db_akademik.lecturers_availability_detail lad
+        $data = $this->db->query('SELECT la.SemesterID, la.ID AS laID, lad.ID AS ladID, la.MKID, la.MKCode, em.NIP, s.Name AS Semester, em.Name AS NameLecturer, mk.Name AS NameMK, lad.DayID, lad.Start, lad.End  FROM db_akademik.lecturers_availability_detail lad
                                         LEFT JOIN db_akademik.lecturers_availability la ON (lad.LecturersAvailabilityID = la.ID)
                                         LEFT JOIN db_employees.employees em ON (la.LecturerID = em.NIP)
                                         LEFT JOIN db_akademik.mata_kuliah mk ON (la.MKID = mk.ID AND la.MKCode = mk.MKCode)

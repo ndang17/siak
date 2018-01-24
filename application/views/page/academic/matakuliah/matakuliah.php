@@ -212,7 +212,7 @@
     });
 
     $(document).on('click','#btnDeleteMK',function () {
-        if (window.confirm('Hapus Mata Kuliah ??'))
+        if (window.confirm('Hapus Mata Kuliah ?'))
         {
             loading_button('#btnDeleteMK');
             $('#btnAddMK, #btnDeleteMK, #btnClose, #FormBaseProdi, #formCode, #formName, #formNameEng')
