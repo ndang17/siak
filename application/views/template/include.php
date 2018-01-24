@@ -386,4 +386,21 @@
             }
         })
     }
+
+    function fillDays(element,lang,selected) {
+        var days = [];
+        if(lang=='Eng'){
+            days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+        } else {
+            days = ['Senin','Selasa','Rabu','Kamis','Jumat'];
+        }
+
+        // $('#NameDay1');
+        var val = 1;
+        for(var i=0;i<days.length;i++){
+            var selc = (val==selected) ? 'selected' : '';
+            $(''+element).append('<option value="'+val+'" '+selc+'>'+days[i]+'</option>');
+            val += 1;
+        }
+    }
 </script>

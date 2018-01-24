@@ -7,7 +7,7 @@ class C_akademik extends MY_Controller {
     {
         parent::__construct();
 //        $this->session->set_userdata('departement_nav', 'academic');
-//        $this->load->model('m_kurikulum');
+        $this->load->model('akademik/m_akademik');
     }
 
 
@@ -20,9 +20,11 @@ class C_akademik extends MY_Controller {
     public function ketersediaan_dosen()
     {
         $department = parent::__getDepartement();
-        $content = $this->load->view('page/'.$department.'/ketersediaan_dosen','',true);
+        $content = $this->load->view('page/'.$department.'/ketersediaandosen/ketersediaan_dosen','',true);
         $this->temp($content);
     }
+
+
 
 
     // ===== MODAL ======
@@ -37,6 +39,14 @@ class C_akademik extends MY_Controller {
         $this->load->view('page/'.$data['department'].'/modal/modal_tahun_akademik_detail_lecturer',$data);
     }
 
+    public function Modal_KetersediaanDosen(){
+
+        $ID = $this->input->post('ID');
+        $data['department'] = parent::__getDepartement();
+        $data['dataDosen'] = $this->m_akademik->__getKetersediaanDosen($ID);
+        $this->load->view('page/'.$data['department'].'/ketersediaandosen/modal_ketersediaan_dosen',$data);
+
+    }
     // ===== /MODAL =====
 
 

@@ -44,7 +44,9 @@ class M_api extends CI_Model {
     }
 
     public function __getMKByID($ID){
-        $data = $this->db->query('SELECT * FROM db_akademik.mata_kuliah WHERE ID = "'.$ID.'" LIMIT 1');
+        $data = $this->db->query('SELECT mk.*, ps.Code AS ProdiCode FROM db_akademik.mata_kuliah mk
+                                    LEFT JOIN db_akademik.program_study ps ON (mk.BaseProdiID = ps.ID)
+                                    WHERE mk.ID = "'.$ID.'" LIMIT 1');
         return $data->result_array();
     }
 

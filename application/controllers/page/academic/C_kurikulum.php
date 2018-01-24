@@ -7,7 +7,7 @@ class C_kurikulum extends MY_Controller {
     {
         parent::__construct();
 //        $this->session->set_userdata('departement_nav', 'academic');
-        $this->load->model('akademik/m_kurikulum');
+        $this->load->model('akademik/m_akademik');
     }
 
 
@@ -79,7 +79,7 @@ class C_kurikulum extends MY_Controller {
         if($data_arr['action']=='ConfJenisKurikulum') {
             $table = 'curriculum_types';
         }
-        $data['conf'] = $this->m_kurikulum->__getDataConf($table);
+        $data['conf'] = $this->m_akademik->__getDataConf($table);
 
         $data['department'] = parent::__getDepartement();
         $data['table'] = $table;

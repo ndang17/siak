@@ -120,7 +120,7 @@
                 '</tr>' +
                 '</table>' +
                 '</div>');
-            loadSelectOptionBaseProdi('#FormBaseProdi',valueMK.BaseProdiID+'.'+valueMK.MKCode);
+            loadSelectOptionBaseProdi('#FormBaseProdi',valueMK.BaseProdiID);
             $('.form-mk').prop('disabled',true).css('color','#333');
             $('#GlobalModal .modal-footer').html('<button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Close</button>' +
                 '<button type="button" class="btn btn-success hide" data-act="edit" data-id="'+idMK+'" id="btnAddMK">Save</button>' +

@@ -7,7 +7,7 @@ class C_matakuliah extends MY_Controller {
     {
         parent::__construct();
 //        $this->session->set_userdata('departement_nav', 'academic');
-        $this->load->model('m_matakuliah');
+        $this->load->model('akademik/m_matakuliah');
     }
 
 
@@ -19,8 +19,8 @@ class C_matakuliah extends MY_Controller {
     public function mata_kuliah()
     {
         $department = parent::__getDepartement();
-        $data['data_mk'] = $this->m_matakuliah->__getAllMK();
-        $content = $this->load->view('page/'.$department.'/matakuliah/matakuliah',$data,true);
+//        $data['data_mk'] = $this->m_matakuliah->__getAllMK();
+        $content = $this->load->view('page/'.$department.'/matakuliah/matakuliah','',true);
         $this->temp($content);
     }
 

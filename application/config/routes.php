@@ -43,6 +43,7 @@ $route['academic/tahun-akademik-detail-date'] = 'page/academic/c_tahun_akademik/
 
 
 $route['academic/ketersediaan-dosen'] = 'page/academic/c_akademik/ketersediaan_dosen';
+$route['academic/ModalKetersediaanDosen'] = 'page/academic/c_akademik/Modal_KetersediaanDosen';
 
 $route['academic/jadwal'] = 'page/academic/c_jadwal';
 
@@ -91,6 +92,7 @@ $route['api/__genrateMKCode'] = 'api/c_api/genrateMKCode';
 $route['api/__cekMKCode'] = 'api/c_api/cekMKCode';
 
 $route['api/__crudMetaKuliah'] = 'api/c_api/crudMetaKuliah';
+
 
 
 
