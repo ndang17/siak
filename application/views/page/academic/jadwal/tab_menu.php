@@ -8,17 +8,18 @@
 
 <div class="row" style="margin-top: 30px;">
 
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-8 col-md-offset-2">
         <div class="thumbnail">
             <div class="row">
-                <div class="col-xs-4" style="">
-                    <select class="form-control control-jadwal"></select>
+                <div class="col-xs-3" style="">
+                    <select class="form-control control-jadwal" id=""></select>
                 </div>
-                <div class="col-xs-8" style="text-align: right;">
+                <div class="col-xs-3" style="">
+                    <select class="form-control control-jadwal" id=""></select>
+                </div>
+                <div class="col-xs-6" style="text-align: right;">
                     <button data-page="inputjadwal" class="btn btn-success btn-action control-jadwal"><i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Jadwal</button>
                     <button data-page="ruangan" class="btn btn-primary btn-action control-jadwal"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat Ruangan</button>
-                    <button class="btn btn-default control-jadwal"><i class="fa fa-download right-margin" aria-hidden="true"></i> PDF</button>
-                    <button class="btn btn-default control-jadwal"><i class="fa fa-download right-margin" aria-hidden="true"></i> CSV</button>
                 </div>
             </div>
 

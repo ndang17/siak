@@ -37,8 +37,9 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="javascript:void(0)" data-action="ConfJenisKurikulum" class="btn-conf">Jenis Kurikulum</a></li>
-                            <li><a href="javascript:void(0)" data-action="ConfJenisKelompok" class="btn-conf">Kelompok</a></li>
+                            <li><a href="javascript:void(0)" data-action="ConfProgram" data-header="Program Kampus" class="btn-conf">Program</a></li>
+                            <li><a href="javascript:void(0)" data-action="ConfJenisKurikulum" data-header="Jenis Kurikulum" class="btn-conf">Jenis Kurikulum</a></li>
+                            <li><a href="javascript:void(0)" data-action="ConfJenisKelompok" data-header="Kelompok Mata Kuliah" class="btn-conf">Kelompok</a></li>
                         </ul>
                     </div>
 
@@ -79,8 +80,9 @@
 
     $(document).on('click','.btn-conf',function () {
         var action = $(this).attr('data-action');
-        if(action == 'ConfJenisKurikulum' || action == 'ConfJenisKelompok'){
-            modal_dataConf(action);
+        var header = $(this).attr('data-header');
+        if(action == 'ConfJenisKurikulum' || action == 'ConfJenisKelompok' || action=='ConfProgram'){
+            modal_dataConf(action,header);
         }
     });
 
@@ -187,15 +189,10 @@
             });
         })
     }
-    function modal_dataConf(action) {
+    function modal_dataConf(action,header) {
         var url = base_url_js+'academic/kurikulum/data-conf';
 
-        var header = 'Kelompok';
-        if(action=='ConfJenisKurikulum'){
-            header = 'Jenis Kurikulum';
-        }
-
-        var data = {
+       var data = {
             action : action
         };
 

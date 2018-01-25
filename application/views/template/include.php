@@ -52,7 +52,7 @@
     }
 
     #sidebar ul#nav > li.current {
-        background: #918b51fc;
+        background: #083f8894;
     }
 
     #sidebar ul#nav > li.current > a {

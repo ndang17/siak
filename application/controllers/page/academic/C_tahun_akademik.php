@@ -19,10 +19,16 @@ class C_tahun_akademik extends MY_Controller {
     public function tahun_akademik()
     {
         $data['department'] = parent::__getDepartement();
-        $data['semester'] = $this->m_tahun_akademik->__getSemester();
+
 //        print_r($data['kurikulum']);
-        $content = $this->load->view('page/'.$data['department'].'/tahun_akademik',$data,true);
+        $content = $this->load->view('page/'.$data['department'].'/tahunakademik/tahun_akademik',$data,true);
         $this->temp($content);
+    }
+
+    public function tahun_akademik_table(){
+        $data['department'] = parent::__getDepartement();
+        $data['semester'] = $this->m_tahun_akademik->__getSemester();
+        $this->load->view('page/'.$data['department'].'/tahunakademik/tahun_akademik_table',$data);
     }
 
     public function tahun_akademik_detail($detail)
@@ -50,6 +56,15 @@ class C_tahun_akademik extends MY_Controller {
         $data['data_json'] = $data_json;
 
         $this->load->view('page/'.$data['department'].'/tahun_akademik_detail_date',$data);
+    }
+
+
+    // ==== Modal ====
+    public function modal_tahun_akademik(){
+        $action = $this->input->post('action');
+        $data['department'] = parent::__getDepartement();
+
+        $this->load->view('page/'.$data['department'].'/tahunakademik/modal_tahun_akademik',$data);
     }
 
 }

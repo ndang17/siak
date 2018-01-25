@@ -104,13 +104,18 @@ class C_api extends MY_Controller {
             // Cek apakah ID lebih dari satu
             $dataCek = $this->m_api->__cekTotalLAD($data_arr['laID']);
 
-            if(count($dataCek)==1){
-                $this->db->where('ID', $data_arr['laID']);
-                $this->db->delete('db_akademik.lecturers_availability');
 
+            if(count($dataCek)==1){
+//                print_r($data_arr['laID']);
                 $this->db->where('ID', $data_arr['ladID']);
                 $this->db->delete('db_akademik.lecturers_availability_detail');
+
+                $this->db->where('ID', $data_arr['laID']);
+                $this->db->delete('db_akademik.lecturers_availability');
+//
+
             } else {
+//                print_r('delete1');
                 $this->db->where('ID', $data_arr['ladID']);
                 $this->db->delete('db_akademik.lecturers_availability_detail');
             }
@@ -304,7 +309,21 @@ class C_api extends MY_Controller {
         }
     }
 
+    public function crudTahunAkademik(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
 
+        if(count($data_arr)>0){
+            if($data_arr['action']=='add'){
+                $data_insert = (array) $data_arr['dataForm'];
+                $this->db->insert('db_akademik.semester',$data_insert);
+                $insert_id = $this->db->insert_id();
 
+                return print_r($insert_id);
+            }
+        }
+
+    }
 
 }

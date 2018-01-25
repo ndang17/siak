@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.5.0 (64 bit)
-MySQL - 10.1.26-MariaDB : Database - db_akademik
+SQLyog Community v12.4.3 (64 bit)
+MySQL - 10.1.25-MariaDB : Database - db_akademik
 *********************************************************************
 */
 
@@ -26,7 +26,7 @@ CREATE TABLE `courses_groups` (
   `UpdateBy` varchar(30) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `courses_groups` */
 
@@ -34,11 +34,7 @@ insert  into `courses_groups`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values
 (1,'Mk. Pengembangan Kepribadian','2017090','2018-01-01 00:18:28'),
 (2,'Mk. Keilmuan & Ketrampilan','2017090','2018-01-02 00:18:41'),
 (3,'Mk. Keahlian Berkarya','2017090','2018-01-02 00:18:41'),
-(4,'Mk. Perilaku Berkarya','2017090','2018-01-02 00:18:41'),
-(5,'Mk. Berkehidupan & Bermasyarakat','2017090','2018-01-02 00:18:41'),
-(6,'mk cuy','2017090','2018-01-21 18:02:14'),
-(7,'tes mk','2017090','2018-01-21 18:02:59'),
-(8,'oke mk','2017090','2018-01-21 18:04:46');
+(4,'Mk. Perilaku Berkarya','2017090','2018-01-02 00:18:41');
 
 /*Table structure for table `curriculum` */
 
@@ -90,7 +86,7 @@ CREATE TABLE `curriculum_details` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=931 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=934 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_details` */
 
@@ -1024,7 +1020,9 @@ insert  into `curriculum_details`(`ID`,`CurriculumID`,`Semester`,`CurriculumType
 (927,4,2,NULL,5,NULL,123,'HOT0013',NULL,NULL,NULL,2,2,0,0,NULL,NULL,0,0,'2017090','2018-01-08 10:10:10'),
 (928,4,2,NULL,5,NULL,120,'HOT0010',NULL,NULL,NULL,2,2,0,0,NULL,NULL,0,0,'2017090','2018-01-08 10:10:10'),
 (929,4,2,NULL,5,NULL,121,'HOT0011',NULL,NULL,NULL,2,2,0,0,NULL,NULL,0,0,'2017090','2018-01-08 10:10:10'),
-(930,4,3,1,1,1,1,'1',1,'2114002',1,4,2,2,0,1,1,0,2018,NULL,NULL);
+(931,4,3,1,3,1,19,'HBP1009',1,'1115002',2,4,2,2,0,1,0,1,1,'2017090','2018-01-23 11:03:19'),
+(932,4,3,1,0,0,1,'UNI1004',1,'',0,0,0,0,0,1,0,0,0,'2017090','2018-01-23 09:02:44'),
+(933,4,3,1,4,1,24,'CEM2031',1,'3017001',1,4,2,2,0,1,1,1,0,'2017090','2018-01-23 11:02:49');
 
 /*Table structure for table `curriculum_types` */
 
@@ -1036,16 +1034,13 @@ CREATE TABLE `curriculum_types` (
   `UpdateBy` varchar(30) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_types` */
 
 insert  into `curriculum_types`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
 (1,'Kurikulum Inti','2017090','2018-01-01 00:17:16'),
-(2,'Kurikulum Institusional','2017090','2018-01-02 00:17:24'),
-(3,'kur oke','2017090','2018-01-21 17:46:28'),
-(4,'kur oke oke','2017090','2018-01-21 17:56:36'),
-(5,'hhh','2017090','2018-01-21 17:56:46');
+(2,'Kurikulum Institusional','2017090','2018-01-02 00:17:24');
 
 /*Table structure for table `education_level` */
 
@@ -1138,13 +1133,9 @@ CREATE TABLE `lecturers_availability` (
   `UpdateBy` varchar(45) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability` */
-
-insert  into `lecturers_availability`(`ID`,`SemesterID`,`LecturerID`,`MKID`,`MKCode`,`UpdateBy`,`UpdateAt`) values 
-(1,7,'1214044',2,'UNI1003','2017090','2018-01-15 14:17:32'),
-(2,7,'2114002',1,'UNI1004','2017090','2018-01-15 14:20:07');
 
 /*Table structure for table `lecturers_availability_detail` */
 
@@ -1161,12 +1152,6 @@ CREATE TABLE `lecturers_availability_detail` (
 
 /*Data for the table `lecturers_availability_detail` */
 
-insert  into `lecturers_availability_detail`(`ID`,`LecturersAvailabilityID`,`DayID`,`Start`,`End`) values 
-(1,1,1,'07:00:00','10:00:00'),
-(2,1,2,'15:00:00','17:00:00'),
-(3,2,1,'07:00:00','09:00:00'),
-(4,2,3,'08:00:00','12:00:00');
-
 /*Table structure for table `mata_kuliah` */
 
 DROP TABLE IF EXISTS `mata_kuliah`;
@@ -1181,7 +1166,7 @@ CREATE TABLE `mata_kuliah` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=564 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=565 DEFAULT CHARSET=latin1;
 
 /*Data for the table `mata_kuliah` */
 
@@ -1787,13 +1772,30 @@ insert  into `program_study`(`ID`,`EducationLevelID`,`FacultyID`,`KaprodiID`,`Di
 (10,1,2,'2616007','24','ENV','Teknik Lingkungan','Environmental Engineering','','2015-11-01','','2015-11-01',20,'',NULL,'0000-00-00','','0000-00-00','',NULL,'',NULL,NULL),
 (11,1,2,'2416026','23','PDP','Desain Produk','Produck Design','','2015-11-01','','2015-11-01',20,'',NULL,'0000-00-00','','0000-00-00','',NULL,'',NULL,NULL);
 
+/*Table structure for table `programs_campus` */
+
+DROP TABLE IF EXISTS `programs_campus`;
+
+CREATE TABLE `programs_campus` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(200) DEFAULT NULL,
+  `UpdateBy` varchar(20) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `programs_campus` */
+
+insert  into `programs_campus`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
+(1,'Program Reguler','2017090','2018-01-25 11:10:05');
+
 /*Table structure for table `semester` */
 
 DROP TABLE IF EXISTS `semester`;
 
 CREATE TABLE `semester` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ProgramID` int(11) DEFAULT NULL,
+  `ProgramCampusID` int(11) NOT NULL,
   `YearCode` int(11) DEFAULT NULL,
   `Name` varchar(100) DEFAULT NULL,
   `Status` int(11) DEFAULT NULL,
@@ -1804,7 +1806,7 @@ CREATE TABLE `semester` (
 
 /*Data for the table `semester` */
 
-insert  into `semester`(`ID`,`ProgramID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
+insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
 (1,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-05 16:39:00'),
 (2,1,20142,'2014/2015 Genap',0,'2017090','2018-01-05 16:39:00'),
 (3,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-05 16:39:00'),

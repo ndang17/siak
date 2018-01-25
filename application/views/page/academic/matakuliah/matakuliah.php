@@ -6,8 +6,8 @@
                 <div class="toolbar no-padding">
                     <div class="btn-group">
                         <span class="btn btn-xs" id="btn_addmk">
-											<i class="icon-plus"></i> Add Mata Kuliah
-										</span>
+                            <i class="icon-plus"></i> Add Mata Kuliah
+                        </span>
                     </div>
                 </div>
             </div>

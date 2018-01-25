@@ -53,7 +53,10 @@
         var ID = $(this).attr('data-id');
 
         if(action=='delete'){
-            crudItem(action,'',ID);
+            if(window.confirm('Hapus data ?')){
+                crudItem(action,'',ID);
+            }
+
         } else if(action=='edit') {
             $('#btnRemove'+ID).prop('disabled',true);
             $('#editForm'+ID).removeClass('hide');

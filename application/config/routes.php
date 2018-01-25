@@ -36,6 +36,8 @@ $route['academic/matakuliah'] = 'page/academic/c_matakuliah/mata_kuliah';
 $route['academic/dataTableMK'] = 'page/academic/c_matakuliah/dataTableMK';
 
 $route['academic/tahun-akademik'] = 'page/academic/c_tahun_akademik/tahun_akademik';
+$route['academic/tahun-akademik-table'] = 'page/academic/c_tahun_akademik/tahun_akademik_table';
+$route['academic/modal-tahun-akademik'] = 'page/academic/c_tahun_akademik/modal_tahun_akademik';
 $route['academic/tahun-akademik/(:any)'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail/$1';
 
 $route['academic/tahun-akademik-detail'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail2';
@@ -92,6 +94,8 @@ $route['api/__genrateMKCode'] = 'api/c_api/genrateMKCode';
 $route['api/__cekMKCode'] = 'api/c_api/cekMKCode';
 
 $route['api/__crudMetaKuliah'] = 'api/c_api/crudMetaKuliah';
+
+$route['api/__crudTahunAkademik'] = 'api/c_api/crudTahunAkademik';
 
 
 

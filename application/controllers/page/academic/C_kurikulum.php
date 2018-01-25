@@ -75,9 +75,13 @@ class C_kurikulum extends MY_Controller {
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
-        $table = 'courses_groups';
+        $table='';
         if($data_arr['action']=='ConfJenisKurikulum') {
             $table = 'curriculum_types';
+        } else if($data_arr['action']=='ConfJenisKelompok'){
+            $table = 'courses_groups';
+        } else if($data_arr['action']=='ConfProgram'){
+            $table = 'programs_campus';
         }
         $data['conf'] = $this->m_akademik->__getDataConf($table);
 

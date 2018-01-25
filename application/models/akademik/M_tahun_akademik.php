@@ -5,8 +5,10 @@ class M_tahun_akademik extends CI_Model {
 
     public function __getSemester()
     {
-        $data = $this->db->query('SELECT s.*, e.Name AS NameEmployee FROM db_akademik.semester s
-                                            JOIN db_employees.employees e ON (s.UpdateBy = e.NIP)
+        $data = $this->db->query('SELECT s.*, ps.Name AS ProgramName , e.Name AS NameEmployee 
+                                            FROM db_akademik.semester s
+                                            LEFT JOIN db_employees.employees e ON (s.UpdateBy = e.NIP)
+                                            LEFT JOIN db_akademik.programs_campus ps ON (s.ProgramCampusID = ps.ID)                                      
                                              ORDER BY s.ID DESC');
 
         return $data->result_array();
