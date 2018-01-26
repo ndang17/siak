@@ -11,7 +11,7 @@
                 <h4 class=""><i class="icon-reorder"></i> Tahun Akademik</h4>
                 <div class="toolbar no-padding">
                     <div class="btn-group">
-                        <span class="btn btn-xs" id="btn_addTahunAkademik">
+                        <span class="btn btn-xs btn-th-action" data-action="add" id="btn_addTahunAkademik">
                             <i class="icon-plus"></i> Add Tahun Akademik
                         </span>
                     </div>
@@ -31,16 +31,17 @@
         loadTable();
     });
 
-    $(document).on('click','#btn_addTahunAkademik',function () {
+    $(document).on('click','.btn-th-action',function () {
 
         var action = $(this).attr('data-action');
+        var id = $(this).attr('data-id');
         var url = base_url_js+"academic/modal-tahun-akademik";
-        $.post(url,{action:action},function (html) {
+        $.post(url,{action:action,id:id},function (html) {
 
             $('#GlobalModal .modal-header').html('<h4 class="modal-title">Tahun Akademik</h4>');
             $('#GlobalModal .modal-body').html(html);
             $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" id="modalBtnClose" data-dismiss="modal">Close</button>' +
-                '<button type="button" class="btn btn-success" data-action="add" id="modalBtnSave">Save</button>');
+                '<button type="button" class="btn btn-success btn-th-action" data-action="add" id="modalBtnSave">Save</button>');
             $('#GlobalModal').modal({
                 'show' : true,
                 'backdrop' : 'static'
@@ -64,9 +65,10 @@
 
     }
 
-    $(document).on('click','#modalBtnSave',function () {
+    $(document).on('click','.btn-th-action2',function () {
 
         var action = $(this).attr('data-action');
+        var ID = (action=='add')? '' : $(this).attr('data-id');
         var ProgramCampusID = $('#modalProgram').find(':selected').val();
         var tahun = $('#modalTahun').find(':selected').val().split('.');
         var semester = $('input[name=semester]:checked').val();
@@ -77,6 +79,7 @@
 
         var data = {
             action : action,
+            ID : ID,
             dataForm : {
                 ProgramCampusID : ProgramCampusID,
                 YearCode : YearCode,
@@ -87,20 +90,25 @@
             }
         };
 
-        loading_button('#modalBtnSave');
-        $('#modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',true);
+        var btn_id = '#'+$(this).attr('id');
 
-        var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+'api/__crudTahunAkademik';
-        $.post(url,{token:token},function (result) {
-            loadTable();
-            setTimeout(function () {
-                toastr.success('Data tersimpan','Success!!')
-                $('#GlobalModal').modal('hide');
-                $('#modalBtnSave').html('Save');
-                $('#modalBtnSave, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
-            },2000);
-        });
+        loading_button(btn_id);
+
+        console.log(data);
+
+        // $('#modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',true);
+        //
+        // var token = jwt_encode(data,'UAP)(*');
+        // var url = base_url_js+'api/__crudTahunAkademik';
+        // $.post(url,{token:token},function (result) {
+        //     loadTable();
+        //     setTimeout(function () {
+        //         toastr.success('Data tersimpan','Success!!')
+        //         $('#GlobalModal').modal('hide');
+        //         $(btn_id).html('Save');
+        //         $(btn_id+', #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
+        //     },2000);
+        // });
 
     });
 

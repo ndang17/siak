@@ -61,10 +61,27 @@ class C_tahun_akademik extends MY_Controller {
 
     // ==== Modal ====
     public function modal_tahun_akademik(){
-        $action = $this->input->post('action');
+
+        $data['action'] = $this->input->post('action');
+        $data['id'] = $this->input->post('id');
         $data['department'] = parent::__getDepartement();
+        $data['tahun'] = '';
+        $data['itemTahunAkademik'] = [];
+
+        $data['ProgramCampusID'] = '';
+        if($data['action']!='add'){
+            $data['itemTahunAkademik'] = $this->m_tahun_akademik->__getDataTahunAkademik($data['id']);
+            if(count($data['itemTahunAkademik'])>0){
+                $exp = explode(' ',$data['itemTahunAkademik'][0]['Name']);
+                $data['tahun'] = trim($exp[0]);
+                $data['ProgramCampusID'] = $data['itemTahunAkademik'][0]['ProgramCampusID'];
+            }
+        }
+
+        print_r($data['itemTahunAkademik']);
 
         $this->load->view('page/'.$data['department'].'/tahunakademik/modal_tahun_akademik',$data);
+
     }
 
 }

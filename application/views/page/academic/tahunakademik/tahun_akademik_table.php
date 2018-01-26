@@ -33,10 +33,10 @@
                         Action <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="edit" class="btn-th-action"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
-                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="delete" class="btn-th-action"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
+                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="edit" class="btn-th-action" id="modalBtnEdit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
+                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="delete" class="btn-th-action" id="modalBtnDelete"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
                         <li class="divider"></li>
-                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="publish" class="btn-th-action"><i class="fa fa-bullhorn" aria-hidden="true"></i> Publish</a></li>
+                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="publish" class="btn-th-action" id="modalBtnPublish"><i class="fa fa-bullhorn" aria-hidden="true"></i> Publish</a></li>
                     </ul>
                 </div>
             </td>
@@ -44,3 +44,13 @@
         <?php $no++; } ?>
     </tbody>
 </table>
+
+<script>
+    // $(document).on('click','.btn-th-action',function () {
+    //
+    //     var action = $(this).attr('data-action');
+    //     var ID = $(this).attr('data-id');
+    //
+    //
+    // });
+</script>

@@ -23,5 +23,10 @@ class M_tahun_akademik extends CI_Model {
         return $data->result_array();
     }
 
+    public function __getDataTahunAkademik($ID){
+        $data = $this->db->query('SELECT * FROM db_akademik.semester WHERE ID ="'.$ID.'" ');
+        return $data->result_array();
+    }
+
 
 }

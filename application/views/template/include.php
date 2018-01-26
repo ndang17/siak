@@ -366,7 +366,7 @@
         });
     }
 
-    function loadSelectOptionConf(element,jenis) {
+    function loadSelectOptionConf(element,jenis,selected) {
 
         var table = jenis;
 
@@ -381,6 +381,8 @@
         $.post(url,{token:token},function (data_json) {
             if(data_json.length>0){
                 for(var i=0;i<data_json.length;i++){
+                    var selc = (selected==data_json[i].ID) ?  'selected' : '';
+
                     $(''+element).append('<option value="'+data_json[i].ID+'">'+data_json[i].Name+'</option>');
                 }
             }
