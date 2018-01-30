@@ -1,4 +1,3 @@
-<button onclick="loadDetailPageTahunAkademik()">Detail</button>
 <table id="tableTahunAkademik" class="table table-striped table-bordered table-hover table-responsive">
     <thead>
     <tr>
@@ -9,6 +8,9 @@
         <th style="width: 15%;">Action</th>
     </tr>
     </thead>
+    <?php if(count($semester)<=0){
+        echo '<tr><td colspan="5" class="td-center">--- Data Empty ---</td></tr>';
+    } ?>
     <tbody>
     <?php $no=1; foreach ($semester as $item_smt) { ?>
         <tr>
@@ -16,7 +18,8 @@
             <td><?php echo $item_smt['ProgramName']; ?></td>
             <td class="td-center"><?php echo $item_smt['YearCode']; ?></td>
             <td>
-                <a href="<?php echo base_url('academic/tahun-akademik/'.$item_smt['YearCode']); ?>"><?php echo $item_smt['Name']; ?></a>
+<!--                <a href="--><?php //echo base_url('academic/tahun-akademik/'.$item_smt['YearCode']); ?><!--">--><?php //echo $item_smt['Name']; ?><!--</a>-->
+                <a href="javascript:void(0)" class="btn-detail-tahun-akademik" data-id="<?php echo $item_smt['ID']; ?>"><?php echo $item_smt['Name']; ?></a>
                 <div style="float: right;">
                     <?php
                     if($item_smt['Status']==1){

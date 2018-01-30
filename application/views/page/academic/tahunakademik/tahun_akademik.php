@@ -114,12 +114,17 @@
 
 
     });
+
+    $(document).on('click','.btn-detail-tahun-akademik',function () {
+        var ID = $(this).attr('data-id');
+        loadDetailPageTahunAkademik(ID);
+    });
     
     
-    function loadDetailPageTahunAkademik() {
+    function loadDetailPageTahunAkademik(ID) {
         loading_page('#loadTable');
         var url = base_url_js+'academic/detail-tahun-akademik';
-        $.post(url,{ID:1},function (html) {
+        $.post(url,{ID:ID},function (html) {
             setTimeout(function () {
                 $('#loadTable').html(html);
             },2000);

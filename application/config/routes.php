@@ -98,6 +98,8 @@ $route['api/__crudMetaKuliah'] = 'api/c_api/crudMetaKuliah';
 
 $route['api/__crudTahunAkademik'] = 'api/c_api/crudTahunAkademik';
 
+$route['api/__crudDataDetailTahunAkademik'] = 'api/c_api/crudDataDetailTahunAkademik';
+
 
 
 

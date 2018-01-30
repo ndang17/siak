@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.4.3 (64 bit)
-MySQL - 10.1.25-MariaDB : Database - db_akademik
+SQLyog Community v12.5.0 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_akademik
 *********************************************************************
 */
 
@@ -15,6 +15,84 @@ MySQL - 10.1.25-MariaDB : Database - db_akademik
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_akademik` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `db_akademik`;
+
+/*Table structure for table `academic_years` */
+
+DROP TABLE IF EXISTS `academic_years`;
+
+CREATE TABLE `academic_years` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SemesterID` int(11) NOT NULL,
+  `krsStart` date DEFAULT NULL,
+  `krsEnd` date DEFAULT NULL,
+  `bayarStart` date DEFAULT NULL,
+  `bayarEnd` date DEFAULT NULL,
+  `kuliahStart` date DEFAULT NULL,
+  `kuliahEnd` date DEFAULT NULL,
+  `utsStart` date DEFAULT NULL,
+  `utsEnd` date DEFAULT NULL,
+  `utsInputNilaiStart` date DEFAULT NULL,
+  `utsInputNilaiEnd` date DEFAULT NULL,
+  `showNilaiUts` date DEFAULT NULL,
+  `uasStart` date DEFAULT NULL,
+  `uasEnd` date DEFAULT NULL,
+  `uasInputNilaiStart` date DEFAULT NULL,
+  `uasInputNilaiEnd` date DEFAULT NULL,
+  `showNilaiUas` date DEFAULT NULL,
+  `edomStart` date DEFAULT NULL,
+  `edomEnd` date DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+/*Data for the table `academic_years` */
+
+insert  into `academic_years`(`ID`,`SemesterID`,`krsStart`,`krsEnd`,`bayarStart`,`bayarEnd`,`kuliahStart`,`kuliahEnd`,`utsStart`,`utsEnd`,`utsInputNilaiStart`,`utsInputNilaiEnd`,`showNilaiUts`,`uasStart`,`uasEnd`,`uasInputNilaiStart`,`uasInputNilaiEnd`,`showNilaiUas`,`edomStart`,`edomEnd`) values 
+(1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(2,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(3,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(4,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(5,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(6,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(7,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+/*Table structure for table `academic_years_desc` */
+
+DROP TABLE IF EXISTS `academic_years_desc`;
+
+CREATE TABLE `academic_years_desc` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Description` varchar(200) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+/*Data for the table `academic_years_desc` */
+
+insert  into `academic_years_desc`(`ID`,`Description`) values 
+(1,'KRS'),
+(2,'Bayar'),
+(3,'Kuliah'),
+(4,'UTS'),
+(5,'Input Nilai UTS'),
+(6,'Show Nilai UTS'),
+(7,'UAS'),
+(8,'Input Nilai UAS'),
+(9,'Show Nilai UAS'),
+(10,'Edom');
+
+/*Table structure for table `academic_years_special_case` */
+
+DROP TABLE IF EXISTS `academic_years_special_case`;
+
+CREATE TABLE `academic_years_special_case` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SemesterID` int(11) NOT NULL,
+  `AcademicDescID` int(11) NOT NULL,
+  `Start` date DEFAULT NULL,
+  `End` date DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `academic_years_special_case` */
 
 /*Table structure for table `courses_groups` */
 
@@ -1803,20 +1881,18 @@ CREATE TABLE `semester` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `semester` */
 
 insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(1,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-05 16:39:00'),
-(2,1,20142,'2014/2015 Genap',0,'2017090','2018-01-05 16:39:00'),
-(3,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-05 16:39:00'),
-(4,1,20152,'2015/2016 Genap',0,'2017090','2018-01-05 16:39:00'),
-(5,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-05 16:39:00'),
-(6,1,20162,'2016/2017 Genap',0,'2017090','2018-01-05 16:39:00'),
-(7,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-05 16:39:00'),
-(11,1,20172,'2017/2018 Genap',0,'2017090','2018-01-30 11:55:39'),
-(12,1,20182,'2018/2019 Genap',0,'2017090','2018-01-30 13:27:16');
+(1,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
+(2,1,20142,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
+(3,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
+(4,1,20152,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
+(5,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
+(6,1,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
+(7,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-30 22:36:27');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

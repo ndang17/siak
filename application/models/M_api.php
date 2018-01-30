@@ -222,4 +222,13 @@ class M_api extends CI_Model {
 
         return $data->result_array();
     }
+
+    public function __crudDataDetailTahunAkademik($id){
+
+        $data = $this->db->query('SELECT * FROM db_akademik.semester 
+                                    WHERE ID = "'.$id.'"');
+        return $data->result_array();
+
+    }
+
 }

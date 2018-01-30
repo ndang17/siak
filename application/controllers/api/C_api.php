@@ -321,6 +321,9 @@ class C_api extends MY_Controller {
                 $this->db->insert('db_akademik.semester',$dataForm);
                 $insert_id = $this->db->insert_id();
 
+                $this->db->insert('db_akademik.academic_years',
+                    array('SemesterID' => $insert_id));
+
                 return print_r($insert_id);
             } else if($data_arr['action']=='edit'){
                 $this->db->where('ID', $data_arr['ID']);
@@ -332,6 +335,23 @@ class C_api extends MY_Controller {
                 return print_r(1);
             }
         }
+
+    }
+
+    public function crudDataDetailTahunAkademik(){
+
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='read'){
+                $data = $this->m_api->__crudDataDetailTahunAkademik($data_arr['ID']);
+                return print_r(json_encode($data));
+            }
+        }
+
+
 
     }
 
