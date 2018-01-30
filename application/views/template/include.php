@@ -383,7 +383,7 @@
                 for(var i=0;i<data_json.length;i++){
                     var selc = (selected==data_json[i].ID) ?  'selected' : '';
 
-                    $(''+element).append('<option value="'+data_json[i].ID+'">'+data_json[i].Name+'</option>');
+                    $(''+element).append('<option value="'+data_json[i].ID+'" '+selc+'>'+data_json[i].Name+'</option>');
                 }
             }
         })

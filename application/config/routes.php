@@ -37,6 +37,7 @@ $route['academic/dataTableMK'] = 'page/academic/c_matakuliah/dataTableMK';
 
 $route['academic/tahun-akademik'] = 'page/academic/c_tahun_akademik/tahun_akademik';
 $route['academic/tahun-akademik-table'] = 'page/academic/c_tahun_akademik/tahun_akademik_table';
+$route['academic/detail-tahun-akademik'] = 'page/academic/c_tahun_akademik/page_detail_tahun_akademik';
 $route['academic/modal-tahun-akademik'] = 'page/academic/c_tahun_akademik/modal_tahun_akademik';
 $route['academic/tahun-akademik/(:any)'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail/$1';
 

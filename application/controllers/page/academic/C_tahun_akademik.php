@@ -31,6 +31,14 @@ class C_tahun_akademik extends MY_Controller {
         $this->load->view('page/'.$data['department'].'/tahunakademik/tahun_akademik_table',$data);
     }
 
+    public function page_detail_tahun_akademik(){
+        $data['department'] = parent::__getDepartement();
+        $data['ID'] = $this->input->post('ID');
+        $this->load->view('page/'.$data['department'].'/tahunakademik/detail_tahun_akademik',$data);
+
+
+    }
+
     public function tahun_akademik_detail($detail)
     {
         $data['department'] = parent::__getDepartement();
@@ -69,16 +77,18 @@ class C_tahun_akademik extends MY_Controller {
         $data['itemTahunAkademik'] = [];
 
         $data['ProgramCampusID'] = '';
+        $data['semester'] = '';
         if($data['action']!='add'){
             $data['itemTahunAkademik'] = $this->m_tahun_akademik->__getDataTahunAkademik($data['id']);
             if(count($data['itemTahunAkademik'])>0){
                 $exp = explode(' ',$data['itemTahunAkademik'][0]['Name']);
                 $data['tahun'] = trim($exp[0]);
                 $data['ProgramCampusID'] = $data['itemTahunAkademik'][0]['ProgramCampusID'];
+                $data['semester'] = substr($data['itemTahunAkademik'][0]['YearCode'],-1);
             }
         }
 
-        print_r($data['itemTahunAkademik']);
+//        print_r($data['itemTahunAkademik']);
 
         $this->load->view('page/'.$data['department'].'/tahunakademik/modal_tahun_akademik',$data);
 

@@ -26,7 +26,7 @@ CREATE TABLE `courses_groups` (
   `UpdateBy` varchar(30) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `courses_groups` */
 
@@ -1034,7 +1034,7 @@ CREATE TABLE `curriculum_types` (
   `UpdateBy` varchar(30) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_types` */
 
@@ -1148,7 +1148,7 @@ CREATE TABLE `lecturers_availability_detail` (
   `Start` time DEFAULT NULL,
   `End` time DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability_detail` */
 
@@ -1166,7 +1166,7 @@ CREATE TABLE `mata_kuliah` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=565 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=564 DEFAULT CHARSET=latin1;
 
 /*Data for the table `mata_kuliah` */
 
@@ -1782,12 +1782,13 @@ CREATE TABLE `programs_campus` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `programs_campus` */
 
 insert  into `programs_campus`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
-(1,'Program Reguler','2017090','2018-01-25 11:10:05');
+(1,'Program Reguler','2017090','2018-01-25 11:10:05'),
+(2,'Program Tes','2017090','2018-01-30 09:13:21');
 
 /*Table structure for table `semester` */
 
@@ -1802,7 +1803,7 @@ CREATE TABLE `semester` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `semester` */
 
@@ -1813,7 +1814,9 @@ insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`Updat
 (4,1,20152,'2015/2016 Genap',0,'2017090','2018-01-05 16:39:00'),
 (5,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-05 16:39:00'),
 (6,1,20162,'2016/2017 Genap',0,'2017090','2018-01-05 16:39:00'),
-(7,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-05 16:39:00');
+(7,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-05 16:39:00'),
+(11,1,20172,'2017/2018 Genap',0,'2017090','2018-01-30 11:55:39'),
+(12,1,20182,'2018/2019 Genap',0,'2017090','2018-01-30 13:27:16');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

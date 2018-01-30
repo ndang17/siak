@@ -300,7 +300,7 @@
     $(document).ready(function () {
 
         $('.form-tahun-akademik').prop('disabled',true);
-
+        editDataTahunAkademik = false;
 
 
         $( "#krs_start ,#bayar_start,#kuliah_start,#edom_start,#uts_start,#nilaiuts_start,#uas_start,#nilaiuas_start" ).datepicker({

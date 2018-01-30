@@ -222,7 +222,7 @@
             loadSelectOptionLecturersSingle('#ModalSelectMK','');
             loadSelectOptionLecturersSingle('#ModalLecturers','');
             $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
-            log('add');
+            // log('add');
         }
         else if(action=='edit')
         {

@@ -1,5 +1,4 @@
 
-
 <table class="table" style="margin-bottom: 0px;">
     <tr>
         <td style="width: 25%;">Program</td>
@@ -25,15 +24,23 @@
 
 <script>
     $(document).ready(function () {
-        var Tahun = "<?php echo $tahun; ?>";
-        loadModalTahun(Tahun);
-        loadSelectOptionConf('#modalProgram','programs_campus');
+
+        var action = '<?php echo $action; ?>';
+        var Tahun = '<?php echo $tahun; ?>';
+        var ProgramCampusID = '<?php echo $ProgramCampusID; ?>';
+
+        loadModalTahun(Tahun,action);
+        loadSelectOptionConf('#modalProgram','programs_campus',ProgramCampusID);
+
+
+        if(action!='add'){
+            $('input[type=radio][name=semester][value=<?php echo $semester; ?>]').prop('checked',true);
+        }
+
     });
 
-    function loadModalTahun(selected) {
+    function loadModalTahun(selected,action) {
         var option = $('#modalTahun');
-        var action = "<?php echo $action; ?>";
-
 
         // Sebelumnya
         for(var i=0;i>=-1;i--){
@@ -58,5 +65,7 @@
             option.prepend('<option value="'+moment().add(n1,'year').year()+'.'+tahun+'" '+sel+'>'+tahun+'</option>');
         }
     }
+
+
 
 </script>

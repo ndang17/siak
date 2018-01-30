@@ -315,12 +315,21 @@ class C_api extends MY_Controller {
         $data_arr = (array) $this->jwt->decode($token,$key);
 
         if(count($data_arr)>0){
+            $dataForm = (array) $data_arr['dataForm'];
             if($data_arr['action']=='add'){
-                $data_insert = (array) $data_arr['dataForm'];
-                $this->db->insert('db_akademik.semester',$data_insert);
+
+                $this->db->insert('db_akademik.semester',$dataForm);
                 $insert_id = $this->db->insert_id();
 
                 return print_r($insert_id);
+            } else if($data_arr['action']=='edit'){
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->update('db_akademik.semester',$dataForm);
+                return print_r(1);
+            } else if($data_arr['action']=='delete'){
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->delete('db_akademik.semester');
+                return print_r(1);
             }
         }
 
