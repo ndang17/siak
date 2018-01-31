@@ -13,7 +13,7 @@
     }
 </style>
 
-<a href="<?php echo base_url('academic/tahun-akademik'); ?>" class="btn btn-info"><i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</a>
+<a href="<?php echo base_url('academic/tahun-akademik'); ?>" id="btnBack" class="btn btn-info"><i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</a>
 <button class="btn btn-success" id="btnSaveDetail">Save</button>
 <hr/>
 
@@ -166,7 +166,7 @@
             showOtherMonths:true,
             autoSize: true,
             dateFormat: 'dd MM yy',
-            minDate: new Date(moment().year(),moment().month(),moment().date()),
+            // minDate: new Date(moment().year(),moment().month(),moment().date()),
             onSelect : function () {
                 var data_date = $(this).val().split(' ');
                 var nextelement = $(this).attr('nextelement')
@@ -187,6 +187,7 @@
 
         var data = {
             action : 'edit',
+            SemesterID : ID,
             dataForm : {
                 SemesterID : ID,
                 krsStart : ($('#krs_start').datepicker("getDate")!=null) ? moment($('#krs_start').datepicker("getDate")).format('YYYY-MM-DD') : '',
@@ -208,9 +209,21 @@
                 edomStart : ($('#edom_start').datepicker("getDate")!=null) ? moment($('#edom_start').datepicker("getDate")).format('YYYY-MM-DD') : '',
                 edomEnd : ($('#edom_end').datepicker("getDate")!=null) ? moment($('#edom_end').datepicker("getDate")).format('YYYY-MM-DD') : ''
             }
-        }
+        };
 
-        console.log(data);
+        loading_button('#btnSaveDetail');
+        $('.form-tahun-akademik,#btnBack').prop('disabled',true);
+
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'api/__crudDataDetailTahunAkademik';
+        $.post(url,{token:token},function (data) {
+            setTimeout(function () {
+                $('#btnSaveDetail').prop('disabled',false).html('Save');
+                $('.form-tahun-akademik,#btnBack').prop('disabled',false);
+            },2000);
+        });
+
+        // console.log(data);
 
         // var krsStart = ;
         // log(krsStart);
@@ -227,7 +240,44 @@
         var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token}, function (data) {
             console.log(data);
-            $('#nameTahunAkademik').html(data[0].Name);
+            $('#nameTahunAkademik').html(data.TahunAkademik.Name);
+
+            (data.DetailTA.krsStart!=='0000-00-00' && data.DetailTA.krsStart!==null) ? $('#krs_start').datepicker('setDate',new Date(data.DetailTA.krsStart)) : '';
+            (data.DetailTA.krsEnd!=='0000-00-00' && data.DetailTA.krsEnd!==null) ? $('#krs_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.krsStart)}).datepicker('setDate',new Date(data.DetailTA.krsEnd)) : '';
+
+            (data.DetailTA.bayarStart!=='0000-00-00' && data.DetailTA.bayarStart!==null) ? $('#bayar_start').datepicker('setDate',new Date(data.DetailTA.bayarStart)) : '';
+            (data.DetailTA.bayarEnd !=='0000-00-00' && data.DetailTA.bayarEnd!==null) ? $('#bayar_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.bayarStart)}).datepicker('setDate',new Date(data.DetailTA.bayarEnd)) : '';
+
+            (data.DetailTA.kuliahStart !=='0000-00-00' && data.DetailTA.kuliahStart !== null) ? $('#kuliah_start').datepicker('setDate',new Date(data.DetailTA.kuliahStart)):'';
+            (data.DetailTA.kuliahEnd !=='0000-00-00' && data.DetailTA.kuliahEnd!== null) ? $('#kuliah_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.kuliahStart)}).datepicker('setDate',new Date(data.DetailTA.kuliahEnd)) : '';
+
+            (data.DetailTA.utsStart !=='0000-00-00' && data.DetailTA.utsStart!==null) ? $('#uts_start').datepicker('setDate',new Date(data.DetailTA.utsStart)) : '';
+            (data.DetailTA.utsEnd !=='0000-00-00' && data.DetailTA.utsEnd!==null) ? $('#uts_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.utsStart)}).datepicker('setDate',new Date(data.DetailTA.utsEnd)) : '';
+
+            (data.DetailTA.utsInputNilaiStart!=='0000-00-00' && data.DetailTA.utsInputNilaiStart!==null) ? $('#nilaiuts_start').datepicker('setDate',new Date(data.DetailTA.utsInputNilaiStart)) : '';
+            (data.DetailTA.utsInputNilaiEnd !=='0000-00-00' && data.DetailTA.utsInputNilaiEnd!==null) ? $('#nilaiuts_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.utsInputNilaiStart)}).datepicker('setDate',new Date(data.DetailTA.utsInputNilaiEnd)) : '';
+
+            (data.DetailTA.showNilaiUts !=='0000-00-00' && data.DetailTA.showNilaiUts!==null) ? $('#show_nilai_uts').datepicker('setDate',new Date(data.DetailTA.showNilaiUts)) : '';
+
+            (data.DetailTA.uasStart!=='0000-00-00' && data.DetailTA.uasStart!==null) ? $('#uas_start').datepicker('setDate',new Date(data.DetailTA.uasStart)) : '';
+            (data.DetailTA.uasEnd !=='0000-00-00' && data.DetailTA.uasEnd!==null) ? $('#uas_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.uasStart)}).datepicker('setDate',new Date(data.DetailTA.uasEnd)) : '';
+
+            (data.DetailTA.uasInputNilaiStart !=='0000-00-00' && data.DetailTA.uasInputNilaiStart!==null) ? $('#nilaiuas_start').datepicker('setDate',new Date(data.DetailTA.uasInputNilaiStart)) : '';
+            (data.DetailTA.uasInputNilaiEnd !=='0000-00-00' && data.DetailTA.uasInputNilaiEnd!==null) ? $('#nilaiuas_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.uasInputNilaiStart)}).datepicker('setDate',new Date(data.DetailTA.uasInputNilaiEnd)) : '';
+
+            (data.DetailTA.showNilaiUas !=='0000-00-00' && data.DetailTA.showNilaiUas!==null) ? $('#show_nilai_uas').datepicker('setDate',new Date(data.DetailTA.showNilaiUas)) : '';
+
+            (data.DetailTA.edomStart !=='0000-00-00' && data.DetailTA.edomStart!==null) ? $('#edom_start').datepicker('setDate',new Date(data.DetailTA.edomStart)) : '';
+            (data.DetailTA.edomEnd !=='0000-00-00' && data.DetailTA.edomEnd !==null) ? $('#edom_end').datepicker({showOtherMonths:true,autoSize: true,dateFormat: 'dd MM yy',
+                minDate: new Date(data.DetailTA.edomStart)}).datepicker('setDate',new Date(data.DetailTA.edomEnd)) : '';
+
         });
     }
 

@@ -346,13 +346,24 @@ class C_api extends MY_Controller {
 
         if(count($data_arr)>0){
             if($data_arr['action']=='read'){
+
                 $data = $this->m_api->__crudDataDetailTahunAkademik($data_arr['ID']);
                 return print_r(json_encode($data));
+
+            } else if($data_arr['action']=='edit') {
+
+                $dataForm = (array) $data_arr['dataForm'];
+                $this->db->where('SemesterID',$data_arr['SemesterID']);
+                $this->db->update('db_akademik.academic_years',$dataForm);
+
+                return print_r($data_arr['SemesterID']);
             }
         }
 
 
 
     }
+
+
 
 }
