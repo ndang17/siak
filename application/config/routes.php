@@ -29,6 +29,7 @@ $route['academic/kurikulum/add-kurikulum'] = 'page/academic/c_kurikulum/add_kuri
 $route['academic/kurikulum/loadPageDetailMataKuliah'] = 'page/academic/c_kurikulum/loadPageDetailMataKuliah';
 
 $route['academic/kurikulum/data-conf'] = 'page/academic/c_kurikulum/getDataConf';
+$route['academic/kurikulum/getClassGroup'] = 'page/academic/c_kurikulum/getClassGroup';
 
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';

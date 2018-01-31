@@ -92,6 +92,28 @@ class C_kurikulum extends MY_Controller {
 
     }
 
+    public function getClassGroup(){
+
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $data['department'] = parent::__getDepartement();
+
+        if($data_arr['action']=='read'){
+            $data['dataClassGroup'] = $this->m_akademik->getdataClassGroup();
+            $this->load->view('page/'.$data['department'].'/kurikulum/modal_class_group',$data);
+        } else if($data_arr['action']=='add'){
+            $dataForm = (array) $data_arr['dataForm'];
+            $this->db->insert('db_academic.class_group',$dataForm);
+            $insert_id = $this->db->insert_id();
+
+            return print_r($insert_id);
+        }
+
+
+    }
+
 
 
 
@@ -117,10 +139,7 @@ class C_kurikulum extends MY_Controller {
     }
 
 
-    // ========= API =========
-    public function __getKurikulumByYear(){
 
-    }
 
 
 

@@ -1,6 +1,6 @@
 /*
 SQLyog Community v12.4.3 (64 bit)
-MySQL - 10.1.25-MariaDB : Database - db_akademik
+MySQL - 10.1.25-MariaDB : Database - db_academic
 *********************************************************************
 */
 
@@ -12,9 +12,9 @@ MySQL - 10.1.25-MariaDB : Database - db_akademik
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_akademik` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_academic` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `db_akademik`;
+USE `db_academic`;
 
 /*Table structure for table `academic_years` */
 
@@ -53,7 +53,7 @@ insert  into `academic_years`(`ID`,`SemesterID`,`krsStart`,`krsEnd`,`bayarStart`
 (4,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
 (5,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
 (6,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
-(7,7,'2018-02-02','2018-02-28','2018-01-04','2018-01-30','2018-03-01','2018-03-31','2018-04-01','2018-04-30','2018-01-01','2018-01-31','2018-05-01','2018-08-01','2018-08-31','2018-09-01','2018-09-30','2018-11-08','2018-12-01','2018-12-31');
+(7,7,'2018-01-25','2018-01-31','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00');
 
 /*Table structure for table `academic_years_desc` */
 
@@ -93,6 +93,41 @@ CREATE TABLE `academic_years_special_case` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `academic_years_special_case` */
+
+/*Table structure for table `class_group` */
+
+DROP TABLE IF EXISTS `class_group`;
+
+CREATE TABLE `class_group` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BaseProdiID` int(11) NOT NULL,
+  `Name` varchar(45) DEFAULT NULL,
+  `Status` int(11) DEFAULT NULL,
+  `UpdateBy` varchar(20) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `class_group` */
+
+insert  into `class_group`(`ID`,`BaseProdiID`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
+(1,1,'ARC123',NULL,'2017090','2018-01-31 17:01:22');
+
+/*Table structure for table `classroom` */
+
+DROP TABLE IF EXISTS `classroom`;
+
+CREATE TABLE `classroom` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) DEFAULT NULL,
+  `Quantities` int(11) DEFAULT NULL,
+  `Status` int(11) DEFAULT NULL,
+  `UpdateBy` varchar(20) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `classroom` */
 
 /*Table structure for table `courses_groups` */
 
@@ -1211,9 +1246,12 @@ CREATE TABLE `lecturers_availability` (
   `UpdateBy` varchar(45) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability` */
+
+insert  into `lecturers_availability`(`ID`,`SemesterID`,`LecturerID`,`MKID`,`MKCode`,`UpdateBy`,`UpdateAt`) values 
+(1,7,'2516028',74,'CEM0001','2017090','2018-01-31 10:37:01');
 
 /*Table structure for table `lecturers_availability_detail` */
 
@@ -1226,9 +1264,12 @@ CREATE TABLE `lecturers_availability_detail` (
   `Start` time DEFAULT NULL,
   `End` time DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecturers_availability_detail` */
+
+insert  into `lecturers_availability_detail`(`ID`,`LecturersAvailabilityID`,`DayID`,`Start`,`End`) values 
+(1,1,1,'10:00:00','12:00:00');
 
 /*Table structure for table `mata_kuliah` */
 

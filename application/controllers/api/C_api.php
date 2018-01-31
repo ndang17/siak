@@ -90,13 +90,13 @@ class C_api extends MY_Controller {
 
         if($data_arr['action']=='add'){
             $dataInsert = (array) $data_arr['dataForm'];
-            $this->db->insert('db_akademik.lecturers_availability',$dataInsert);
+            $this->db->insert('db_academic.lecturers_availability',$dataInsert);
             return print_r($this->db->insert_id());
         } else if($data_arr['action']=='edit'){
 
             $update_lad = (array) $data_arr['dataForm_lad'];
             $this->db->where('ID', $data_arr['ladID']);
-            $this->db->update('db_akademik.lecturers_availability_detail',$update_lad);
+            $this->db->update('db_academic.lecturers_availability_detail',$update_lad);
 
             return print_r(1);
         } else if($data_arr['action']=='delete'){
@@ -108,16 +108,16 @@ class C_api extends MY_Controller {
             if(count($dataCek)==1){
 //                print_r($data_arr['laID']);
                 $this->db->where('ID', $data_arr['ladID']);
-                $this->db->delete('db_akademik.lecturers_availability_detail');
+                $this->db->delete('db_academic.lecturers_availability_detail');
 
                 $this->db->where('ID', $data_arr['laID']);
-                $this->db->delete('db_akademik.lecturers_availability');
+                $this->db->delete('db_academic.lecturers_availability');
 //
 
             } else {
 //                print_r('delete1');
                 $this->db->where('ID', $data_arr['ladID']);
-                $this->db->delete('db_akademik.lecturers_availability_detail');
+                $this->db->delete('db_academic.lecturers_availability_detail');
             }
 
 
@@ -134,7 +134,7 @@ class C_api extends MY_Controller {
 
 //        print_r($data_arr);
         if($action=='insert'){
-            $this->db->insert('db_akademik.lecturers_availability_detail',$data_arr);
+            $this->db->insert('db_academic.lecturers_availability_detail',$data_arr);
             return $this->db->insert_id();
         }
     }
@@ -163,7 +163,7 @@ class C_api extends MY_Controller {
         if(count($data)>0){
             return print_r(0);
         } else {
-            $this->db->insert('db_akademik.curriculum',$data_arr);
+            $this->db->insert('db_academic.curriculum',$data_arr);
             return print_r(1);
         }
 
@@ -189,17 +189,17 @@ class C_api extends MY_Controller {
 //        exit;
         if($data_arr['action']=='add'){
             $insert = (array) $data_arr['data_insert'];
-            $this->db->insert('db_akademik.'.$data_arr['table'],$insert);
+            $this->db->insert('db_academic.'.$data_arr['table'],$insert);
             $insert_id = $this->db->insert_id();
             return print_r($insert_id);
         } else if($data_arr['action']=='edit'){
             $dataupdate = (array) $data_arr['data_insert'];
             $this->db->where('ID', $data_arr['ID']);
-            $this->db->update('db_akademik.'.$data_arr['table'],$dataupdate);
+            $this->db->update('db_academic.'.$data_arr['table'],$dataupdate);
             return print_r(1);
         } else if($data_arr['action']=='delete'){
             $this->db->where('ID', $data_arr['ID']);
-            $this->db->delete('db_akademik.'.$data_arr['table']);
+            $this->db->delete('db_academic.'.$data_arr['table']);
             return print_r(1);
         } else if($data_arr['action']=='read'){
             $data = $this->m_api->__getItemKuriklum($data_arr['table']);
@@ -214,18 +214,18 @@ class C_api extends MY_Controller {
 
         if($data_arr['action']=='add'){
             $insert = (array) $data_arr['dataForm'];
-            $this->db->insert('db_akademik.curriculum_details',$insert);
+            $this->db->insert('db_academic.curriculum_details',$insert);
             $insert_id = $this->db->insert_id();
 
             return print_r($insert_id);
         } else if($data_arr['action']=='edit'){
             $update = (array) $data_arr['dataForm'];
             $this->db->where('ID', $data_arr['ID']);
-            $this->db->update('db_akademik.curriculum_details',$update);
+            $this->db->update('db_academic.curriculum_details',$update);
 //            print_r($data_arr);
 
             $this->db->where('CurriculumDetailID', $data_arr['ID']);
-            $this->db->delete('db_akademik.precondition');
+            $this->db->delete('db_academic.precondition');
 
             $insert_id = $data_arr['ID'];
         }
@@ -240,7 +240,7 @@ class C_api extends MY_Controller {
                     'MKID' => trim($ex[0]),
                     'MKCode' => trim($ex[1])
                 );
-                $this->db->insert('db_akademik.precondition',$data_Pra);
+                $this->db->insert('db_academic.precondition',$data_Pra);
             }
         }
     }
@@ -287,7 +287,7 @@ class C_api extends MY_Controller {
         if(count($data_arr)>0){
             if($data_arr['action']=='add'){
                 $dataInsert = (array) $data_arr['dataForm'];
-                $this->db->insert('db_akademik.mata_kuliah',$dataInsert);
+                $this->db->insert('db_academic.mata_kuliah',$dataInsert);
                 $insert_id = $this->db->insert_id();
 
                 return print_r($insert_id);
@@ -296,14 +296,14 @@ class C_api extends MY_Controller {
             {
                 $dataInsert = (array) $data_arr['dataForm'];
                 $this->db->where('ID', $data_arr['ID']);
-                $this->db->update('db_akademik.mata_kuliah',$dataInsert);
+                $this->db->update('db_academic.mata_kuliah',$dataInsert);
 
                 return print_r(1);
             }
             else if($data_arr['action']=='delete')
             {
                 $this->db->where('ID', $data_arr['ID']);
-                $this->db->delete('db_akademik.mata_kuliah');
+                $this->db->delete('db_academic.mata_kuliah');
                 return print_r(1);
             }
         }
@@ -318,20 +318,20 @@ class C_api extends MY_Controller {
             $dataForm = (array) $data_arr['dataForm'];
             if($data_arr['action']=='add'){
 
-                $this->db->insert('db_akademik.semester',$dataForm);
+                $this->db->insert('db_academic.semester',$dataForm);
                 $insert_id = $this->db->insert_id();
 
-                $this->db->insert('db_akademik.academic_years',
+                $this->db->insert('db_academic.academic_years',
                     array('SemesterID' => $insert_id));
 
                 return print_r($insert_id);
             } else if($data_arr['action']=='edit'){
                 $this->db->where('ID', $data_arr['ID']);
-                $this->db->update('db_akademik.semester',$dataForm);
+                $this->db->update('db_academic.semester',$dataForm);
                 return print_r(1);
             } else if($data_arr['action']=='delete'){
                 $this->db->where('ID', $data_arr['ID']);
-                $this->db->delete('db_akademik.semester');
+                $this->db->delete('db_academic.semester');
                 return print_r(1);
             }
         }
@@ -354,7 +354,7 @@ class C_api extends MY_Controller {
 
                 $dataForm = (array) $data_arr['dataForm'];
                 $this->db->where('SemesterID',$data_arr['SemesterID']);
-                $this->db->update('db_akademik.academic_years',$dataForm);
+                $this->db->update('db_academic.academic_years',$dataForm);
 
                 return print_r($data_arr['SemesterID']);
             }

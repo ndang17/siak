@@ -328,6 +328,23 @@
             }
         });
     }
+
+    $(document).on('click','button[data-toggle=collapse]',function () {
+        var cl = $(this).attr("class").split(" ");
+
+        if($.inArray('btn-danger',cl)==1){
+            $(this).removeClass('btn-danger');
+            $(this).addClass('btn-info');
+            $(this).children().removeClass('fa-minus-circle');
+            $(this).children().addClass('fa-plus-circle');
+        } else {
+            $(this).addClass('btn-danger');
+            $(this).removeClass('btn-info');
+            $(this).children().addClass('fa-minus-circle');
+            $(this).children().removeClass('fa-plus-circle');
+        }
+
+    });
     
     function loadSelectOptionAllMataKuliah(element) {
 

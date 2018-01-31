@@ -211,14 +211,14 @@ class C_auth extends MY_Controller {
                     'Visi' => $data[$i]['Visi'],
                     'Misi' => $data[$i]['Misi']
                 );
-                $this->db->insert('db_akademik.program_study',$arr);
+                $this->db->insert('db_academic.program_study',$arr);
             }
         } else if($table=='mk'){
             $data = $this->db_server->query('SELECT * FROM siak4.matakuliah')->result_array();
 
 
             // Double MKCode
-            //SELECT * FROM db_akademik.mata_kuliah WHERE MKCode IN (SELECT MKCode FROM db_akademik.mata_kuliah GROUP BY MKCode HAVING count(*) > 1);
+            //SELECT * FROM db_academic.mata_kuliah WHERE MKCode IN (SELECT MKCode FROM db_academic.mata_kuliah GROUP BY MKCode HAVING count(*) > 1);
 
             foreach($data as $item){
                 $ProdiID = $item['BaseProdiID'];
@@ -267,7 +267,7 @@ class C_auth extends MY_Controller {
                 );
                 print_r($arr);
 
-                $this->db->insert('db_akademik.mata_kuliah',$arr);
+                $this->db->insert('db_academic.mata_kuliah',$arr);
             }
 
 
@@ -337,7 +337,7 @@ class C_auth extends MY_Controller {
                 );
 
 
-//                $this->db->insert('db_akademik.curriculum_details',$arr);
+//                $this->db->insert('db_academic.curriculum_details',$arr);
             }
 
             print_r(count($data));

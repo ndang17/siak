@@ -1,7 +1,7 @@
 
 <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <button  data-page="jadwal" class="btn btn-info btn-action"><i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</button>
 
         <table class="table table-striped" style="margin-top: 10px;">
@@ -23,7 +23,7 @@
                 </td>
                 <td>:</td>
                 <td>
-                    <b>Reguler</b>
+                    <select class="form-control" id="modalProgram"></select>
                 </td>
             </tr>
             <tr>
@@ -39,7 +39,10 @@
                 <td>Mata Kuliah</td>
                 <td>:</td>
                 <td>
-                    <select class="form-control"></select>
+                    <select class="select2-select-00 full-width-fix"
+                            size="5" id="ModalSelectMK">
+                        <option value=""></option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -118,6 +121,9 @@
     $(document).ready(function () {
         // $('.control-jadwal').prop("disabled",true);
         loadProdiSelectOption('#BaseProdi');
+        loadSelectOptionConf('#modalProgram','programs_campus','');
+        loadSelectOptionLecturersSingle('#ModalSelectMK','');
+        $('#ModalSelectMK').select2({allowClear: true});
 
 
         $('input[type=radio][name=kelasGabungan]').change(function () {
