@@ -76,13 +76,51 @@
     /*Custom Button*/
     .btn-default-danger {
         color: red;
+        border: 1px solid red;
     }
 
+    .btn-default-danger:hover {
+        background: red;
+        color: #ffffff;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+
+    }
+
+    /* BTN SUCCESS */
     .btn-default-success {
         color: green;
+        border: 1px solid green;
     }
+    .btn-default-success:hover {
+        background: green;
+        color: #ffffff;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+
+    }
+    .btn-default-success:hover .caret {
+        border-top-color: #ffffff !important;
+    }
+    .btn-default-success .caret {
+        border-top-color: green !important;
+    }
+
+    /* BTN SUCCESS CLOSE */
+
     .btn-default-primary {
         color: blue;
+        border: 1px solid blue;
+    }
+    .btn-default-primary:hover {
+        background: blue;
+        color: #ffffff;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+
     }
 
     .dropdown-menu {
@@ -422,4 +460,18 @@
             val += 1;
         }
     }
+
+    // function ModalConfirm(description) {
+    //     $('#NotificationModal .modal-body').html('<div style="text-align:center;"><strong>'+description+'</strong> ' +
+    //         '<hr/>' +
+    //         '<button class="btn btn-primary" style="margin-right: 5px;" id="confirmYa">Ya</button>' +
+    //         '<button class="btn btn-default" data-dismiss="modal" id="confirmTidak">Tidak</button>' +
+    //         '</div>').css('border','3px solid #56a8c0');
+    //
+    //     $('#NotificationModal').modal('show');
+    // }
+    //
+    // function ModalConfirmClose() {
+    //     $('#NotificationModal').modal('hide');
+    // }
 </script>

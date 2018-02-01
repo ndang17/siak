@@ -21,7 +21,21 @@ class M_akademik extends CI_Model {
     }
 
     public function getdataClassGroup(){
-        $data = $this->db->query('SELECT * FROM db_academic.class_group ORDER BY ID DESC');
+        $data = $this->db->query('SELECT cg.*,ps.Name AS ProdiName FROM db_academic.class_group cg
+                                      LEFT JOIN db_academic.program_study ps 
+                                      ON (cg.BaseProdiID = ps.ID) 
+                                      ORDER BY cg.ID ASC');
+
+        return $data->result_array();
+    }
+
+    public function getdataClassroom(){
+        $data = $this->db->query('SELECT * FROM db_academic.classroom');
+        return $data->result_array();
+    }
+
+    public function cekClassroom($room){
+        $data = $this->db->query('SELECT * FROM db_academic.classroom WHERE Room LIKE "'.$room.'" ');
 
         return $data->result_array();
     }

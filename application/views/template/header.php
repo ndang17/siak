@@ -168,6 +168,17 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- Modal Notification -->
+<div class="modal fade" id="NotificationModal" role="dialog" style="top: 100px;">
+    <div class="modal-dialog" style="width: 400px;" role="document">
+        <div class="modal-content animated flipInX">
+<!--            <div class="modal-header"></div>-->
+            <div class="modal-body"></div>
+<!--            <div class="modal-footer"></div>-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script>
     $(document).on('click','#btn_announcement',function () {
         $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +

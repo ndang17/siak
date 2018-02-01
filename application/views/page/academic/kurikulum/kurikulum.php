@@ -41,7 +41,7 @@
                             <li><a href="javascript:void(0)" data-action="ConfJenisKurikulum" data-header="Jenis Kurikulum" class="btn-conf">Jenis Kurikulum</a></li>
                             <li><a href="javascript:void(0)" data-action="ConfJenisKelompok" data-header="Kelompok Mata Kuliah" class="btn-conf">Kelompok</a></li>
                             <li><a href="javascript:void(0)" data-action="ClassGroup" data-header="Group Kelas" class="btn-conf">Group Kelas</a></li>
-                            <li><a href="javascript:void(0)" data-action="read" data-header="Ruangan" class="btn-conf">Ruangan</a></li>
+                            <li><a href="javascript:void(0)" data-action="Classroom" data-header="Classroom" class="btn-conf">Ruangan</a></li>
                         </ul>
                     </div>
 
@@ -87,6 +87,8 @@
             modal_dataConf(action,header);
         } else if(action=='ClassGroup'){
             modal_dataClassGroup(action,header);
+        } else if(action=='Classroom'){
+            modal_dataClassroom(action,header);
         }
     });
 
@@ -112,6 +114,7 @@
 
 
     function pageKurikulum() {
+
         var kurikulum = $('#selectKurikulum').find(':selected').val().split('.');
         var year = kurikulum[1].trim();
         var prodi = $('#selectProdi').find(':selected').val().split('.');
@@ -216,6 +219,25 @@
     
     function modal_dataClassGroup(action,header) {
         var url = base_url_js+'academic/kurikulum/getClassGroup';
+        var data = {
+            action : 'read'
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        $.post(url,{token:token},function (html) {
+            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">'+header+'</h4>');
+            $('#GlobalModal .modal-body').html(html);
+            $('#GlobalModal .modal-footer').html(' ');
+            $('#GlobalModal').modal({
+                'show' : true,
+                'backdrop' : 'static'
+            });
+        });
+    }
+
+    function modal_dataClassroom(action,header) {
+        var url = base_url_js+'academic/kurikulum/getClassroom';
         var data = {
             action : 'read'
         };

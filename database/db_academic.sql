@@ -106,12 +106,13 @@ CREATE TABLE `class_group` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 /*Data for the table `class_group` */
 
 insert  into `class_group`(`ID`,`BaseProdiID`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(1,1,'ARC123',NULL,'2017090','2018-01-31 17:01:22');
+(29,5,'ok',NULL,'2017090','2018-02-01 13:26:10'),
+(30,5,'j',NULL,'2017090','2018-02-01 13:26:34');
 
 /*Table structure for table `classroom` */
 
@@ -119,15 +120,18 @@ DROP TABLE IF EXISTS `classroom`;
 
 CREATE TABLE `classroom` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(45) DEFAULT NULL,
+  `Room` varchar(45) DEFAULT NULL,
   `Quantities` int(11) DEFAULT NULL,
   `Status` int(11) DEFAULT NULL,
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `classroom` */
+
+insert  into `classroom`(`ID`,`Room`,`Quantities`,`Status`,`UpdateBy`,`UpdateAt`) values 
+(4,'450',40,NULL,'2017090','2018-02-01 16:17:24');
 
 /*Table structure for table `courses_groups` */
 
