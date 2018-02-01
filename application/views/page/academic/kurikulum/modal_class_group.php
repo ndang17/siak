@@ -34,8 +34,8 @@
                     class="btn btn-default btn-default-success btn-edit">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
-            <button class="btn btn-danger btn-cencle-edit hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"><i class="fa fa-times"></i></button>
-            <button class="btn btn-success btn-save-edit hide" data-id="<?php echo $item['ID']; ?>" id="modalSaveEdit<?php echo $item['ID']; ?>"><i class="fa fa-check"></i></button>
+            <button class="btn btn-danger btn-cancle-class-group hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"><i class="fa fa-times"></i></button>
+            <button class="btn btn-success btn-save-class-group hide" data-id="<?php echo $item['ID']; ?>" id="modalSaveEdit<?php echo $item['ID']; ?>"><i class="fa fa-check"></i></button>
         </td>
     </tr>
     <?php } ?>
@@ -133,8 +133,8 @@
                           '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>' +
                          '</button>' +
 
-                          '<button class="btn btn-danger btn-cencle-edit hide"  style="margin-right: 5px;" data-id="'+ID+'" id="modalCencleEdit'+ID+'"><i class="fa fa-times"></i></button>' +
-                          '<button class="btn btn-success btn-save-edit hide" data-id="'+ID+'" id="modalSaveEdit'+ID+'"><i class="fa fa-check"></i></button>' +
+                          '<button class="btn btn-danger btn-cancle-class-group hide"  style="margin-right: 5px;" data-id="'+ID+'" id="modalCencleEdit'+ID+'"><i class="fa fa-times"></i></button>' +
+                          '<button class="btn btn-success btn-save-class-group hide" data-id="'+ID+'" id="modalSaveEdit'+ID+'"><i class="fa fa-check"></i></button>' +
                         '</td>'
                     ]);
 
@@ -201,14 +201,14 @@
 
     });
 
-    $(document).on('click','.btn-cencle-edit',function () {
+    $(document).on('click','.btn-cancle-class-group',function () {
         var ID = $(this).attr('data-id');
         $('#modalDel'+ID+',#modalEdit'+ID+',#name'+ID+',#prodi'+ID).removeClass('hide');
         $('#modalSaveEdit'+ID+',#modalCencleEdit'+ID+',#formName'+ID+',#formProdi'+ID).addClass('hide');
 
     });
 
-    $(document).on('click','.btn-save-edit',function () {
+    $(document).on('click','.btn-save-class-group',function () {
         var ID = $(this).attr('data-id');
 
         var Name = $('#formName'+ID).val();

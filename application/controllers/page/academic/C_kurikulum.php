@@ -118,6 +118,10 @@ class C_kurikulum extends MY_Controller {
             $this->db->where('ID', $data_arr['ID']);
             $this->db->update('db_academic.class_group',$dataForm);
             return print_r(1);
+        } else if($data_arr['action']=='read_json'){
+            header('Content-Type: application/json');
+            $data['dataClassGroup'] = $this->m_akademik->getSelectOptionClassGroup();
+            return print_r(json_encode($data['dataClassGroup']));
         }
 
 

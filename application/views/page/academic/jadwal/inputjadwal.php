@@ -6,8 +6,8 @@
 
         <table class="table table-striped" style="margin-top: 10px;">
             <tr>
-                <td style="width: 30%;">Kelas Gabungan ?</td>
-                <td style="width: 1%;">:</td>
+                <td style="width: 190px;">Kelas Gabungan ?</td>
+                <td style="width: 1px;">:</td>
                 <td>
                     <label class="radio-inline">
                         <input type="radio" name="kelasGabungan" value="0" checked> Tidak
@@ -51,7 +51,17 @@
                 <td>
                     <div class="row">
                         <div class="col-xs-7">
-                            <select class="form-control"></select>
+                            <select class="select2-select-00 full-width-fix"
+                                    size="5" id="formClassGroup">
+                                <option value=""></option>
+
+<!--                                <optgroup label="Pacific Time Zone">-->
+<!--                                    <option value="CA">California</option>-->
+<!--                                    <option value="NV">Nevada</option>-->
+<!--                                    <option value="OR">Oregon</option>-->
+<!--                                    <option value="WA">Washington</option>-->
+<!--                                </optgroup>-->
+                            </select>
                         </div>
                         <div class="col-xs-4">
                             <button class="btn btn-default btn-default-success">Add Group</button>
@@ -77,7 +87,10 @@
                 <td>Dosen Koordinator</td>
                 <td>:</td>
                 <td>
-                    <select class="form-control"></select>
+                    <select class="select2-select-00 full-width-fix"
+                            size="5" id="formDosenKoordinator">
+                        <option value=""></option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -122,8 +135,12 @@
         // $('.control-jadwal').prop("disabled",true);
         loadProdiSelectOption('#BaseProdi');
         loadSelectOptionConf('#modalProgram','programs_campus','');
-        loadSelectOptionLecturersSingle('#ModalSelectMK','');
-        $('#ModalSelectMK').select2({allowClear: true});
+        loadSelectOptionAllMataKuliahSingle('#ModalSelectMK','');
+        loadSelectOptionLecturersSingle('#formDosenKoordinator','');
+
+        loadSelectOptionClassGroup('#formClassGroup','');
+
+        $('#ModalSelectMK,#formDosenKoordinator,#formClassGroup').select2({allowClear: true});
 
 
         $('input[type=radio][name=kelasGabungan]').change(function () {

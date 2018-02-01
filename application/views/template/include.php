@@ -444,6 +444,31 @@
         })
     }
 
+    function loadSelectOptionClassGroup(element,selected) {
+
+        log(element);
+        var url = base_url_js+'academic/kurikulum/getClassGroup';
+        var token = jwt_encode({action:'read_json'},'UAP)(*');
+
+        $.post(url,{token:token},function (data_json) {
+
+            var option = $(''+element);
+            if(data_json.length>0){
+                for(var i=0;i<data_json.length;i++){
+                    option.append('<optgroup id="opt'+i+'" label="'+data_json[i].optgroup.ProdiName+'"></optgroup>');
+                    var opt = $('#opt'+i);
+                    var detail = data_json[i].options;
+                    for(var x=0;x<detail.length;x++){
+                        opt.append('<option>'+detail[x].Name+'</option>');
+                    }
+                }
+            }
+
+
+        });
+
+    }
+
     function fillDays(element,lang,selected) {
         var days = [];
         if(lang=='Eng'){
@@ -460,6 +485,7 @@
             val += 1;
         }
     }
+    
 
     // function ModalConfirm(description) {
     //     $('#NotificationModal .modal-body').html('<div style="text-align:center;"><strong>'+description+'</strong> ' +

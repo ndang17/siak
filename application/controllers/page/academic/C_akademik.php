@@ -50,12 +50,4 @@ class C_akademik extends MY_Controller {
     // ===== /MODAL =====
 
 
-
-
-
-
-
-
-
-
 }

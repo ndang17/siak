@@ -18,7 +18,11 @@
                     <select class="form-control control-jadwal" id=""></select>
                 </div>
                 <div class="col-xs-6" style="text-align: right;">
-                    <button data-page="inputjadwal" class="btn btn-success btn-action control-jadwal"><i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Jadwal</button>
+                    <button data-page="inputjadwal"
+                            class="btn btn-success btn-action control-jadwal">
+                        <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i>
+                        Add Jadwal
+                    </button>
                     <button data-page="ruangan" class="btn btn-primary btn-action control-jadwal"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat Ruangan</button>
                 </div>
             </div>

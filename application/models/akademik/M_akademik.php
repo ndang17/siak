@@ -41,6 +41,34 @@ class M_akademik extends CI_Model {
     }
 
 
+    public function getSelectOptionClassGroup(){
+        $data = $this->db->query('SELECT ID,Name AS ProdiName FROM db_academic.program_study')
+            ->result_array();
+
+        $result = [];
+
+        if(count($data)>0){
+            for($i=0;$i<count($data);$i++){
+
+                $result[$i] = array(
+                    'optgroup' => array(
+                        'ProdiName' => $data[$i]['ProdiName'],
+                        'ID' => $data[$i]['ID']
+                    ),
+                    'options' => $this->getOptionClassGroup($data[$i]['ID'])
+                );
+
+            }
+        }
+
+        return $result;
+
+    }
+
+    private function getOptionClassGroup($ID){
+        $data = $this->db->query('SELECT * FROM db_academic.class_group WHERE BaseProdiID = "'.$ID.'" ');
+        return $data->result_array();
+    }
 
 
 }
