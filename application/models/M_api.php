@@ -247,4 +247,13 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function getMataKuliahSingle($ID,$MKCode){
+        $data = $this->db->query('SELECT mk.*,cd.Semester,cd.TotalSKS FROM db_academic.mata_kuliah mk
+                                      LEFT JOIN db_academic.curriculum_details cd ON (mk.ID = cd.MKID AND mk.MKCode=cd.MKCode)
+                                      WHERE mk.ID="'.$ID.'" AND mk.MKCode = "'.$MKCode.'" ');
+        return $data->result_array();
+    }
+
+
+
 }

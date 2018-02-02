@@ -19,14 +19,14 @@
                 <input type="number" id="formQty<?php echo $item['ID']; ?>" value="<?php echo $item['Quantities']; ?>" class="form-control hide" />
             </td>
             <td class="td-center">
-                <button id="modalDel<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>" class="btn btn-default btn-default-danger btn-delete">
+                <button id="modalDel<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>" class="btn btn-default btn-default-danger btn-delete" <?php echo $btnAction; ?> >
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
-                <button id="modalEdit<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>" class="btn btn-default btn-default-success btn-edit">
+                <button id="modalEdit<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>" class="btn btn-default btn-default-success btn-edit" <?php echo $btnAction; ?> >
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-danger btn-cencle-edit hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"><i class="fa fa-times"></i></button>
-                <button class="btn btn-success btn-save-edit hide" data-room="<?php echo $item['Room']; ?>" data-id="<?php echo $item['ID']; ?>" id="modalSaveEdit<?php echo $item['ID']; ?>"><i class="fa fa-check"></i></button>
+                <button class="btn btn-danger btn-cencle-edit hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"  <?php echo $btnAction; ?> ><i class="fa fa-times"></i></button>
+                <button class="btn btn-success btn-save-edit hide" data-room="<?php echo $item['Room']; ?>" data-id="<?php echo $item['ID']; ?>" id="modalSaveEdit<?php echo $item['ID']; ?>"  <?php echo $btnAction; ?> ><i class="fa fa-check"></i></button>
             </td>
         </tr>
     <?php } ?>
@@ -106,6 +106,8 @@
                         toastr.warning('Ruangan Sudah Di Input','Warning!');
                     } else {
                         toastr.success('Data Tersimpan','Success!');
+
+                        var btnAction = ' <?php echo $btnAction; ?>';
                         $('#addRoom , #addQty').val('');
                         $('#datarow').append('<tr>' +
                             '<td><span id="spanRoom'+ID+'">'+Room+'</span>' +
@@ -113,15 +115,15 @@
                             '<td><span id="spanQty'+ID+'">'+Quantities+'</span>' +
                             '<input type="number" id="formQty'+ID+'" value="'+Quantities+'" class="form-control hide" /></td>' +
                             '<td class="td-center">' +
-                            '<button id="modalDel'+ID+'" data-id="'+ID+'" style="margin-right:3px;" class="btn btn-default btn-default-danger btn-delete">' +
+                            '<button id="modalDel'+ID+'" data-id="'+ID+'" style="margin-right:3px;" class="btn btn-default btn-default-danger btn-delete" '+btnAction+'>' +
                             '<i class="fa fa-trash-o" aria-hidden="true"></i>' +
                             '</button>' +
-                            '<button id="modalEdit'+ID+'" data-id="'+ID+'" class="btn btn-default btn-default-success btn-edit">' +
+                            '<button id="modalEdit'+ID+'" data-id="'+ID+'" class="btn btn-default btn-default-success btn-edit" '+btnAction+'>' +
                             '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>' +
                             '</button>' +
 
-                            '<button class="btn btn-danger btn-cencle-edit hide" data-id="'+ID+'" style="margin-right:3px;" id="modalCencleEdit'+ID+'"><i class="fa fa-times"></i></button>' +
-                            '<button class="btn btn-success btn-save-edit hide" data-room="'+Room+'" data-id="'+ID+'" id="modalSaveEdit'+ID+'"><i class="fa fa-check"></i></button></td>' +
+                            '<button class="btn btn-danger btn-cencle-edit hide" data-id="'+ID+'" style="margin-right:3px;" id="modalCencleEdit'+ID+'" '+btnAction+'><i class="fa fa-times"></i></button>' +
+                            '<button class="btn btn-success btn-save-edit hide" data-room="'+Room+'" data-id="'+ID+'" id="modalSaveEdit'+ID+'" '+btnAction+'><i class="fa fa-check"></i></button></td>' +
                             '</tr>');
                     }
 
@@ -190,6 +192,7 @@
             var data = {
                 action : 'edit',
                 ID : ID,
+                RoomBefore : RoomBefore,
                 dataForm : {
                     Room : Room,
                     Quantities : Quantities,

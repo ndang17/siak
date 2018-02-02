@@ -185,7 +185,7 @@
                         .prop('disabled',true);
 
                     var token = jwt_encode(data,'UAP)(*');
-                    var url_insert = base_url_js+"api/__crudMetaKuliah";
+                    var url_insert = base_url_js+"api/__crudMataKuliah";
                     $.post(url_insert,{token:token},function () {
                         loadDataTableMK();
                         setTimeout(function () {
@@ -225,7 +225,7 @@
             };
 
             var token = jwt_encode(data,'UAP)(*');
-            var url = base_url_js+"api/__crudMetaKuliah";
+            var url = base_url_js+"api/__crudMataKuliah";
             $.post(url,{token:token},function (result) {
                 loadDataTableMK();
                 setTimeout(function () {

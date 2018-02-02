@@ -48,9 +48,13 @@
                 <td>:</td>
                 <td>
                     <select class="select2-select-00 full-width-fix"
-                            size="5" id="ModalSelectMK">
+                            size="5" id="formMataKuliah">
                         <option value=""></option>
                     </select>
+                    <p style="margin-bottom: 0px;">
+                        Semester : <span id="textSemester"></span> | <span id="textTotalSKS"></span> SKS | <span id="textTimeSKS"></span> menit
+                    </p>
+
                 </td>
             </tr>
             <tr>
@@ -111,7 +115,22 @@
                 <td>Ruangan</td>
                 <td>:</td>
                 <td>
-                    <select class="form-control"></select>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <select class="select2-select-00 full-width-fix"
+                                    size="5" id="formClassroom">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-default btn-block" id="btnRefreshDataClassroom">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-3">
+                            <button class="btn btn-default btn-default-success btn-block" id="btnAddClassroom">Add Ruangan</button>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -152,13 +171,17 @@
 
         loadProdiSelectOption('#BaseProdi');
         loadSelectOptionConf('#modalProgram','programs_campus','');
-        loadSelectOptionAllMataKuliahSingle('#ModalSelectMK','');
+        loadSelectOptionAllMataKuliahSingle('#formMataKuliah','');
         loadSelectOptionLecturersSingle('#formDosenKoordinator','');
         loadSelectOptionLecturersSingle('#formTeamDosen','');
 
         loadSelectOptionClassGroup('#formClassGroup','');
+        loadSelectOptionClassroom('#formClassroom','');
 
-        $('#ModalSelectMK,#formDosenKoordinator,#formClassGroup,#formTeamDosen').select2({allowClear: true});
+
+
+        $('#formMataKuliah,#formDosenKoordinator,' +
+            '#formClassGroup,#formTeamDosen,#formClassroom').select2({allowClear: true});
 
 
         $('input[type=radio][name=kelasGabungan]').change(function () {
@@ -174,8 +197,40 @@
         });
     });
 
+    $('#formMataKuliah').change(function () {
+        var dataMK = $('#formMataKuliah').find(':selected').val();
+
+        if(dataMK!=''){
+            var mk = dataMK.split('.');
+            var data = {
+                action : 'read',
+                ID : mk[0],
+                MKCode : mk[1]
+            };
+            var token = jwt_encode(data,'UAP)(*');
+            var url = base_url_js+"api/__crudMataKuliah";
+
+            log(timePerCredits);
+
+            $.post(url,{token:token},function (data_json) {
+                log(data_json);
+                $('#textSemester').html(data_json.Semester);
+                $('#textTotalSKS').html(data_json.TotalSKS);
+
+                var totalTime = parseInt(timePerCredits) * parseInt(data_json.TotalSKS);
+                $('#textTimeSKS').html(totalTime);
+
+            });
+        }
+
+    });
+
     $('#btnAddGroupClass').click(function () {
-        modal_dataClassGroup('disabledDelete','Group Class');
+        modal_dataClassGroup('disabledBtnAction','Group Class');
+    });
+
+    $('#btnAddClassroom').click(function () {
+        modal_dataClassroom('disabledBtnActio','Group Class');
     });
 
     $('#btnRefreshDataGroupClass').click(function () {
@@ -195,6 +250,21 @@
 
 
 
+    });
+
+    $('#btnRefreshDataClassroom').click(function () {
+        loading_buttonSm('#btnRefreshDataClassroom');
+        $('#formClassroom').prop('disabled',true);
+
+        setTimeout(function () {
+            $('#btnRefreshDataClassroom').html('<i class="fa fa-refresh"></i>');
+            $('#formClassroom,#btnRefreshDataClassroom').prop('disabled',false);
+
+            $('#formClassroom').select2("destroy").empty();
+            $('#formClassroom').append('<option value=""></option>');
+            loadSelectOptionClassroom('#formClassroom','');
+            $("#formClassroom").select2();
+        },2000);
     });
 
     function loadProdiSelectOption(element){

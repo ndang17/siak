@@ -279,7 +279,7 @@ class C_api extends MY_Controller {
         return print_r(json_encode($data));
     }
 
-    public function crudMetaKuliah(){
+    public function crudMataKuliah(){
         $token = $this->input->post('token');
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
@@ -305,6 +305,15 @@ class C_api extends MY_Controller {
                 $this->db->where('ID', $data_arr['ID']);
                 $this->db->delete('db_academic.mata_kuliah');
                 return print_r(1);
+            }
+            else if($data_arr['action']=='read'){
+                $ID = $data_arr['ID'];
+                $MKCode = $data_arr['MKCode'];
+                $data = $this->m_api->getMataKuliahSingle($ID,$MKCode);
+
+                if(count($data)>0){
+                    return print_r(json_encode($data[0]));
+                }
             }
         }
     }

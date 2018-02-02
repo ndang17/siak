@@ -26,11 +26,11 @@
 <!--        <td>--><?php //echo $item['Status']; ?><!--</td>-->
         <td class="td-center">
             <button id="modalDel<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>"
-                    class="btn btn-default btn-default-danger btn-delete" <?php echo $btnDelete; ?> >
+                    class="btn btn-default btn-default-danger btn-delete" <?php echo $btnAction; ?> >
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
             <button id="modalEdit<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>" data-idProdi="<?php echo $item['BaseProdiID']; ?>"
-                    class="btn btn-default btn-default-success btn-edit" <?php echo $btnDelete; ?>>
+                    class="btn btn-default btn-default-success btn-edit" <?php echo $btnAction; ?>>
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
             <button class="btn btn-danger btn-cancle-class-group hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"><i class="fa fa-times"></i></button>
@@ -109,7 +109,7 @@
             $.post(url,{token:token},function (insert_id) {
                 var ID = insert_id;
 
-                var btnDel = '<?php echo $btnDelete; ?>';
+                var btnAction = '<?php echo $btnAction; ?>';
 
                 setTimeout(function () {
                     toastr.success('Data tersimpan','Success!!');
@@ -127,10 +127,10 @@
 
 
                         '<td class="td-center" style="text-align: center;"><center>' +
-                         '<button id="modalDel'+ID+'" data-id="'+ID+'" style="margin-right: 3px;" class="btn btn-default btn-default-danger btn-delete" '+btnDel+'>' +
+                         '<button id="modalDel'+ID+'" data-id="'+ID+'" style="margin-right: 3px;" class="btn btn-default btn-default-danger btn-delete" '+btnAction+'>' +
                           '<i class="fa fa-trash-o" aria-hidden="true"></i>' +
                          '</button>' +
-                         '<button id="modalEdit'+ID+'" data-id="'+ID+'" data-idProdi="'+BaseProdiID+'" class="btn btn-default btn-default-success btn-edit" '+btnDel+'>' +
+                         '<button id="modalEdit'+ID+'" data-id="'+ID+'" data-idProdi="'+BaseProdiID+'" class="btn btn-default btn-default-success btn-edit" '+btnAction+'>' +
                           '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>' +
                          '</button>' +
 

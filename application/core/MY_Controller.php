@@ -13,6 +13,7 @@ class MY_Controller extends CI_Controller {
         }
 
         $this->session->set_userdata('nip', '2017090');
+        $this->session->set_userdata('timePerCredits', '50');
 
         $this->load->model('master/m_master');
         $this->load->library('JWT');
@@ -75,6 +76,15 @@ class MY_Controller extends CI_Controller {
     {
         $this->session->set_userdata('departement_nav', ''.$dpt);
     }
+
+//    public function setTimePerCredits(){
+//        $data = $this->db->query('SELECT * FROM db_academic.time_per_credits LIMIT 1')
+//            ->result_array();
+//
+//        $this->session->set_userdata('timePerCredits', $data[0]['Time']);
+//
+////        return print_r();
+//    }
 
 
 }

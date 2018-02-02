@@ -96,13 +96,14 @@ $route['api/__getdetailKurikulum'] = 'api/c_api/getdetailKurikulum';
 $route['api/__genrateMKCode'] = 'api/c_api/genrateMKCode';
 $route['api/__cekMKCode'] = 'api/c_api/cekMKCode';
 
-$route['api/__crudMetaKuliah'] = 'api/c_api/crudMetaKuliah';
+$route['api/__crudMataKuliah'] = 'api/c_api/crudMataKuliah';
 
 $route['api/__crudTahunAkademik'] = 'api/c_api/crudTahunAkademik';
 
 $route['api/__crudDataDetailTahunAkademik'] = 'api/c_api/crudDataDetailTahunAkademik';
 
 $route['api/__getAcademicYearOnPublish'] = 'api/c_api/getAcademicYearOnPublish';
+$route['api/__getTimePerCredits'] = 'api/c_api/getTimePerCredits';
 
 
 

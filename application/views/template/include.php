@@ -253,6 +253,7 @@
 <script type="text/javascript">
     window.base_url_js = "<?php echo base_url(); ?>";
     window.sessionNIP = "<?php echo $this->session->userdata('nip'); ?>";
+    window.timePerCredits = "<?php echo $this->session->userdata('timePerCredits'); ?>";
 
     $(document).ready(function(){
         "use strict";
@@ -407,7 +408,7 @@
         $.get(url,function (data) {
 
             for(var i=0;i<data.length;i++){
-                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'" >'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>')
+                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'" >'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].NameEng+'</option>')
                     .val(''+selected).trigger('change');
             }
         });
@@ -472,6 +473,23 @@
 
     }
 
+    function loadSelectOptionClassroom(element,selected){
+        var url = base_url_js+'academic/kurikulum/getClassroom';
+        var token = jwt_encode({action:'read_json'},'UAP)(*');
+
+        var option = $(''+element);
+        $.post(url,{token:token},function (data_json) {
+            if(data_json.length>0){
+
+                for(var i=0;i<data_json.length;i++){
+                    var selec = (selected==data_json[i].ID) ? 'selected' : '';
+                    option.append('<option value="'+data_json[i].ID+'" '+selec+'>Room : '+data_json[i].Room+' | Qty : '+data_json[i].Quantities+'</option>');
+                }
+            }
+
+        });
+    }
+
     function fillDays(element,lang,selected) {
         var days = [];
         if(lang=='Eng'){
@@ -508,6 +526,26 @@
     // Untuk CRUD Class Group
     function modal_dataClassGroup(options,header) {
         var url = base_url_js+'academic/kurikulum/getClassGroup';
+        var data = {
+            action : 'read',
+            options : options
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        $.post(url,{token:token},function (html) {
+            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">'+header+'</h4>');
+            $('#GlobalModal .modal-body').html(html);
+            $('#GlobalModal .modal-footer').html(' ');
+            $('#GlobalModal').modal({
+                'show' : true,
+                'backdrop' : 'static'
+            });
+        });
+    }
+
+    function modal_dataClassroom(options,header) {
+        var url = base_url_js+'academic/kurikulum/getClassroom';
         var data = {
             action : 'read',
             options : options

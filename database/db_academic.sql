@@ -106,13 +106,19 @@ CREATE TABLE `class_group` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 /*Data for the table `class_group` */
 
 insert  into `class_group`(`ID`,`BaseProdiID`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(29,5,'ok',NULL,'2017090','2018-02-01 13:26:10'),
-(30,5,'j',NULL,'2017090','2018-02-01 13:26:34');
+(29,5,'HBP 1',NULL,'2017090','2018-02-02 08:39:17'),
+(30,5,'HBP 2',NULL,'2017090','2018-02-02 08:42:08'),
+(32,2,'MRK 2',NULL,'2017090','2018-02-02 08:42:26'),
+(34,1,'ARC 2',NULL,'2017090','2018-02-02 09:10:57'),
+(35,7,'UNIV 1',NULL,'2017090','2018-02-02 09:11:51'),
+(36,3,'ENT 1',NULL,'2017090','2018-02-02 09:47:59'),
+(38,1,'ARC 11',NULL,'2017090','2018-02-02 10:03:37'),
+(39,1,'ARC 14',NULL,'2017090','2018-02-02 10:05:55');
 
 /*Table structure for table `classroom` */
 
@@ -126,12 +132,15 @@ CREATE TABLE `classroom` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 /*Data for the table `classroom` */
 
 insert  into `classroom`(`ID`,`Room`,`Quantities`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(4,'450',40,NULL,'2017090','2018-02-01 16:17:24');
+(4,'450',40,NULL,'2017090','2018-02-01 16:17:24'),
+(9,'447',45,NULL,'2017090','2018-02-02 14:46:44'),
+(10,'501',40,NULL,'2017090','2018-02-02 14:35:49'),
+(11,'505',30,NULL,'2017090','2018-02-02 14:46:23');
 
 /*Table structure for table `courses_groups` */
 
@@ -1938,6 +1947,23 @@ insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`Updat
 (5,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
 (6,1,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
 (7,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-30 22:36:27');
+
+/*Table structure for table `time_per_credits` */
+
+DROP TABLE IF EXISTS `time_per_credits`;
+
+CREATE TABLE `time_per_credits` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Time` int(11) DEFAULT NULL,
+  `UpdateBy` varchar(20) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `time_per_credits` */
+
+insert  into `time_per_credits`(`ID`,`Time`,`UpdateBy`,`UpdateAt`) values 
+(1,50,'2017090','2018-01-28 10:00:00');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -101,7 +101,7 @@ class C_kurikulum extends MY_Controller {
         $data['department'] = parent::__getDepartement();
 
         if($data_arr['action']=='read'){
-            $data ['btnDelete'] = ($data_arr['options']=='disabledDelete') ? 'disabled' : '';
+            $data ['btnAction'] = ($data_arr['options']=='disabledBtnAction') ? 'disabled' : '';
             $data['dataClassGroup'] = $this->m_akademik->getdataClassGroup();
             $this->load->view('page/'.$data['department'].'/kurikulum/modal_class_group',$data);
         } else if($data_arr['action']=='add'){
@@ -136,6 +136,7 @@ class C_kurikulum extends MY_Controller {
         $data['department'] = parent::__getDepartement();
 
         if($data_arr['action']=='read'){
+            $data ['btnAction'] = ($data_arr['options']=='disabledBtnAction') ? 'disabled' : '';
             $data['dataClassroom'] = $this->m_akademik->getdataClassroom();
             $this->load->view('page/'.$data['department'].'/kurikulum/modal_classroom',$data);
         } else if($data_arr['action']=='add') {
@@ -160,7 +161,14 @@ class C_kurikulum extends MY_Controller {
             $cekRoom = $this->m_akademik->cekClassroom($dataForm['Room']);
 
             if(count($cekRoom)>0){
-                return 0;
+                if($cekRoom[0]['Room']==$data_arr['RoomBefore']) {
+                    $this->db->where('ID', $data_arr['ID']);
+                    $this->db->update('db_academic.classroom',$dataForm);
+                    return print_r(1);
+                } else {
+                    return 0;
+                }
+
             } else {
                 $this->db->where('ID', $data_arr['ID']);
                 $this->db->update('db_academic.classroom',$dataForm);
@@ -168,6 +176,10 @@ class C_kurikulum extends MY_Controller {
             }
 
 
+        } else if($data_arr['action']=='read_json'){
+            header('Content-Type: application/json');
+            $data['dataClassroom'] = $this->m_akademik->getSelectOptionClassroom();
+            return print_r(json_encode($data['dataClassroom']));
         }
     }
 
