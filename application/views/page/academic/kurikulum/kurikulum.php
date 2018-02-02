@@ -217,24 +217,7 @@
         });
     }
     
-    function modal_dataClassGroup(action,header) {
-        var url = base_url_js+'academic/kurikulum/getClassGroup';
-        var data = {
-            action : 'read'
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (html) {
-            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span></button>' +
-                '<h4 class="modal-title">'+header+'</h4>');
-            $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').html(' ');
-            $('#GlobalModal').modal({
-                'show' : true,
-                'backdrop' : 'static'
-            });
-        });
-    }
+
 
     function modal_dataClassroom(action,header) {
         var url = base_url_js+'academic/kurikulum/getClassroom';

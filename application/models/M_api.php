@@ -241,4 +241,10 @@ class M_api extends CI_Model {
 
     }
 
+    public function __getAcademicYearOnPublish(){
+        $data = $this->db->query('SELECT * FROM db_academic.semester s WHERE s.Status=1');
+
+        return $data->result_array();
+    }
+
 }

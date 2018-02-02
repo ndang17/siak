@@ -101,6 +101,7 @@ class C_kurikulum extends MY_Controller {
         $data['department'] = parent::__getDepartement();
 
         if($data_arr['action']=='read'){
+            $data ['btnDelete'] = ($data_arr['options']=='disabledDelete') ? 'disabled' : '';
             $data['dataClassGroup'] = $this->m_akademik->getdataClassGroup();
             $this->load->view('page/'.$data['department'].'/kurikulum/modal_class_group',$data);
         } else if($data_arr['action']=='add'){
@@ -156,9 +157,17 @@ class C_kurikulum extends MY_Controller {
             return print_r(1);
         } else if($data_arr['action']=='edit'){
             $dataForm = (array) $data_arr['dataForm'];
-            $this->db->where('ID', $data_arr['ID']);
-            $this->db->update('db_academic.classroom',$dataForm);
-            return print_r(1);
+            $cekRoom = $this->m_akademik->cekClassroom($dataForm['Room']);
+
+            if(count($cekRoom)>0){
+                return 0;
+            } else {
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->update('db_academic.classroom',$dataForm);
+                return print_r(1);
+            }
+
+
         }
     }
 

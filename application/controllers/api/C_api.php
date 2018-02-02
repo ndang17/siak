@@ -360,8 +360,12 @@ class C_api extends MY_Controller {
             }
         }
 
+    }
 
+    public function getAcademicYearOnPublish(){
 
+        $data = $this->m_api->__getAcademicYearOnPublish();
+        return print_r(json_encode($data[0]));
     }
 
 

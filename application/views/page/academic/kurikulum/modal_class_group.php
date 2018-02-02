@@ -1,5 +1,4 @@
 
-
 <table class="table table-bordered table-striped" id="tableGroupKelas">
     <thead>
     <tr>
@@ -27,11 +26,11 @@
 <!--        <td>--><?php //echo $item['Status']; ?><!--</td>-->
         <td class="td-center">
             <button id="modalDel<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>"
-                    class="btn btn-default btn-default-danger btn-delete">
+                    class="btn btn-default btn-default-danger btn-delete" <?php echo $btnDelete; ?> >
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
             <button id="modalEdit<?php echo $item['ID']; ?>" data-id="<?php echo $item['ID']; ?>" data-idProdi="<?php echo $item['BaseProdiID']; ?>"
-                    class="btn btn-default btn-default-success btn-edit">
+                    class="btn btn-default btn-default-success btn-edit" <?php echo $btnDelete; ?>>
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
             <button class="btn btn-danger btn-cancle-class-group hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"><i class="fa fa-times"></i></button>
@@ -110,6 +109,8 @@
             $.post(url,{token:token},function (insert_id) {
                 var ID = insert_id;
 
+                var btnDel = '<?php echo $btnDelete; ?>';
+
                 setTimeout(function () {
                     toastr.success('Data tersimpan','Success!!');
                     $('#modalBtnSave').prop('disabled',false).html('Save');
@@ -125,17 +126,17 @@
                          '<select class="form-control hide" id="formProdi'+ID+'"></select>',
 
 
-                        '<td class="td-center">' +
-                         '<button id="modalDel'+ID+'" data-id="'+ID+'" style="margin-right: 5px;" class="btn btn-default btn-default-danger btn-delete">' +
+                        '<td class="td-center" style="text-align: center;"><center>' +
+                         '<button id="modalDel'+ID+'" data-id="'+ID+'" style="margin-right: 3px;" class="btn btn-default btn-default-danger btn-delete" '+btnDel+'>' +
                           '<i class="fa fa-trash-o" aria-hidden="true"></i>' +
                          '</button>' +
-                         '<button id="modalEdit'+ID+'" data-id="'+ID+'" data-idProdi="'+BaseProdiID+'" class="btn btn-default btn-default-success btn-edit">' +
+                         '<button id="modalEdit'+ID+'" data-id="'+ID+'" data-idProdi="'+BaseProdiID+'" class="btn btn-default btn-default-success btn-edit" '+btnDel+'>' +
                           '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>' +
                          '</button>' +
 
                           '<button class="btn btn-danger btn-cancle-class-group hide"  style="margin-right: 5px;" data-id="'+ID+'" id="modalCencleEdit'+ID+'"><i class="fa fa-times"></i></button>' +
                           '<button class="btn btn-success btn-save-class-group hide" data-id="'+ID+'" id="modalSaveEdit'+ID+'"><i class="fa fa-check"></i></button>' +
-                        '</td>'
+                        '</center></td>'
                     ]);
 
                     // $('#dataRow').prepend('<tr>' +

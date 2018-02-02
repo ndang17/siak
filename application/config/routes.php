@@ -102,6 +102,8 @@ $route['api/__crudTahunAkademik'] = 'api/c_api/crudTahunAkademik';
 
 $route['api/__crudDataDetailTahunAkademik'] = 'api/c_api/crudDataDetailTahunAkademik';
 
+$route['api/__getAcademicYearOnPublish'] = 'api/c_api/getAcademicYearOnPublish';
+
 
 
 

@@ -26,7 +26,7 @@
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </button>
                 <button class="btn btn-danger btn-cencle-edit hide" data-id="<?php echo $item['ID']; ?>" id="modalCencleEdit<?php echo $item['ID']; ?>"><i class="fa fa-times"></i></button>
-                <button class="btn btn-success btn-save-edit hide" data-id="<?php echo $item['ID']; ?>" id="modalSaveEdit<?php echo $item['ID']; ?>"><i class="fa fa-check"></i></button>
+                <button class="btn btn-success btn-save-edit hide" data-room="<?php echo $item['Room']; ?>" data-id="<?php echo $item['ID']; ?>" id="modalSaveEdit<?php echo $item['ID']; ?>"><i class="fa fa-check"></i></button>
             </td>
         </tr>
     <?php } ?>
@@ -121,7 +121,7 @@
                             '</button>' +
 
                             '<button class="btn btn-danger btn-cencle-edit hide" data-id="'+ID+'" style="margin-right:3px;" id="modalCencleEdit'+ID+'"><i class="fa fa-times"></i></button>' +
-                            '<button class="btn btn-success btn-save-edit hide" data-id="'+ID+'" id="modalSaveEdit'+ID+'"><i class="fa fa-check"></i></button></td>' +
+                            '<button class="btn btn-success btn-save-edit hide" data-room="'+Room+'" data-id="'+ID+'" id="modalSaveEdit'+ID+'"><i class="fa fa-check"></i></button></td>' +
                             '</tr>');
                     }
 
@@ -164,6 +164,7 @@
 
     $(document).on('click','.btn-save-edit',function () {
         var ID = $(this).attr('data-id');
+        var RoomBefore = $(this).attr('data-room');
         var Room = $('#formRoom'+ID).val();
         var Quantities = $('#formQty'+ID).val();
 
@@ -198,14 +199,22 @@
             };
 
             var token = jwt_encode(data,'UAP)(*');
-            $.post(url,{token:token},function () {
+            $.post(url,{token:token},function (result) {
+
                 setTimeout(function () {
-                    toastr.success('Data Tersimpan','Success!!');
                     $('#modalSaveEdit'+ID).prop('disabled',false).html('<i class="fa fa-check"></i>');
                     $('#formRoom'+ID+',#formQty'+ID+',#modalCencleEdit'+ID).prop('disabled',false);
+                    if(result==0){
+                        toastr.warning('Ruangan Sudah Di Input','Warning!');
+                        $('#formRoom'+ID).val(RoomBefore);
 
-                    $('#spanRoom'+ID).html(Room);
-                    $('#spanQty'+ID).html(Quantities);
+                    } else {
+                        toastr.success('Data Tersimpan','Success!!');
+                        $('#modalSaveEdit'+ID).attr('data-room',Room);
+                        $('#spanRoom'+ID).html(Room);
+                        $('#spanQty'+ID).html(Quantities);
+                    }
+
 
                 },2000);
             });

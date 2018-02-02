@@ -311,6 +311,10 @@
             '</div>');
     }
 
+    function loading_text(element) {
+        $(element).html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...');
+    }
+
     function loading_button(element) {
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
         $(''+element).prop('disabled',true);
@@ -446,7 +450,6 @@
 
     function loadSelectOptionClassGroup(element,selected) {
 
-        log(element);
         var url = base_url_js+'academic/kurikulum/getClassGroup';
         var token = jwt_encode({action:'read_json'},'UAP)(*');
 
@@ -500,4 +503,26 @@
     // function ModalConfirmClose() {
     //     $('#NotificationModal').modal('hide');
     // }
+
+
+    // Untuk CRUD Class Group
+    function modal_dataClassGroup(options,header) {
+        var url = base_url_js+'academic/kurikulum/getClassGroup';
+        var data = {
+            action : 'read',
+            options : options
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        $.post(url,{token:token},function (html) {
+            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span></button>' +
+                '<h4 class="modal-title">'+header+'</h4>');
+            $('#GlobalModal .modal-body').html(html);
+            $('#GlobalModal .modal-footer').html(' ');
+            $('#GlobalModal').modal({
+                'show' : true,
+                'backdrop' : 'static'
+            });
+        });
+    }
 </script>
