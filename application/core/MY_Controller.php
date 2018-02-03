@@ -7,16 +7,23 @@ class MY_Controller extends CI_Controller {
     {
         parent::__construct();
 
-        $departement = $this->__getDepartement();
-        if($departement==''){
-            $this->session->set_userdata('departement_nav', 'academic');
+
+
+        if($this->session->userdata('loggedIn')){
+            $departement = $this->__getDepartement();
+            if($departement==''){
+                $this->session->set_userdata('departement_nav', 'academic');
+            }
+        } else {
+            redirect(base_url());
         }
 
-        $this->session->set_userdata('nip', '2017090');
-        $this->session->set_userdata('timePerCredits', '50');
+//        $this->session->set_userdata('nip', '2017090');
+//        $this->session->set_userdata('timePerCredits', '50');
 
-        $this->load->model('master/m_master');
+//        $this->load->model('master/m_master');
         $this->load->library('JWT');
+        $this->load->library('google');
     }
 
     public function template($content)
@@ -29,7 +36,6 @@ class MY_Controller extends CI_Controller {
         $data['crumbs'] = $this->crumbs();
 
         $data['content'] = $content;
-
         $this->load->view('template/template',$data);
 
     }
@@ -49,6 +55,10 @@ class MY_Controller extends CI_Controller {
 
         $nav_departement['departement'] = $this->__getDepartement();
         $data['page_departement'] = $this->load->view('template/navigation_departement',$nav_departement,true);
+
+        $exp_name = explode(" ",$this->session->userdata('Name'));
+        $data['name']= (count($exp_name)>0) ? $exp_name[0] : $this->session->userdata('Name');
+
         $page = $this->load->view('template/header',$data,true);
         return $page;
     }

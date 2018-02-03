@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.4.3 (64 bit)
-MySQL - 10.1.25-MariaDB : Database - db_employees
+SQLyog Community v12.5.0 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_employees
 *********************************************************************
 */
 
@@ -554,15 +554,15 @@ insert  into `data_province`(`IDProvince`,`Name`,`ProvinceCode`) values
 DROP TABLE IF EXISTS `division`;
 
 CREATE TABLE `division` (
-  `IDDivision` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Division` varchar(45) DEFAULT NULL,
   `Description` text,
-  PRIMARY KEY (`IDDivision`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Data for the table `division` */
 
-insert  into `division`(`IDDivision`,`Division`,`Description`) values 
+insert  into `division`(`ID`,`Division`,`Description`) values 
 (1,'Yayasan','Yayasan'),
 (2,'Rectorate','Rectorate'),
 (3,'SPMI','Sistem Jaminan Mutu Internal'),
@@ -583,7 +583,7 @@ insert  into `division`(`IDDivision`,`Division`,`Description`) values
 DROP TABLE IF EXISTS `employees`;
 
 CREATE TABLE `employees` (
-  `IDEmployee` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ReligionID` int(11) DEFAULT NULL,
   `JobGradeID` int(11) DEFAULT NULL,
   `PositionMain` varchar(10) DEFAULT NULL,
@@ -609,12 +609,12 @@ CREATE TABLE `employees` (
   `PositionOther2` varchar(10) DEFAULT NULL,
   `PositionOther3` varchar(10) DEFAULT NULL,
   `StatusEmployeeID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`IDEmployee`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=299 DEFAULT CHARSET=latin1;
 
 /*Data for the table `employees` */
 
-insert  into `employees`(`IDEmployee`,`ReligionID`,`JobGradeID`,`PositionMain`,`CityID`,`ProvinceID`,`NIP`,`NIDN`,`KTP`,`Name`,`TitleAhead`,`TitleBehind`,`Gender`,`PlaceOfBirth`,`DateOfBirth`,`Phone`,`HP`,`Email`,`EmailPU`,`Password`,`Address`,`Photo`,`PositionOther1`,`PositionOther2`,`PositionOther3`,`StatusEmployeeID`) values 
+insert  into `employees`(`ID`,`ReligionID`,`JobGradeID`,`PositionMain`,`CityID`,`ProvinceID`,`NIP`,`NIDN`,`KTP`,`Name`,`TitleAhead`,`TitleBehind`,`Gender`,`PlaceOfBirth`,`DateOfBirth`,`Phone`,`HP`,`Email`,`EmailPU`,`Password`,`Address`,`Photo`,`PositionOther1`,`PositionOther2`,`PositionOther3`,`StatusEmployeeID`) values 
 (1,3,NULL,NULL,136,11,'1014028',NULL,'367112630671000','Yuniarwati','','SE, MM, Ak','P','Kuningan','1971-06-23','5418657',',,',',,',NULL,NULL,'									Citra Garden II Blok D2 No. 3, Jakarta Barat 11830\n																						','Yuniarwati_1.jpg',NULL,NULL,NULL,NULL),
 (2,3,NULL,NULL,136,11,'1014052',NULL,'317302221289000','Daniel Kristian','','S.Psi','P','JAKARTA','1989-12-22','56972503',',,',',,',NULL,NULL,'									JL. Latumeten III Barat No. 16, Jelambar, Jakarta Barat - 11460																		','11.jpg',NULL,NULL,NULL,NULL),
 (3,3,NULL,NULL,136,11,'2014024',NULL,'095305530385013','Sandra Dewi','','','P','JAKARTA','1985-03-13','021-5854323',',,',',,',NULL,NULL,'Taman Aries Blk B2 /54 RT/RW 002/009, Kel Meruya Utara					','Sandra_Dewi_1.jpg',NULL,NULL,NULL,NULL),
@@ -742,7 +742,7 @@ insert  into `employees`(`IDEmployee`,`ReligionID`,`JobGradeID`,`PositionMain`,`
 (125,1,NULL,NULL,137,11,'2017065',NULL,'3174054203910001','Tarra Crustinia','','S.E. ','P','Jakarta ','1991-03-02','',',,',',,',NULL,NULL,'			Jl. Simprug Atas RT 008/RW 008\nJakarta Selatan 		','tarra.jpg',NULL,NULL,NULL,NULL),
 (126,1,NULL,NULL,246,16,'1017068',NULL,'1306150404930002','Anggi Yuwirham','','','L','Joho','1993-04-04','',',,',',,',NULL,NULL,'			Jalan Proklamasi Gang Mesjid No. 20 RT 04/RW 09\nCimone, Tangerang		','anggi.JPG',NULL,NULL,NULL,NULL),
 (127,4,NULL,NULL,137,11,'2017081',NULL,'3174106701860001','Yenni Ruth Wardani','','S.E.','P','Pematangsiantar','1986-01-27','',',,',',,',NULL,NULL,'			Jl. Belimbing No. 15-B \nRT 001/RW 004 \nPesanggrahan				','YENNI.JPG',NULL,NULL,NULL,NULL),
-(128,1,NULL,NULL,191,13,'2017090',NULL,'3328090901940001','Nandang Mulyadi','','S.Kom.','L','Tegal ','1994-01-09','',',,',',,',NULL,NULL,'			Bogares Kidul RT 008/RW 002 				','Nandang_Mulyadi.JPG',NULL,NULL,NULL,NULL),
+(128,1,NULL,'12.13',191,13,'2017090',NULL,'3328090901940001','Nandang Mulyadi','','S.Kom.','L','Tegal ','1994-01-09','',',,',',,','nandang.mulyadi@podomorouniversity.ac.id','488a476ba583155fd274ffad3ae741408d357054','			Bogares Kidul RT 008/RW 002 				','Nandang_Mulyadi.JPG',NULL,NULL,NULL,NULL),
 (129,1,NULL,NULL,160,12,'1017089',NULL,'3276065303860003','Dina Mairani','','','P','Jakarta','1986-05-13','',',,',',,',NULL,NULL,'			Beji Permai Blok F-15 RT 001/RW 013				','Dina_Mairani.JPG',NULL,NULL,NULL,NULL),
 (130,4,NULL,NULL,134,11,'2017086',NULL,'6471040504890001','Aryanto Ruben Surbakti','','S.Hum.','L','Balikpapan','1989-04-15','',',,',',,',NULL,NULL,'						Jl. Letjen S. Parman No. 30 RT 030/RW 000					','ARYANTO_RUBEN_SURBAKTI.JPG',NULL,NULL,NULL,NULL),
 (131,1,NULL,NULL,133,11,'2017091',NULL,'891112230074 SIM','Yoshua Liberty Samudra','','B.Sc. ','L','Jakarta','1989-11-30','',',,',',,',NULL,NULL,'			Jl. Anggrek XI C. 55 / 09 BCL RT 14/ RW 09						','Yoshua.JPG',NULL,NULL,NULL,NULL),
@@ -937,15 +937,15 @@ insert  into `employees_status`(`IDStatus`,`Description`) values
 DROP TABLE IF EXISTS `position`;
 
 CREATE TABLE `position` (
-  `IDPosition` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Position` varchar(45) DEFAULT NULL,
   `Description` text,
-  PRIMARY KEY (`IDPosition`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Data for the table `position` */
 
-insert  into `position`(`IDPosition`,`Position`,`Description`) values 
+insert  into `position`(`ID`,`Position`,`Description`) values 
 (1,'REKTOR','Rektor Podomoro University'),
 (2,'WAKET I','Wakil Ketua I Bidang Akademik'),
 (3,'WAKET II','Wakil Ketua II Bidang Operasi'),
@@ -980,6 +980,24 @@ insert  into `religion`(`IDReligion`,`Religion`) values
 (5,'Hindu'),
 (6,'Buddhist'),
 (7,'Confucianism');
+
+/*Table structure for table `rule_user` */
+
+DROP TABLE IF EXISTS `rule_user`;
+
+CREATE TABLE `rule_user` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NIP` varchar(50) NOT NULL,
+  `IDDivision` int(11) NOT NULL,
+  `IDPosition` int(11) NOT NULL,
+  `privilege` enum('0','1') NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `rule_user` */
+
+insert  into `rule_user`(`ID`,`NIP`,`IDDivision`,`IDPosition`,`privilege`) values 
+(1,'2017090',12,13,'1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

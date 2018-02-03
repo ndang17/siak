@@ -40,15 +40,14 @@
             <div class="form-group">
                 <div class="input-icon">
                     <i class="icon-user"></i>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="NIK" autofocus="autofocus"
-                           data-rule-required="true" data-msg-required="Please enter your username." />
+                    <input type="text" id="nip" class="form-control form-login" placeholder="NIP . . ." autofocus="autofocus"/>
                 </div>
             </div>
             <div class="form-group">
                 <!--<label for="password">Password:</label>-->
                 <div class="input-icon">
                     <i class="icon-lock"></i>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" data-rule-required="true" data-msg-required="Please enter your password." />
+                    <input type="password" id="password" class="form-control form-login" placeholder="Password . . ." />
                 </div>
             </div>
             <!-- /Input Fields -->
@@ -78,10 +77,9 @@
                 <a href="#" class="forgot-password-link">Forgot Password?</a>
 
                 <!-- Forgot Password Formular -->
-                <form class="form-vertical forgot-password-form hide-default" action="login.html" method="post">
+                <form class="form-vertical forgot-password-form hide-default" action="" method="post">
                     <!-- Input Fields -->
                     <div class="form-group">
-                        <!--<label for="email">Email:</label>-->
                         <div class="input-icon">
                             <i class="icon-envelope"></i>
                             <input type="text" name="email" class="form-control" placeholder="Enter email address" data-rule-required="true" data-rule-email="true" data-msg-required="Please enter your email." />
@@ -109,22 +107,26 @@
     <!-- Single-Sign-On (SSO) -->
     <div class="single-sign-on">
         <span>or</span>
-        <button class="btn btn-google-plus btn-block">
+        <a href="<?php echo $loginURL; ?>" class="btn btn-google-plus btn-block">
             <i class="icon-google-plus"></i> Sign in with Google
-        </button>
+        </a>
     </div>
     <!-- /Single-Sign-On (SSO) -->
 
     <script>
         $('#login_btn').click(function(){
-            var username = $('#username').val();
-            var password = $('#password').val();
+            var username = ($('#nip').val()!='') ? $('#nip').val() : $('.box').animateCss('shake'); $('#nip').css('border', '1px solid red') ;
+            var password = ($('#password').val()!='')? $('#password').val() : $('.box').animateCss('shake'); $('#password').css('border','1px solid red');
+
+            setTimeout(function () {
+                $('.form-login').css('border','1px solid #ccc');
+            },2000);
 
             var url = base_url_js+"uath-login";
             $.post(url,{username:username,password:password},function () {
 
             });
-            $('.box').animateCss('shake');
+
             toastr.success('Have fun storming the castle!', 'Miracle Max Says');
         });
     </script>

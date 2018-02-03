@@ -252,11 +252,15 @@
 <!-- Custom -->
 <script type="text/javascript">
     window.base_url_js = "<?php echo base_url(); ?>";
-    window.sessionNIP = "<?php echo $this->session->userdata('nip'); ?>";
+    window.sessionNIP = "<?php echo $this->session->userdata('NIP'); ?>";
     window.timePerCredits = "<?php echo $this->session->userdata('timePerCredits'); ?>";
 
+    // Super Divisi -- Lihat ID Di table db_employees.division
+    // 1 (Yayasan), 2 (Rectore) , 12 (IT)
+    var superDivision = [1,2,12];
+
     $(document).ready(function(){
-        "use strict";
+        // "use strict";
 
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins

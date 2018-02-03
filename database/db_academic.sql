@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.4.3 (64 bit)
-MySQL - 10.1.25-MariaDB : Database - db_academic
+SQLyog Community v12.5.0 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_academic
 *********************************************************************
 */
 

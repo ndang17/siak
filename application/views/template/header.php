@@ -134,7 +134,7 @@
                     <!--<img alt="" src="assets/img/avatar1_small.jpg" />-->
 <!--                    <i class="fa fa-male"></i>-->
                     <img src="<?php echo base_url('images/avatar.png'); ?>" class="img-circle" style="max-width: 35px;border: 3px solid #0f1f4b;"/>
-                    <span class="username">Nandang</span>
+                    <span class="username"><?php echo $name; ?></span>
                     <i class="fa fa-caret-down small"></i>
                 </a>
                 <ul class="dropdown-menu">
