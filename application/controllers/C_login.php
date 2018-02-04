@@ -14,6 +14,7 @@ class C_login extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->library('JWT');
         $this->load->library('google');
         $this->load->model('m_auth');
     }
@@ -73,10 +74,39 @@ class C_login extends CI_Controller {
         }
     }
 
+    public function authUserPassword(){
+        $token = $this->input->post('token');
+        $key = "L06M31N";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+
+            $NIP = $data_arr['nip'];
+            $Password = $this->genratePassword($NIP,$data_arr['password']);
+
+            $dataUser = $this->m_auth->__getauthUserPassword($NIP,$Password);
+
+            if(count($dataUser)>0){
+                $this->setSession($dataUser[0]['ID'],$dataUser[0]['NIP']);
+                return print_r(1);
+            } else {
+                return print_r(0);
+            }
+        } else {
+            return print_r(0);
+        }
+    }
+
     private function setSession($ID,$NIP){
 
         $dataSession = $this->m_auth->__getUserAuth($ID,$NIP);
         $timePerCredits = $this->m_auth->__getTimePerCredits();
+
+        $ruleUser = $this->m_auth->__getRuleUser($NIP);
+
+        // Super Divisi -- Lihat ID Di table db_employees.division
+        // 1 (Yayasan), 2 (Rectore) , 12 (IT)
+        $superDivision = [1,2,12];
 
         $setSession = array(
             'ID'  => $dataSession[0]['ID'],
@@ -112,17 +142,30 @@ class C_login extends CI_Controller {
                 'PositionOther3' => $dataSession[0]['PositionOther3']
             ),
             'timePerCredits' => $timePerCredits['time'],
+            'ruleUser' => $ruleUser,
             'loggedIn' => true
         );
 
         $this->session->set_userdata($setSession);
-
     }
 
-    public function gen_pass(){
-        $username = '2017090';
-        $password = $username.'nandang123';
-        $pas = md5($password);
+    private function genratePassword($NIP,$Password){
+
+        $plan_password = $NIP.''.$Password;
+        $pas = md5($plan_password);
+        $pass = sha1('jksdhf832746aiH{}{()&(*&(*'.$pas.'HdfevgyDDw{}{}{;;*766&*&*');
+
+        return $pass;
+    }
+
+    public function logMeOut(){
+        $this->session->sess_destroy();
+        return 1;
+    }
+
+    public function gen($NIP,$Password){
+        $plan_password = $NIP.''.$Password;
+        $pas = md5($plan_password);
         $pass = sha1('jksdhf832746aiH{}{()&(*&(*'.$pas.'HdfevgyDDw{}{}{;;*766&*&*');
 
         print_r($pass);

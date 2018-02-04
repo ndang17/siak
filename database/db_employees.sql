@@ -619,7 +619,7 @@ insert  into `employees`(`ID`,`ReligionID`,`JobGradeID`,`PositionMain`,`CityID`,
 (2,3,NULL,NULL,136,11,'1014052',NULL,'317302221289000','Daniel Kristian','','S.Psi','P','JAKARTA','1989-12-22','56972503',',,',',,',NULL,NULL,'									JL. Latumeten III Barat No. 16, Jelambar, Jakarta Barat - 11460																		','11.jpg',NULL,NULL,NULL,NULL),
 (3,3,NULL,NULL,136,11,'2014024',NULL,'095305530385013','Sandra Dewi','','','P','JAKARTA','1985-03-13','021-5854323',',,',',,',NULL,NULL,'Taman Aries Blk B2 /54 RT/RW 002/009, Kel Meruya Utara					','Sandra_Dewi_1.jpg',NULL,NULL,NULL,NULL),
 (4,1,NULL,NULL,154,12,'2014047',NULL,'327504020175002','Andrian Supriyadi','','','L','JAKARTA','1975-02-01','820 7259',',,',',,',NULL,NULL,'Komp Mas Niaga, Jl. Barito IV Blok F/780\nrt 006/007 Jakamulya, Bekasi 17146\n','Andrian_Supriyadi.JPG',NULL,NULL,NULL,NULL),
-(5,1,NULL,NULL,136,11,'1014026',NULL,'317307450577000','Sovie Liestiyani','','','P','','1977-05-05','',',,',',,',NULL,NULL,'Kemanggisan RT 005 RW 012 Palmerah, Palmerah, Jakarta Barat\n				','Sovie_Liestiyani_1.jpg',NULL,NULL,NULL,NULL),
+(5,1,NULL,'6.11',136,11,'1014026',NULL,'317307450577000','Sovie Liestiyani','','','P','','1977-05-05','',',,',',,',NULL,'7d17dfab0e942fb6875196d37ef675cc9e54647b','Kemanggisan RT 005 RW 012 Palmerah, Palmerah, Jakarta Barat\n				','Sovie_Liestiyani_1.jpg',NULL,NULL,NULL,NULL),
 (6,1,NULL,NULL,138,11,'1014027',NULL,'','Muzahid Akbar','S.Si','M.Si','L','JAKARTA','1985-03-08','',',,',',,',NULL,NULL,'Jakarta Timur														','Akbar.jpg',NULL,NULL,NULL,NULL),
 (7,1,NULL,NULL,139,12,'1014050',NULL,'327605200774000','Rismi Juliadi','','ST., M.Si','L','JAKARTA','1974-07-20','',',,',',,',NULL,NULL,'Jl. Ebony III No. 4 Perumahan Bumi Payawangan, Cileunyi, Bandung												','Rismi.jpg',NULL,NULL,NULL,NULL),
 (8,1,NULL,NULL,195,13,'1014023','326038701','337302660387000','Puji Rahayuningtyas','','S.Pd, MM','P','Salatiga','1987-03-26','(0298) 32786',',,',',,',NULL,NULL,'Jl. Residen Indarjo 25A, Rt 01 RW 005 Gendongan Timur - Salatiga							','Puji_Rahayuningtyas_1.jpg',NULL,NULL,NULL,NULL),
@@ -981,23 +981,29 @@ insert  into `religion`(`IDReligion`,`Religion`) values
 (6,'Buddhist'),
 (7,'Confucianism');
 
-/*Table structure for table `rule_user` */
+/*Table structure for table `rule_users` */
 
-DROP TABLE IF EXISTS `rule_user`;
+DROP TABLE IF EXISTS `rule_users`;
 
-CREATE TABLE `rule_user` (
+CREATE TABLE `rule_users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NIP` varchar(50) NOT NULL,
   `IDDivision` int(11) NOT NULL,
-  `IDPosition` int(11) NOT NULL,
   `privilege` enum('0','1') NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
-/*Data for the table `rule_user` */
+/*Data for the table `rule_users` */
 
-insert  into `rule_user`(`ID`,`NIP`,`IDDivision`,`IDPosition`,`privilege`) values 
-(1,'2017090',12,13,'1');
+insert  into `rule_users`(`ID`,`NIP`,`IDDivision`,`privilege`) values 
+(1,'2017090',12,'1'),
+(2,'2017090',10,'1'),
+(3,'2017090',6,'1'),
+(4,'2017090',9,'1'),
+(5,'2017090',13,'1'),
+(6,'2017090',8,'1'),
+(7,'2017090',7,'1'),
+(8,'1014026',6,'1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

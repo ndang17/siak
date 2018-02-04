@@ -56,13 +56,10 @@
             <div class="form-actions">
                 <!--                    <label class="checkbox pull-left"><input type="checkbox" class="uniform" name="remember"> Remember me</label>-->
                 <button type="button" id="login_btn" class="submit btn btn-primary pull-right">
-                    Sign In <i class="icon-angle-right"></i>
+                    Sign In <i class="icon-angle-right" style="margin-left: 5px;"></i>
                 </button>
             </div>
 
-            <div class="alert alert-danger">
-                NIK and Password not match
-            </div>
             <!-- /Login Formular -->
 
         </div> <!-- /.content -->
@@ -115,20 +112,64 @@
 
     <script>
         $('#login_btn').click(function(){
-            var username = ($('#nip').val()!='') ? $('#nip').val() : $('.box').animateCss('shake'); $('#nip').css('border', '1px solid red') ;
-            var password = ($('#password').val()!='')? $('#password').val() : $('.box').animateCss('shake'); $('#password').css('border','1px solid red');
+            sendAuth();
+        });
+
+        $('.form-login').keypress(function (e) {
+
+            if (e.which == 13) {
+                sendAuth();
+                return false;    //<---- Add this line
+            }
+        });
+
+        function sendAuth() {
+            var nip = ($('#nip').val()!='') ? $('#nip').val() :
+                $('#nip').css('border', '1px solid red').animateCss('shake');
+
+            var password = ($('#password').val()!='')? $('#password').val() :
+                $('#password').css('border','1px solid red').animateCss('shake');
 
             setTimeout(function () {
                 $('.form-login').css('border','1px solid #ccc');
-            },2000);
+            },3000);
 
-            var url = base_url_js+"uath-login";
-            $.post(url,{username:username,password:password},function () {
+            if($('#nip').val()!='' && $('#password').val()!=''){
 
-            });
+                loading_button('#login_btn');
+                $('.form-login').prop('disabled',true);
 
-            toastr.success('Have fun storming the castle!', 'Miracle Max Says');
-        });
+                var url = base_url_js+"uath/authUserPassword";
+                var data = {
+                    nip : nip,
+                    password : password
+                };
+
+                var token = jwt_encode(data,'L06M31N');
+                $.post(url,{token:token},function (result) {
+                    var res = result.trim();
+
+                    setTimeout(function () {
+                        if(res==1){
+                            toastr.success('Logged In TRUE', 'Success!!');
+                            window.location.href = base_url_js+'dashboard';
+                        } else {
+                            $('.box').animateCss('shake');
+                            toastr.error('NIK and Password not match', 'Error!!');
+                            // $('.form-login').val('');
+                            $('.form-login').css('border','1px solid red');
+                            setTimeout(function () {
+                                $('.form-login').css('border','1px solid #ccc');
+                            },5000);
+                        }
+                        $('#login_btn').html('Sign In <i class="icon-angle-right" style="margin-left: 5px;"></i>');
+                        $('.form-login,#login_btn').prop('disabled',false);
+
+                    },2000);
+
+                });
+            }
+        }
     </script>
 
 

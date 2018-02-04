@@ -11,9 +11,10 @@ $route['profile'] = 'c_dashboard/profile';
 
 
 // === AUTH ===
-$route['uath-login'] = 'auth/c_auth/get_auth';
+$route['uath/authUserPassword'] = 'c_login/authUserPassword';
 $route['auth/authGoogle'] = 'c_login/authGoogle';
 $route['auth/gen_pass'] = 'c_login/gen_pass';
+$route['auth/logMeOut'] = 'c_login/logMeOut';
 
 $route['db/(:any)'] = 'auth/c_auth/db/$1';
 

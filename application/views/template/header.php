@@ -144,7 +144,7 @@
 <!--                    <li><a href="pages_calendar.html"><i class="fa fa-calendar"></i> My Calendar</a></li>-->
 <!--                    <li><a href="#"><i class="fa fa-tasks"></i> My Tasks</a></li>-->
                     <li class="divider"></li>
-                    <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+                    <li><a href="javascript:void(0)" id="useLogOut"><i class="fa fa-power-off"></i> Log Out</a></li>
                 </ul>
             </li>
             <!-- /user login dropdown -->
@@ -180,6 +180,12 @@
 </div><!-- /.modal -->
 
 <script>
+
+    $(document).ready(function () {
+        $('.departement ,.departement1').addClass('hide');
+        loadAllowDivision();
+    });
+
     $(document).on('click','#btn_announcement',function () {
         $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
             '<h4 class="modal-title">Announcement</h4>');
@@ -189,6 +195,24 @@
         $('#GlobalModal').modal({
             'show' : true,
             'backdrop' : 'static'
+        });
+    });
+
+    $(document).on('click','#useLogOut',function () {
+        $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Log Me Out ?? </b> ' +
+            '<button type="button" id="btnActionLogOut" class="btn btn-primary" style="margin-right: 5px;">Ya</button>' +
+            '<button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>' +
+            '</div>');
+        $('#NotificationModal').modal('show');
+    });
+
+    $(document).on('click','#btnActionLogOut',function () {
+        var url = base_url_js+"auth/logMeOut";
+        loading_page('#NotificationModal .modal-body');
+        $.post(url,function (result) {
+            setTimeout(function () {
+                window.location.href = base_url_js;
+            },2000);
         });
     });
 
@@ -217,5 +241,19 @@
 
 
 
-    })
+    });
+
+    function loadAllowDivision() {
+
+        <?php
+        $div = $this->session->userdata('ruleUser');
+        foreach ($div as $item){ ?>
+        allowDepartementNavigation.push(<?php echo $item['IDDivision']; ?>);
+        <?php }
+        ?>
+
+        for(var i=0;i<allowDepartementNavigation.length;i++){
+            $('li[division='+allowDepartementNavigation[i]+']').removeClass('hide');
+        }
+    };
 </script>

@@ -37,7 +37,7 @@ class M_auth extends CI_Model {
 	
 	LEFT JOIN db_employees.division d3 ON (d3.ID = SUBSTRING_INDEX(SUBSTRING_INDEX(e.PositionOther3, \'.\', 1), \'.\', -1))
 	LEFT JOIN db_employees.position	p3 ON (p3.ID = SUBSTRING_INDEX(SUBSTRING_INDEX(e.PositionOther3, \'.\', -1), \'.\', 1))
-	WHERE e.NIP = "'.$NIP.'" AND e.ID = "'.$ID.'" ');
+	WHERE e.NIP LIKE "'.$NIP.'" AND e.ID = "'.$ID.'" ');
 
         return $data->result_array();
     }
@@ -45,6 +45,18 @@ class M_auth extends CI_Model {
     public function __getTimePerCredits(){
         $data = $this->db->query('SELECT t.time FROM db_academic.time_per_credits t');
         return $data->result_array()[0];
+    }
+
+    public function __getauthUserPassword($NIP,$Password){
+        $data = $this->db->query('SELECT e.ID,e.NIP FROM db_employees.employees e 
+                                    WHERE e.NIP like "'.$NIP.'" AND e.Password = "'.$Password.'" ');
+
+        return $data->result_array();
+    }
+
+    public function __getRuleUser($NIP){
+        $data = $this->db->query('SELECT * FROM db_employees.rule_users WHERE NIP LIKE "'.$NIP.'"');
+        return $data->result_array();
     }
 
 
