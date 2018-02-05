@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.5.0 (64 bit)
-MySQL - 10.1.26-MariaDB : Database - db_academic
+SQLyog Community v12.4.3 (64 bit)
+MySQL - 10.1.25-MariaDB : Database - db_academic
 *********************************************************************
 */
 
@@ -106,7 +106,7 @@ CREATE TABLE `class_group` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 /*Data for the table `class_group` */
 
@@ -118,7 +118,8 @@ insert  into `class_group`(`ID`,`BaseProdiID`,`Name`,`Status`,`UpdateBy`,`Update
 (35,7,'UNIV 1',NULL,'2017090','2018-02-02 09:11:51'),
 (36,3,'ENT 1',NULL,'2017090','2018-02-02 09:47:59'),
 (38,1,'ARC 11',NULL,'2017090','2018-02-02 10:03:37'),
-(39,1,'ARC 14',NULL,'2017090','2018-02-02 10:05:55');
+(39,1,'ARC 14',NULL,'2017090','2018-02-02 10:05:55'),
+(40,3,'ENT 1',NULL,'2017090','2018-02-05 14:54:16');
 
 /*Table structure for table `classroom` */
 
@@ -1921,6 +1922,68 @@ CREATE TABLE `programs_campus` (
 insert  into `programs_campus`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
 (1,'Program Reguler','2017090','2018-01-25 11:10:05'),
 (2,'Program Tes','2017090','2018-01-30 09:13:21');
+
+/*Table structure for table `schedule` */
+
+DROP TABLE IF EXISTS `schedule`;
+
+CREATE TABLE `schedule` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SemesterID` int(11) NOT NULL,
+  `ProgramsCampusID` int(11) NOT NULL,
+  `CombinedClasses` enum('0','1') NOT NULL,
+  `MKID` int(11) NOT NULL,
+  `MKCode` varchar(45) NOT NULL,
+  `ClassGroupID` int(11) NOT NULL,
+  `TeamTeaching` enum('0','1') NOT NULL,
+  `NIP` varchar(45) NOT NULL,
+  `ClassroomID` int(11) NOT NULL,
+  `DayID` int(11) NOT NULL,
+  `StartSessions` time NOT NULL,
+  `EndSessions` time NOT NULL,
+  `UpdateBy` varchar(100) NOT NULL,
+  `UpdateAt` datetime NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule` */
+
+insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`CombinedClasses`,`MKID`,`MKCode`,`ClassGroupID`,`TeamTeaching`,`NIP`,`ClassroomID`,`DayID`,`StartSessions`,`EndSessions`,`UpdateBy`,`UpdateAt`) values 
+(1,7,1,'1',26,'CEM2051',36,'1','3015016',10,1,'09:00:00','11:30:00','2017090','2018-02-05 14:57:57');
+
+/*Table structure for table `schedule_combinedclasses` */
+
+DROP TABLE IF EXISTS `schedule_combinedclasses`;
+
+CREATE TABLE `schedule_combinedclasses` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ScheduleID` int(11) NOT NULL,
+  `ProgramStudyID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule_combinedclasses` */
+
+insert  into `schedule_combinedclasses`(`ID`,`ScheduleID`,`ProgramStudyID`) values 
+(1,1,2),
+(2,1,3);
+
+/*Table structure for table `schedule_team_teaching` */
+
+DROP TABLE IF EXISTS `schedule_team_teaching`;
+
+CREATE TABLE `schedule_team_teaching` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ScheduleID` int(11) NOT NULL,
+  `NIP` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule_team_teaching` */
+
+insert  into `schedule_team_teaching`(`ID`,`ScheduleID`,`NIP`) values 
+(1,1,'2214036'),
+(2,1,'3114014');
 
 /*Table structure for table `semester` */
 

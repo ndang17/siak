@@ -377,6 +377,65 @@ class C_api extends MY_Controller {
         return print_r(json_encode($data[0]));
     }
 
+    public function crudSchedule(){
+
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='add'){
+                $formData = (array) $data_arr['formData'];
+                $this->db->insert('db_academic.schedule', $formData);
+                $insert_id = $this->db->insert_id();
+
+                // Insert Base Prodi
+                $formBaseProdi = (array) $data_arr['formBaseProdi'];
+                if(count($formBaseProdi['formBaseProdi'])>0){
+                    for($i=0;$i<count($formBaseProdi['formBaseProdi']);$i++){
+                        $comb_insert = array(
+                            'ScheduleID' => $insert_id,
+                            'ProgramStudyID' => $formBaseProdi['formBaseProdi'][$i]
+                        );
+                        $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
+                    }
+                } else {
+                    $comb_insert = array(
+                        'ScheduleID' => $insert_id,
+                        'ProgramStudyID' => $formBaseProdi['formBaseProdi']
+                    );
+                    $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
+                }
+
+                print_r($formData);
+                if($formData['TeamTeaching']!=0){
+                    // Insert Team Teaching
+                    $formTeamTeaching = (array) $data_arr['formTeamTeaching'];
+                    if(count($formTeamTeaching['formTeamDosen'])>0){
+                        for($i=0;$i<count($formTeamTeaching['formTeamDosen']);$i++){
+                            $td_insert = array(
+                                'ScheduleID' => $insert_id,
+                                'NIP' => $formTeamTeaching['formTeamDosen'][$i]
+                            );
+                            $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
+                        }
+                    } else {
+                        $td_insert = array(
+                            'ScheduleID' => $insert_id,
+                            'NIP' => $formTeamTeaching['formTeamDosen']
+                        );
+                        $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
+                    }
+                }
+
+
+
+                return print_r($insert_id);
+
+            }
+        }
+    }
+
 
 
 }

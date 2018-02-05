@@ -17,9 +17,12 @@ class C_login extends CI_Controller {
         $this->load->library('JWT');
         $this->load->library('google');
         $this->load->model('m_auth');
+
+
     }
 
     public function temp($content){
+
         $data['include'] = $this->load->view('template/include','',true);
         $data['content'] = $content;
 
@@ -143,6 +146,8 @@ class C_login extends CI_Controller {
             ),
             'timePerCredits' => $timePerCredits['time'],
             'ruleUser' => $ruleUser,
+            'menuDepartement' => (count($ruleUser)>1) ? false : true ,
+            'departementNavigation' => $dataSession[0]['MenuNavigation'],
             'loggedIn' => true
         );
 
@@ -157,6 +162,8 @@ class C_login extends CI_Controller {
 
         return $pass;
     }
+
+
 
     public function logMeOut(){
         $this->session->sess_destroy();

@@ -16,6 +16,9 @@ $route['auth/authGoogle'] = 'c_login/authGoogle';
 $route['auth/gen_pass'] = 'c_login/gen_pass';
 $route['auth/logMeOut'] = 'c_login/logMeOut';
 
+$route['gen/(:any)/(:any)'] = 'c_login/gen/$1/$2';
+
+
 $route['db/(:any)'] = 'auth/c_auth/db/$1';
 
 
@@ -108,6 +111,7 @@ $route['api/__crudDataDetailTahunAkademik'] = 'api/c_api/crudDataDetailTahunAkad
 $route['api/__getAcademicYearOnPublish'] = 'api/c_api/getAcademicYearOnPublish';
 $route['api/__getTimePerCredits'] = 'api/c_api/getTimePerCredits';
 
+$route['api/__crudSchedule'] = 'api/c_api/crudSchedule';
 
 
 

@@ -69,7 +69,7 @@
             </li>
 
             <!-- Project Switcher Button -->
-            <li class="dropdown">
+            <li class="dropdown <?php if($this->session->userdata('menuDepartement')){echo 'hide';} ?>">
                 <a href="#" class="project-switcher-btn dropdown-toggle">
                     <i class="fa fa-folder-open"></i>
                     <span>Departement</span>

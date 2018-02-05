@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.5.0 (64 bit)
-MySQL - 10.1.26-MariaDB : Database - db_employees
+SQLyog Community v12.4.3 (64 bit)
+MySQL - 10.1.25-MariaDB : Database - db_employees
 *********************************************************************
 */
 
@@ -557,26 +557,27 @@ CREATE TABLE `division` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Division` varchar(45) DEFAULT NULL,
   `Description` text,
+  `MenuNavigation` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Data for the table `division` */
 
-insert  into `division`(`ID`,`Division`,`Description`) values 
-(1,'Yayasan','Yayasan'),
-(2,'Rectorate','Rectorate'),
-(3,'SPMI','Sistem Jaminan Mutu Internal'),
-(4,'LPM','Lembaga Pengabdian Masyarakat'),
-(5,'LPPM','Lembaga Penelitian dan Pengabdian Masyarakat'),
-(6,'Academic Service','Adak'),
-(7,'Institutional Reation','Kerjasama'),
-(8,'General Affair','Adum'),
-(9,'Finance','Finance'),
-(10,'Marketing & Admission','Marketing & Admission'),
-(11,'Library','Library'),
-(12,'IT','Information Technology'),
-(13,'Human Resource','HR'),
-(14,'Lecturer','Tenaga Pengajar');
+insert  into `division`(`ID`,`Division`,`Description`,`MenuNavigation`) values 
+(1,'Yayasan','Yayasan',NULL),
+(2,'Rectorate','Rectorate',NULL),
+(3,'SPMI','Sistem Jaminan Mutu Internal',NULL),
+(4,'LPM','Lembaga Pengabdian Masyarakat',NULL),
+(5,'LPPM','Lembaga Penelitian dan Pengabdian Masyarakat',NULL),
+(6,'Academic Service','Adak','academic'),
+(7,'Institutional Reation','Kerjasama','cooperation'),
+(8,'General Affair','Adum','general-affair'),
+(9,'Finance','Finance','finance'),
+(10,'Marketing & Admission','Marketing & Admission','admission'),
+(11,'Library','Library',NULL),
+(12,'IT','Information Technology','academic'),
+(13,'Human Resource','HR','human-resources'),
+(14,'Lecturer','Tenaga Pengajar',NULL);
 
 /*Table structure for table `employees` */
 
@@ -661,7 +662,7 @@ insert  into `employees`(`ID`,`ReligionID`,`JobGradeID`,`PositionMain`,`CityID`,
 (44,3,NULL,NULL,136,11,'1015085',NULL,'317307580784000','Silvia Wisnugroho','','','P','Jakarta','1984-07-18','','08999 711 888,,',',silviawisnugroho@gmail.com,',NULL,NULL,'Jl. Anggrek Rosliana V No. 21\nSlipi, Jakarta Barat 11480','1015085.jpg',NULL,NULL,NULL,NULL),
 (45,4,NULL,NULL,136,11,'2015086',NULL,'','Angela Nathania Wijaya','','','P','Padang','0000-00-00','',',,',',,',NULL,NULL,'Jl. Taman Daan Mogot No. 4\n11470					','2015086.jpg',NULL,NULL,NULL,NULL),
 (46,4,NULL,NULL,135,11,'2015003',NULL,' ','Tungki Halim','','','L','Jakarta','0000-00-00','',',,',',,',NULL,NULL,'									Sunter						','download.png',NULL,NULL,NULL,NULL),
-(47,4,NULL,NULL,138,11,'2015007',NULL,'320130510786000','Marlina T J Siahaan','','','P','Sidikalang','1986-07-11','',',,','marlina.siahaan@podomorouniversity.com,,',NULL,NULL,'Jl. Cipinang Muara III No. 79\nrt/rw 017/004, Duren Sawit - Jakarta Timur		','2015007.jpg',NULL,NULL,NULL,NULL),
+(47,4,NULL,'10.11',138,11,'2015007',NULL,'320130510786000','Marlina T J Siahaan','','','P','Sidikalang','1986-07-11','',',,','marlina.siahaan@podomorouniversity.com,,',NULL,'be27220b7bd33dba902874a37ea584f6c845983a','Jl. Cipinang Muara III No. 79\nrt/rw 017/004, Duren Sawit - Jakarta Timur		','2015007.jpg',NULL,NULL,NULL,NULL),
 (48,4,NULL,NULL,137,11,'2015011',NULL,'','Yenli Mei Rut Pasaribu','','','P','','0000-00-00','',',,',',,',NULL,NULL,'																																','Yenli_Mei_Rut_Pasaribu1.jpg',NULL,NULL,NULL,NULL),
 (49,1,NULL,NULL,157,12,'1115018',NULL,'327319510387000','Mirna Astari','','','P','Cimahi','1987-03-11','',',,',',,',NULL,NULL,'			Jl. Jawa No. 24 rt/rw 002/001\nMerdeka, Sumur Bandung, Bandung			','Mirna_3.jpg',NULL,NULL,NULL,NULL),
 (50,1,NULL,NULL,136,11,'2015019',NULL,'317307480281000','Tria Febrita Aquarini','','','P','Jakarta','1981-02-08','',',,',',,',NULL,NULL,'				Jl. Palmerah Utara I, rt/rw 002/016, Palmerah			','2015019.jpg',NULL,NULL,NULL,NULL),
@@ -991,7 +992,7 @@ CREATE TABLE `rule_users` (
   `IDDivision` int(11) NOT NULL,
   `privilege` enum('0','1') NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `rule_users` */
 
@@ -1003,7 +1004,8 @@ insert  into `rule_users`(`ID`,`NIP`,`IDDivision`,`privilege`) values
 (5,'2017090',13,'1'),
 (6,'2017090',8,'1'),
 (7,'2017090',7,'1'),
-(8,'1014026',6,'1');
+(8,'1014026',6,'1'),
+(9,'2015007',10,'1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

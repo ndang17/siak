@@ -75,12 +75,13 @@
 
     /*Custom Button*/
     .btn-default-danger {
-        color: red;
-        border: 1px solid red;
+        background: #fff;
+        color: #bd362f;
+        border: 1px solid #bd362f;
     }
 
     .btn-default-danger:hover {
-        background: red;
+        background: #bd362f;
         color: #ffffff;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
@@ -90,11 +91,12 @@
 
     /* BTN SUCCESS */
     .btn-default-success {
-        color: green;
-        border: 1px solid green;
+        background: #fff;
+        color: #51a351;
+        border: 1px solid #51a351;
     }
     .btn-default-success:hover {
-        background: green;
+        background: #51a351;
         color: #ffffff;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
@@ -105,7 +107,7 @@
         border-top-color: #ffffff !important;
     }
     .btn-default-success .caret {
-        border-top-color: green !important;
+        border-top-color: #51a351 !important;
     }
 
     /* BTN SUCCESS CLOSE */
@@ -412,9 +414,9 @@
 
             for(var i=0;i<data.length;i++){
                 option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'" >'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].NameEng+'</option>')
-                    .val(''+selected).trigger('change');
-            }
-        });
+    .val(''+selected).trigger('change');
+    }
+    });
     }
 
     function loadSelectOptionLecturersSingle(element,selected) {
@@ -466,7 +468,7 @@
                     var opt = $('#opt'+i);
                     var detail = data_json[i].options;
                     for(var x=0;x<detail.length;x++){
-                        opt.append('<option>'+detail[x].Name+'</option>');
+                        opt.append('<option value="'+detail[x].ID+'">'+detail[x].Name+'</option>');
                     }
                 }
             }

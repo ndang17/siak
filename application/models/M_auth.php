@@ -13,7 +13,7 @@ class M_auth extends CI_Model {
     public function __getUserAuth($ID,$NIP){
         $data = $this->db->query('SELECT e.*,
 
-	d.ID AS IDDivision, d.Division,
+	d.ID AS IDDivision, d.Division, d.MenuNavigation,
 	p.ID AS IDPosition, p.Position,
 	
 	d1.ID AS IDDivisionOther1, d1.Division AS DivisionOther1,

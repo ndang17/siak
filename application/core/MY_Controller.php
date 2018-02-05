@@ -12,7 +12,7 @@ class MY_Controller extends CI_Controller {
         if($this->session->userdata('loggedIn')){
             $departement = $this->__getDepartement();
             if($departement==''){
-                $this->session->set_userdata('departement_nav', 'academic');
+//                $this->session->set_userdata('departementNavigation', 'academic');
             }
         } else {
             redirect(base_url());
@@ -70,7 +70,7 @@ class MY_Controller extends CI_Controller {
     }
 
     private function crumbs(){
-        $data['crumbs_departement'] = $this->session->userdata('departement_nav');
+        $data['crumbs_departement'] = $this->session->userdata('departementNavigation');
         $data['segment'] = $this->uri->segment_array();
         $page = $this->load->view('template/crumbs',$data,true);
         return $page;
@@ -79,12 +79,12 @@ class MY_Controller extends CI_Controller {
 
     //==== Get Set ===
     public function __getDepartement(){
-        return $this->session->userdata('departement_nav');
+        return $this->session->userdata('departementNavigation');
     }
 
     public function __setDepartement($dpt)
     {
-        $this->session->set_userdata('departement_nav', ''.$dpt);
+        $this->session->set_userdata('departementNavigation', ''.$dpt);
     }
 
 //    public function setTimePerCredits(){

@@ -174,7 +174,7 @@ class M_api extends CI_Model {
     }
 
     public function __getDosenSelectOption(){
-        $data = $this->db->query('SELECT IDEmployee,NIP,NIDN,Name FROM db_employees.employees WHERE PositionMain = "14.7"');
+        $data = $this->db->query('SELECT ID,NIP,NIDN,Name FROM db_employees.employees WHERE PositionMain = "14.7"');
         return $data->result_array();
     }
 
@@ -253,7 +253,6 @@ class M_api extends CI_Model {
                                       WHERE mk.ID="'.$ID.'" AND mk.MKCode = "'.$MKCode.'" ');
         return $data->result_array();
     }
-
 
 
 }

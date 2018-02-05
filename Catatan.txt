@@ -1,0 +1,11 @@
+
+
+Catatan 5 Feb 2018
+
+- Input Jadwal
+
+Group Kelas Otomatis
+	* Dosen
+	* Ruangan + Hari + Jam
+
+- Previlage Dosen Team Teaching (Read Write)
