@@ -113,11 +113,12 @@
     /* BTN SUCCESS CLOSE */
 
     .btn-default-primary {
-        color: blue;
-        border: 1px solid blue;
+        color: #3968c6;
+        background: #ffffff;
+        border: 1px solid #3968c6;
     }
     .btn-default-primary:hover {
-        background: blue;
+        background: #3968c6;
         color: #ffffff;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;

@@ -1,5 +1,11 @@
 
-<div class="row">
+<style>
+    .box-group-prodi {
+        background: #ff980036 !important;
+    }
+</style>
+
+<div class="row" style="margin-bottom: 30px;">
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <button  data-page="jadwal" class="btn btn-info btn-action"><i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</button>
@@ -55,153 +61,141 @@
                         Semester : <span id="textSemester"></span> | <span id="textTotalSKS"></span> SKS | <span id="textTimeSKS"></span>
                     </p>
 
-                </td>
-            </tr>
-            <tr>
-                <td>Group Kelas</td>
-                <td>:</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <select class="select2-select-00 full-width-fix form-jadwal"
-                                    size="5" id="formClassGroup">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-xs-2">
-                            <button class="btn btn-default btn-block form-jadwal" id="btnRefreshDataGroupClass">
-                                <i class="fa fa-refresh"></i>
-                            </button>
-                        </div>
-                        <div class="col-xs-4">
-                            <button class="btn btn-default btn-default-success btn-block form-jadwal" id="btnAddGroupClass">Add Group</button>
-                        </div>
-                    </div>
+                    <input type="hide" class="hide" id="groupCode" readonly />
+                    <input type="hide" class="hide" id="totalTime" readonly />
 
-
-                </td>
-            </tr>
-            <tr>
-                <td>Dosen Team Teaching ?</td>
-                <td>:</td>
-                <td>
-                    <label class="radio-inline">
-                        <input type="radio" class="form-jadwal" name="formteamTeaching" value="0" checked> Tidak
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" class="form-jadwal" name="formteamTeaching" value="1"> Ya
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Dosen Koordinator</td>
-                <td>:</td>
-                <td>
-                    <select class="select2-select-00 full-width-fix form-jadwal"
-                            size="5" id="formDosenKoordinator">
-                        <option value=""></option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Team Dosen</td>
-                <td>:</td>
-                <td>
-                    <select class="select2-select-00 full-width-fix form-jadwal"
-                            size="5" multiple id="formTeamDosen" disabled></select>
-                </td>
-            </tr>
-            <tr>
-                <td>Ruangan</td>
-                <td>:</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <select class="select2-select-00 full-width-fix form-jadwal"
-                                    size="5" id="formClassroom">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="col-xs-2">
-                            <button class="btn btn-default btn-block form-jadwal" id="btnRefreshDataClassroom">
-                                <i class="fa fa-refresh"></i>
-                            </button>
-                        </div>
-                        <div class="col-xs-4">
-                            <button class="btn btn-default btn-default-success btn-block form-jadwal" id="btnAddClassroom">Add Ruangan</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Hari</td>
-                <td>:</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <select class="form-control form-jadwal" id="formDay"></select>
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="time" class="form-control form-jadwal" id="formSesiAwal" />
-                        </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" id="formSesiAkhir" style="color: #333;" readonly />
-                        </div>
-                    </div>
                 </td>
             </tr>
 
 <!--            <tr>-->
-<!--                <td>Sesi Awal</td>-->
-<!--                <td>:</td>-->
-<!--                <td>-->
-<!--                    <select class="form-control"></select>-->
+<!--                <td colspan="3" style="text-align: center;">-->
+<!--                    <button class="btn btn-danger">Cancle</button>-->
+<!--                    <button class="btn btn-success" id="btnSaveSchedule" >Save</button>-->
 <!--                </td>-->
 <!--            </tr>-->
-
-            <tr>
-                <td colspan="3" style="text-align: center;">
-                    <button class="btn btn-danger">Cancle</button>
-                    <button class="btn btn-success" id="btnSaveSchedule" >Save</button>
-                </td>
-            </tr>
         </table>
-<!--        <div style="text-align: center;">-->
-<!--            <button class="btn btn-danger">Cancle</button>-->
-<!--            <button class="btn btn-success">Save</button>-->
-<!--        </div>-->
+
+        <div class="widget box">
+            <div class="widget-header" style="background: #2196f345;">
+                <h4>Group : <span class="TextGroupCode"></span>-1</h4>
+            </div>
+            <div class="widget-content">
+
+                <table class="table">
+                    <tr>
+                        <td style="width: 190px;">Dosen Koordinator</td>
+                        <td style="width: 1px;">:</td>
+                        <td>
+                            <select class="select2-select-00 full-width-fix form-jadwal"
+                                    size="5" id="formDosenKoordinator1">
+                                <option value=""></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dosen Team Teaching ?</td>
+                        <td>:</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" class="form-jadwal" fm="dtt-form" name="formteamTeaching1" data-id="1" value="0" checked> Tidak
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" class="form-jadwal"  fm="dtt-form" name="formteamTeaching1" data-id="1" value="1"> Ya
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="select2-select-00 full-width-fix form-jadwal"
+                                            size="5" multiple id="formTeamDosen1" disabled></select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ruangan</td>
+                        <td>:</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <select class="select2-select-00 full-width-fix form-jadwal form-classroom"
+                                            size="5" id="formClassroom1">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2">
+                                    <button class="btn btn-default btn-block form-jadwal" id="btnRefreshDataClassroom">
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                                </div>
+                                <div class="col-xs-4">
+                                    <button class="btn btn-default btn-default-primary btn-block form-jadwal" id="btnAddClassroom">Add Ruangan</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hari</td>
+                        <td>:</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <select class="form-control form-jadwal" id="formDay1"></select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="time" class="form-control form-jadwal formSesiAwal" id="formSesiAwal1" data-id="1" />
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" id="formSesiAkhir1" style="color: #333;" readonly />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="widgetNewGroup"></div>
+
+        <div style="text-align: right;">
+            <button class="btn btn-default btn-default-danger" id="removeNewGroup">Remove Group</button>
+            <button class="btn btn-default btn-default-success" data-group="1" id="addNewGroup">Save & Add New Group</button>
+            <button class="btn btn-success">Save</button>
+        </div>
     </div>
 
 </div>
 
 <script>
     $(document).ready(function () {
-        // $('.control-jadwal').prop("disabled",true);
+
+        window.dataGroup = 1;
 
         loadAcademicYearOnPublish();
 
         loadProdiSelectOption('#formBaseProdi');
         loadSelectOptionConf('#formProgramsCampusID','programs_campus','');
         loadSelectOptionAllMataKuliahSingle('#formMataKuliah','');
-        loadSelectOptionLecturersSingle('#formDosenKoordinator','');
-        loadSelectOptionLecturersSingle('#formTeamDosen','');
+        loadSelectOptionLecturersSingle('#formDosenKoordinator1','');
+        loadSelectOptionLecturersSingle('#formTeamDosen1','');
 
         loadSelectOptionClassGroup('#formClassGroup','');
-        loadSelectOptionClassroom('#formClassroom','');
+        loadSelectOptionClassroom('#formClassroom1','');
 
-        fillDays('#formDay','Eng','');
+        fillDays('#formDay'+dataGroup,'Eng','');
 
 
-        $('#formMataKuliah,#formDosenKoordinator,' +
-            '#formClassGroup,#formTeamDosen,#formClassroom').select2({allowClear: true});
+        $('#formMataKuliah,#formDosenKoordinator'+dataGroup+',' +
+            '#formClassGroup,#formTeamDosen'+dataGroup+',#formClassroom'+dataGroup).select2({allowClear: true});
 
+
+        $(document).on('change','input[type=radio][fm=dtt-form]',function () {
+            var ID = $(this).attr('data-id');
+            loadformTeamTeaching($(this).val(),'#formTeamDosen'+ID);
+        });
 
         $('input[type=radio][name=formCombinedClassess]').change(function () {
             loadformCombinedClassess($(this).val());
-        });
-
-        $('input[type=radio][name=formteamTeaching]').change(function () {
-            loadformTeamTeaching($(this).val());
         });
 
         $('#formBaseProdi').select2({
@@ -209,10 +203,98 @@
         });
     });
 
-    $('#btnSaveSchedule').click(function () {
+    $('#addNewGroup').click(function () {
 
+
+        saveSchedule(dataGroup);
+
+        var g = $('#groupCode').val();
+        dataGroup = dataGroup + 1;
+        $('#widgetNewGroup').append('<div class="widget box" id="dataBox'+dataGroup+'">' +
+            '                <div class="widget-header box-group-prodi">' +
+            '                    <h4>Group : <span class="TextGroupCode">'+g+'</span>-'+( (parseInt(dataGroup)<10) ? +'0'+dataGroup : dataGroup ) +'</h4>' +
+            '                </div>' +
+            '                <div class="widget-content">' +
+            '                    <table class="table">' +
+            '                        <tr>' +
+            '                            <td style="width: 190px;">Dosen Koordinator</td>' +
+            '                            <td style="width: 1px;">:</td>' +
+            '                            <td>' +
+            '                                <select class="select2-select-00 full-width-fix form-jadwal"' +
+            '                                        size="5" id="formDosenKoordinator'+dataGroup+'">' +
+            '                                    <option value=""></option>' +
+            '                                </select>' +
+            '                            </td>' +
+            '                        </tr>' +
+            '                        <tr>' +
+            '                            <td>Dosen Team Teaching ?</td>' +
+            '                            <td>:</td>' +
+            '                            <td>' +
+            '                                <div class="row">' +
+            '                                    <div class="col-md-4">' +
+            '                                        <label class="radio-inline">' +
+            '                                            <input type="radio" class="form-jadwal" fm="dtt-form" data-id="'+dataGroup+'" name="formteamTeaching'+dataGroup+'" value="0" checked> Tidak' +
+            '                                        </label>' +
+            '                                        <label class="radio-inline">' +
+            '                                            <input type="radio" class="form-jadwal" fm="dtt-form" data-id="'+dataGroup+'" name="formteamTeaching'+dataGroup+'" value="1"> Ya' +
+            '                                        </label>' +
+            '                                    </div>' +
+            '                                    <div class="col-md-8">' +
+            '                                        <select class="select2-select-00 full-width-fix form-jadwal"' +
+            '                                                size="5" multiple id="formTeamDosen'+dataGroup+'" disabled></select>' +
+            '                                    </div>' +
+            '                                </div>' +
+            '                            </td>' +
+            '                        </tr>' +
+            '                        <tr>' +
+            '                            <td>Ruangan</td>' +
+            '                            <td>:</td>' +
+            '                            <td>' +
+            '                                <div class="row">' +
+            '                                    <div class="col-xs-6">' +
+            '                                        <select class="select2-select-00 full-width-fix form-jadwal form-classroom"' +
+            '                                                size="5" id="formClassroom'+dataGroup+'">' +
+            '                                            <option value=""></option>' +
+            '                                        </select>' +
+            '                                    </div>' +
+            '                                </div>' +
+            '                            </td>' +
+            '                        </tr>' +
+            '                        <tr>' +
+            '                            <td>Hari</td>' +
+            '                            <td>:</td>' +
+            '                            <td>' +
+            '                                <div class="row">' +
+            '                                    <div class="col-xs-4">' +
+            '                                        <select class="form-control form-jadwal" id="formDay'+dataGroup+'"></select>' +
+            '                                    </div>' +
+            '                                    <div class="col-xs-4">' +
+            '                                        <input type="time" class="form-control form-jadwal formSesiAwal" data-id="'+dataGroup+'" id="formSesiAwal'+dataGroup+'" />' +
+            '                                    </div>' +
+            '                                    <div class="col-xs-4">' +
+            '                                        <input type="text" class="form-control" id="formSesiAkhir'+dataGroup+'" style="color: #333;" readonly />' +
+            '                                    </div>' +
+            '                                </div>' +
+            '                            </td>' +
+            '                        </tr>' +
+            '                    </table>' +
+            '                </div>' +
+            '            </div>');
+
+        $('#dataBox'+dataGroup).animateCss('slideInDown');
+
+        $(this).attr('data-group',dataGroup);
+
+        loadSelectOptionLecturersSingle('#formDosenKoordinator'+dataGroup,'');
+        fillDays('#formDay'+dataGroup,'Eng','');
+        loadSelectOptionClassroom('#formClassroom'+dataGroup,'');
+        loadSelectOptionLecturersSingle('#formTeamDosen'+dataGroup,'');
+
+        $('#formDosenKoordinator'+dataGroup+',#formTeamDosen'+dataGroup+',#formClassroom'+dataGroup).select2({allowClear: true});
+    });
+
+    function saveSchedule(ID) {
         var process = true;
-
 
         var SemesterID = $('#formSemesterID').val();
         var CombinedClasses = $('input[name=formCombinedClassess]:checked').val();
@@ -225,8 +307,6 @@
             if(formBaseProdi=='' || formBaseProdi==null) { formRequired('#s2id_formBaseProdi a'); process = false;}
         }
 
-
-
         var formMataKuliah = $('#formMataKuliah').val();
         if(formMataKuliah!=''){
             var MKID = formMataKuliah.split('.')[0].trim();
@@ -235,40 +315,28 @@
             formRequired('#s2id_formMataKuliah a'); process = false;
         }
 
-        var ClassGroupID = $('#formClassGroup').val();
-        if(ClassGroupID=='' || ClassGroupID==null) { formRequired('#s2id_formClassGroup a'); process = false;}
+        var NIP = $('#formDosenKoordinator'+ID).val();
+        if(NIP=='' || NIP==null) { formRequired('#s2id_formDosenKoordinator'+ID+' a'); process = false;}
 
-        var TeamTeaching = $('input[name=formteamTeaching]:checked').val();
+        var TeamTeaching = $('input[name=formteamTeaching'+ID+']:checked').val();
 
-        var NIP = $('#formDosenKoordinator').val();
-        if(NIP=='' || NIP==null) { formRequired('#s2id_formDosenKoordinator a'); process = false;}
-
-        var ClassroomID = $('#formClassroom').val();
-        if(ClassroomID=='' || ClassroomID==null) { formRequired('#s2id_formClassroom a'); process = false;}
-
-        var DayID = $('#formDay').val();
-
-        var StartSessions = $('#formSesiAwal').val();
-        if(StartSessions=='' || StartSessions==null) { formRequired('#formSesiAwal'); process = false;}
-
-        var EndSessions = $('#formSesiAkhir').val();
-
-
-        var formTeamDosen = $('#formTeamDosen').val();
+        var formTeamDosen = $('#formTeamDosen'+ID).val();
         if(TeamTeaching==1){
-            if(formTeamDosen=='' || formTeamDosen==null) { formRequired('#s2id_formTeamDosen ul.select2-choices'); process = false;}
+            if(formTeamDosen=='' || formTeamDosen==null) { formRequired('#s2id_formTeamDosen'+ID+' ul.select2-choices'); process = false;}
         }
 
+        var ClassroomID = $('#formClassroom'+ID).val();
+        if(ClassroomID=='' || ClassroomID==null) { formRequired('#s2id_formClassroom'+ID+' a'); process = false;}
 
-        // $('.form-jadwal').prop('disabled',true);
-        // loading_button('#btnSaveSchedule');
-        //
-        // setTimeout(function () {
-        //     $('.form-jadwal,#btnSaveSchedule').prop('disabled',false);
-        //     $('#btnSaveSchedule').html('Save');
-        // },3000);
+        var DayID = $('#formDay'+ID).val();
 
-        return false;
+        var StartSessions = $('#formSesiAwal'+ID).val();
+        if(StartSessions=='' || StartSessions==null) { formRequired('#formSesiAwal'+ID); process = false;}
+
+        var EndSessions = $('#formSesiAkhir'+ID).val();
+
+        var ClassGroup = $('#groupCode').val() +'-'+(dataGroup<10)? +'0'+dataGroup : dataGroup;
+
         var data = {
             action : 'add',
             formData : {
@@ -277,7 +345,7 @@
                 CombinedClasses : CombinedClasses,
                 MKID : MKID,
                 MKCode : MKCode,
-                ClassGroupID : ClassGroupID,
+                ClassGroup : ClassGroup,
                 TeamTeaching : TeamTeaching,
                 NIP : NIP,
                 ClassroomID : ClassroomID,
@@ -294,41 +362,60 @@
                 formTeamDosen : formTeamDosen
             }
         };
-        var url = base_url_js+'api/__crudSchedule';
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (result) {
-            alert('ok');
-        });
 
+        console.log(data);
 
-
-    });
-
-    function formRequired(element) {
-        $(''+element).css('border','1px solid red');
-        setTimeout(function () {
-            $(element).css('border','1px solid #ccc');
-        },3000);
     }
+
+
+
+    $('#removeNewGroup').click(function () {
+        if(dataGroup>1){
+            $('#dataBox'+dataGroup).animateCss('flipOutX',function () {
+                $('#dataBox'+dataGroup).remove();
+                dataGroup = dataGroup - 1;
+            });
+        }
+    });
+
     $('#formMataKuliah').change(function () {
-        var dataMK = $('#formMataKuliah').find(':selected').val();
-
-        if(dataMK!=''){
-            getSesiMK(dataMK);
+        loadGroupClass();
+        var dataMK = $('#formMataKuliah').val();
+        if(dataMK!=null){
+            loadDataSKS(dataMK);
         }
 
     });
 
-    $('#formSesiAwal').keyup(function () {
-        var dataMK = $('#formMataKuliah').find(':selected').val();
-        var time = $('#formSesiAwal').val();
+    $('#formBaseProdi').change(function () {
+        loadGroupClass();
+    });
 
-        if(dataMK!='' && time!=''){
-            getSesiMK(dataMK);
+    $(document).on('keyup','.formSesiAwal',function () {
+        var ID = $(this).attr('data-id');
+        var dataMK = $('#formMataKuliah').find(':selected').val();
+        var sesi = $(this).val();
+
+        if(dataMK!='' && sesi!=''){
+
+            loadEndSession(sesi,'#formSesiAkhir'+ID);
         }
     });
-    
-    function getSesiMK(dataMK) {
+
+    function loadGroupClass() {
+        var ProdiCode = $('#formBaseProdi').val();
+        var MKCode = $('#formMataKuliah').val();
+
+        if(ProdiCode!=null && MKCode!='' ){
+            var P = ProdiCode.split('.')[1];
+            var MK = MKCode.split('.')[1];
+
+            $('#groupCode').val(P+'.'+MK);
+            $('.TextGroupCode').html(P+'.'+MK);
+        }
+    }
+
+    function loadDataSKS(dataMK) {
         var mk = dataMK.split('.');
         var data = {
             action : 'read',
@@ -338,15 +425,7 @@
 
         var token = jwt_encode(data,'UAP)(*');
         var url = base_url_js+"api/__crudMataKuliah";
-
-        var sesi = $('#formSesiAwal').val();
-
-        // log(timePerCredits);
-
         $.post(url,{token:token},function (data_json) {
-
-            // log(data_json);
-
             $('#textSemester').html(data_json.Semester);
             $('#textTotalSKS').html(data_json.TotalSKS);
 
@@ -355,70 +434,56 @@
             var h = parseInt(totalTime) / 60 | 0,
                 m = parseInt(totalTime) % 60 |0;
             $('#textTimeSKS').html(totalTime+" menit ( "+h+" jam "+m+" menit )");
+            $('#totalTime').val(totalTime);
 
-            if(sesi!=''){
-                var expSesi = sesi.split(':');
-                var sesiAwal = moment()
-                    .hours(expSesi[0])
-                    .minutes(expSesi[1])
-                    .format('LT');
-
-                var sesiAkhir = moment()
-                    .hours(expSesi[0])
-                    .minutes(expSesi[1])
-                    .add(totalTime, 'minute').format('LT');
-
-                $('#formSesiAkhir').val(sesiAkhir);
-
-                // console.log(sesiAwal);
-                // console.log(sesiAkhir);
-
-                // console.log(moment().add(totalTime, 'minute').format('LT'));
+            for(var i=1;i<=dataGroup;i++){
+                var value = $('#formSesiAwal'+i).val();
+                loadEndSession(value,'#formSesiAkhir'+i);
             }
 
-
         });
+
     }
 
-    $('#btnAddGroupClass').click(function () {
-        modal_dataClassGroup('disabledBtnAction','Group Class');
-    });
+
+
+    function loadEndSession(value,formSesiAkhir) {
+        if (value != '') {
+            var totalTime = $('#totalTime').val();
+
+            console.log(totalTime);
+
+            var expSesi = value.split(':');
+            var sesiAwal = moment()
+                .hours(expSesi[0])
+                .minutes(expSesi[1])
+                .format('LT');
+
+            var sesiAkhir = moment()
+                .hours(expSesi[0])
+                .minutes(expSesi[1])
+                .add(parseInt(totalTime), 'minute').format('LT');
+
+            $(formSesiAkhir).val(sesiAkhir);
+        }
+    }
 
     $('#btnAddClassroom').click(function () {
         modal_dataClassroom('disabledBtnActio','Group Class');
     });
 
-    $('#btnRefreshDataGroupClass').click(function () {
-
-        loading_buttonSm('#btnRefreshDataGroupClass');
-        $('#formClassGroup').prop('disabled',true);
-
-        setTimeout(function () {
-            $('#btnRefreshDataGroupClass').html('<i class="fa fa-refresh"></i>');
-            $('#formClassGroup,#btnRefreshDataGroupClass').prop('disabled',false);
-
-            $('#formClassGroup').select2("destroy").empty();
-            $('#formClassGroup').append('<option value=""></option>');
-            loadSelectOptionClassGroup('#formClassGroup','');
-            $("#formClassGroup").select2();
-        },2000);
-
-
-
-    });
-
     $('#btnRefreshDataClassroom').click(function () {
         loading_buttonSm('#btnRefreshDataClassroom');
-        $('#formClassroom').prop('disabled',true);
+        $('.form-classroom').prop('disabled',true);
 
         setTimeout(function () {
             $('#btnRefreshDataClassroom').html('<i class="fa fa-refresh"></i>');
-            $('#formClassroom,#btnRefreshDataClassroom').prop('disabled',false);
+            $('.form-classroom,#btnRefreshDataClassroom').prop('disabled',false);
 
-            $('#formClassroom').select2("destroy").empty();
-            $('#formClassroom').append('<option value=""></option>');
-            loadSelectOptionClassroom('#formClassroom','');
-            $("#formClassroom").select2();
+            $('.form-classroom').select2("destroy").empty();
+            $('.form-classroom').append('<option value=""></option>');
+            loadSelectOptionClassroom('.form-classroom','');
+            $(".form-classroom").select2();
         },2000);
     });
 
@@ -428,7 +493,7 @@
         option.append('<option></option>');
         $.get(url,function (data_json) {
             for(var i=0;i<data_json.length;i++){
-                option.append('<option value="'+data_json[i].ID+'">'+data_json[i].Code+' | '+data_json[i].NameEng+'</option>');
+                option.append('<option value="'+data_json[i].ID+'.'+data_json[i].Code+'">'+data_json[i].Code+' | '+data_json[i].NameEng+'</option>');
             }
         });
     }
@@ -447,12 +512,12 @@
         });
     }
 
-    function loadformTeamTeaching(value) {
+    function loadformTeamTeaching(value,element_dosen) {
         if(value==1){
-            $('#formTeamDosen').prop('disabled',false);
+            $(element_dosen).prop('disabled',false);
         } else {
-            $('#formTeamDosen').select2("val", null);
-            $('#formTeamDosen').prop('disabled',true);
+            $(element_dosen).select2("val", null);
+            $(element_dosen).prop('disabled',true);
         }
     }
 
@@ -463,9 +528,16 @@
             $('#formSemesterID').val(data_json.ID);
             setTimeout(function () {
                 $('#semesterName').html(data_json.YearCode+' | '+data_json.Name);
-            },2000);
+            },1000);
 
         });
+    }
+
+    function formRequired(element) {
+        $(''+element).css('border','1px solid red');
+        setTimeout(function () {
+            $(element).css('border','1px solid #ccc');
+        },3000);
     }
 
 </script>

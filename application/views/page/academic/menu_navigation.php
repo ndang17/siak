@@ -32,18 +32,18 @@
                     Ketersediaan Dosen
                 </a>
             </li>
+
+        </ul>
+        <div class="sidebar-title">
+            <span>Transaksi Akademisi</span>
+        </div>
+        <ul id="nav">
             <li class="<?php if($this->uri->segment(2)=='jadwal'){echo "current";} ?>">
                 <a href="<?php echo base_url('academic/jadwal'); ?>">
                     <i class="fa fa-calendar"></i>
                     Jadwal
                 </a>
             </li>
-        </ul>
-        <div class="sidebar-title">
-            <span>Akademisi</span>
-        </div>
-        <ul id="nav">
-
             <li class="">
                 <a href="#">
                     <i class="fa fa-tasks"></i>

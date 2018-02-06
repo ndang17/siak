@@ -138,10 +138,10 @@ CREATE TABLE `classroom` (
 /*Data for the table `classroom` */
 
 insert  into `classroom`(`ID`,`Room`,`Quantities`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(4,'450',40,NULL,'2017090','2018-02-01 16:17:24'),
-(9,'447',45,NULL,'2017090','2018-02-02 14:46:44'),
+(4,'450',10,NULL,'2017090','2018-02-06 13:27:19'),
+(9,'447',30,NULL,'2017090','2018-02-06 13:27:18'),
 (10,'501',40,NULL,'2017090','2018-02-02 14:35:49'),
-(11,'505',30,NULL,'2017090','2018-02-02 14:46:23');
+(11,'505',20,NULL,'2017090','2018-02-06 13:27:16');
 
 /*Table structure for table `courses_groups` */
 
@@ -1934,7 +1934,7 @@ CREATE TABLE `schedule` (
   `CombinedClasses` enum('0','1') NOT NULL,
   `MKID` int(11) NOT NULL,
   `MKCode` varchar(45) NOT NULL,
-  `ClassGroupID` int(11) NOT NULL,
+  `ClassGroup` varchar(100) NOT NULL,
   `TeamTeaching` enum('0','1') NOT NULL,
   `NIP` varchar(45) NOT NULL,
   `ClassroomID` int(11) NOT NULL,
@@ -1944,12 +1944,25 @@ CREATE TABLE `schedule` (
   `UpdateBy` varchar(100) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule` */
 
-insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`CombinedClasses`,`MKID`,`MKCode`,`ClassGroupID`,`TeamTeaching`,`NIP`,`ClassroomID`,`DayID`,`StartSessions`,`EndSessions`,`UpdateBy`,`UpdateAt`) values 
-(1,7,1,'1',26,'CEM2051',36,'1','3015016',10,1,'09:00:00','11:30:00','2017090','2018-02-05 14:57:57');
+/*Table structure for table `schedule_class_group` */
+
+DROP TABLE IF EXISTS `schedule_class_group`;
+
+CREATE TABLE `schedule_class_group` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Group` varchar(100) NOT NULL,
+  `ClassroomID` int(11) NOT NULL,
+  `DayID` int(11) NOT NULL,
+  `StartSessions` time NOT NULL,
+  `EndSessions` time NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule_class_group` */
 
 /*Table structure for table `schedule_combinedclasses` */
 
