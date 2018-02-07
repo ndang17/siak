@@ -113,6 +113,9 @@ $route['api/__getTimePerCredits'] = 'api/c_api/getTimePerCredits';
 
 $route['api/__crudSchedule'] = 'api/c_api/crudSchedule';
 
+$route['api/__crudProgramCampus'] = 'api/c_api/crudProgramCampus';
+$route['api/__crudSemester'] = 'api/c_api/crudSemester';
+
 
 
 

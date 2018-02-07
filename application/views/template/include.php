@@ -358,6 +358,21 @@
     function log(data) {
         console.log(data);
     }
+    
+    function loadSelectOptionProgramCampus(element,selected) {
+        var url = base_url_js+'api/__crudProgramCampus';
+        var token = jwt_encode({action:'read'},'UAP)(*');
+        $.post(url,{token:token},function (data_json) {
+           console.log(data_json);
+           if(data_json.length>0){
+               var option = $(element);
+               for(var i=0;i<data_json.length;i++){
+                   selected = (selected==data_json[i].ID) ? 'selected' : '';
+                   option.append('<option value="'+data_json[i].ID+'" '+selected+'>'+data_json[i].Name+'</option>');
+               }
+           }
+        });
+    }
 
     function loadSelectOptionBaseProdi(element,selected) {
         var url = base_url_js+"api/__getBaseProdiSelectOption";
@@ -495,6 +510,28 @@
 
         });
     }
+    
+    function loSelectOptionSemester(element,selected) {
+        var url = base_url_js+'api/__crudSemester';
+        var token = jwt_encode({action:'read',order:'DESC'},'UAP)(*');
+
+        $.post(url,{token:token},function (data_json) {
+            var option = $(element);
+            if(data_json.length>0){
+                for(var i=0;i<data_json.length;i++){
+                    if(selected=='selectedNow') {
+                        selected = (data_json[i].Status==1) ? 'selected' : '';
+                    } else {
+                        selected = (selected==data_json[i].ID) ? 'selected' : '';
+                    }
+
+                    option.append('<option value="'+data_json[i].ID+'.'+data_json[i].YearCode+'" '+selected+'>'+data_json[i].Name+'</option>');
+
+                }
+            }
+        });
+    }
+
 
     function fillDays(element,lang,selected) {
         var days = [];

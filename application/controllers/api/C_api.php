@@ -407,7 +407,7 @@ class C_api extends MY_Controller {
                     $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
                 }
 
-                print_r($formData);
+//                print_r($formData);
                 if($formData['TeamTeaching']!=0){
                     // Insert Team Teaching
                     $formTeamTeaching = (array) $data_arr['formTeamTeaching'];
@@ -432,6 +432,32 @@ class C_api extends MY_Controller {
 
                 return print_r($insert_id);
 
+            }
+        }
+    }
+
+    public function crudProgramCampus(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='read'){
+                $data = $this->m_api->getProgramCampus();
+                return print_r(json_encode($data));
+            }
+        }
+    }
+
+    public function crudSemester(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='read'){
+                $data = $this->m_api->getSemester($data_arr['order']);
+                return print_r(json_encode($data));
             }
         }
     }

@@ -8,23 +8,42 @@
 
 <div class="row" style="margin-top: 30px;">
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-12">
         <div class="thumbnail">
             <div class="row">
-                <div class="col-xs-3" style="">
-                    <select class="form-control control-jadwal" id=""></select>
+                <div class="col-xs-2" style="">
+                    <select class="form-control form-filter-jadwal" id="filterProgramCampus"></select>
+                </div>
+                <div class="col-xs-2" style="">
+                    <select id="filterSemester" class="form-control form-filter-jadwal">
+                    </select>
                 </div>
                 <div class="col-xs-3" style="">
-                    <select class="form-control control-jadwal" id=""></select>
+                    <select id="filterBaseProdi" class="form-control form-filter-jadwal">
+                        <option value="">--- All Program Study ---</option>
+                        <option disabled>------------------------------------------</option>
+                    </select>
                 </div>
-                <div class="col-xs-6" style="text-align: right;">
-                    <button data-page="inputjadwal"
-                            class="btn btn-success btn-action control-jadwal">
-                        <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i>
-                        Add Jadwal
-                    </button>
-                    <button data-page="ruangan" class="btn btn-primary btn-action control-jadwal"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat Ruangan</button>
+
+<!--                <div class="col-xs-2" style="">-->
+<!--                    <select class="form-control form-filter-jadwal" id="filterGabungan">-->
+<!--                        <option>--- Tampilkan Semua ---</option>-->
+<!--                        <option></option>-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div class="col-xs-3" style="text-align: right;padding-left: 0px;">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button data-page="inputjadwal" type="button" class="btn btn-success btn-action control-jadwal">
+                            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Schedule
+                        </button>
+                        <button data-page="ruangan" type="button" class="btn btn-default btn-default-success btn-action
+                        control-jadwal">Room Mode</button>
+                    </div>
+
                 </div>
+<!--                <div class="col-xs-2">-->
+<!--                    <button class="btn btn-"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat </button>-->
+<!--                </div>-->
             </div>
 
 
@@ -45,6 +64,9 @@
 <script>
     $(document).ready(function () {
         loadPage('jadwal');
+        loadSelectOptionProgramCampus('#filterProgramCampus','');
+        loadSelectOptionBaseProdi('#filterBaseProdi','');
+        loSelectOptionSemester('#filterSemester','selectedNow');
     });
     $(document).on('click','.btn-action',function () {
         var page = $(this).attr('data-page');
@@ -62,7 +84,7 @@
         $.post(url,{token:token},function (page) {
             setTimeout(function () {
                 $('#dataPage').html(page);
-            },2000);
+            },1000);
         });
     }
 </script>

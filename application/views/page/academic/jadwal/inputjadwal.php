@@ -3,11 +3,15 @@
     .box-group-prodi {
         background: #ff980036 !important;
     }
+
+    #formAddjadwal .form-control[disabled] {
+        color: #333333;
+    }
 </style>
 
 <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-8" id="formAddjadwal">
         <button  data-page="jadwal" class="btn btn-info btn-action"><i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</button>
 
         <table class="table table-striped" style="margin-top: 10px;">
@@ -46,26 +50,12 @@
                 <td>
 <!--                    <select class="form-control" id="BaseProdi"></select>-->
                     <select id="formBaseProdi" class="select2-select-00 col-md-12 full-width-fix form-jadwal" size="5">
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Mata Kuliah</td>
-                <td>:</td>
-                <td>
-                    <select class="select2-select-00 full-width-fix form-jadwal"
-                            size="5" id="formMataKuliah">
                         <option value=""></option>
                     </select>
-                    <p style="margin-bottom: 0px;">
-                        Semester : <span id="textSemester"></span> | <span id="textTotalSKS"></span> SKS | <span id="textTimeSKS"></span>
-                    </p>
-
                     <input type="hide" class="hide" id="groupCode" readonly />
-                    <input type="hide" class="hide" id="totalTime" readonly />
-
                 </td>
             </tr>
+
 
 <!--            <tr>-->
 <!--                <td colspan="3" style="text-align: center;">-->
@@ -77,14 +67,30 @@
 
         <div class="widget box">
             <div class="widget-header" style="background: #2196f345;">
-                <h4>Group : <span class="TextGroupCode"></span>-1</h4>
+                <h4>Group : <span class="TextGroupCode"></span>-<span class="TextNoGroupCode"></span></h4>
             </div>
             <div class="widget-content">
 
                 <table class="table">
                     <tr>
-                        <td style="width: 190px;">Dosen Koordinator</td>
+                        <td style="width: 190px;">Mata Kuliah</td>
                         <td style="width: 1px;">:</td>
+                        <td>
+                            <select class="select2-select-00 selec2-mk full-width-fix form-jadwal"
+                                    size="5" data-group="1" id="formMataKuliah1">
+                                <option value=""></option>
+                            </select>
+                            <p style="margin-bottom: 0px;">
+                                Semester : <span id="textSemester1"></span> | <span id="textTotalSKS1"></span> SKS | <span id="textTimeSKS1"></span>
+                            </p>
+
+                            <input type="hide" class="hide" id="totalTime1" readonly />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dosen Koordinator</td>
+                        <td>:</td>
                         <td>
                             <select class="select2-select-00 full-width-fix form-jadwal"
                                     size="5" id="formDosenKoordinator1">
@@ -123,14 +129,14 @@
                                         <option value=""></option>
                                     </select>
                                 </div>
-                                <div class="col-xs-2">
-                                    <button class="btn btn-default btn-block form-jadwal" id="btnRefreshDataClassroom">
-                                        <i class="fa fa-refresh"></i>
-                                    </button>
-                                </div>
-                                <div class="col-xs-4">
-                                    <button class="btn btn-default btn-default-primary btn-block form-jadwal" id="btnAddClassroom">Add Ruangan</button>
-                                </div>
+<!--                                <div class="col-xs-2">-->
+<!--                                    <button class="btn btn-default btn-block form-jadwal" id="btnRefreshDataClassroom">-->
+<!--                                        <i class="fa fa-refresh"></i>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                                <div class="col-xs-4">-->
+<!--                                    <button class="btn btn-default btn-default-primary btn-block form-jadwal" id="btnAddClassroom">Add Ruangan</button>-->
+<!--                                </div>-->
                             </div>
                         </td>
                     </tr>
@@ -146,7 +152,7 @@
                                     <input type="time" class="form-control form-jadwal formSesiAwal" id="formSesiAwal1" data-id="1" />
                                 </div>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control" id="formSesiAkhir1" style="color: #333;" readonly />
+                                    <input type="time" class="form-control" id="formSesiAkhir1" style="color: #333;" readonly />
                                 </div>
                             </div>
                         </td>
@@ -171,21 +177,23 @@
 
         window.dataGroup = 1;
 
+        $('.TextNoGroupCode').html(dataGroup);
+        $('.form-filter-jadwal').prop('disabled',true);
+
         loadAcademicYearOnPublish();
 
-        loadProdiSelectOption('#formBaseProdi');
+        loadSelectOptionBaseProdi('#formBaseProdi');
         loadSelectOptionConf('#formProgramsCampusID','programs_campus','');
-        loadSelectOptionAllMataKuliahSingle('#formMataKuliah','');
-        loadSelectOptionLecturersSingle('#formDosenKoordinator1','');
-        loadSelectOptionLecturersSingle('#formTeamDosen1','');
-
-        loadSelectOptionClassGroup('#formClassGroup','');
-        loadSelectOptionClassroom('#formClassroom1','');
-
+        loadSelectOptionAllMataKuliahSingle('#formMataKuliah'+dataGroup,'');
+        loadSelectOptionLecturersSingle('#formDosenKoordinator'+dataGroup,'');
+        loadSelectOptionLecturersSingle('#formTeamDosen'+dataGroup,'');
+        loadSelectOptionClassroom('#formClassroom'+dataGroup,'');
         fillDays('#formDay'+dataGroup,'Eng','');
 
+        loadSelectOptionClassGroup('#formClassGroup','');
 
-        $('#formMataKuliah,#formDosenKoordinator'+dataGroup+',' +
+
+        $('#formMataKuliah'+dataGroup+',#formDosenKoordinator'+dataGroup+',' +
             '#formClassGroup,#formTeamDosen'+dataGroup+',#formClassroom'+dataGroup).select2({allowClear: true});
 
 
@@ -196,6 +204,7 @@
 
         $('input[type=radio][name=formCombinedClassess]').change(function () {
             loadformCombinedClassess($(this).val());
+            loadGroupClass();
         });
 
         $('#formBaseProdi').select2({
@@ -206,91 +215,111 @@
     $('#addNewGroup').click(function () {
 
 
-        saveSchedule(dataGroup);
+        var p = saveSchedule(dataGroup);
 
-        var g = $('#groupCode').val();
-        dataGroup = dataGroup + 1;
-        $('#widgetNewGroup').append('<div class="widget box" id="dataBox'+dataGroup+'">' +
-            '                <div class="widget-header box-group-prodi">' +
-            '                    <h4>Group : <span class="TextGroupCode">'+g+'</span>-'+( (parseInt(dataGroup)<10) ? +'0'+dataGroup : dataGroup ) +'</h4>' +
-            '                </div>' +
-            '                <div class="widget-content">' +
-            '                    <table class="table">' +
-            '                        <tr>' +
-            '                            <td style="width: 190px;">Dosen Koordinator</td>' +
-            '                            <td style="width: 1px;">:</td>' +
-            '                            <td>' +
-            '                                <select class="select2-select-00 full-width-fix form-jadwal"' +
-            '                                        size="5" id="formDosenKoordinator'+dataGroup+'">' +
-            '                                    <option value=""></option>' +
-            '                                </select>' +
-            '                            </td>' +
-            '                        </tr>' +
-            '                        <tr>' +
-            '                            <td>Dosen Team Teaching ?</td>' +
-            '                            <td>:</td>' +
-            '                            <td>' +
-            '                                <div class="row">' +
-            '                                    <div class="col-md-4">' +
-            '                                        <label class="radio-inline">' +
-            '                                            <input type="radio" class="form-jadwal" fm="dtt-form" data-id="'+dataGroup+'" name="formteamTeaching'+dataGroup+'" value="0" checked> Tidak' +
-            '                                        </label>' +
-            '                                        <label class="radio-inline">' +
-            '                                            <input type="radio" class="form-jadwal" fm="dtt-form" data-id="'+dataGroup+'" name="formteamTeaching'+dataGroup+'" value="1"> Ya' +
-            '                                        </label>' +
-            '                                    </div>' +
-            '                                    <div class="col-md-8">' +
-            '                                        <select class="select2-select-00 full-width-fix form-jadwal"' +
-            '                                                size="5" multiple id="formTeamDosen'+dataGroup+'" disabled></select>' +
-            '                                    </div>' +
-            '                                </div>' +
-            '                            </td>' +
-            '                        </tr>' +
-            '                        <tr>' +
-            '                            <td>Ruangan</td>' +
-            '                            <td>:</td>' +
-            '                            <td>' +
-            '                                <div class="row">' +
-            '                                    <div class="col-xs-6">' +
-            '                                        <select class="select2-select-00 full-width-fix form-jadwal form-classroom"' +
-            '                                                size="5" id="formClassroom'+dataGroup+'">' +
-            '                                            <option value=""></option>' +
-            '                                        </select>' +
-            '                                    </div>' +
-            '                                </div>' +
-            '                            </td>' +
-            '                        </tr>' +
-            '                        <tr>' +
-            '                            <td>Hari</td>' +
-            '                            <td>:</td>' +
-            '                            <td>' +
-            '                                <div class="row">' +
-            '                                    <div class="col-xs-4">' +
-            '                                        <select class="form-control form-jadwal" id="formDay'+dataGroup+'"></select>' +
-            '                                    </div>' +
-            '                                    <div class="col-xs-4">' +
-            '                                        <input type="time" class="form-control form-jadwal formSesiAwal" data-id="'+dataGroup+'" id="formSesiAwal'+dataGroup+'" />' +
-            '                                    </div>' +
-            '                                    <div class="col-xs-4">' +
-            '                                        <input type="text" class="form-control" id="formSesiAkhir'+dataGroup+'" style="color: #333;" readonly />' +
-            '                                    </div>' +
-            '                                </div>' +
-            '                            </td>' +
-            '                        </tr>' +
-            '                    </table>' +
-            '                </div>' +
-            '            </div>');
+        if(p){
 
-        $('#dataBox'+dataGroup).animateCss('slideInDown');
+            var g = $('#groupCode').val();
+            dataGroup = dataGroup + 1;
+            $('#widgetNewGroup').append('<div class="widget box" id="dataBox'+dataGroup+'">' +
+                '                <div class="widget-header box-group-prodi">' +
+                '                    <h4>Group : <span class="TextGroupCode">'+g+'</span>-'+dataGroup+'</h4>' +
+                '                </div>' +
+                '                <div class="widget-content">' +
+                '                    <table class="table">' +
+                '                   <tr>' +
+                '                        <td style="width: 190px;">Mata Kuliah</td>' +
+                '                        <td style="width: 1px;">:</td>' +
+                '                        <td>' +
+                '                            <select class="select2-select-00 full-width-fix selec2-mk form-jadwal"' +
+                '                                    size="5" data-group="'+dataGroup+'" id="formMataKuliah'+dataGroup+'">' +
+                '                                <option value=""></option>' +
+                '                            </select>' +
+                '                            <p style="margin-bottom: 0px;">' +
+                '                                Semester : <span id="textSemester'+dataGroup+'"></span> | <span id="textTotalSKS'+dataGroup+'"></span> SKS | <span id="textTimeSKS'+dataGroup+'"></span>' +
+                '                            </p>' +
+                '                            <input type="hide" class="hide" id="totalTime'+dataGroup+'" readonly />' +
+                '                        </td>' +
+                '                    </tr>' +
+                '                        <tr>' +
+                '                            <td>Dosen Koordinator</td>' +
+                '                            <td>:</td>' +
+                '                            <td>' +
+                '                                <select class="select2-select-00 full-width-fix form-jadwal"' +
+                '                                        size="5" id="formDosenKoordinator'+dataGroup+'">' +
+                '                                    <option value=""></option>' +
+                '                                </select>' +
+                '                            </td>' +
+                '                        </tr>' +
+                '                        <tr>' +
+                '                            <td>Dosen Team Teaching ?</td>' +
+                '                            <td>:</td>' +
+                '                            <td>' +
+                '                                <div class="row">' +
+                '                                    <div class="col-md-4">' +
+                '                                        <label class="radio-inline">' +
+                '                                            <input type="radio" class="form-jadwal" fm="dtt-form" data-id="'+dataGroup+'" name="formteamTeaching'+dataGroup+'" value="0" checked> Tidak' +
+                '                                        </label>' +
+                '                                        <label class="radio-inline">' +
+                '                                            <input type="radio" class="form-jadwal" fm="dtt-form" data-id="'+dataGroup+'" name="formteamTeaching'+dataGroup+'" value="1"> Ya' +
+                '                                        </label>' +
+                '                                    </div>' +
+                '                                    <div class="col-md-8">' +
+                '                                        <select class="select2-select-00 full-width-fix form-jadwal"' +
+                '                                                size="5" multiple id="formTeamDosen'+dataGroup+'" disabled></select>' +
+                '                                    </div>' +
+                '                                </div>' +
+                '                            </td>' +
+                '                        </tr>' +
+                '                        <tr>' +
+                '                            <td>Ruangan</td>' +
+                '                            <td>:</td>' +
+                '                            <td>' +
+                '                                <div class="row">' +
+                '                                    <div class="col-xs-6">' +
+                '                                        <select class="select2-select-00 full-width-fix form-jadwal form-classroom"' +
+                '                                                size="5" id="formClassroom'+dataGroup+'">' +
+                '                                            <option value=""></option>' +
+                '                                        </select>' +
+                '                                    </div>' +
+                '                                </div>' +
+                '                            </td>' +
+                '                        </tr>' +
+                '                        <tr>' +
+                '                            <td>Hari</td>' +
+                '                            <td>:</td>' +
+                '                            <td>' +
+                '                                <div class="row">' +
+                '                                    <div class="col-xs-4">' +
+                '                                        <select class="form-control form-jadwal" id="formDay'+dataGroup+'"></select>' +
+                '                                    </div>' +
+                '                                    <div class="col-xs-4">' +
+                '                                        <input type="time" class="form-control form-jadwal formSesiAwal" data-id="'+dataGroup+'" id="formSesiAwal'+dataGroup+'" />' +
+                '                                    </div>' +
+                '                                    <div class="col-xs-4">' +
+                '                                        <input type="text" class="form-control" id="formSesiAkhir'+dataGroup+'" style="color: #333;" readonly />' +
+                '                                    </div>' +
+                '                                </div>' +
+                '                            </td>' +
+                '                        </tr>' +
+                '                    </table>' +
+                '                </div>' +
+                '            </div>');
 
-        $(this).attr('data-group',dataGroup);
+            $('#dataBox'+dataGroup).animateCss('slideInDown');
 
-        loadSelectOptionLecturersSingle('#formDosenKoordinator'+dataGroup,'');
-        fillDays('#formDay'+dataGroup,'Eng','');
-        loadSelectOptionClassroom('#formClassroom'+dataGroup,'');
-        loadSelectOptionLecturersSingle('#formTeamDosen'+dataGroup,'');
+            $(this).attr('data-group',dataGroup);
 
-        $('#formDosenKoordinator'+dataGroup+',#formTeamDosen'+dataGroup+',#formClassroom'+dataGroup).select2({allowClear: true});
+            loadSelectOptionAllMataKuliahSingle('#formMataKuliah'+dataGroup,'');
+            loadSelectOptionLecturersSingle('#formDosenKoordinator'+dataGroup,'');
+            fillDays('#formDay'+dataGroup,'Eng','');
+            loadSelectOptionClassroom('#formClassroom'+dataGroup,'');
+            loadSelectOptionLecturersSingle('#formTeamDosen'+dataGroup,'');
+
+            $('#formMataKuliah'+dataGroup+',#formDosenKoordinator'+dataGroup+',#formTeamDosen'+dataGroup+',#formClassroom'+dataGroup).select2({allowClear: true});
+        } else {
+
+        }
     });
 
     function saveSchedule(ID) {
@@ -307,12 +336,12 @@
             if(formBaseProdi=='' || formBaseProdi==null) { formRequired('#s2id_formBaseProdi a'); process = false;}
         }
 
-        var formMataKuliah = $('#formMataKuliah').val();
+        var formMataKuliah = $('#formMataKuliah'+ID).val();
         if(formMataKuliah!=''){
             var MKID = formMataKuliah.split('.')[0].trim();
             var MKCode = formMataKuliah.split('.')[1].trim();
         } else {
-            formRequired('#s2id_formMataKuliah a'); process = false;
+            formRequired('#s2id_formMataKuliah'+ID+' a'); process = false;
         }
 
         var NIP = $('#formDosenKoordinator'+ID).val();
@@ -335,7 +364,7 @@
 
         var EndSessions = $('#formSesiAkhir'+ID).val();
 
-        var ClassGroup = $('#groupCode').val() +'-'+(dataGroup<10)? +'0'+dataGroup : dataGroup;
+        var ClassGroup = $('#groupCode').val() +'-'+dataGroup;
 
         var data = {
             action : 'add',
@@ -355,6 +384,11 @@
                 UpdateBy : sessionNIP,
                 UpdateAt : dateTimeNow()
             },
+            formDataClassGroup : {
+                ProgramsCampusID : ProgramsCampusID,
+                SemesterID : SemesterID,
+                Group : ClassGroup
+            },
             formBaseProdi : {
                 formBaseProdi : formBaseProdi
             },
@@ -363,7 +397,24 @@
             }
         };
 
-        console.log(data);
+        if(process){
+
+            var token = jwt_encode(data,'UAP)(*');
+            var url = base_url_js+'api/__crudSchedule';
+            $.post(url,{token:token},function (result) {
+                $('#formMataKuliah'+ID+',#formDosenKoordinator'+ID+',input[name=formteamTeaching'+ID+'],#formTeamDosen'+ID+',' +
+                    '#formClassroom'+ID+',#formDay'+ID+',#formSesiAwal'+ID+',' +
+                    'input[name=formCombinedClassess],#formProgramsCampusID,#formBaseProdi,#formMataKuliah')
+                    .prop('disabled',true);
+                toastr.success('Group '+ClassGroup,'Saved!');
+            });
+
+
+        } else {
+            toastr.error('Form Wajib Diisi','Error!!');
+        }
+
+        return process;
 
     }
 
@@ -378,14 +429,20 @@
         }
     });
 
-    $('#formMataKuliah').change(function () {
-        loadGroupClass();
-        var dataMK = $('#formMataKuliah').val();
-        if(dataMK!=null){
-            loadDataSKS(dataMK);
+    $(document).on('change','.selec2-mk',function () {
+        var dg = $(this).attr('data-group');
+        var dataMK = $('#formMataKuliah'+dg).val();
+        // var dataMK = $(this).val();
+        if(dataMK!=''){
+            loadDataSKS(dataMK,dg);
         }
-
     });
+
+    // $('#formMataKuliah').change(function () {
+    //     // loadGroupClass();
+    //
+    //
+    // });
 
     $('#formBaseProdi').change(function () {
         loadGroupClass();
@@ -398,24 +455,32 @@
 
         if(dataMK!='' && sesi!=''){
 
-            loadEndSession(sesi,'#formSesiAkhir'+ID);
+            loadEndSession(sesi,ID);
         }
     });
 
     function loadGroupClass() {
         var ProdiCode = $('#formBaseProdi').val();
-        var MKCode = $('#formMataKuliah').val();
+        // var MKCode = $('#formMataKuliah').val();
+        var formCombinedClassess = $('input[type=radio][name=formCombinedClassess]:checked').val();
 
-        if(ProdiCode!=null && MKCode!='' ){
-            var P = ProdiCode.split('.')[1];
-            var MK = MKCode.split('.')[1];
+        // if(ProdiCode!=null && MKCode!='' ){
+        //     var P = ProdiCode.split('.')[1];
+        //     var MK = MKCode.split('.')[1];
 
-            $('#groupCode').val(P+'.'+MK);
-            $('.TextGroupCode').html(P+'.'+MK);
-        }
+            // $('#groupCode').val(P+'.'+MK);
+            // $('.TextGroupCode').html(P+'.'+MK);
+        // }
+
+        var g = (formCombinedClassess==1) ? 'ZO' : ProdiCode.split('.')[1];
+
+        $('#groupCode').val(g);
+        $('.TextGroupCode').html(g);
+
+
     }
 
-    function loadDataSKS(dataMK) {
+    function loadDataSKS(dataMK,dg) {
         var mk = dataMK.split('.');
         var data = {
             action : 'read',
@@ -426,20 +491,22 @@
         var token = jwt_encode(data,'UAP)(*');
         var url = base_url_js+"api/__crudMataKuliah";
         $.post(url,{token:token},function (data_json) {
-            $('#textSemester').html(data_json.Semester);
-            $('#textTotalSKS').html(data_json.TotalSKS);
+            $('#textSemester'+dg).html(data_json.Semester);
+            $('#textTotalSKS'+dg).html(data_json.TotalSKS);
 
             var totalTime = parseInt(timePerCredits) * parseInt(data_json.TotalSKS);
 
             var h = parseInt(totalTime) / 60 | 0,
                 m = parseInt(totalTime) % 60 |0;
-            $('#textTimeSKS').html(totalTime+" menit ( "+h+" jam "+m+" menit )");
-            $('#totalTime').val(totalTime);
+            $('#textTimeSKS'+dg).html(totalTime+" menit ( "+h+" jam "+m+" menit )");
+            $('#totalTime'+dg).val(totalTime);
 
-            for(var i=1;i<=dataGroup;i++){
-                var value = $('#formSesiAwal'+i).val();
-                loadEndSession(value,'#formSesiAkhir'+i);
-            }
+            var value = $('#formSesiAwal'+dg).val();
+            loadEndSession(value,dg);
+            // for(var i=1;i<=dataGroup;i++){
+            //     var value = $('#formSesiAwal'+i).val();
+            //     loadEndSession(value,'#formSesiAkhir'+);
+            // }
 
         });
 
@@ -447,11 +514,9 @@
 
 
 
-    function loadEndSession(value,formSesiAkhir) {
+    function loadEndSession(value,dg) {
         if (value != '') {
-            var totalTime = $('#totalTime').val();
-
-            console.log(totalTime);
+            var totalTime = $('#totalTime'+dg).val();
 
             var expSesi = value.split(':');
             var sesiAwal = moment()
@@ -462,9 +527,11 @@
             var sesiAkhir = moment()
                 .hours(expSesi[0])
                 .minutes(expSesi[1])
-                .add(parseInt(totalTime), 'minute').format('LT');
+                .add(parseInt(totalTime), 'minute').format('HH:mm');
 
-            $(formSesiAkhir).val(sesiAkhir);
+            console.log(sesiAkhir);
+
+            $('#formSesiAkhir'+dg).val(sesiAkhir);
         }
     }
 
@@ -484,19 +551,19 @@
             $('.form-classroom').append('<option value=""></option>');
             loadSelectOptionClassroom('.form-classroom','');
             $(".form-classroom").select2();
-        },2000);
+        },1000);
     });
 
-    function loadProdiSelectOption(element){
-        var url= base_url_js+'api/__getBaseProdiSelectOption';
-        var option = $(''+element);
-        option.append('<option></option>');
-        $.get(url,function (data_json) {
-            for(var i=0;i<data_json.length;i++){
-                option.append('<option value="'+data_json[i].ID+'.'+data_json[i].Code+'">'+data_json[i].Code+' | '+data_json[i].NameEng+'</option>');
-            }
-        });
-    }
+    // function loadProdiSelectOption(element){
+    //     var url= base_url_js+'api/__getBaseProdiSelectOption';
+    //     var option = $(''+element);
+    //     option.append('<option></option>');
+    //     $.get(url,function (data_json) {
+    //         for(var i=0;i<data_json.length;i++){
+    //             option.append('<option value="'+data_json[i].ID+'.'+data_json[i].Code+'">'+data_json[i].Code+' | '+data_json[i].NameEng+'</option>');
+    //         }
+    //     });
+    // }
 
     function loadformCombinedClassess(value) {
         if(value==1){
@@ -523,12 +590,9 @@
 
     function loadAcademicYearOnPublish() {
         var url = base_url_js+"api/__getAcademicYearOnPublish";
-        loading_text('#semesterName');
         $.get(url,function (data_json) {
             $('#formSemesterID').val(data_json.ID);
-            setTimeout(function () {
-                $('#semesterName').html(data_json.YearCode+' | '+data_json.Name);
-            },1000);
+            $('#semesterName').html(data_json.YearCode+' | '+data_json.Name);
 
         });
     }
@@ -537,7 +601,7 @@
         $(''+element).css('border','1px solid red');
         setTimeout(function () {
             $(element).css('border','1px solid #ccc');
-        },3000);
+        },5000);
     }
 
 </script>

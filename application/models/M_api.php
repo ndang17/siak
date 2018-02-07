@@ -254,5 +254,16 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function getProgramCampus(){
+        $data = $this->db->query('SELECT * FROM db_academic.programs_campus ORDER BY ID ASC');
+
+        return $data->result_array();
+    }
+
+    public function getSemester($order){
+        $data = $this->db->query('SELECT * FROM db_academic.semester ORDER BY ID '.$order);
+
+        return $data->result_array();
+    }
 
 }
