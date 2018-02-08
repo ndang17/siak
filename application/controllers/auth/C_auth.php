@@ -78,7 +78,8 @@ class C_auth extends MY_Controller {
 
                 $this->db->insert('db_employees.employees',$arr);
             }
-        } else if($table=='dosen'){
+        }
+        else if($table=='dosen'){
             $data = $this->db_server->query('SELECT k.* FROM siak4.dosen k')->result_array();
 //            RIGHT JOIN siak4.user u ON (k.NIP = u.Nama)
 //            echo count($data);
@@ -129,11 +130,13 @@ class C_auth extends MY_Controller {
             print_r($no);
             echo "<br/>";
             print_r($no_sama);
-        } else if($table=='cek'){
+        }
+        else if($table=='cek'){
 //            $data = $this->db_server->query('SELECT d.* FROM siak4.dosen d JOIN siak4.karyawan k ON (d.nip=k.nip)')->result_array();
             $data = $this->db->query('SELECT * FROM db_employees.employees')->result_array();
             print_r($data);
-        } else if($table=='mhs'){
+        }
+        else if($table=='mhs'){
             $angkatan = 17;
             $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
             for($i=0;$i<count($data);$i++){
@@ -185,7 +188,8 @@ class C_auth extends MY_Controller {
 
                 $this->db->insert('db_students.ta20'.$angkatan,$arr);
             }
-        } else if($table=='prodi'){
+        }
+        else if($table=='prodi'){
             $data = $this->db_server->query('SELECT * FROM siak4.programstudi')->result_array();
             for($i=0;$i<count($data);$i++){
                 $EducationLevelID = $data[$i]['JenjangID'];
@@ -213,7 +217,8 @@ class C_auth extends MY_Controller {
                 );
                 $this->db->insert('db_academic.program_study',$arr);
             }
-        } else if($table=='mk'){
+        }
+        else if($table=='mk'){
             $data = $this->db_server->query('SELECT * FROM siak4.matakuliah')->result_array();
 
 
@@ -271,7 +276,8 @@ class C_auth extends MY_Controller {
             }
 
 
-        } else if($table=='kur'){
+        }
+        else if($table=='kur'){
             $data = $this->db_server->query('SELECT dt.*,mk.nama,k.nama as K,mk.MKKode as MKCode , d.NIP FROM siak4.detailkurikulum dt 
                                                   JOIN siak4.matakuliah mk ON (dt.MKID=mk.ID)
                                                   JOIN siak4.kurikulum k ON (dt.KurikulumID = k.ID)
