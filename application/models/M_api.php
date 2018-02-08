@@ -266,4 +266,70 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function getSchedule($DayID,$dataWhere){
+
+        $data = $this->db->query('SELECT s.*,
+                                          mk.Name AS MKName, mk.NameEng AS MKNameEng,
+                                          em.Name AS Lecturer,
+                                          cl.Room                                  
+                                          FROM db_academic.schedule s 
+                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
+                                              LEFT JOIN db_employees.employees em ON (em.NIP = s.NIP)
+                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = s.ClassroomID)
+                                              WHERE s.DayID = "'.$DayID.'" ');
+
+        $result = $data->result_array();
+
+
+        if(count($result)>0){
+            for($i=0;$i<count($result);$i++){
+                if($result[$i]['TeamTeaching']==1){
+                    $result[$i]['DetailTeamTeaching'] = $this->getTeamTeaching($result[$i]['ID']);
+                }
+
+            }
+
+        }
+
+        return $result;
+
+    }
+
+    private function getTeamTeaching($ScheduleID){
+        $data = $this->db->query('SELECT stt.ID,stt.NIP,stt.Status,em.Name AS Lecturer FROM db_academic.schedule_team_teaching stt
+                                            LEFT JOIN db_employees.employees em ON (em.NIP = stt.NIP)
+                                            WHERE stt.ScheduleID = "'.$ScheduleID.'" ');
+
+        return $data->result_array();
+    }
+
+    public function getSchedule2($DayID,$dataWhere){
+
+        if(count($DayID)>0){
+
+        } else {
+            for($i=0;$i<count();$i++){
+
+            }
+
+        }
+
+
+
+
+        if(count($dataWhere)>0){
+            $where = '';
+            for($i=0;$i<count($dataWhere);$i++){
+                if($dataWhere['ProgramCampusID']!=''){
+                    $where = $where.' AND ProgramCampusID='.$dataWhere['ProgramCampusID'];
+                }
+
+                if($dataWhere['SemesterID']!=''){
+                    $where = $where.' AND SemesterID='.$dataWhere['SemesterID'];
+                }
+            }
+        }
+
+    }
+
 }

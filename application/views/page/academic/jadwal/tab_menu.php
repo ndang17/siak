@@ -25,12 +25,13 @@
                     </select>
                 </div>
 
-<!--                <div class="col-xs-2" style="">-->
-<!--                    <select class="form-control form-filter-jadwal" id="filterGabungan">-->
-<!--                        <option>--- Tampilkan Semua ---</option>-->
-<!--                        <option></option>-->
-<!--                    </select>-->
-<!--                </div>-->
+                <div class="col-xs-2" style="">
+                    <select class="form-control form-filter-jadwal" id="filterCombine">
+                        <option value="">--- Show All ---</option>
+                        <option value="1">Combine Class Yes</option>
+                        <option value="0">Combine Class No</option>
+                    </select>
+                </div>
                 <div class="col-xs-3" style="text-align: right;padding-left: 0px;">
                     <div class="btn-group" role="group" aria-label="...">
                         <button data-page="inputjadwal" type="button" class="btn btn-success btn-action control-jadwal">

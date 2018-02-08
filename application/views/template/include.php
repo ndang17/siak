@@ -260,6 +260,8 @@
 
     window.allowDepartementNavigation = [];
 
+    window.daysEng = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    window.daysInd = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
     $(document).ready(function(){
         // "use strict";
 
@@ -363,7 +365,6 @@
         var url = base_url_js+'api/__crudProgramCampus';
         var token = jwt_encode({action:'read'},'UAP)(*');
         $.post(url,{token:token},function (data_json) {
-           console.log(data_json);
            if(data_json.length>0){
                var option = $(element);
                for(var i=0;i<data_json.length;i++){
@@ -534,18 +535,14 @@
 
 
     function fillDays(element,lang,selected) {
-        var days = [];
-        if(lang=='Eng'){
-            days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
-        } else {
-            days = ['Senin','Selasa','Rabu','Kamis','Jumat'];
-        }
+        var days = (lang=='Eng') ? daysEng : daysInd ;
 
         // $('#NameDay1');
         var val = 1;
         for(var i=0;i<days.length;i++){
             var selc = (val==selected) ? 'selected' : '';
-            $(''+element).append('<option value="'+val+'" '+selc+'>'+days[i]+'</option>');
+            var hol = (val==6 || val==7) ? 'style="color:red;"' : '' ;
+            $(''+element).append('<option value="'+val+'" '+selc+' '+hol+'>'+days[i]+'</option>');
             val += 1;
         }
     }

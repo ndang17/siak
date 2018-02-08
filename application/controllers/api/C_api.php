@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class C_api extends MY_Controller {
+class C_api extends CI_Controller {
 
     function __construct()
     {
@@ -9,6 +9,17 @@ class C_api extends MY_Controller {
         header('Content-Type: application/json');
         $this->load->model('m_api');
         $this->load->model('akademik/m_tahun_akademik');
+        $this->load->library('JWT');
+        $this->load->library('google');
+
+        if($this->session->userdata('loggedIn')==false){
+            $data = array(
+                'Message' => 'Error',
+                'Description' => 'Your Session Login Is Destroy'
+            );
+            print_r(json_encode($data));
+            exit;
+        }
     }
 
 
@@ -145,7 +156,7 @@ class C_api extends MY_Controller {
         $data_arr = (array) $this->jwt->decode($token,$key);
 
 
-        $data['department'] = parent::__getDepartement();
+        $data['department'] = $this->session->userdata('departementNavigation');
         $data['dosen'] = $this->m_tahun_akademik->__getKetersediaanDosenByTahunAkademik($data_arr['ID']);
         print_r(json_encode($data['dosen']));
 //        $this->load->view('page/'.$data['department'].'/ketersediaan_dosen_detail',$data);
@@ -383,13 +394,20 @@ class C_api extends MY_Controller {
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
+//        print_r($data_arr);
         if(count($data_arr)>0){
+
             if($data_arr['action']=='add'){
                 $formData = (array) $data_arr['formData'];
                 $this->db->insert('db_academic.schedule', $formData);
                 $insert_id = $this->db->insert_id();
 
-                // Insert Base Prodi
+                // Insert Group Kelas / krs
+                $formDataClassGroup = (array) $data_arr['formDataClassGroup'];
+                $formDataClassGroup['ScheduleID'] = $insert_id;
+                $this->db->insert('db_academic.schedule_class_group',$formDataClassGroup);
+
+                // Insert Base Prodi / Kelas Gabungan
                 $formBaseProdi = (array) $data_arr['formBaseProdi'];
                 if(count($formBaseProdi['formBaseProdi'])>0){
                     for($i=0;$i<count($formBaseProdi['formBaseProdi']);$i++){
@@ -415,7 +433,8 @@ class C_api extends MY_Controller {
                         for($i=0;$i<count($formTeamTeaching['formTeamDosen']);$i++){
                             $td_insert = array(
                                 'ScheduleID' => $insert_id,
-                                'NIP' => $formTeamTeaching['formTeamDosen'][$i]
+                                'NIP' => $formTeamTeaching['formTeamDosen'][$i],
+                                'Status' => 0
                             );
                             $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
                         }
@@ -427,11 +446,29 @@ class C_api extends MY_Controller {
                         $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
                     }
                 }
-
-
-
                 return print_r($insert_id);
 
+            }
+
+            else if($data_arr['action']=='read'){
+                $dataWhere = (array) $data_arr['dataWhere'];
+
+                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
+
+                $daysName = (array) $dataWhere['DaysName'];
+
+//                return print_r(json_encode($data_arr));
+                for($i=0;$i<count($days);$i++){
+                    $data[$i]['Day'] = array(
+                        'DaysID' => $days[$i],
+                        'Eng' => $daysName['Eng'][$i],
+                        'Ind' => $daysName['Ind'][$i]
+                    );
+                    $data[$i]['Details'] = $this->m_api->getSchedule($days[$i],$dataWhere);
+                }
+//
+//
+                return print_r(json_encode($data));
             }
         }
     }
