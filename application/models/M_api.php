@@ -271,7 +271,7 @@ class M_api extends CI_Model {
         $data = $this->db->query('SELECT s.*,
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng,
                                           em.Name AS Lecturer,
-                                          cl.Room                                  
+                                          cl.Room                                   
                                           FROM db_academic.schedule s 
                                               LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
                                               LEFT JOIN db_employees.employees em ON (em.NIP = s.NIP)

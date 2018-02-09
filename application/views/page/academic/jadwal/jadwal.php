@@ -102,10 +102,13 @@
             if(data_result.length>0){
                 div.empty();
                 for(var i=0;i<data_result.length;i++){
+
+                    var classDay = (i>4) ? 'label-danger' : 'label-info';
+
                     div.append('' +
                         '<div class="widget box">' +
                         '    <div class="widget-header">' +
-                        '        <h4 class=""><span class="label-primary" style="color: #ffffff;padding: 5px;font-weight: bold;">'+data_result[i].Day.Eng+'</span></h4>' +
+                        '        <h4 class=""><span class="'+classDay+'" style="color: #ffffff;padding: 5px;padding-left:10px;padding-right:10px;font-weight: bold;">'+data_result[i].Day.Eng+'</span></h4>' +
                         '    </div>' +
                         '    <div class="widget-content no-padding">' +
                         '<table class="table table-bordered table-striped" id="scTable'+i+'">' +
