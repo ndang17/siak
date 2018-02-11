@@ -1,3 +1,3 @@
 /.idea
 /application/logs
-/database/siak4.sql
+/application/config/database.php

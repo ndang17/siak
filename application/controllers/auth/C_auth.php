@@ -330,20 +330,20 @@ class C_auth extends MY_Controller {
 //                    'ProdiIDBefore' => $item['ProdiID'],
                     'ProdiID' => $ProdiID,
                     'LecturerNIP' => $item['NIP'],
-
+                    'MKType' => $item['JenisMK'],
                     'Semester' => $item['Semester'],
                     'TotalSKS' => $item['TotalSKS'],
-                    'SKSTatapMuka' => $item['SKSTatapMuka'],
+                    'SKSTeori' => $item['SKSTatapMuka'],
                     'SKSPraktikum' => $item['SKSPraktikum'],
                     'SKSPraktikLapangan' => $item['SKSPraktekLap'],
-                    'Silabus' => $item['Silabus'],
-                    'SAP' => $item['SAP'],
+                    'StatusSilabus' => $item['Silabus'],
+                    'StatusSAP' => $item['SAP'],
                     'UpdateBy' => '2017090',
                     'UpdateAt' => '2018-01-08 10:10:10'
                 );
 
 
-//                $this->db->insert('db_academic.curriculum_details',$arr);
+                $this->db->insert('db_academic.curriculum_details',$arr);
             }
 
             print_r(count($data));

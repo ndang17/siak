@@ -44,9 +44,12 @@ $db['default'] = array(
 
 $db['server'] = array(
     'dsn'	=> '',
-    'hostname' => '10.1.30.88',
-    'username' => 'it',
-    'password' => 'itypap888',
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+//    'hostname' => '10.1.30.88',
+//    'username' => 'it',
+//    'password' => 'itypap888',
     'database' => 'siak4',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
