@@ -131,15 +131,15 @@ class C_auth extends MY_Controller {
             echo "<br/>";
             print_r($no_sama);
         }
-        else if($table=='cek'){
-//            $data = $this->db_server->query('SELECT d.* FROM siak4.dosen d JOIN siak4.karyawan k ON (d.nip=k.nip)')->result_array();
-            $data = $this->db->query('SELECT * FROM db_employees.employees')->result_array();
-            print_r($data);
-        }
         else if($table=='mhs'){
-            $angkatan = 17;
-            $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
+            $angkatan = 14;
+
+            $db_lokal = 'ta_20'.$angkatan;
+                $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
+            $this->db->truncate($db_lokal.'.students');
             for($i=0;$i<count($data);$i++){
+                $expPU = explode('@',$data[$i]['Email']);
+                $EmailPU = ($expPU[1]=='podomorouniversity.ac.id') ? $data[$i]['Email'] : '';
                 $arr = array(
                     'ProdiID' => $data[$i]['ProdiID'],
                     'ProgramID' => $data[$i]['ProgramID'],
@@ -160,7 +160,9 @@ class C_auth extends MY_Controller {
                     'DateOfBirth' => $data[$i]['TanggalLahir'],
                     'Phone' => $data[$i]['Telepon'],
                     'HP' => $data[$i]['HP'],
-                    'Email' => $data[$i]['Email'],
+//                    'Email' => '',
+                    'ClassOf' => $data[$i]['TahunMasuk'],
+                    'EmailPU' => $EmailPU,
                     'Jacket' => $data[$i]['Jacket'],
                     'AnakKe' => $data[$i]['AnakKe'],
                     'JumlahSaudara' => $data[$i]['JumlahSaudara'],
@@ -172,8 +174,8 @@ class C_auth extends MY_Controller {
                     'Mother' => $data[$i]['Ibu'],
                     'StatusFather' => $data[$i]['StatusAyah'],
                     'StatusMother' => $data[$i]['StatusIbu'],
-                    'PhoneFather' => $data[$i]['PhoneAyah'],
-                    'PhoneMother' => $data[$i]['PhoneIbu'],
+                    'PhoneFather' => str_replace('/','',$data[$i]['PhoneAyah']),
+                    'PhoneMother' => str_replace('/','',$data[$i]['PhoneIbu']),
                     'OccupationFather' => $data[$i]['PekerjaanAyah'],
                     'OccupationMother' => $data[$i]['PekerjaanIbu'],
                     'EducationFather' => $data[$i]['PDAyah'],
@@ -182,11 +184,11 @@ class C_auth extends MY_Controller {
                     'AddressMother' => $data[$i]['AlamatIbu'],
                     'EmailFather' => $data[$i]['EmailAyah'],
                     'EmailMother' => $data[$i]['EmailIbu'],
-                    'StatusStudent' => $data[$i]['StatusMhswID']
+                    'StatusStudentID' => $data[$i]['StatusMhswID']
 
                 );
 
-                $this->db->insert('db_students.ta20'.$angkatan,$arr);
+                $this->db->insert($db_lokal.'.students',$arr);
             }
         }
         else if($table=='prodi'){
@@ -225,6 +227,7 @@ class C_auth extends MY_Controller {
             // Double MKCode
             //SELECT * FROM db_academic.mata_kuliah WHERE MKCode IN (SELECT MKCode FROM db_academic.mata_kuliah GROUP BY MKCode HAVING count(*) > 1);
 
+            $this->db->truncate('db_academic.mata_kuliah');
             foreach($data as $item){
                 $ProdiID = $item['BaseProdiID'];
 
@@ -285,6 +288,7 @@ class C_auth extends MY_Controller {
 
 //            print_r($data);
 //exit;
+            $this->db->truncate('db_academic.curriculum_details');
             foreach ($data as $item){
                 $ProdiID = $item['ProdiID'];
 
@@ -322,9 +326,11 @@ class C_auth extends MY_Controller {
                     $ProdiID = 11;
                 }
 
-
+//                $PreconditionMKID = ($item['MKIDpra']!=0 && $item['MKIDpra']!=null)?$item['MKIDpra']:'';
+                $PreconditionMKID = $item['MKIDpra'];
                 $arr = array(
                     'CurriculumID' => $item['KurikulumID'],
+                    'CurriculumTypeID' => $item['JenisKurikulumID'],
                     'MKID' => $item['MKID'],
                     'MKCode' => $item['MKCode'],
 //                    'ProdiIDBefore' => $item['ProdiID'],
@@ -335,6 +341,7 @@ class C_auth extends MY_Controller {
                     'TotalSKS' => $item['TotalSKS'],
                     'SKSTeori' => $item['SKSTatapMuka'],
                     'SKSPraktikum' => $item['SKSPraktikum'],
+                    'PreconditionMKID' => $PreconditionMKID,
                     'SKSPraktikLapangan' => $item['SKSPraktekLap'],
                     'StatusSilabus' => $item['Silabus'],
                     'StatusSAP' => $item['SAP'],
@@ -350,7 +357,42 @@ class C_auth extends MY_Controller {
 
 
         }
+        else if($table=='krs'){
+            $angkatan = 14;
 
+            $db_lokal = 'ta_20'.$angkatan;
+            $data = $this->db_server->query('SELECT r.ID AS IDSchedule,dt.Semester,m.NPM,
+                                                r.JadwalID AS ScheduleID,
+                                                r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,
+                                                r.Evaluasi4,r.Evaluasi5,r.UTS,r.UAS,
+                                                r.NilaiAkhir AS Score,r.NilaiHuruf AS Grade,
+                                                r.approval AS Approval
+                                                FROM siak4.rencanastudi r 
+                                                JOIN siak4.mahasiswa m ON (r.MhswID=m.ID)
+                                                JOIN siak4.detailkurikulum dt ON (r.MKID=dt.MKID)
+                                                WHERE substring(m.NPM,3,2)='.$angkatan)->result_array();
+            $this->db->truncate($db_lokal.'.study_planning');
+
+            for($i=0;$i<count($data);$i++){
+                $data_insert = array(
+                    'IDSchedule' => $data[$i]['IDSchedule'],
+                    'Semester' => $data[$i]['Semester'],
+                    'NPM' => $data[$i]['NPM'],
+                    'ScheduleID' => $data[$i]['ScheduleID'],
+                    'Evaluasi1' => $data[$i]['Evaluasi1'],
+                    'Evaluasi2' => $data[$i]['Evaluasi2'],
+                    'Evaluasi3' => $data[$i]['Evaluasi3'],
+                    'Evaluasi4' => $data[$i]['Evaluasi4'],
+                    'Evaluasi5' => $data[$i]['Evaluasi5'],
+                    'UTS' => $data[$i]['UTS'],
+                    'UAS' => $data[$i]['UAS'],
+                    'Score' => $data[$i]['Score'],
+                    'Grade' => $data[$i]['Grade'],
+                    'Approval' => $data[$i]['Approval']
+                );
+                $this->db->insert($db_lokal.'.study_planning',$data_insert);
+            }
+        }
 
     }
 

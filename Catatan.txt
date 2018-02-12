@@ -1,11 +1,10 @@
 
+-- Untuk Mengambil KRS dari server
 
-Catatan 5 Feb 2018
+SELECT r.ID,dt.Semester,m.NPM,r.JadwalID,r.UTS,r.UAS,r.NilaiAkhir,r.NilaiHuruf,r.approval 
+FROM siak4.rencanastudi r 
+JOIN siak4.mahasiswa m ON (r.MhswID=m.ID)
+JOIN siak4.detailkurikulum dt ON (r.MKID=dt.MKID)
+WHERE substring(m.NPM,3,2)=14;
 
-- Input Jadwal
-
-Group Kelas Otomatis
-	* Dosen
-	* Ruangan + Hari + Jam
-
-- Previlage Dosen Team Teaching (Read Write)
+--------------------------
