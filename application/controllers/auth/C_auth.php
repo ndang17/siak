@@ -137,6 +137,7 @@ class C_auth extends MY_Controller {
             $db_lokal = 'ta_20'.$angkatan;
                 $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
             $this->db->truncate($db_lokal.'.students');
+            $this->db->truncate('db_academic.auth_student');
             for($i=0;$i<count($data);$i++){
                 $expPU = explode('@',$data[$i]['Email']);
                 $EmailPU = ($expPU[1]=='podomorouniversity.ac.id') ? $data[$i]['Email'] : '';
@@ -189,6 +190,16 @@ class C_auth extends MY_Controller {
                 );
 
                 $this->db->insert($db_lokal.'.students',$arr);
+
+                $arrAuth = array(
+                    'NPM' => $data[$i]['NPM'],
+                    'Password' => '',
+                    'Year' => $data[$i]['TahunMasuk'],
+                    'EmailPU' => $EmailPU,
+                    'StatusStudentID' => $data[$i]['StatusMhswID']
+                );
+
+                $this->db->insert('db_academic.auth_student',$arrAuth);
             }
         }
         else if($table=='prodi'){
@@ -361,24 +372,27 @@ class C_auth extends MY_Controller {
             $angkatan = 14;
 
             $db_lokal = 'ta_20'.$angkatan;
-            $data = $this->db_server->query('SELECT r.ID AS IDSchedule,dt.Semester,m.NPM,
-                                                r.JadwalID AS ScheduleID,
-                                                r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,
-                                                r.Evaluasi4,r.Evaluasi5,r.UTS,r.UAS,
-                                                r.NilaiAkhir AS Score,r.NilaiHuruf AS Grade,
-                                                r.approval AS Approval
-                                                FROM siak4.rencanastudi r 
-                                                JOIN siak4.mahasiswa m ON (r.MhswID=m.ID)
-                                                JOIN siak4.detailkurikulum dt ON (r.MKID=dt.MKID)
-                                                WHERE substring(m.NPM,3,2)='.$angkatan)->result_array();
-            $this->db->truncate($db_lokal.'.study_planning');
+            $data = $this->db_server->query('SELECT r.ID,j.TahunID AS SemesterID, th.TahunID AS YearCode,m.NPM,r.JadwalID AS ScheduleID,
+mk.MKKode AS MKCode,mk.Nama AS MKName, mk.NamaInggris AS MKNameEng,
+r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,r.Evaluasi4,r.Evaluasi5,
+r.UTS,r.UAS,r.NilaiAkhir AS Score,r.NilaiHuruf AS Grade,r.approval AS Approval
+from siak4.rencanastudi r 
+left JOIN siak4.mahasiswa m ON (r.MhswID=m.ID)
+left join siak4.jadwal j ON (r.JadwalID = j.ID)
+left join siak4.tahun th ON(j.TahunID=th.ID)
+left join siak4.matakuliah mk ON(j.MKID = mk.ID)
+WHERE r.JadwalID!=\'\' AND r.NilaiAkhir!=0.00 AND substring(m.NPM,3,2)='.$angkatan)->result_array();
+            $this->db->truncate($db_lokal.'.study_planning_old');
 
             for($i=0;$i<count($data);$i++){
                 $data_insert = array(
-                    'IDSchedule' => $data[$i]['IDSchedule'],
-                    'Semester' => $data[$i]['Semester'],
+                    'SemesterID' => $data[$i]['SemesterID'],
+                    'YearCode' => $data[$i]['YearCode'],
                     'NPM' => $data[$i]['NPM'],
                     'ScheduleID' => $data[$i]['ScheduleID'],
+                    'MKCode' => $data[$i]['MKCode'],
+                    'MKName' => $data[$i]['MKName'],
+                    'MKNameEng' => $data[$i]['MKNameEng'],
                     'Evaluasi1' => $data[$i]['Evaluasi1'],
                     'Evaluasi2' => $data[$i]['Evaluasi2'],
                     'Evaluasi3' => $data[$i]['Evaluasi3'],
@@ -390,7 +404,7 @@ class C_auth extends MY_Controller {
                     'Grade' => $data[$i]['Grade'],
                     'Approval' => $data[$i]['Approval']
                 );
-                $this->db->insert($db_lokal.'.study_planning',$data_insert);
+                $this->db->insert($db_lokal.'.study_planning_old',$data_insert);
             }
         }
 
