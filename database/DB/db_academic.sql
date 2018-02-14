@@ -94,11 +94,11 @@ CREATE TABLE `academic_years_special_case` (
 
 /*Data for the table `academic_years_special_case` */
 
-/*Table structure for table `auth_student` */
+/*Table structure for table `auth_students` */
 
-DROP TABLE IF EXISTS `auth_student`;
+DROP TABLE IF EXISTS `auth_students`;
 
-CREATE TABLE `auth_student` (
+CREATE TABLE `auth_students` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NPM` varchar(20) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
@@ -109,9 +109,9 @@ CREATE TABLE `auth_student` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=latin1;
 
-/*Data for the table `auth_student` */
+/*Data for the table `auth_students` */
 
-insert  into `auth_student`(`ID`,`NPM`,`Password`,`Year`,`EmailPU`,`StatusStudentID`,`LastLogin`) values 
+insert  into `auth_students`(`ID`,`NPM`,`Password`,`Year`,`EmailPU`,`StatusStudentID`,`LastLogin`) values 
 (1,'11140001','',2014,'adam.kasali@podomorouniversity.ac.id',7,NULL),
 (2,'31140001','',2014,'mintrafi@podomorouniversity.ac.id',3,NULL),
 (3,'21140001','',2014,'stanley.paisan@podomorouniversity.ac.id',3,NULL),
@@ -120,7 +120,7 @@ insert  into `auth_student`(`ID`,`NPM`,`Password`,`Year`,`EmailPU`,`StatusStuden
 (6,'11140003','',2014,'muhammad.perdana@podomorouniversity.ac.id',7,NULL),
 (7,'11140004','',2014,'tegar.gumelar@podomorouniversity.ac.id',6,NULL),
 (8,'21140002','',2014,'mohammad.slamet@podomorouniversity.ac.id',7,NULL),
-(9,'11140005','',2014,'priscilla.amelia@podomorouniversity.ac.id',3,NULL),
+(9,'11140005','57178f8a57dd1c8b1c084a339c433d3569989c44',2014,'priscilla.amelia@podomorouniversity.ac.id',3,NULL),
 (10,'11140029','',2014,'therezia.koraag@podomorouniversity.ac.id',7,NULL),
 (11,'11140006','',2014,'andika.samudra@podomorouniversity.ac.id',3,NULL),
 (12,'21140003','',2014,'darrell.tjong@podomorouniversity.ac.id',2,NULL),
@@ -239,7 +239,7 @@ insert  into `auth_student`(`ID`,`NPM`,`Password`,`Year`,`EmailPU`,`StatusStuden
 (125,'31140037','',2014,'fernandri.setiawan@podomorouniversity.ac.id',3,NULL),
 (126,'31140038','',2014,'velda.suma@podomorouniversity.ac.id',6,NULL),
 (127,'21140023','',2014,'yogi.siwi@podomorouniversity.ac.id',3,NULL),
-(128,'11140038','',2014,'abigail.wisjnu@podomorouniversity.ac.id',3,NULL),
+(128,'11140038','a02ea4d19de02f31ab763770509015debd24f8d4',2014,'abigail.wisjnu@podomorouniversity.ac.id',3,NULL),
 (129,'21140024','',2014,'adam.arsyad@podomorouniversity.ac.id',6,NULL);
 
 /*Table structure for table `class_group` */
@@ -2448,18 +2448,18 @@ CREATE TABLE `semester` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `semester` */
 
 insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(1,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
-(2,1,20142,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
-(3,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
-(4,1,20152,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
-(5,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
-(6,1,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
-(7,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-30 22:36:27');
+(3,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
+(4,1,20142,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
+(5,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
+(6,1,20152,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
+(7,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
+(8,1,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
+(11,1,20171,'2017/2018 Ganjil',1,'2017090','2018-01-30 22:36:27');
 
 /*Table structure for table `status_student` */
 

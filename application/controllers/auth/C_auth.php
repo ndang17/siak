@@ -137,7 +137,7 @@ class C_auth extends MY_Controller {
             $db_lokal = 'ta_20'.$angkatan;
                 $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
             $this->db->truncate($db_lokal.'.students');
-            $this->db->truncate('db_academic.auth_student');
+//            $this->db->truncate('db_academic.auth_student');
             for($i=0;$i<count($data);$i++){
                 $expPU = explode('@',$data[$i]['Email']);
                 $EmailPU = ($expPU[1]=='podomorouniversity.ac.id') ? $data[$i]['Email'] : '';
@@ -372,40 +372,97 @@ class C_auth extends MY_Controller {
             $angkatan = 14;
 
             $db_lokal = 'ta_20'.$angkatan;
-            $data = $this->db_server->query('SELECT r.ID,j.TahunID AS SemesterID, th.TahunID AS YearCode,m.NPM,r.JadwalID AS ScheduleID,
-mk.MKKode AS MKCode,mk.Nama AS MKName, mk.NamaInggris AS MKNameEng,
-r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,r.Evaluasi4,r.Evaluasi5,
-r.UTS,r.UAS,r.NilaiAkhir AS Score,r.NilaiHuruf AS Grade,r.approval AS Approval
-from siak4.rencanastudi r 
-left JOIN siak4.mahasiswa m ON (r.MhswID=m.ID)
-left join siak4.jadwal j ON (r.JadwalID = j.ID)
-left join siak4.tahun th ON(j.TahunID=th.ID)
-left join siak4.matakuliah mk ON(j.MKID = mk.ID)
-WHERE r.JadwalID!=\'\' AND r.NilaiAkhir!=0.00 AND substring(m.NPM,3,2)='.$angkatan)->result_array();
-            $this->db->truncate($db_lokal.'.study_planning_old');
+//            $data = $this->db_server->query('SELECT r.ID,j.TahunID AS SemesterID, th.TahunID AS YearCode,m.NPM,r.JadwalID AS ScheduleID,
+//mk.MKKode AS MKCode,mk.Nama AS MKName, mk.NamaInggris AS MKNameEng,
+//r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,r.Evaluasi4,r.Evaluasi5,
+//r.UTS,r.UAS,r.NilaiAkhir AS Score,r.NilaiHuruf AS Grade,r.approval AS Approval
+//from siak4.rencanastudi r
+//left JOIN siak4.mahasiswa m ON (r.MhswID=m.ID)
+//left join siak4.jadwal j ON (r.JadwalID = j.ID)
+//left join siak4.tahun th ON(j.TahunID=th.ID)
+//left join siak4.matakuliah mk ON(j.MKID = mk.ID)
+//WHERE r.JadwalID!=\'\' AND r.NilaiAkhir!=0.00 AND substring(m.NPM,3,2)='.$angkatan)->result_array();
 
-            for($i=0;$i<count($data);$i++){
-                $data_insert = array(
-                    'SemesterID' => $data[$i]['SemesterID'],
-                    'YearCode' => $data[$i]['YearCode'],
-                    'NPM' => $data[$i]['NPM'],
-                    'ScheduleID' => $data[$i]['ScheduleID'],
-                    'MKCode' => $data[$i]['MKCode'],
-                    'MKName' => $data[$i]['MKName'],
-                    'MKNameEng' => $data[$i]['MKNameEng'],
-                    'Evaluasi1' => $data[$i]['Evaluasi1'],
-                    'Evaluasi2' => $data[$i]['Evaluasi2'],
-                    'Evaluasi3' => $data[$i]['Evaluasi3'],
-                    'Evaluasi4' => $data[$i]['Evaluasi4'],
-                    'Evaluasi5' => $data[$i]['Evaluasi5'],
-                    'UTS' => $data[$i]['UTS'],
-                    'UAS' => $data[$i]['UAS'],
-                    'Score' => $data[$i]['Score'],
-                    'Grade' => $data[$i]['Grade'],
-                    'Approval' => $data[$i]['Approval']
-                );
-                $this->db->insert($db_lokal.'.study_planning_old',$data_insert);
+            $dataMhs = $this->db_server->query('SELECT ID FROM siak4.mahasiswa m where substring(m.NPM,3,2)='.$angkatan)->result_array();
+            $this->db->truncate($db_lokal.'.study_planning_old');
+            for($m=0;$m<count($dataMhs);$m++){
+
+                $data = $this->db_server->query('SELECT 
+                                                r.ID,j.TahunID AS SemesterID, 
+                                                r.JadwalID AS ScheduleID,
+                                                r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,r.Evaluasi4,r.Evaluasi5,
+                                                r.UTS,r.UAS,r.NilaiAkhir AS Score,r.NilaiHuruf AS Grade,r.approval AS Approval,
+                                                m.MKKode AS MKCode,m.Nama AS MKName, m.NamaInggris AS MKNameEng,
+                                                mhs.NPM,
+                                                th.TahunID AS YearCode, dt.TotalSKS AS Credit
+                                                                                        
+                                                 FROM siak4.rencanastudi r 
+                                                JOIN siak4.jadwal j ON (r.JadwalID=j.ID)
+                                                JOIN siak4.matakuliah m ON (m.ID=j.MKID)
+                                                join siak4.mahasiswa mhs ON(r.MhswID = mhs.ID)
+                                                join siak4.tahun th ON(j.TahunID=th.ID)
+                                                left JOIN siak4.detailkurikulum dt ON (dt.MKID = j.MKID)
+                                                where r.MhswID = '.$dataMhs[$m]['ID'].'
+                                                GROUP BY m.ID')->result_array();
+
+                for($i=0;$i<count($data);$i++){
+                    $data_insert = array(
+                        'SemesterID' => $data[$i]['SemesterID'],
+                        'YearCode' => $data[$i]['YearCode'],
+                        'NPM' => $data[$i]['NPM'],
+                        'ScheduleID' => $data[$i]['ScheduleID'],
+                        'MKCode' => $data[$i]['MKCode'],
+                        'Credit' => $data[$i]['Credit'],
+                        'MKName' => $data[$i]['MKName'],
+                        'MKNameEng' => $data[$i]['MKNameEng'],
+                        'Evaluasi1' => $data[$i]['Evaluasi1'],
+                        'Evaluasi2' => $data[$i]['Evaluasi2'],
+                        'Evaluasi3' => $data[$i]['Evaluasi3'],
+                        'Evaluasi4' => $data[$i]['Evaluasi4'],
+                        'Evaluasi5' => $data[$i]['Evaluasi5'],
+                        'UTS' => $data[$i]['UTS'],
+                        'UAS' => $data[$i]['UAS'],
+                        'Score' => $data[$i]['Score'],
+                        'Grade' => $data[$i]['Grade'],
+                        'Approval' => $data[$i]['Approval']
+                    );
+                    $this->db->insert($db_lokal.'.study_planning_old',$data_insert);
+                }
+
             }
+
+
+
+
+
+        }
+        else if($table=='khs'){
+            $angkatan = 14;
+
+            $db_lokal = 'ta_20'.$angkatan;
+
+            $data = $this->db_server->query('SELECT hs.TahunID AS SemesterID, m.NPM, hs.SKSIPS AS SKS, hs.IPS, hs.IPK , hs.SKSIPK AS TotalSKS
+                                        FROM siak4.hasilstudi hs
+                                        LEFT JOIN siak4.mahasiswa m ON(hs.MhswID = m.ID)
+                                        WHERE substring(m.NPM,3,2)='.$angkatan)->result_array();
+
+            $this->db->truncate($db_lokal.'.study_results_old');
+
+            for ($i=0;$i<count($data);$i++){
+                $dataInsert = array(
+                    'NPM' => $data[$i]['NPM'],
+                    'SemesterID' => $data[$i]['SemesterID'],
+                    'SKS' => $data[$i]['SKS'],
+                    'IPS' => $data[$i]['IPS'],
+                    'IPK' => $data[$i]['IPK'],
+                    'TotalSKS' => $data[$i]['TotalSKS']
+                );
+
+                $this->db->insert($db_lokal.'.study_results_old',$dataInsert);
+            }
+
+
+
         }
 
     }
