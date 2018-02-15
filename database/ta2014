@@ -20,7 +20,7 @@ USE `db_students`;
 
 DROP TABLE IF EXISTS `ta2014`;
 
-CREATE TABLE `ta2014` (
+CREATE TABLE `students` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ProdiID` int(11) DEFAULT NULL,
   `ProgramID` int(11) DEFAULT NULL,
