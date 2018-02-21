@@ -70,6 +70,7 @@ $route['academic/modal-tahun-akademik-detail-lecturer'] = 'page/academic/c_akade
 // ====== Database =====
 $route['database/lecturers'] = 'page/database/c_database/lecturers';
 $route['database/students'] = 'page/database/c_database/students';
+$route['database/showStudent'] = 'page/database/c_database/showStudent';
 $route['database/employees'] = 'page/database/c_database/employees';
 
 
@@ -115,6 +116,10 @@ $route['api/__crudSchedule'] = 'api/c_api/crudSchedule';
 
 $route['api/__crudProgramCampus'] = 'api/c_api/crudProgramCampus';
 $route['api/__crudSemester'] = 'api/c_api/crudSemester';
+
+$route['api/__getAllStudents'] = 'api/c_api/getAllStudents';
+
+$route['api/__crudeStudent'] = 'api/c_api/crudeStudent';
 
 
 

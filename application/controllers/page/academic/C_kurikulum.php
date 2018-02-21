@@ -185,10 +185,6 @@ class C_kurikulum extends MY_Controller {
 
 
 
-
-
-
-
     public function kurikulum_detail2(){
         $data_json = $this->input->post('data_json');
         $data['department'] = parent::__getDepartement();

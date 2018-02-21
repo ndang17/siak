@@ -132,17 +132,56 @@ class C_auth extends MY_Controller {
             print_r($no_sama);
         }
         else if($table=='mhs'){
-            $angkatan = 14;
+            $angkatan = 17;
 
             $db_lokal = 'ta_20'.$angkatan;
                 $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
             $this->db->truncate($db_lokal.'.students');
-//            $this->db->truncate('db_academic.auth_student');
+//            $this->db->truncate('db_academic.auth_students');
             for($i=0;$i<count($data);$i++){
-                $expPU = explode('@',$data[$i]['Email']);
-                $EmailPU = ($expPU[1]=='podomorouniversity.ac.id') ? $data[$i]['Email'] : '';
+//                $expPU = explode('@',$data[$i]['Email']);
+//                $EmailPU = ($expPU[1]=='podomorouniversity.ac.id') ? $data[$i]['Email'] : '';
+
+//                $expPU = explode('@',$data[$i]['Email']);
+                $EmailPU = $data[$i]['Email'];
+
+                $ProdiID = $data[$i]['ProdiID'];
+
+                if($ProdiID=='3') {
+                    $ProdiID = 1;
+                }
+                else if($ProdiID=='4'){
+                    $ProdiID = 2;
+                }
+                else if($ProdiID=='6'){
+                    $ProdiID = 3;
+                }
+                else if($ProdiID=='7'){
+                    $ProdiID = 4;
+                }
+                else if($ProdiID=='13'){
+                    $ProdiID = 5;
+                }
+                else if($ProdiID=='14'){
+                    $ProdiID = 6;
+                }
+                else if($ProdiID=='15'){
+                    $ProdiID = 7;
+                }
+                else if($ProdiID=='16'){
+                    $ProdiID = 8;
+                }
+                else if($ProdiID=='17'){
+                    $ProdiID = 9;
+                }
+                else if($ProdiID=='18'){
+                    $ProdiID = 10;
+                }
+                else if($ProdiID=='19'){
+                    $ProdiID = 11;
+                }
                 $arr = array(
-                    'ProdiID' => $data[$i]['ProdiID'],
+                    'ProdiID' => $ProdiID,
                     'ProgramID' => $data[$i]['ProgramID'],
                     'LevelStudyID' => $data[$i]['JenjangID'],
                     'ReligionID' => $data[$i]['AgamaID'],
@@ -163,7 +202,7 @@ class C_auth extends MY_Controller {
                     'HP' => $data[$i]['HP'],
 //                    'Email' => '',
                     'ClassOf' => $data[$i]['TahunMasuk'],
-                    'EmailPU' => $EmailPU,
+                    'EmailPU' => strtolower($EmailPU),
                     'Jacket' => $data[$i]['Jacket'],
                     'AnakKe' => $data[$i]['AnakKe'],
                     'JumlahSaudara' => $data[$i]['JumlahSaudara'],
@@ -193,13 +232,14 @@ class C_auth extends MY_Controller {
 
                 $arrAuth = array(
                     'NPM' => $data[$i]['NPM'],
-                    'Password' => '',
+                    'Password' => '57178f8a57dd1c8b1c084a339c433d3569989c44',
                     'Year' => $data[$i]['TahunMasuk'],
                     'EmailPU' => $EmailPU,
-                    'StatusStudentID' => $data[$i]['StatusMhswID']
+                    'StatusStudentID' => $data[$i]['StatusMhswID'],
+                    'Status' => '0'
                 );
 
-                $this->db->insert('db_academic.auth_student',$arrAuth);
+                $this->db->insert('db_academic.auth_students',$arrAuth);
             }
         }
         else if($table=='prodi'){
@@ -465,6 +505,28 @@ class C_auth extends MY_Controller {
 
         }
 
+//        else if($table=='gent'){
+//            $data = $this->db->query('SELECT * FROM db_academic.auth_students WHERE  Year=2017')->result_array();
+//
+//            for($i=0;$i<count($data);$i++){
+//                $pass = $this->genratePassword($data[$i]['NPM'],123456);
+////                echo $pass;
+//                $this->db->set('Password', $pass);
+//                $this->db->where('ID', $data[$i]['ID']);
+//                $this->db->update('db_academic.auth_students');
+//            }
+////            print_r($data);
+//        }
+
+    }
+
+    private function genratePassword($NIP,$Password){
+
+        $plan_password = $NIP.''.$Password;
+        $pas = md5($plan_password);
+        $pass = sha1('jksdhf832746aiH{}{()&(*&(*'.$pas.'HdfevgyDDw{}{}{;;*766&*&*');
+
+        return $pass;
     }
 
 

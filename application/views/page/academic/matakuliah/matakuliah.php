@@ -199,7 +199,7 @@
                             }
 
                             toastr.success('Data Tersimpan','Success!!')
-                        },2000);
+                        },1000);
                     });
                 }
 
@@ -234,7 +234,7 @@
                         .prop('disabled',false);
 
                     $('#GlobalModal').modal('hide');
-                },2000);
+                },1000);
             });
             // log('ok');
         }
@@ -293,7 +293,7 @@
             $.get(url,function (html) {
                 $('#loadTableMK').html(html);
             });
-        },3000);
+        },1000);
 
 
     }

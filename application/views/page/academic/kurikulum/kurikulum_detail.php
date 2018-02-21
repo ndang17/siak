@@ -88,6 +88,8 @@
         $.post(url,{token:token},function (data_json) {
             allSmt = [];
 
+            console.log(data_json);
+
             if(data_json!=''){
                 LoadDetailKurikulum(data_json.DetailKurikulum);
                 LoadGrade(data_json.Grade);
@@ -161,7 +163,7 @@
                 $('#dataSmt'+i).append('<tr>' +
                     '<td class="td-center">'+(no++)+'</td>' +
                     '<td class="td-center">'+detailSemester[s].MKCode+'</td>' +
-                    '<td><div><a href="javascript:void(0)" class="detailMataKuliah" data-smt="'+MataKuliah[i].Semester+'" data-id="'+detailSemester[s].CDID+'"><b>'+detailSemester[s].NameMK+'</b></a>' +
+                    '<td><div><a href="javascript:void(0)" class="detailMataKuliah" data-smt="'+MataKuliah[i].Semester+'" data-id="'+detailSemester[s].CDID+'"><b>'+detailSemester[s].NameMKEng+'</b></a>' +
                     '</td>' +
                     '<td><div>'+detailSemester[s].NameLecturer+'</td>' +
                     '<td>'+detailSemester[s].ProdiName+'</td>' +

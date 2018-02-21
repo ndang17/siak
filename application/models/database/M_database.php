@@ -12,5 +12,4 @@ class M_database extends CI_Model {
         return $data->result_array();
     }
 
-
 }

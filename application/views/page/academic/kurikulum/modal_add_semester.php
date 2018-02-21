@@ -1,3 +1,10 @@
+
+<style>
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        color: #333333;
+    }
+</style>
+
 <div class="col-md-12" id="modalAddSmester">
     <form class="form-horizontal">
         <div class="form-group">
@@ -52,10 +59,12 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">Mata Kuliah</label>
             <div class="col-sm-8">
+                <span id="ModalSelectMKView" style="line-height: 2.3;font-weight: bold;" class="hide"></span>
                 <select class="select2-select-00 full-width-fix"
                         size="5" id="ModalSelectMK">
                     <option value=""></option>
                 </select>
+                <input type="hide" id="ModalSelectMKVal" class="hide">
             </div>
         </div>
         <div class="form-group">
@@ -74,13 +83,17 @@
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col-sm-12">
+                        <input id="ModalPrasyaratVal" value="0" type="hide" class="hide" />
                         <label class="checkbox-inline">
                             <input type="checkbox" id="ModalPrasyarat" value="0" checked> Tidak Ada
                         </label>
+
                         <div style="margin-top: 10px;">
+                            <span class="hide" id="ModalPrasyaratSelectMKView"></span>
                             <select class="select2-select-00 full-width-fix" size="5" multiple disabled id="ModalPrasyaratSelectMK">
                                 <option value=""></option>
                             </select>
+                            <input class="hide" id="ModalPrasyaratSelectMKVal" />
                         </div>
                     </div>
                 </div>
@@ -91,9 +104,11 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">Dosen Pengajar</label>
             <div class="col-sm-8">
+                <span id="ModalLecturersView" style="line-height: 2.3;font-weight: bold;" class="hide"></span>
                 <select class="select2-select-00 full-width-fix" size="5" id="ModalLecturers">
                     <option value=""></option>
                 </select>
+                <input class="hide" id="ModalLecturersVal" type="hide"/>
             </div>
         </div>
 
@@ -203,26 +218,24 @@
 <script>
     $(document).ready(function () {
 
-        loadSelectOptionBaseProdi('#ModalSelectProdi','');
-        loadSelectOptionEducationLevel('#ModalSelectJenjang');
-
-        loadSelectOptionAllMataKuliah('#ModalPrasyaratSelectMK');
-
 
         loadSelectOptionConf('#ModalJenisKurikulum','curriculum_types');
         loadSelectOptionConf('#ModalKelompokMK','courses_groups');
 
-        $('#ModalPrasyaratSelectMK').select2({allowClear: true});
+
 
         window.action = '<?php echo $action; ?>';
         window.ID = 0;
         window.StatusPrecondition = 0;
         if(action=='add')
         {
+            loadSelectOptionAllMataKuliah('#ModalPrasyaratSelectMK');
+            loadSelectOptionBaseProdi('#ModalSelectProdi','');
+            loadSelectOptionEducationLevel('#ModalSelectJenjang','');
             loadSelectOptionLecturersSingle('#ModalSelectMK','');
             loadSelectOptionLecturersSingle('#ModalLecturers','');
-            $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
-            // log('add');
+            $('#ModalPrasyaratSelectMK, #ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+
         }
         else if(action=='edit')
         {
@@ -248,21 +261,33 @@
             $.post(url,{token:token},function (data_json) {
                 var data = data_json[0];
 
+
                 $('#ModalJenisKurikulum').val(data.CurriculumTypeID);
 
-                $('#ModalSelectProdi').val(data.ProdiID);
+                loadSelectOptionBaseProdi('#ModalSelectProdi',data.ProdiID);
+                loadSelectOptionEducationLevel('#ModalSelectJenjang',data.EducationLevelID);
+                // $('#ModalSelectJenjang').val(data.EducationLevelID);
 
-                $('#ModalSelectJenjang').val(data.EducationLevelID);
 
 
+                $('#ModalSelectMK').addClass('hide');
+                $('#ModalSelectMKView').removeClass('hide').html(data.NameMKEng);
+                $('#ModalSelectMKVal').val(data.MKID+'.'+data.MKCode);
 
-                loadSelectOptionAllMataKuliahSingle('#ModalSelectMK',data.MKID+'.'+data.MKCode);
-                $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+                $('#ModalLecturers').addClass('hide');
+                $('#ModalLecturersView').removeClass('hide').html(data.NameLecturer);
+                $('#ModalLecturersVal').val(data.LecturerNIP);
+
+                $('#ModalPrasyaratSelectMK').addClass('hide');
+                $('#ModalPrasyaratSelectMKView').removeClass('hide').html(data.DataPrecondition);
+                $('#ModalPrasyaratSelectMKVal').val(data.DataPrecondition);
+
+                //
+
 
                 $('input[name=jenisMK][value='+data.MKType+']').prop('checked',true);
 
 
-                loadSelectOptionLecturersSingle('#ModalLecturers',data.LecturerNIP);
                 // $('#ModalLecturers').select2({allowClear: true});
 
                 // $('#ModalLecturers').select2({allowClear: true}).val(data.LecturerNIP).trigger('change');
@@ -300,9 +325,11 @@
 
     $(document).on('change','#ModalPrasyarat',function () {
        if($(this).is(":checked")){
+           $('#ModalPrasyaratVal').val(0);
            $("#ModalPrasyaratSelectMK").select2("val", null);
            $('#ModalPrasyaratSelectMK').prop('disabled',true);
        } else {
+           $('#ModalPrasyaratVal').val(1);
            $('#ModalPrasyaratSelectMK').prop('disabled',false);
        }
     });
@@ -345,8 +372,7 @@
         process = formRequiredError(EducationLevelID,'#ModalSelectJenjang');
 
         var Datamk = $('#ModalSelectMK').val();
-
-        if(Datamk!=null){
+        if(Datamk!=''){
             mk = Datamk.split('.');
             var MKID = mk[0].trim();
             var MKCode = mk[1].trim();
@@ -359,19 +385,25 @@
 
         var MKType = $('input[name=jenisMK]:checked').val();
 
-        var StatusPrecondition = 1;
+        var StatusPrecondition = $('#ModalPrasyaratVal').val();
         var DataPraSyart = $('#ModalPrasyaratSelectMK').val();
-
-        if($('#ModalPrasyarat').is(':checked')){
-            StatusPrecondition = 0;
-        } else {
+        var DataPR__ = '';
+        if(StatusPrecondition==1){
+        //     StatusPrecondition = 0;
+        // } else {
+        //     StatusPrecondition = 1;
             if(DataPraSyart==null){
                 toastr.error('Prasyarat Wajib Diisi','Error!!');
+                $('#s2id_ModalPrasyaratSelectMK').css('border','1px solid red');
                 process = false;
             } else if(DataPraSyart[0]=='') {
                 toastr.error('Prasyarat Wajib Diisi','Error!!');
+                $('#s2id_ModalPrasyaratSelectMK').css('border','1px solid red');
                 process = false;
+            } else {
+                DataPR__ = JSON.stringify(DataPraSyart);
             }
+
         }
 
         var LecturerNIP = $('#ModalLecturers').val();
@@ -399,6 +431,7 @@
                 .prop('disabled',true);
 
 
+
             var data = {
                 action : action,
                 ID : ID,
@@ -415,6 +448,7 @@
                     MKType : MKType,
 
                     StatusPrecondition : StatusPrecondition,
+                    DataPrecondition : DataPR__,
 
                     LecturerNIP : LecturerNIP,
                     CoursesGroupsID : CoursesGroupsID,
@@ -448,7 +482,17 @@
                         '#modalAddSmester .btn')
                         .prop('disabled',false);
 
-                    resetForm();
+                    if(action=='add'){
+                        resetForm();
+                    } else {
+                        if(StatusPrecondition!=1){
+                            $('#ModalPrasyarat').prop('checked',true);
+
+                            $("#ModalPrasyaratSelectMK").select2("val", null);
+                            $('#ModalPrasyaratSelectMK').prop('disabled',true);
+                        }
+
+                    }
                     pageKurikulum();
 
 
@@ -472,6 +516,24 @@
             '#modalAddSmester input[type=radio],' +
             '#modalAddSmester .btn[data-toggle=collapse]')
             .prop('disabled',false);
+
+        var mkVal = $('#ModalSelectMKVal').val();
+        loadSelectOptionAllMataKuliahSingle('#ModalSelectMK',mkVal);
+        $('#ModalSelectMK').removeClass('hide');
+        // $('#ModalSelectMKView').removeClass('hide').html(data.NameMKEng);
+
+        var lecVal = $('#ModalLecturersVal').val();
+        loadSelectOptionLecturersSingle('#ModalLecturers',lecVal);
+        $('#ModalLecturers').removeClass('hide');
+        // $('#ModalLecturersView').removeClass('hide').html(data.NameLecturer);
+
+        var prVal = $('#ModalPrasyaratSelectMKVal').val();
+        loadSelectOptionAllMataKuliahForPraSyarat('#ModalPrasyaratSelectMK',JSON.parse(prVal));
+        $('#ModalPrasyaratSelectMK').removeClass('hide');
+
+        $('#ModalPrasyaratSelectMK').select2();
+        $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+
 
         if(StatusPrecondition!=1){
             $('#ModalPrasyaratSelectMK').prop('disabled',true);

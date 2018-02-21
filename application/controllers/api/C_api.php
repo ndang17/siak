@@ -235,25 +235,26 @@ class C_api extends CI_Controller {
             $this->db->update('db_academic.curriculum_details',$update);
 //            print_r($data_arr);
 
-            $this->db->where('CurriculumDetailID', $data_arr['ID']);
-            $this->db->delete('db_academic.precondition');
+//            $this->db->where('CurriculumDetailID', $data_arr['ID']);
+//            $this->db->delete('db_academic.precondition');
 
             $insert_id = $data_arr['ID'];
+            return print_r($insert_id);
         }
 
-        if($data_arr['DataPraSyart']!=''){
-            for($i=0;$i<count($data_arr['DataPraSyart']);$i++){
-
-                $ex = explode(".",$data_arr['DataPraSyart'][$i]);
-
-                $data_Pra = array(
-                    'CurriculumDetailID' => $insert_id,
-                    'MKID' => trim($ex[0]),
-                    'MKCode' => trim($ex[1])
-                );
-                $this->db->insert('db_academic.precondition',$data_Pra);
-            }
-        }
+//        if($data_arr['DataPraSyart']!=''){
+//            for($i=0;$i<count($data_arr['DataPraSyart']);$i++){
+//
+//                $ex = explode(".",$data_arr['DataPraSyart'][$i]);
+//
+//                $data_Pra = array(
+//                    'CurriculumDetailID' => $insert_id,
+//                    'MKID' => trim($ex[0]),
+//                    'MKCode' => trim($ex[1])
+//                );
+//                $this->db->insert('db_academic.precondition',$data_Pra);
+//            }
+//        }
     }
 
     public function getdetailKurikulum(){
@@ -497,6 +498,32 @@ class C_api extends CI_Controller {
                 return print_r(json_encode($data));
             }
         }
+    }
+
+
+    public function getAllStudents(){
+
+        $data = $this->m_api->__getTahunAngkatan();
+
+        return print_r(json_encode($data));
+    }
+
+    public function crudeStudent(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='read'){
+                $formData = (array) $data_arr['formData'];
+                $data = $this->m_api->__getStudentByNPM($formData['ta'],$formData['NPM']);
+
+                return print_r(json_encode($data));
+
+            }
+        }
+
+
     }
 
 

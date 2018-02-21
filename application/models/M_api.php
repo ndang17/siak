@@ -39,7 +39,8 @@ class M_api extends CI_Model {
 
     public function __getBaseProdiSelectOption()
     {
-        $data = $this->db->query('SELECT ID,Code,Name,NameEng FROM db_academic.program_study');
+//        $data = $this->db->query('SELECT ID,Code,Name,NameEng FROM db_academic.program_study');
+        $data = $this->db->query('SELECT ID,Code,Name,NameEng FROM db_academic.program_study WHERE Status=1');
         return $data->result_array();
     }
 
@@ -121,13 +122,15 @@ class M_api extends CI_Model {
     }
 
     private function DetailMK($CurriculumID,$Semester,$ProdiID){
+        $select = 'SELECT 
+                    ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
+                    mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
+                    cd.ID AS CDID, cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
+                    cd.SKSPraktikum, cd.SKSPraktikLapangan, cd.MKType, cd.DataPrecondition,
+                    em.Name AS NameLecturer';
+
         if($ProdiID!=''){
-            $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
-                                           mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
-                                           cd.ID AS CDID, cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
-                                           cd.SKSPraktikum, cd.SKSPraktikLapangan,
-                                           em.Name AS NameLecturer
-                                                FROM db_academic.curriculum_details cd 
+            $data = $this->db->query($select.' FROM db_academic.curriculum_details cd 
                                                 LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID)
                                                 LEFT JOIN db_academic.program_study ps ON (cd.ProdiID = ps.ID)
                                                 LEFT JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
@@ -136,12 +139,7 @@ class M_api extends CI_Model {
                                                 AND cd.ProdiID="'.$ProdiID.'"
                                                 ORDER BY mk.MKCode ASC');
         } else {
-            $data = $this->db->query('SELECT ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
-                                           mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
-                                           cd.ID AS CDID, cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
-                                           cd.SKSPraktikum, cd.SKSPraktikLapangan,
-                                           em.Name AS NameLecturer
-                                                FROM db_academic.curriculum_details cd 
+            $data = $this->db->query($select.' FROM db_academic.curriculum_details cd 
                                                 LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID)
                                                 LEFT JOIN db_academic.program_study ps ON (cd.ProdiID = ps.ID)
                                                 LEFT JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
@@ -192,7 +190,8 @@ class M_api extends CI_Model {
                                     el.Name AS NameEducationLevel,
                                     cg.Name AS NameCoursesGroups,
                                     em.Name AS NameLecturer,
-                                    mk.Name AS NameMK
+                                    mk.Name AS NameMK,
+                                    mk.NameEng AS NameMKEng
                                     FROM db_academic.curriculum_details cd
                                     LEFT JOIN db_academic.curriculum_types ct ON (ct.ID = cd.CurriculumTypeID)
                                     LEFT JOIN db_academic.program_study ps ON (ps.ID = cd.ProdiID)
@@ -331,5 +330,51 @@ class M_api extends CI_Model {
         }
 
     }
+
+
+    // Database Mahasiswa
+    public function __getTahunAngkatan(){
+        $data = $this->db->query('SELECT Year FROM db_academic.auth_students 
+                                                GROUP BY Year ORDER BY Year ASC')->result_array();
+
+        $result=[];
+        for($i=0;$i<count($data);$i++){
+            $DataStudents = $this->__getStudents($data[$i]['Year']);
+            $result[$i]['Angkatan'] = $data[$i]['Year'];
+            $result[$i]['DataStudents'] = $DataStudents;
+        }
+        return $result;
+    }
+
+    private function __getStudents($ta){
+        $db = 'ta_'.$ta;
+        $data = $this->db->query('SELECT s.*, au.EmailPU, p.Name AS ProdiName, p.NameEng AS ProdiNameEng,
+                                      ss.Description AS StatusStudentDesc
+                                      FROM '.$db.'.students s
+                                      JOIN db_academic.program_study p ON (s.ProdiID = p.ID)
+                                      JOIN db_academic.status_student ss ON (s.StatusStudentID = ss.ID)
+                                      JOIN db_academic.auth_students au ON (s.NPM = au.NPM) 
+                                      ORDER BY s.NPM ASC ');
+
+        return $data->result_array();
+    }
+
+    public function __getStudentByNPM($ta,$NPM){
+
+        $db = 'ta_'.$ta;
+        $data = $this->db->query('SELECT s.*, au.EmailPU, p.Name AS ProdiName, p.NameEng AS ProdiNameEng,
+                                      ss.Description AS StatusStudentDesc
+                                      FROM '.$db.'.students s
+                                      JOIN db_academic.program_study p ON (s.ProdiID = p.ID)
+                                      JOIN db_academic.status_student ss ON (s.StatusStudentID = ss.ID)
+                                      JOIN db_academic.auth_students au ON (s.NPM = au.NPM)
+                                      WHERE s.NPM = "'.$NPM.'" LIMIT 1');
+
+        return $data->result_array();
+    }
+
+
+
+
 
 }

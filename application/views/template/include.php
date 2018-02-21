@@ -380,16 +380,19 @@
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
                 var selc = (data[i].ID==selected) ? 'selected' : '';
-                $(''+element).append('<option value="'+data[i].ID+'.'+data[i].Code+'" '+selc+'>'+data[i].Name+'</option>');
+                $(''+element).append('<option value="'+data[i].ID+'.'+data[i].Code+'" '+selc+'>'+data[i].NameEng+'</option>');
             }
         });
     }
 
-    function loadSelectOptionEducationLevel(element) {
+
+
+    function loadSelectOptionEducationLevel(element,selected) {
         var url = base_url_js+"api/__geteducationLevel";
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
-                $(''+element).append('<option value="'+data[i].ID+'">'+data[i].Name+'</option>');
+                var selc = (data[i].ID==selected) ? 'selected' : '';
+                $(''+element).append('<option value="'+data[i].ID+'" '+selc+'>'+data[i].Name+'</option>');
             }
         });
     }
@@ -418,7 +421,22 @@
 
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
-                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].Name+'</option>');
+                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].NameEng+'</option>');
+            }
+        });
+    }
+
+    function loadSelectOptionAllMataKuliahForPraSyarat(element,selected) {
+
+        var url = base_url_js+'api/__getAllMK';
+        var option = $(''+element);
+        console.log(selected);
+        $.get(url,function (data) {
+            for(var i=0;i<data.length;i++){
+
+                option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'">'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].NameEng+'</option>')
+                    .val(selected).trigger('change');
+
             }
         });
     }
@@ -431,7 +449,7 @@
 
             for(var i=0;i<data.length;i++){
                 option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'" >'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].NameEng+'</option>')
-    .val(''+selected).trigger('change');
+                                .val(''+selected).trigger('change');
     }
     });
     }

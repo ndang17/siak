@@ -44,6 +44,12 @@
                     Jadwal
                 </a>
             </li>
+<!--            <li class="">-->
+<!--                <a href="#">-->
+<!--                    <i class="fa fa-refresh"></i>-->
+<!--                    Kelas Pengganti-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="">
                 <a href="#">
                     <i class="fa fa-tasks"></i>
@@ -70,8 +76,8 @@
             </li>
             <li class="">
                 <a href="#">
-                    <i class="fa fa-refresh"></i>
-                    Kelas Pengganti
+                    <i class="fa fa-random"></i>
+                    Semester Antara
                 </a>
             </li>
             <li class="">

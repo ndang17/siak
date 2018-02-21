@@ -40,7 +40,6 @@ class C_database extends MY_Controller {
 
     public function students()
     {
-
         $content = $this->load->view('page/database/students','',true);
         $this->temp($content);
     }
@@ -50,6 +49,13 @@ class C_database extends MY_Controller {
 
         $content = $this->load->view('page/database/employees','',true);
         $this->temp($content);
+    }
+
+
+    // Modal Show Detail Mahasiswa
+    public function showStudent(){
+        $data['token'] = $this->input->post('token');
+        $this->load->view('page/database/modal/modal_detail_student',$data);
     }
 
 
