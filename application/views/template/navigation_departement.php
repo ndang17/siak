@@ -38,7 +38,7 @@
                     <span class="title">Finance</span>
                 </a>
             </li>
-            <li class="departement1 <?php if($departement=='human-resources'){echo 'current';} ?>"
+            <li class="departement <?php if($departement=='human-resources'){echo 'current';} ?>"
                 division="13"
                 data-dpt="human-resources">
                 <a href="javascript:void(0);">

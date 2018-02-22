@@ -179,4 +179,13 @@ class C_login extends CI_Controller {
     }
 
 
+    public function genratePassword2($NIP,$Password){
+
+        $plan_password = $NIP.''.$Password;
+        $pas = md5($plan_password);
+        $pass = sha1('jksdhf832746aiH{}{()&(*&(*'.$pas.'HdfevgyDDw{}{}{;;*766&*&*');
+
+        print_r($pass);
+    }
+
 }
