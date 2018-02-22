@@ -333,7 +333,7 @@
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw"></i>');
         $(''+element).prop('disabled',true);
     }
-    
+
     function convertDateMMtomm(mounth) {
         var arr_mounth = {
             'January': 0,
@@ -360,18 +360,18 @@
     function log(data) {
         console.log(data);
     }
-    
+
     function loadSelectOptionProgramCampus(element,selected) {
         var url = base_url_js+'api/__crudProgramCampus';
         var token = jwt_encode({action:'read'},'UAP)(*');
         $.post(url,{token:token},function (data_json) {
-           if(data_json.length>0){
-               var option = $(element);
-               for(var i=0;i<data_json.length;i++){
-                   selected = (selected==data_json[i].ID) ? 'selected' : '';
-                   option.append('<option value="'+data_json[i].ID+'" '+selected+'>'+data_json[i].Name+'</option>');
-               }
-           }
+            if(data_json.length>0){
+                var option = $(element);
+                for(var i=0;i<data_json.length;i++){
+                    selected = (selected==data_json[i].ID) ? 'selected' : '';
+                    option.append('<option value="'+data_json[i].ID+'" '+selected+'>'+data_json[i].Name+'</option>');
+                }
+            }
         });
     }
 
@@ -413,7 +413,7 @@
         }
 
     });
-    
+
     function loadSelectOptionAllMataKuliah(element) {
 
         var url = base_url_js+'api/__getAllMK';
@@ -449,9 +449,9 @@
 
             for(var i=0;i<data.length;i++){
                 option.append('<option value="'+data[i].ID+'.'+data[i].MKCode+'" >'+data[i].Code+' | '+data[i].MKCode+' - '+data[i].NameEng+'</option>')
-                                .val(''+selected).trigger('change');
-    }
-    });
+                    .val(''+selected).trigger('change');
+            }
+        });
     }
 
     function loadSelectOptionLecturersSingle(element,selected) {
@@ -529,7 +529,7 @@
 
         });
     }
-    
+
     function loSelectOptionSemester(element,selected) {
         var url = base_url_js+'api/__crudSemester';
         var token = jwt_encode({action:'read',order:'DESC'},'UAP)(*');
@@ -564,7 +564,7 @@
             val += 1;
         }
     }
-    
+
 
     // function ModalConfirm(description) {
     //     $('#NotificationModal .modal-body').html('<div style="text-align:center;"><strong>'+description+'</strong> ' +
