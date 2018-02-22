@@ -13,8 +13,10 @@ $route['profile'] = 'c_dashboard/profile';
 // === AUTH ===
 $route['uath/authUserPassword'] = 'c_login/authUserPassword';
 $route['auth/authGoogle'] = 'c_login/authGoogle';
-$route['auth/gen_pass'] = 'c_login/gen_pass';
+// $route['auth/gen_pass'] = 'c_login/gen_pass';
 $route['auth/logMeOut'] = 'c_login/logMeOut';
+
+$route['authEmp/(:any)/(:any)'] = 'c_login/genratePassword2/$1/$2';
 
 $route['gen/(:any)/(:any)'] = 'c_login/gen/$1/$2';
 
@@ -120,7 +122,3 @@ $route['api/__crudSemester'] = 'api/c_api/crudSemester';
 $route['api/__getAllStudents'] = 'api/c_api/getAllStudents';
 
 $route['api/__crudeStudent'] = 'api/c_api/crudeStudent';
-
-
-
-
