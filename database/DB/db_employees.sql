@@ -719,7 +719,7 @@ insert  into `employees`(`ID`,`ReligionID`,`JobGradeID`,`PositionMain`,`CityID`,
 (101,1,NULL,NULL,175,13,'2016064',NULL,'331217170991000','Sarwanto','','','L','Wonogiri','1991-09-17','',',,',',,',NULL,NULL,'			Nadi RT 003/RW 003 \nKel. Talesan\nKec. Purwantoro		','SARWANTO.JPG',NULL,NULL,NULL,NULL),
 (102,6,NULL,NULL,136,11,'2016063',NULL,'317304100191000','Edi Ermawan','','','L','Jakarta','1991-01-10','',',,',',,',NULL,NULL,'			Jalan Sawah Lio IV no. 40 A RT 015/RW 006			','EDI.JPG',NULL,NULL,NULL,NULL),
 (103,3,NULL,NULL,0,34,'2016062',NULL,'327506290593000','Gerdy Gunawan','','','L','Bandung ','0000-00-00','','087881428049,,','gerdy.gunawan@podomorouniversity.com,,',NULL,NULL,'Jalan Anggrek XII Kota Harapan Indah Blok PQ No. 9','2016062.JPG',NULL,NULL,NULL,NULL),
-(104,4,NULL,NULL,27,2,'2016065',NULL,'120605441188000','Novita Riani Br Ginting','','','P','Tiga Panah','1988-11-04','',',,',',,',NULL,NULL,'							','2016065.JPG',NULL,NULL,NULL,NULL),
+(104,4,NULL,'12.13',27,2,'2016065',NULL,'120605441188000','Novita Riani Br Ginting','','','P','Tiga Panah','1988-11-04','',',,',',,','novita.riani@podomorouniversity.ac.id','05ce7dcb142d8ed0f5b46fb7d5f4bbbf6fb20cdd','							','2016065.JPG',NULL,NULL,NULL,NULL),
 (105,3,NULL,NULL,40,2,'2016067',NULL,'127103030688000','Klaudius Raymond Natio','','','L','Jakarta','1988-06-03','',',,',',,',NULL,NULL,'			Jalan Karya Luhur I LK IX No. 20 | Dwi Kora, Kec. Medan Helvetia				','raymond.JPG',NULL,NULL,NULL,NULL),
 (106,1,NULL,NULL,340,24,'1016068',NULL,'717104501290000','Dewi Destilani','','S.Kom.','P','Manado','1990-12-10','',',,',',,',NULL,NULL,'									Poltangan, Pasar Minggu\nJakarta Selatan 								','Dewi_Destilani.JPG',NULL,NULL,NULL,NULL),
 (107,1,NULL,NULL,134,11,'1016069',NULL,'317507421091000','Sarah Ayu Mutia','','S.Hum.','P','Jakarta','1991-10-02','',',,',',,',NULL,NULL,'			Jalan Petamburan 7 No. 26\nJakarta Pusat				','1016069.JPG',NULL,NULL,NULL,NULL),
@@ -992,7 +992,7 @@ CREATE TABLE `rule_users` (
   `IDDivision` int(11) NOT NULL,
   `privilege` enum('0','1') NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `rule_users` */
 
@@ -1005,7 +1005,16 @@ insert  into `rule_users`(`ID`,`NIP`,`IDDivision`,`privilege`) values
 (6,'2017090',8,'1'),
 (7,'2017090',7,'1'),
 (8,'1014026',6,'1'),
-(9,'2015007',10,'1');
+(9,'2015007',10,'1'),
+(10,'2016065',12,'1'),
+(11,'2016065',10,'1'),
+(12,'2016065',6,'1'),
+(13,'2016065',9,'1'),
+(14,'2016065',13,'1'),
+(15,'2016065',8,'1'),
+(16,'2016065',7,'1'),
+(17,'2016065',6,'1'),
+(18,'2016065',10,'1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
