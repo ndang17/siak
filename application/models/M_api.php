@@ -268,14 +268,16 @@ class M_api extends CI_Model {
     public function getSchedule($DayID,$dataWhere){
 
         $data = $this->db->query('SELECT s.*,
+                                          ses.*,
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng,
                                           em.Name AS Lecturer,
                                           cl.Room                                   
                                           FROM db_academic.schedule s 
                                               LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
-                                              LEFT JOIN db_employees.employees em ON (em.NIP = s.NIP)
-                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = s.ClassroomID)
-                                              WHERE s.DayID = "'.$DayID.'" ');
+                                              LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
+                                              LEFT JOIN db_academic.schedule_sesi ses ON (ses.ScheduleID = s.ID)
+                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = ses.ClassroomID)
+                                              WHERE ses.DayID = "'.$DayID.'" ');
 
         $result = $data->result_array();
 
@@ -370,6 +372,16 @@ class M_api extends CI_Model {
                                       JOIN db_academic.auth_students au ON (s.NPM = au.NPM)
                                       WHERE s.NPM = "'.$NPM.'" LIMIT 1');
 
+        return $data->result_array();
+    }
+
+    public function __checkClassGroup($ProgramsCampusID,$SemesterID,$ProdiCode){
+
+        $data = $this->db->query('SELECT * FROM db_academic.schedule_class_group 
+                                            WHERE ProgramsCampusID = "'.$ProgramsCampusID.'" AND
+                                            SemesterID = "'.$SemesterID.'" AND
+                                            ProdiCode = "'.$ProdiCode.'"
+                                             ');
         return $data->result_array();
     }
 

@@ -526,6 +526,24 @@ class C_api extends CI_Controller {
 
     }
 
+    public function getClassGroup(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $data = $this->m_api->__checkClassGroup(
+            $data_arr['ProgramsCampusID'],
+            $data_arr['SemesterID'],
+            $data_arr['ProdiCode']
+            );
+
+        $result = array(
+            'Group' => $data_arr['ProdiCode'].'-'.(count($data)+1)
+        );
+
+        return print_r(json_encode($result));
+    }
+
 
 
 }

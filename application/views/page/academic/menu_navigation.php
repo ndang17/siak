@@ -32,6 +32,12 @@
                     Ketersediaan Dosen
                 </a>
             </li>
+            <li class="<?php if($this->uri->segment(2)=='reference'){echo "current";} ?>">
+                <a href="<?php echo base_url('academic/reference'); ?>">
+                    <i class="fa fa-external-link-square"></i>
+                    Reference
+                </a>
+            </li>
 
         </ul>
         <div class="sidebar-title">

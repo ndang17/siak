@@ -78,7 +78,7 @@
         loading_page('#dataPage');
         var data = {
             page : page
-        }
+        };
 
         var token = jwt_encode(data,"UAP)(*");
         var url = base_url_js+'academic/__setPageJadwal';

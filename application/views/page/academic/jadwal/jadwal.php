@@ -196,6 +196,8 @@
 
                     });
                 }
+            } else {
+                div.append('<h1>Data Kosong</h1>');
             }
 
         });

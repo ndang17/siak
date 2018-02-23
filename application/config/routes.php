@@ -60,6 +60,9 @@ $route['academic/ModalKetersediaanDosen'] = 'page/academic/c_akademik/Modal_Kete
 
 $route['academic/jadwal'] = 'page/academic/c_jadwal';
 
+
+$route['academic/reference'] = 'page/academic/C_reference';
+
 $route['academic/__setPageJadwal'] = 'page/academic/c_jadwal/setPageJadwal';
 
 // --- Modal Academic ----
@@ -122,3 +125,4 @@ $route['api/__crudSemester'] = 'api/c_api/crudSemester';
 $route['api/__getAllStudents'] = 'api/c_api/getAllStudents';
 
 $route['api/__crudeStudent'] = 'api/c_api/crudeStudent';
+$route['api/__getClassGroup'] = 'api/c_api/getClassGroup';
