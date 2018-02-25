@@ -126,3 +126,5 @@ $route['api/__getAllStudents'] = 'api/c_api/getAllStudents';
 
 $route['api/__crudeStudent'] = 'api/c_api/crudeStudent';
 $route['api/__getClassGroup'] = 'api/c_api/getClassGroup';
+
+$route['api/__crudClassroom'] = 'api/c_api/crudClassroom';

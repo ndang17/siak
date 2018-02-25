@@ -522,8 +522,6 @@ class C_api extends CI_Controller {
 
             }
         }
-
-
     }
 
     public function getClassGroup(){
@@ -542,6 +540,40 @@ class C_api extends CI_Controller {
         );
 
         return print_r(json_encode($result));
+    }
+
+    public function crudClassroom(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0) {
+            if($data_arr['action'] == 'read') {
+                $data = $this->m_api->__getAllClassRoom();
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action'] == 'add'){
+                $formData = (array) $data_arr['formData'];
+                $this->db->insert('db_academic.classroom',$formData);
+                $insert_id = $this->db->insert_id();
+                return print_r($insert_id);
+            }
+            else if($data_arr['action'] == 'edit'){
+                $formData = (array) $data_arr['formData'];
+                $ID = $data_arr['ID'];
+                $this->db->where('ID', $ID);
+                $this->db->update('db_academic.classroom',$formData);
+                return print_r($ID);
+            }
+            else if($data_arr['action'] == 'delete'){
+                $ID = $data_arr['ID'];
+                $this->db->where('ID', $ID);
+                $this->db->delete('db_academic.classroom');
+                return print_r($ID);
+            }
+
+        }
+
     }
 
 

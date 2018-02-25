@@ -31,7 +31,8 @@
 				<!--=== Page Content ===-->
 				<?php echo $content; ?>
 
-                <div style="position: absolute;right: 0;
+                <div style="position: absolute;
+                    right: 0;
                   bottom: -50px;
                   left: 0;text-align: center;">
                     <div class="row">

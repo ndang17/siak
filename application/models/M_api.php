@@ -385,6 +385,11 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __getAllClassRoom(){
+        $data = $this->db->query('SELECT * FROM db_academic.classroom');
+        return $data->result_array();
+    }
+
 
 
 

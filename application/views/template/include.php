@@ -514,8 +514,9 @@
     }
 
     function loadSelectOptionClassroom(element,selected){
-        var url = base_url_js+'academic/kurikulum/getClassroom';
-        var token = jwt_encode({action:'read_json'},'UAP)(*');
+        // var url = base_url_js+'academic/kurikulum/getClassroom';
+        var url = base_url_js+'api/__crudClassroom';
+        var token = jwt_encode({action:'read'},'UAP)(*');
 
         var option = $(''+element);
         $.post(url,{token:token},function (data_json) {
@@ -523,7 +524,7 @@
 
                 for(var i=0;i<data_json.length;i++){
                     var selec = (selected==data_json[i].ID) ? 'selected' : '';
-                    option.append('<option value="'+data_json[i].ID+'" '+selec+'>Room : '+data_json[i].Room+' | Qty : '+data_json[i].Quantities+'</option>');
+                    option.append('<option value="'+data_json[i].ID+'" '+selec+'>'+data_json[i].Room+' | Seat : '+data_json[i].Seat+'</option>');
                 }
             }
 
@@ -620,5 +621,14 @@
                 'backdrop' : 'static'
             });
         });
+    }
+
+    function errorInput(element) {
+        $(element).css('border','1px solid red');
+        setTimeout(function () {
+            $(element).css('border','1px solid #cccccc');
+        },5000);
+
+        return false;
     }
 </script>

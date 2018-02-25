@@ -456,14 +456,81 @@
 
     $('#addClassRoom').click(function () {
         $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-            '<h4 class="modal-title">Announcement</h4>');
-        $('#GlobalModal .modal-body').html('Announcement');
-        $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-            '<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o right-margin" aria-hidden="true"></i> Publish</button>');
+            '<h4 class="modal-title">Classroom</h4>');
+        $('#GlobalModal .modal-body').html('<div class="row">' +
+            '                            <div class="col-xs-4">' +
+            '                                <label>Room</label>' +
+            '                                <input type="text" class="form-control" id="formRoom">' +
+            '                            </div>' +
+            '                            <div class="col-xs-4">' +
+            '                                <label>Seat</label>' +
+            '                                <input type="number" class="form-control" id="formSeat">' +
+            '                            </div>' +
+            '                            <div class="col-xs-4">' +
+            '                                <label>Seat For Exam</label>' +
+            '                                <input type="number" class="form-control" id="formSeatForExam">' +
+            '                            </div>' +
+            '                        </div>');
+        $('#GlobalModal .modal-footer').html('<button type="button" id="btnCloseClassroom" class="btn btn-default" data-dismiss="modal">Close</button>' +
+            '<button type="button" class="btn btn-success" id="btnSaveClassroom">Save</button>');
         $('#GlobalModal').modal({
             'show' : true,
             'backdrop' : 'static'
         });
+    });
+
+    $(document).on('click','#btnSaveClassroom',function () {
+
+        var action = $(this).attr('data-action');
+        var ID = $(this).attr('data-id');
+
+        var process = true;
+
+        var Room = $('#formRoom').val(); process = (Room=='') ? errorInput('#formRoom') : true ;
+        var Seat = $('#formSeat').val(); process = (Seat!='' && $.isNumeric(Seat) && Math.floor(Seat)==Seat) ? true : errorInput('#formSeat') ;
+        var SeatForExam = $('#formSeatForExam').val(); process = (SeatForExam!='' && $.isNumeric(SeatForExam) && Math.floor(SeatForExam)==SeatForExam) ? true : errorInput('#formSeatForExam') ;
+
+
+        if(process){
+            $('#formRoom,#formSeat,#formSeatForExam,#btnCloseClassroom').prop('disabled',true);
+            loading_button('#btnSaveClassroom');
+            loading_page('#viewClassroom');
+
+            var data = {
+                action : action,
+                ID : ID,
+                formData : {
+                    Room : Room,
+                    Seat : Seat,
+                    SeatForExam : SeatForExam,
+                    Status : 0,
+                    UpdateBy : sessionNIP,
+                    UpdateAt : dateTimeNow()
+                }
+            };
+
+            var token = jwt_encode(data,'UAP)(*');
+            var url = base_url_js+"api/__crudClassroom";
+
+            $.post(url,{token:token},function (insertID) {
+
+                loadDataClassroom();
+
+                setTimeout(function () {
+                    $('#formRoom,#formSeat,#formSeatForExam,#btnCloseClassroom').prop('disabled',false);
+                    $('#btnSaveClassroom').prop('disabled',false).html('Save');
+                    toastr.success('Data tersimpan','Success!');
+                },1000);
+
+                // $('#dataClassroom').html('<tr><td></td></tr>');
+                // setTimeout(function () {
+                //     loadDataClassroom();
+                // },1000);
+                // loadDataClassroom();
+            });
+        } else {
+            toastr.error('Form Required','Error!');
+        }
     });
 
     function setGroupClass() {
