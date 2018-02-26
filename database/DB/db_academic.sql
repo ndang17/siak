@@ -2060,38 +2060,30 @@ DROP TABLE IF EXISTS `grade`;
 
 CREATE TABLE `grade` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `CurriculumID` int(11) DEFAULT NULL,
   `Grade` varchar(45) DEFAULT NULL,
-  `StartRange` decimal(10,0) DEFAULT NULL,
-  `EndRange` decimal(10,0) DEFAULT NULL,
+  `Score` float(5,2) DEFAULT NULL,
+  `StartRange` float(5,2) DEFAULT NULL,
+  `EndRange` float(5,2) DEFAULT NULL,
+  `Description` varchar(45) DEFAULT NULL,
+  `DescriptionEng` varchar(45) DEFAULT NULL,
+  `Status` enum('0','1') DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   `UpdateBy` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 /*Data for the table `grade` */
 
-insert  into `grade`(`ID`,`CurriculumID`,`Grade`,`StartRange`,`EndRange`,`UpdateAt`,`UpdateBy`) values 
-(1,1,'A',100,85,'2016-10-01 14:00:13','2017090'),
-(2,1,'B',84,75,'2016-10-01 14:00:13','2017090'),
-(3,1,'C',74,65,'2016-10-01 14:00:13','2017090'),
-(4,1,'D',64,55,'2016-10-01 14:00:13','2017090'),
-(5,1,'E',54,0,'2016-10-01 14:00:13','2017090'),
-(6,2,'A',100,85,'2016-10-01 14:00:13','2017090'),
-(7,2,'B',84,75,'2016-10-01 14:00:13','2017090'),
-(8,2,'C',74,65,'2016-10-01 14:00:13','2017090'),
-(9,2,'D',64,55,'2016-10-01 14:00:13','2017090'),
-(10,2,'E',54,0,'2016-10-01 14:00:13','2017090'),
-(11,3,'A',100,85,'2016-10-01 14:00:13','2017090'),
-(12,3,'B',84,75,'2016-10-01 14:00:13','2017090'),
-(13,3,'C',74,65,'2016-10-01 14:00:13','2017090'),
-(14,3,'D',64,55,'2016-10-01 14:00:13','2017090'),
-(15,3,'E',54,0,'2016-10-01 14:00:13','2017090'),
-(16,4,'A',100,85,'2016-10-01 14:00:13','2017090'),
-(17,4,'B',84,75,'2016-10-01 14:00:13','2017090'),
-(18,4,'C',74,65,'2016-10-01 14:00:13','2017090'),
-(19,4,'D',64,55,'2016-10-01 14:00:13','2017090'),
-(20,4,'E',54,0,'2016-10-01 14:00:13','2017090');
+insert  into `grade`(`ID`,`Grade`,`Score`,`StartRange`,`EndRange`,`Description`,`DescriptionEng`,`Status`,`UpdateAt`,`UpdateBy`) values 
+(1,'A',4.00,85.00,100.00,'Sangat Baik','Very Good','1',NULL,NULL),
+(2,'A-',3.70,80.00,84.99,'Sangat Baik','Very Good','1',NULL,NULL),
+(3,'B+',3.30,75.00,79.99,'Baik','Good','1',NULL,NULL),
+(4,'B',3.00,70.00,74.99,'Baik','Good','1',NULL,NULL),
+(5,'B-',2.70,65.00,69.99,'Baik','Good','1',NULL,NULL),
+(6,'C+',2.30,60.00,64.99,'Cukup','Enough','1',NULL,NULL),
+(7,'C',2.00,56.00,59.99,'Cukup','Enough','1',NULL,NULL),
+(8,'D',1.00,40.00,55.99,'Kurang','Less','0',NULL,NULL),
+(9,'E',0.00,0.00,39.99,'Sangat Kurang','Very Less','0',NULL,NULL);
 
 /*Table structure for table `lecturers_availability` */
 
@@ -2932,12 +2924,13 @@ CREATE TABLE `time_per_credits` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `time_per_credits` */
 
 insert  into `time_per_credits`(`ID`,`Time`,`UpdateBy`,`UpdateAt`) values 
-(1,50,'2017090','2018-01-28 10:00:00');
+(3,25,'2017090','2018-02-26 15:10:54'),
+(8,50,'2017090','2018-02-26 16:51:29');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

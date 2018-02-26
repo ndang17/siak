@@ -529,8 +529,6 @@
                 .minutes(expSesi[1])
                 .add(parseInt(totalTime), 'minute').format('HH:mm');
 
-            console.log(sesiAkhir);
-
             $('#formSesiAkhir'+dg).val(sesiAkhir);
         }
     }

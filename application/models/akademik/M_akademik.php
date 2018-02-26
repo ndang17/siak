@@ -29,17 +29,6 @@ class M_akademik extends CI_Model {
         return $data->result_array();
     }
 
-    public function getdataClassroom(){
-        $data = $this->db->query('SELECT * FROM db_academic.classroom');
-        return $data->result_array();
-    }
-
-    public function cekClassroom($room){
-        $data = $this->db->query('SELECT * FROM db_academic.classroom WHERE Room LIKE "'.$room.'" LIMIT 1 ');
-
-        return $data->result_array();
-    }
-
 
     public function getSelectOptionClassGroup(){
         $data = $this->db->query('SELECT ID,Name AS ProdiName FROM db_academic.program_study')
@@ -70,11 +59,5 @@ class M_akademik extends CI_Model {
         return $data->result_array();
     }
 
-    public function getSelectOptionClassroom(){
-
-        $data = $this->db->query('SELECT * FROM db_academic.classroom');
-
-        return $data->result_array();
-    }
 
 }

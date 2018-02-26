@@ -38,7 +38,7 @@ $route['academic/kurikulum/loadPageDetailMataKuliah'] = 'page/academic/c_kurikul
 
 $route['academic/kurikulum/data-conf'] = 'page/academic/c_kurikulum/getDataConf';
 $route['academic/kurikulum/getClassGroup'] = 'page/academic/c_kurikulum/getClassGroup';
-$route['academic/kurikulum/getClassroom'] = 'page/academic/c_kurikulum/getClassroom';
+//$route['academic/kurikulum/getClassroom'] = 'page/academic/c_kurikulum/getClassroom';
 
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
@@ -128,3 +128,7 @@ $route['api/__crudeStudent'] = 'api/c_api/crudeStudent';
 $route['api/__getClassGroup'] = 'api/c_api/getClassGroup';
 
 $route['api/__crudClassroom'] = 'api/c_api/crudClassroom';
+$route['api/__crudGrade'] = 'api/c_api/crudGrade';
+$route['api/__crudTimePerCredit'] = 'api/c_api/crudTimePerCredit';
+
+

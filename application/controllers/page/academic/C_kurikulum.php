@@ -128,62 +128,6 @@ class C_kurikulum extends MY_Controller {
 
     }
 
-    public function getClassroom(){
-        $token = $this->input->post('token');
-        $key = "UAP)(*";
-        $data_arr = (array) $this->jwt->decode($token,$key);
-
-        $data['department'] = parent::__getDepartement();
-
-        if($data_arr['action']=='read'){
-            $data ['btnAction'] = ($data_arr['options']=='disabledBtnAction') ? 'disabled' : '';
-            $data['dataClassroom'] = $this->m_akademik->getdataClassroom();
-            $this->load->view('page/'.$data['department'].'/kurikulum/modal_classroom',$data);
-        } else if($data_arr['action']=='add') {
-            $dataForm = (array) $data_arr['dataForm'];
-            $cekRoom = $this->m_akademik->cekClassroom($dataForm['Room']);
-
-            if(count($cekRoom)>0){
-                return 0;
-            } else {
-                $this->db->insert('db_academic.classroom',$dataForm);
-                $insert_id = $this->db->insert_id();
-
-                return print_r($insert_id);
-            }
-
-        } else if($data_arr['action']=='delete') {
-            $this->db->where('ID', $data_arr['ID']);
-            $this->db->delete('db_academic.classroom');
-            return print_r(1);
-        } else if($data_arr['action']=='edit'){
-            $dataForm = (array) $data_arr['dataForm'];
-            $cekRoom = $this->m_akademik->cekClassroom($dataForm['Room']);
-
-            if(count($cekRoom)>0){
-                if($cekRoom[0]['Room']==$data_arr['RoomBefore']) {
-                    $this->db->where('ID', $data_arr['ID']);
-                    $this->db->update('db_academic.classroom',$dataForm);
-                    return print_r(1);
-                } else {
-                    return 0;
-                }
-
-            } else {
-                $this->db->where('ID', $data_arr['ID']);
-                $this->db->update('db_academic.classroom',$dataForm);
-                return print_r(1);
-            }
-
-
-        } else if($data_arr['action']=='read_json'){
-            header('Content-Type: application/json');
-            $data['dataClassroom'] = $this->m_akademik->getSelectOptionClassroom();
-            return print_r(json_encode($data['dataClassroom']));
-        }
-    }
-
-
 
     public function kurikulum_detail2(){
         $data_json = $this->input->post('data_json');

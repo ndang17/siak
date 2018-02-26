@@ -24,25 +24,6 @@ class C_api extends CI_Controller {
 
 
 
-    // ========= API =========
-//    public function getKurikulumByYear2(){
-//
-//        $year = $this->input->get('year');
-//
-//        $data['detail'] = $this->m_api->__getKurikulumByYear($year);
-//
-//        $result = null;
-//
-//        if($data['detail']!=null){
-//            $data['grade'] = $this->m_api->__getGradeByIDKurikulum($data['detail'][0]['ID']);
-//            $data['mk'] = $this->m_api->__getMataKuliahByIDKurikulum($data['detail'][0]['ID']);
-//            $result = $data;
-//        }
-//
-//
-//        return print_r(json_encode($result));
-//    }
-
     public function getKurikulumByYear(){
 
 //        $year = $this->input->get('year');
@@ -554,16 +535,38 @@ class C_api extends CI_Controller {
             }
             else if($data_arr['action'] == 'add'){
                 $formData = (array) $data_arr['formData'];
-                $this->db->insert('db_academic.classroom',$formData);
-                $insert_id = $this->db->insert_id();
-                return print_r($insert_id);
+
+                // Cek Apakah ruangan sudah di input
+                $this->db->where('Room', $formData['Room']);
+                $room = $this->db->get('db_academic.classroom')->result_array();
+
+
+                if(count($room)>0){
+                    $result = array(
+                        'inserID' => 0
+                    );
+                } else {
+                    $this->db->insert('db_academic.classroom',$formData);
+                    $insert_id = $this->db->insert_id();
+                    $result = array(
+                        'inserID' => $insert_id
+                    );
+                }
+
+                return print_r(json_encode($result));
             }
             else if($data_arr['action'] == 'edit'){
                 $formData = (array) $data_arr['formData'];
+
                 $ID = $data_arr['ID'];
                 $this->db->where('ID', $ID);
                 $this->db->update('db_academic.classroom',$formData);
-                return print_r($ID);
+                $result = array(
+                    'inserID' => $ID
+                );
+
+                return print_r(json_encode($result));
+
             }
             else if($data_arr['action'] == 'delete'){
                 $ID = $data_arr['ID'];
@@ -574,6 +577,110 @@ class C_api extends CI_Controller {
 
         }
 
+    }
+
+    public function crudGrade(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0) {
+            if($data_arr['action'] == 'read') {
+                $data = $this->m_api->__getAllGrade();
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action']=='add'){
+                $formData = (array) $data_arr['formData'];
+                // Cek grade
+                $this->db->where('Grade', $formData['Grade']);
+                $grade = $this->db->get('db_academic.grade')->result_array();
+
+                if(count($grade)>0){
+                    $result = array(
+                        'inserID' => 0
+                    );
+                } else {
+                    $this->db->insert('db_academic.grade',$formData);
+                    $insert_id = $this->db->insert_id();
+                    $result = array(
+                        'inserID' => $insert_id
+                    );
+                }
+
+                return print_r(json_encode($result));
+            }
+            else if($data_arr['action']=='edit'){
+                $formData = (array) $data_arr['formData'];
+                // Cek grade
+                $ID = $data_arr['ID'];
+                $this->db->where('ID', $ID);
+                $this->db->update('db_academic.grade',$formData);
+                $result = array(
+                    'inserID' => $ID
+                );
+
+                return print_r(json_encode($result));
+
+            }
+            else if($data_arr['action'] == 'delete'){
+                $ID = $data_arr['ID'];
+                $this->db->where('ID', $ID);
+                $this->db->delete('db_academic.grade');
+                return print_r($ID);
+            }
+        }
+    }
+
+    public function crudTimePerCredit(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0) {
+            if($data_arr['action'] == 'read') {
+                $data = $this->m_api->__getAllTimePerCredit();
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action'] == 'add'){
+                $formData = (array) $data_arr['formData'];
+                // Cek Time
+                $this->db->where('Time', $formData['Time']);
+                $time = $this->db->get('db_academic.time_per_credits')->result_array();
+
+                if(count($time)>0){
+                    $result = array(
+                        'inserID' => 0
+                    );
+                } else {
+                    $this->db->insert('db_academic.time_per_credits',$formData);
+                    $insert_id = $this->db->insert_id();
+                    $result = array(
+                        'inserID' => $insert_id
+                    );
+                }
+
+                return print_r(json_encode($result));
+            }
+            else if($data_arr['action'] == 'delete') {
+                $time = $this->db->get('db_academic.time_per_credits')->result_array();
+
+                if(count($time)>1){
+                    $ID = $data_arr['ID'];
+                    $this->db->where('ID', $ID);
+                    $this->db->delete('db_academic.time_per_credits');
+                    $result = array(
+                        'inserID' => $ID
+                    );
+
+                } else {
+                    $result = array(
+                        'inserID' => 0
+                    );
+
+                }
+                return print_r(json_encode($result));
+            }
+        }
     }
 
 

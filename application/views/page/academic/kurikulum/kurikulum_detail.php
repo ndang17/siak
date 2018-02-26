@@ -13,66 +13,13 @@
     <div class="tabbable tabbable-custom tabbable-full-width">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_mata_kuliah" data-toggle="tab">Mata Kuliah</a></li>
-            <li><a href="#tab_grade" data-toggle="tab">Grade & Bobot</a></li>
-            <li><a href="#tab_detail_kurikulum" data-toggle="tab">Detail Kurikulum</a></li>
         </ul>
         <div class="tab-content row">
             <!--=== Overview ===-->
             <div class="tab-pane active" id="tab_mata_kuliah">
-<!--                <div class="col-md-12" style="text-align: center;margin-bottom: 20px;">-->
-<!--                    <div class="btn-group">-->
-<!--                        <button type="button" class="btn btn-default btn-default-success btn-addsmt">Add Semester</button>-->
-<!--                        <button type="button" class="btn btn-default btn-default-success btn-addsmt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                            <span class="caret"></span>-->
-<!--                            <span class="sr-only">Toggle Dropdown</span>-->
-<!--                        </button>-->
-<!--                        <ul class="dropdown-menu" id="addSmt">-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
+
                 <div id="DataMataKuliah"></div>
             </div>
-            <div class="tab-pane" id="tab_grade">
-                <div class="col-md-6">
-                    <div class="widget box">
-                        <div class="widget-header">
-                            <h4><i class="icon-reorder"></i> Grade</h4>
-                        </div>
-                        <div class="widget-content no-padding">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th class="th-center">Value</th>
-                                    <th class="th-center" style="width: 20%;">Start</th>
-                                    <th class="th-center" style="width: 20%;">End</th>
-                                </tr>
-                                </thead>
-                                <tbody id="dataGrade"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="widget box">
-                        <div class="widget-header">
-                            <h4><i class="icon-reorder"></i> Bobot</h4>
-                        </div>
-                        <div class="widget-content no-padding">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th class="th-center">Value</th>
-                                    <th class="th-center" style="width: 20%;">Start</th>
-                                    <th class="th-center" style="width: 20%;">End</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="tab_detail_kurikulum"></div>
-
         </div>
     </div>
 </div>
@@ -88,11 +35,7 @@
         $.post(url,{token:token},function (data_json) {
             allSmt = [];
 
-            console.log(data_json);
-
             if(data_json!=''){
-                LoadDetailKurikulum(data_json.DetailKurikulum);
-                LoadGrade(data_json.Grade);
                 if(data_json.MataKuliah.length>0){
                     LoadDetailMK(data_json.MataKuliah);
                 } else {
@@ -191,47 +134,6 @@
 
         }
         $('.btn-addsmt').prop('disabled',false);
-    }
-
-    function LoadGrade(Grade) {
-        for(var i=0;i<Grade.length;i++){
-            $('#dataGrade').append('<tr>' +
-                '<td class="td-center">'+Grade[i].Grade+'</td>' +
-                '<td class="td-center">'+Grade[i].StartRange+'</td>' +
-                '<td class="td-center">'+Grade[i].EndRange+'</td>' +
-                '</tr>');
-        }
-    }
-
-    function LoadDetailKurikulum(DetailKurikulum) {
-        $('#tab_detail_kurikulum').append('<div class="col-md-4 col-md-offset-4">' +
-            '                    <table class="table table-striped">' +
-            '                        <tr>' +
-            '                            <td style="width: 15%;">Year</td>' +
-            '                            <td style="width: 1%;">:</td>' +
-            '                            <td>'+DetailKurikulum.Year+'</td>' +
-            '                        </tr>' +
-            '                        <tr>' +
-            '                            <td>Name</td>' +
-            '                            <td>:</td>' +
-            '                            <td>'+DetailKurikulum.Name+'</td>' +
-            '                        </tr>' +
-            '                        <tr>' +
-            '                            <td>CreateBy</td>' +
-            '                            <td>:</td>' +
-            '                            <td><b>'+DetailKurikulum.CreateByName+'</b><br/>' +
-            '                                   <i>'+moment(DetailKurikulum.CreateAt).format('LLLL')+'</i>' +
-            '                            </td>' +
-            '                        </tr>' +
-            '                        <tr>' +
-            '                            <td>UpdateBy</td>' +
-            '                            <td>:</td>' +
-            '                            <td><b>'+DetailKurikulum.UpdateByName+'</b><br/>' +
-            '                                   <i>'+moment(DetailKurikulum.UpdateAt).format('LLLL')+'</i>' +
-            '                            </td>' +
-            '                        </tr>' +
-            '                    </table>' +
-            '                </div>');
     }
 
     function LoaddataTable(element) {

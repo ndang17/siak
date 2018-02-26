@@ -4,15 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_api extends CI_Model {
 
 
-//    public function __getKurikulumByYear2($year)
-//    {
-//        $data = $this->db->query('SELECT c.*,e.Name AS UpdateByName FROM db_academic.curriculum c
-//                                            JOIN db_employees.employees e
-//                                            ON (c.UpdateBy=e.NIP) WHERE c.Year="'.$year.'" LIMIT 1');
-//
-//        return $data->result_array();
-//    }
-
     public function __getGradeByIDKurikulum($CurriculumID){
         $data = $this->db->query('SELECT * FROM db_academic.grade WHERE CurriculumID = "'.$CurriculumID.'" ');
         return $data->result_array();
@@ -75,7 +66,6 @@ class M_api extends CI_Model {
 
             // Mendapatkan Total Semester Yang ada dalam kurikulum ini
             $semester = $this->Semester($detail_kurikulum['ID']);
-            $grade = $this->Grade($detail_kurikulum['ID']);
 
             for($i=0;$i<count($semester);$i++){
                 $semester[$i]['DetailSemester'] = $this->DetailMK($detail_kurikulum['ID'],$semester[$i]['Semester'],$ProdiID);
@@ -83,7 +73,6 @@ class M_api extends CI_Model {
 
             $result = array(
                 'DetailKurikulum' => $detail_kurikulum,
-                'Grade' => $grade,
                 'MataKuliah' => $semester
             );
         } else {
@@ -115,11 +104,6 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
-    private function Grade($CurriculumID) {
-        $data = $this->db->query('SELECT g.* FROM db_academic.grade g WHERE g.CurriculumID = "'.$CurriculumID.'" ORDER BY g.Grade ASC ');
-
-        return $data->result_array();
-    }
 
     private function DetailMK($CurriculumID,$Semester,$ProdiID){
         $select = 'SELECT 
@@ -390,6 +374,15 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __getAllGrade(){
+        $data = $this->db->query('SELECT * FROM db_academic.grade ORDER BY EndRange DESC');
+        return $data->result_array();
+    }
+
+    public function __getAllTimePerCredit(){
+        $data = $this->db->query('SELECT * FROM db_academic.time_per_credits ORDER BY Time DESC');
+        return $data->result_array();
+    }
 
 
 
