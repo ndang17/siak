@@ -130,5 +130,6 @@ $route['api/__getClassGroup'] = 'api/c_api/getClassGroup';
 $route['api/__crudClassroom'] = 'api/c_api/crudClassroom';
 $route['api/__crudGrade'] = 'api/c_api/crudGrade';
 $route['api/__crudTimePerCredit'] = 'api/c_api/crudTimePerCredit';
+$route['api/__checkSchedule'] = 'api/c_api/checkSchedule';
 
 

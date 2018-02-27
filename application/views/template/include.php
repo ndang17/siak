@@ -19,6 +19,7 @@
 
 <link rel="stylesheet" href="<?php  echo base_url('assets/template/css/fontawesome/font-awesome.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/template/css/fontawesome4/css/font-awesome.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>">
 <!--[if IE 7]>
 <link rel="stylesheet" href="assets/css/fontawesome/font-awesome-ie7.min.css">
 <![endif]-->
@@ -126,9 +127,9 @@
 
     }
 
-    .dropdown-menu {
-        min-width: 100%;
-    }
+    /*.dropdown-menu {*/
+        /*min-width: 100%;*/
+    /*}*/
 
     .left-margin {
         margin-left: 5px;
@@ -251,6 +252,8 @@
 
 <!-- JWT Decode -->
 <script type="text/javascript" src="<?php echo base_url('assets/plugins/');?>jwt/decode/build/jwt-decode.min.js"></script>
+
+<script type="text/javascript" src="<?php echo base_url('assets/datetimepicker/js/bootstrap-datetimepicker.min.js');?>"></script>
 
 <!-- Custom -->
 <script type="text/javascript">

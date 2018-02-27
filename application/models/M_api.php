@@ -259,7 +259,7 @@ class M_api extends CI_Model {
                                           FROM db_academic.schedule s 
                                               LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
                                               LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
-                                              LEFT JOIN db_academic.schedule_sesi ses ON (ses.ScheduleID = s.ID)
+                                              LEFT JOIN db_academic.schedule_details ses ON (ses.ScheduleID = s.ID)
                                               LEFT JOIN db_academic.classroom cl ON (cl.ID = ses.ClassroomID)
                                               WHERE ses.DayID = "'.$DayID.'" ');
 
@@ -382,6 +382,27 @@ class M_api extends CI_Model {
     public function __getAllTimePerCredit(){
         $data = $this->db->query('SELECT * FROM db_academic.time_per_credits ORDER BY Time DESC');
         return $data->result_array();
+    }
+
+    public function __checkSchedule($dataFilter){
+//        print_r($dataFilter);
+        // Get Jadwal
+        $jadwal = $this->db->query('SELECT * FROM db_academic.schedule s
+                                              RIGHT JOIN db_academic.schedule_details sd ON (s.ID=sd.ScheduleID)   
+                                              WHERE s.SemesterID="'.$dataFilter['SemesterID'].'"
+                                              AND s.ProgramsCampusID="'.$dataFilter['ProgramsCampusID'].'"
+                                              AND sd.ClassroomID="'.$dataFilter['ClassroomID'].'" 
+                                              AND sd.DayID="'.$dataFilter['DayID'].'" 
+                                              AND (("'.$dataFilter['StartSessions'].'" >= sd.StartSessions  AND "'.$dataFilter['StartSessions'].'" <= sd.EndSessions) OR
+                                              ("'.$dataFilter['EndSessions'].'" >= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" <= sd.EndSessions)) 
+                                              ')->result_array();
+
+//        if(count($jadwal)>0){
+//            $ce
+//        }
+
+        return $jadwal;
+
     }
 
 

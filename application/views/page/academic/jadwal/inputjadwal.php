@@ -73,7 +73,8 @@
                         <option value=""></option>
                     </select>
                     <p style="margin-bottom: 0px;font-size: 10px;">
-                        Semester : <span id="textSemester">-</span> | Total SKS : <span id="textTotalSKS">-</span>
+                        Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>
+                        <input type="hide" class="hide" id="textTotalSKSMK" />
                     </p>
                 </td>
             </tr>
@@ -109,26 +110,26 @@
             </tr>
 
             <tr>
-                <td colspan="3" class="td-center">
-                    <span class="label label-warning span-sesi">--- Sesi <span id="TextNoSesi1"></span> ---</span>
+                <td colspan="3" class="td-center hide" id="subsesi1">
+                    <span class="label label-warning span-sesi">--- Sub Sesi <span id="TextNoSesi1"></span> ---</span>
                 </td>
             </tr>
             <tr>
-                <td>Ruang | Hari | SKS</td>
+                <td>Ruang | Hari | Credit</td>
                 <td>:</td>
                 <td>
                     <div class="row">
                         <div class="col-xs-5">
-                            <select class="form-control form-jadwal form-classroom" id="formClassroom1">
+                            <select class="form-control form-jadwal form-classroom" data-id="1" id="formClassroom1">
                                 <option value=""></option>
                             </select>
                             <a href="javascript:void(0)" id="addClassRoom" style="font-size:10px;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Tambah Ruangan</a>
                         </div>
                         <div class="col-xs-4">
-                            <select class="form-control form-jadwal" id="formDay1"></select>
+                            <select class="form-control form-jadwal form-day" data-id="1" id="formDay1"></select>
                         </div>
                         <div class="col-xs-3">
-                            <input class="form-control" placeholder="SKS" id="formCredit1" type="number"/>
+                            <input class="form-control form-credit" data-id="1" placeholder="Credit" id="formCredit1" type="number"/>
                         </div>
                     </div>
                 </td>
@@ -144,23 +145,26 @@
                             <a href="javascript:void(0)" id="addTimePerCredit" style="font-size:10px;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Tambah <i>Time Per Credit</i></a>
                         </div>
                         <div class="col-xs-4">
-                            <input type="time" class="form-control form-jadwal formSesiAwal form-sesiawal" id="formSesiAwal1" data-id="1" />
+                            <input type="text" readonly class="form-control form-jadwal formSesiAwal form-sesiawal" id="formSesiAwal1" data-id="1" />
                         </div>
                         <div class="col-xs-4">
                             <input type="time" class="form-control" id="formSesiAkhir1" style="color: #333;" readonly />
                         </div>
                     </div>
+                    <div id="alertBentrok1"></div>
                 </td>
             </tr>
             <tbody id="bodyAddSesi"></tbody>
         </table>
 
         <hr/>
+
         <div style="text-align: right;">
             <button class="btn btn-default btn-default-danger" id="removeNewSesi">Remove Sesi</button>
-            <button class="btn btn-default btn-default-success" data-group="1" id="addNewSesi">Add New Sesi</button>
+            <button class="btn btn-default btn-default-success" data-group="1" id="addNewSesi">Add Sub Sesi</button>
             |
             <button class="btn btn-success" id="btnSavejadwal">Save</button>
+<!--            <button class="btn btn-default" onclick="checkSchedule(1,2,'10:41:00','11:01:00')" id="cek">cek</button>-->
         </div>
     </div>
 </div>
@@ -171,6 +175,8 @@
     $(document).ready(function () {
 
         window.dataSesi = 1;
+
+
 
         $('#TextNoSesi'+dataSesi).html(dataSesi);
         $('.form-filter-jadwal').prop('disabled',true);
@@ -211,6 +217,18 @@
         $('#formBaseProdi').select2({
             allowClear: true
         });
+
+        var timeOption = {
+            format : 'hh:ii',
+            weekStart: 0,
+            todayBtn:  0,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0};
+        $("#formSesiAwal1").datetimepicker(timeOption);
     });
 
 
@@ -247,10 +265,11 @@
         var teamTeachingArray = [];
         if(TeamTeaching==1){
             var formTeamTeaching = $('#formTeamTeaching').val();
-            console.log(formTeamTeaching);
+
             if(formTeamTeaching!=null){
                 for(var t=0;t<formTeamTeaching.length;t++){
                     var dt = {
+                        ScheduleID : 0,
                         NIP :  formTeamTeaching[t],
                         Status : '0'
                     };
@@ -283,16 +302,20 @@
 
 
         // schedule_sesi ---
-        var dataSesiArray = [];
+        var textTotalSKSMK = $('#textTotalSKSMK').val();
+        var dataScheduleDetailsArray = [];
+        var totalCredit = 0;
         for(var i=1;i<=dataSesi;i++){
             var ClassroomID = $('#formClassroom'+i).val();
             var DayID = $('#formDay'+i).val();
-            var Credit = $('#formCredit'+i).val();
+            var Credit = $('#formCredit'+i).val(); if(Credit==''){process.push(0); requiredForm('#formCredit'+dataSesi);}
             var TimePerCredit = $('#formTimePerCredit'+i).val();
             var StartSessions = $('#formSesiAwal'+i).val(); if(StartSessions==''){process.push(0); requiredForm('#formSesiAwal'+dataSesi);}
             var EndSessions = $('#formSesiAkhir'+i).val();if(EndSessions==''){process.push(0); requiredForm('#formSesiAkhir'+dataSesi);}
 
+            totalCredit = parseInt(totalCredit) + parseInt(Credit);
             var arrSesi = {
+                ScheduleID : 0,
                 ClassroomID : ClassroomID,
                 Credit : Credit,
                 DayID : DayID,
@@ -301,57 +324,81 @@
                 EndSessions : EndSessions
             };
 
-            dataSesiArray.push(arrSesi);
+            dataScheduleDetailsArray.push(arrSesi);
         }
 
         if($.inArray(0,process)==-1){
-            toastr.success('Data Saved','Success!');
 
-            $('input[name=formCombinedClasses][value=0],input[name=formteamTeaching][value=0]').prop('checked',true);
-            $('#formBaseProdi,#formClassGroup,#formMataKuliah,#formCoordinator,#formTeamTeaching').select2('vall',null);
+            if(textTotalSKSMK==totalCredit){
 
-            $('#viewClassGroup,#textSemester,#textTotalSKS').text('-');
-            $('#formClassGroup,#formCredit1,#formSesiAwal1,#formSesiAkhir1').val('');
-            $('#formTeamTeaching').prop('disabled',true);
 
-            dataset =1;
-            $('#bodyAddSesi').html('');
-            return false;
+                var data = {
+                    action : 'add',
+                    ID : '',
+                    formData :
+                        {
+                            schedule : {
+                                SemesterID : SemesterID,
+                                ProgramsCampusID : ProgramsCampusID,
+                                CombinedClasses : CombinedClasses,
+                                MKID : MKID,
+                                MKCode : MKCode,
+                                ClassGroup : ClassGroup,
+                                Coordinator : Coordinator,
+                                TeamTeaching : TeamTeaching,
+                                UpdateBy : UpdateBy,
+                                UpdateAt : UpdateAt
+                            },
+                            schedule_team_teaching : {
+                                teamTeachingArray : teamTeachingArray
+                            },
+                            schedule_combinedclasses : {
+                                ProdiIDArray : ProdiIDArray
+                            },
+                            schedule_details : {
+                                dataScheduleDetailsArray : dataScheduleDetailsArray
+                            },
+                            schedule_class_group : {
+                                ScheduleID : 0,
+                                ProgramsCampusID : ProgramsCampusID,
+                                SemesterID : SemesterID,
+                                ProdiCode : ClassGroup.split('-')[0],
+                                Group : ClassGroup
+                            }
 
-            var data = {
-                action : 'add',
-                formData :
-                    {
-                        schedule : {
-                            SemesterID : SemesterID,
-                            ProgramsCampusID : ProgramsCampusID,
-                            CombinedClasses : CombinedClasses,
-                            MKID : MKID,
-                            MKCode : MKCode,
-                            ClassGroup : ClassGroup,
-                            Coordinator : Coordinator,
-                            TeamTeaching : TeamTeaching,
-                            UpdateBy : UpdateBy,
-                            UpdateAt : UpdateAt
-                        },
-                        schedule_team_teaching : {
-                            teamTeachingArray : teamTeachingArray
-                        },
-                        schedule_combinedclasses : {
-                            ProdiIDArray : ProdiIDArray
-                        },
-                        schedule_sesi : {
-                            dataSesiArray : dataSesiArray
                         }
+                };
 
-                    }
-            };
+                console.log(data);
 
-            var token = jwt_encode(data,'UAP)(*');
-            var url = base_url_js+'';
-            $.post(url,{token:token},function (jsonResult) {
+                //  toastr.success('Data Saved','Success!');
+                //
+                // $('input[name=formCombinedClasses][value=0],input[name=formteamTeaching][value=0]').prop('checked',true);
+                // // $('#formBaseProdi,#formMataKuliah,#formCoordinator,#formTeamTeaching').select2("val",null);
+                // $('#formBaseProdi').select2("val","");
+                // $('#formMataKuliah').select2("val","");
+                // $('#formCoordinator').select2("val","");
+                // $('#formTeamTeaching').select2("val","");
+                //
+                // $('#viewClassGroup,#textSemester,#textTotalSKS').text('-');
+                // $('#formClassGroup,#formCredit1,#formSesiAwal1,#formSesiAkhir1,#textTotalSKSMK').val('');
+                // $('#formTeamTeaching').prop('disabled',true);
+                //
+                // dataSesi=1;
+                // $('#subsesi1').addClass('hide');
+                // $('#bodyAddSesi').html('');
 
-            });
+                var token = jwt_encode(data,'UAP)(*');
+                var url = base_url_js+'api/__crudSchedule';
+                $.post(url,{token:token},function (jsonResult) {
+
+                });
+            } else {
+                toastr.warning('Credit Input & Total Credit Not Match','Warning!');
+                errorInput('.form-credit');
+                errorInput('.form-credit');
+            }
+
         } else {
             toastr.error('Form Required','Error');
         }
@@ -385,26 +432,27 @@
         if(newSesi){
             dataSesi = dataSesi + 1;
 
+            $('#subsesi1').removeClass('hide');
             $('#bodyAddSesi').append('<tr class="trNewSesi'+dataSesi+'">' +
                 '                <td colspan="3" class="td-center">' +
-                '                    <span class="label label-warning span-sesi">--- Sesi '+dataSesi+' ---</span>' +
+                '                    <span class="label label-warning span-sesi">--- Sub Sesi '+dataSesi+' ---</span>' +
                 '                </td>' +
                 '            </tr>' +
                 '            <tr class="trNewSesi'+dataSesi+'">' +
-                '                <td>Ruang | Hari | SKS</td>' +
+                '                <td>Ruang | Hari | Credit</td>' +
                 '                <td>:</td>' +
                 '                <td>' +
                 '                    <div class="row">' +
                 '                        <div class="col-xs-5">' +
-                '                            <select class="form-control form-jadwal form-classroom" id="formClassroom'+dataSesi+'">' +
+                '                            <select class="form-control form-jadwal form-classroom" data-id="'+dataSesi+'" id="formClassroom'+dataSesi+'">' +
                 '                                <option value=""></option>' +
                 '                            </select>' +
                 '                        </div>' +
                 '                        <div class="col-xs-4">' +
-                '                            <select class="form-control form-jadwal" id="formDay'+dataSesi+'"></select>' +
+                '                            <select class="form-control form-jadwal form-day" data-id="'+dataSesi+'" id="formDay'+dataSesi+'"></select>' +
                 '                        </div>' +
                 '                        <div class="col-xs-3">' +
-                '                            <input class="form-control" placeholder="SKS" id="formCredit'+dataSesi+'" type="number"/>' +
+                '                            <input class="form-control form-credit" data-id="'+dataSesi+'" placeholder="Credit" id="formCredit'+dataSesi+'" type="number"/>' +
                 '                        </div>' +
                 '                    </div>' +
                 '                </td>' +
@@ -435,7 +483,7 @@
             loadSelectOptionTimePerCredit('#formTimePerCredit'+dataSesi,'');
 
         } else {
-            toastr.warning('Form Sesi '+dataSesi+' Harus Diisi','Warning!');
+            toastr.warning('Form Sub Sesi '+dataSesi+' Harus Diisi','Warning!');
         }
 
     });
@@ -444,7 +492,11 @@
         if(dataSesi>1){
             $('.trNewSesi'+dataSesi).remove();
             dataSesi = dataSesi - 1;
+            if(dataSesi==1){
+                $('#subsesi1').addClass('hide');
+            }
         } else {
+            $('#subsesi1').addClass('hide');
             toastr.info('Minimal 1 sesi dalam penjadwalan','Info');
         }
 
@@ -533,28 +585,40 @@
         }
     });
 
-    $(document).on('change','.form-sesiawal,.form-timepercredit',function () {
+    $(document).on('change','.form-sesiawal,.form-timepercredit,.form-credit',function () {
         var ID = $(this).attr('data-id');
         setSesiAkhir(ID);
+        checkSchedule(ID);
+
     });
 
-    // $(document).on('change','',function () {
-    //     var ID = $(this).attr('data-id');
-    //     setSesiAkhir(ID);
-    // });
+    $(document).on('keyup','.form-sesiawal,.form-credit',function () {
+        var ID = $(this).attr('data-id');
+        setSesiAkhir(ID);
+        checkSchedule(ID);
+
+    });
+
+    // Onchange Cek kelas Bentrok
+    $(document).on('change','.form-classroom,.form-day',function () {
+        var ID = $(this).attr('data-id');
+        checkSchedule(ID);
+    });
+
 
     function setSesiAkhir(ID) {
         var TimePerCredit = $('#formTimePerCredit'+ID).val();
         var SesiAwal = $('#formSesiAwal'+ID).val();
+        var Credit = $('#formCredit'+ID).val();
 
-        if(TimePerCredit!='' && SesiAwal!=''){
+        if(TimePerCredit!='' && SesiAwal!='' && Credit!=''){
+            var totalTime = parseInt(TimePerCredit) * parseInt(Credit);
             var expSesi = SesiAwal.split(':');
             var sesiAkhir = moment()
                 .hours(expSesi[0])
                 .minutes(expSesi[1])
-                .add(parseInt(TimePerCredit), 'minute').format('HH:mm');
+                .add(parseInt(totalTime), 'minute').format('HH:mm');
 
-            console.log(sesiAkhir);
             $('#formSesiAkhir'+ID).val(sesiAkhir);
         }
     }
@@ -627,6 +691,7 @@
         $.post(url,{token:token},function (data_json) {
             $('#textSemester').html(data_json.Semester);
             $('#textTotalSKS').html(data_json.TotalSKS);
+            $('#textTotalSKSMK').val(data_json.TotalSKS);
 
             var cr = $('#formCredit1').val();
             if(dataSesi==1){
@@ -644,6 +709,52 @@
             $(element).css('border','1px solid #cccccc');
         },5000);
         return false;
+    }
+
+    function checkSchedule(ID) {
+        var SemesterID = $('#formSemesterID').val();
+        var ProgramsCampusID = $('#formProgramsCampusID').val();
+
+        var element = '#alertBentrok'+ID;
+        var ClassroomID = $('#formClassroom'+ID).val();
+        var DayID = $('#formDay'+ID).val();
+        var StartSessions = $('#formSesiAwal'+ID).val();
+        var EndSessions = $('#formSesiAkhir'+ID).val();
+
+        if(ClassroomID!='' && DayID!='' && StartSessions!='' && EndSessions!='') {
+            var data = {
+                action : 'check',
+                formData : {
+                    SemesterID : SemesterID,
+                    ProgramsCampusID : ProgramsCampusID,
+                    ClassroomID : ClassroomID,
+                    DayID : DayID,
+                    StartSessions : StartSessions,
+                    EndSessions : EndSessions
+                }
+            };
+
+            var token = jwt_encode(data,'UAP)(*');
+            var url = base_url_js+'api/__checkSchedule';
+            $.post(url,{token:token},function (json_result) {
+                $(element).html('');
+                if(json_result.length>0){
+                    $(element).append('<div class="row">' +
+                        '                        <div class="col-xs-12" style="margin-top: 20px;">' +
+                        '                            <div class="alert alert-danger" role="alert">' +
+                        '                                <b><i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right: 5px;"></i> Jadwal bentrok</b>, Silahklan rubah : Ruang / Hari / Jam' +
+                        '                                <hr style="margin-bottom: 3px;margin-top: 10px;"/>' +
+                        '                                <ul>' +
+                        '                                    <li>- Ini : <span style="color: blue;">503 | Kamis 13:00:00 - 14:00:00</span></li>' +
+                        '                                </ul>' +
+                        '                            </div>' +
+                        '                        </div>' +
+                        '' +
+                        '                    </div>');
+                }
+            });
+        }
+
     }
 </script>
 
