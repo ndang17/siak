@@ -577,6 +577,29 @@ class C_api extends CI_Controller {
         }
     }
 
+    public function crudCourseOfferings(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0) {
+            if ($data_arr['action'] == 'add') {
+                $formData = (array) $data_arr['formData'];
+
+                for($i=0;$i<count($formData);$i++){
+                    $dataInsert = (array) $formData[$i];
+                    $this->db->insert('db_academic.course_offerings',$dataInsert);
+//                    $insert_id = $this->db->insert_id();
+                }
+
+                return print_r(1);
+            }
+            else if($data_arr['action']=='read'){
+                
+            }
+        }
+    }
+
 
     public function getAllStudents(){
 

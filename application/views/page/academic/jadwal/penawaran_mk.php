@@ -1,7 +1,7 @@
 
 <style>
     .left-box, .right-box {
-        width: 46% !important;
+        width: 47% !important;
     }
 </style>
 
@@ -28,10 +28,10 @@
                         <!-- Control buttons -->
                         <div class="dual-control">
                             <button id="to2" type="button" class="btn btn-default btn-default-success"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
-                            <button id="allTo2" type="button" class="btn btn-default btn-default-success"><i class="fa fa-fast-forward" aria-hidden="true"></i></button>
+<!--                            <button id="allTo2" type="button" class="btn btn-default btn-default-success"><i class="fa fa-fast-forward" aria-hidden="true"></i></button>-->
                             <hr/>
                             <button id="to1" type="button" class="btn btn-default btn-default-danger"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
-                            <button id="allTo1" type="button" class="btn btn-default btn-default-danger"><i class="fa fa-fast-backward" aria-hidden="true"></i></button>
+<!--                            <button id="allTo1" type="button" class="btn btn-default btn-default-danger"><i class="fa fa-fast-backward" aria-hidden="true"></i></button>-->
                         </div>
                         <!--control buttons -->
 
@@ -67,6 +67,23 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-12" style="margin-bottom: 30px;">
+        <hr/>
+        <h3>List Course Offerings</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th class="th-center" style="width: 1%;">No</th>
+                <th class="th-center" style="width: 15%;">Prodi</th>
+                <th class="th-center">Course</th>
+                <th class="th-center" style="width: 5%;">Smt</th>
+                <th class="th-center" style="width: 5%;">Cdt</th>
+                <th class="th-center" style="width: 15%;">Action</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 <script>
@@ -80,8 +97,43 @@
     });
 
     $('#btnSaveMK').click(function () {
-        var box2Storage = $('#box2View').find('option').map(function() { return this.value }).get().join(",");
-        console.log(box2Storage);
+        var dataID = $('#box2View').find('option').map(function() { return this.value }).get().join(",");
+        var arrID = dataID.split(',');
+        var SemesterID = $('#formSemesterID').val();
+        var ProdiID = $('#formProdi').val();
+
+        if(ProdiID!=null && arrID.length>0){
+            var formData = [];
+            for(var i=0;i<arrID.length;i++){
+                var datainsert = {
+                    SemesterID : SemesterID,
+                    ProdiID : ProdiID,
+                    CurriculumDetailID : arrID[i],
+                    UpdateBy : sessionNIP,
+                    UpdateAt : dateTimeNow()
+                };
+
+                formData.push(datainsert);
+            }
+
+            var data = {
+                action : 'add',
+                formData : formData
+            };
+
+            var token = jwt_encode(data,'UAP)(*');
+            var url = base_url_js+'api/__crudCourseOfferings';
+            $.post(url,{token:token},function (jsonResult) {
+                // console.log(jsonResult);
+            });
+        } else {
+            toastr.error('Form Required','Error!');
+        }
+
+
+
+
+
     });
 
 
@@ -95,7 +147,7 @@
 
             for(var i=0;i<jsonResult.DetailCourses.length;i++){
                 var Courses = jsonResult.DetailCourses[i];
-                $('#box1View').append('<option value="'+Courses.MKID+'.'+Courses.MKCode+'">Smt '+Courses.Semester+' - '+Courses.ProdiCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')</option>');
+                $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'">Smt '+Courses.Semester+' - '+Courses.ProdiCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')</option>');
             }
 
         });

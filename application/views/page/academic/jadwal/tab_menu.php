@@ -10,7 +10,7 @@
 
     <div class="col-md-12" style="text-align: right;">
         <button data-page="penawaran_mk" type="button" class="btn btn-info btn-action control-jadwal">
-            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Mata Kuliah Yang Ditawarkan
+            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Course Offerings
         </button>
         <button data-page="inputjadwal" type="button" class="btn btn-success btn-action control-jadwal">
             <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Schedule

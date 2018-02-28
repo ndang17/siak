@@ -261,7 +261,7 @@ class M_api extends CI_Model {
     }
 
     private function getDetailCourses($CurriculumID){
-        $data = $this->db->query('SELECT cd.Semester, cd.MKID, cd.MKCode, cd.TotalSKS, 
+        $data = $this->db->query('SELECT cd.ID AS CurriculumDetailID,cd.Semester, cd.MKID, cd.MKCode, cd.TotalSKS, 
                                     mk.Name AS MKName, mk.NameEng AS MKNameEng,
                                     ps.Code AS ProdiCode, ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng
                                     FROM db_academic.curriculum_details cd
