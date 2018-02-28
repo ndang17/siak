@@ -249,6 +249,29 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function getSemesterActive(){
+        $data = $this->db->query('SELECT * FROM db_academic.semester WHERE Status = 1 LIMIT 1')->result_array();
+
+        $result = array(
+            'SemesterActive' => $data[0],
+            'DetailCourses' => $this->getDetailCourses($data[0]['CurriculumID'])
+        );
+
+        return $result;
+    }
+
+    private function getDetailCourses($CurriculumID){
+        $data = $this->db->query('SELECT cd.Semester, cd.MKID, cd.MKCode, cd.TotalSKS, 
+                                    mk.Name AS MKName, mk.NameEng AS MKNameEng,
+                                    ps.Code AS ProdiCode, ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng
+                                    FROM db_academic.curriculum_details cd
+                                    LEFT JOIN db_academic.program_study ps ON (cd.ProdiID = ps.ID)
+                                    LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+                                    WHERE cd.CurriculumID = "'.$CurriculumID.'" ORDER BY cd.Semester , ps.Code ASC');
+        return $data->result_array();
+    }
+
+
     public function getSchedule($DayID,$dataWhere){
 
         $data = $this->db->query('SELECT s.*,
@@ -387,14 +410,17 @@ class M_api extends CI_Model {
     public function __checkSchedule($dataFilter){
 //        print_r($dataFilter);
         // Get Jadwal
-        $jadwal = $this->db->query('SELECT * FROM db_academic.schedule s
+        $jadwal = $this->db->query('SELECT sd.DayID,sd.StartSessions, sd.EndSessions, cl.Room, mk.NameEng FROM db_academic.schedule s
                                               RIGHT JOIN db_academic.schedule_details sd ON (s.ID=sd.ScheduleID)   
+                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)
+                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
                                               WHERE s.SemesterID="'.$dataFilter['SemesterID'].'"
-                                              AND s.ProgramsCampusID="'.$dataFilter['ProgramsCampusID'].'"
                                               AND sd.ClassroomID="'.$dataFilter['ClassroomID'].'" 
                                               AND sd.DayID="'.$dataFilter['DayID'].'" 
                                               AND (("'.$dataFilter['StartSessions'].'" >= sd.StartSessions  AND "'.$dataFilter['StartSessions'].'" <= sd.EndSessions) OR
-                                              ("'.$dataFilter['EndSessions'].'" >= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" <= sd.EndSessions)) 
+                                              ("'.$dataFilter['EndSessions'].'" >= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" <= sd.EndSessions) OR
+                                              ("'.$dataFilter['StartSessions'].'" <= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" >= sd.EndSessions)
+                                              ) ORDER BY sd.StartSessions ASC 
                                               ')->result_array();
 
 //        if(count($jadwal)>0){

@@ -1,5 +1,40 @@
 
 
+<div class="thumbnail" style="margin-bottom: 10px;">
+    <div class="row">
+        <div class="col-xs-2" style="">
+            <select class="form-control form-filter-jadwal" id="filterProgramCampus"></select>
+        </div>
+        <div class="col-xs-2" style="">
+            <select id="filterSemester" class="form-control form-filter-jadwal">
+            </select>
+        </div>
+        <div class="col-xs-3" style="">
+            <select id="filterBaseProdi" class="form-control form-filter-jadwal">
+                <option value="">--- All Program Study ---</option>
+                <option disabled>------------------------------------------</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2" style="">
+            <select class="form-control form-filter-jadwal" id="filterCombine">
+                <option value="">--- Show All ---</option>
+                <option value="1">Combine Class Yes</option>
+                <option value="0">Combine Class No</option>
+            </select>
+        </div>
+        <div class="col-xs-3" style="text-align: right;padding-left: 0px;">
+
+
+        </div>
+        <!--                <div class="col-xs-2">-->
+        <!--                    <button class="btn btn-"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat </button>-->
+        <!--                </div>-->
+    </div>
+
+
+</div>
+
 <div class="thumbnail" style="padding: 5px;">
     <label class="checkbox-inline">
         <input type="checkbox" class="filterDay" value="0" checked> All Day
@@ -32,11 +67,11 @@
 
 <script>
     $(document).ready(function () {
-
         $('.form-filter-jadwal').prop("disabled",false);
-
         window.checkedDay = [];
-
+        loadSelectOptionProgramCampus('#filterProgramCampus','');
+        loadSelectOptionBaseProdi('#filterBaseProdi','');
+        loSelectOptionSemester('#filterSemester','selectedNow');
         filterSchedule();
     });
 
@@ -72,6 +107,8 @@
 
 
     function filterSchedule() {
+
+        return false;
 
         var ProgramCampusID = $('#filterProgramCampus').find(':selected').val();
         var SemesterID = $('#filterSemester').find(':selected').val().split('.');

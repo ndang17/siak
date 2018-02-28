@@ -232,7 +232,7 @@
             loadSelectOptionAllMataKuliah('#ModalPrasyaratSelectMK');
             loadSelectOptionBaseProdi('#ModalSelectProdi','');
             loadSelectOptionEducationLevel('#ModalSelectJenjang','');
-            loadSelectOptionLecturersSingle('#ModalSelectMK','');
+            loadSelectOptionAllMataKuliahSingle('#ModalSelectMK','');
             loadSelectOptionLecturersSingle('#ModalLecturers','');
             $('#ModalPrasyaratSelectMK, #ModalSelectMK, #ModalLecturers').select2({allowClear: true});
 
@@ -527,8 +527,10 @@
         $('#ModalLecturers').removeClass('hide');
         // $('#ModalLecturersView').removeClass('hide').html(data.NameLecturer);
 
-        var prVal = $('#ModalPrasyaratSelectMKVal').val();
-        loadSelectOptionAllMataKuliahForPraSyarat('#ModalPrasyaratSelectMK',JSON.parse(prVal));
+        var prForm = $('#ModalPrasyaratSelectMKVal').val();
+        console.log(prForm)
+        var prVal = (prForm!='') ? JSON.parse(prForm) : '';
+        loadSelectOptionAllMataKuliahForPraSyarat('#ModalPrasyaratSelectMK',prVal);
         $('#ModalPrasyaratSelectMK').removeClass('hide');
 
         $('#ModalPrasyaratSelectMK').select2();

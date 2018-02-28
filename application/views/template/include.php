@@ -76,14 +76,14 @@
 
     /*Custom Button*/
     .btn-default-danger {
-        background: #fff;
-        color: #bd362f;
-        border: 1px solid #bd362f;
+        background: #fff !important;
+        color: #bd362f !important;;
+        border: 1px solid #bd362f !important;;
     }
 
     .btn-default-danger:hover {
-        background: #bd362f;
-        color: #ffffff;
+        background: #bd362f  !important;;
+        color: #ffffff  !important;;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
@@ -92,13 +92,13 @@
 
     /* BTN SUCCESS */
     .btn-default-success {
-        background: #fff;
-        color: #51a351;
-        border: 1px solid #51a351;
+        background: #fff  !important;;
+        color: #51a351  !important;;
+        border: 1px solid #51a351  !important;;
     }
     .btn-default-success:hover {
-        background: #51a351;
-        color: #ffffff;
+        background: #51a351  !important;;
+        color: #ffffff  !important;;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
@@ -114,13 +114,13 @@
     /* BTN SUCCESS CLOSE */
 
     .btn-default-primary {
-        color: #3968c6;
-        background: #ffffff;
-        border: 1px solid #3968c6;
+        color: #3968c6  !important;;
+        background: #ffffff !important;;
+        border: 1px solid #3968c6 !important;;
     }
     .btn-default-primary:hover {
-        background: #3968c6;
-        color: #ffffff;
+        background: #3968c6 !important;;
+        color: #ffffff !important;;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
@@ -230,6 +230,10 @@
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/plugins.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>js/plugins.form-components.js"></script>
 
+<!-- Dual Box -->
+<script type="text/javascript" src="<?php echo base_url('assets/template/');?>plugins/duallistbox/jquery.duallistbox.min.js"></script>
+
+
 <!-- Form Validation -->
 <script type="text/javascript" src="<?php echo base_url('assets/template/');?>plugins/validation/jquery.validate.min.js"></script>
 
@@ -254,7 +258,6 @@
 <script type="text/javascript" src="<?php echo base_url('assets/plugins/');?>jwt/decode/build/jwt-decode.min.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url('assets/datetimepicker/js/bootstrap-datetimepicker.min.js');?>"></script>
-
 <!-- Custom -->
 <script type="text/javascript">
     window.base_url_js = "<?php echo base_url(); ?>";
@@ -650,4 +653,6 @@
 
         return false;
     }
+
+
 </script>

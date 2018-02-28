@@ -8,6 +8,12 @@
         padding-top: 15px !important;
         padding-bottom: 15px !important;
     }
+
+    .form-sesiawal[readonly] {
+        background-color: #ffffff;
+        color: #333333;
+        cursor: text;
+    }
 </style>
 
 <div class="row" style="margin-bottom: 30px;">
@@ -15,7 +21,7 @@
 <!--        <button  data-page="jadwal" class="btn btn-info btn-action">-->
 <!--            <i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</button>-->
 
-        <table class="table table-hover" style="margin-top: 10px;">
+        <table class="table" id="tableForm" style="margin-top: 10px;">
             <tr>
                 <td style="width: 190px;">Tahun Akademik</td>
                 <td style="width: 1px;">:</td>
@@ -114,7 +120,7 @@
                     <span class="label label-warning span-sesi">--- Sub Sesi <span id="TextNoSesi1"></span> ---</span>
                 </td>
             </tr>
-            <tr>
+            <tr class="trNewSesi1">
                 <td>Ruang | Hari | Credit</td>
                 <td>:</td>
                 <td>
@@ -134,7 +140,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            <tr class="trNewSesi1">
                 <td>Time</td>
                 <td>:</td>
                 <td>
@@ -148,7 +154,7 @@
                             <input type="text" readonly class="form-control form-jadwal formSesiAwal form-sesiawal" id="formSesiAwal1" data-id="1" />
                         </div>
                         <div class="col-xs-4">
-                            <input type="time" class="form-control" id="formSesiAkhir1" style="color: #333;" readonly />
+                            <input type="text" class="form-control" id="formSesiAkhir1" style="color: #333;" readonly />
                         </div>
                     </div>
                     <div id="alertBentrok1"></div>
@@ -175,8 +181,16 @@
     $(document).ready(function () {
 
         window.dataSesi = 1;
-
-
+        window.timeOption = {
+            format : 'hh:ii',
+            weekStart: 1,
+            todayBtn:  0,
+            autoclose: 1,
+            todayHighlight: 0,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 1};
 
         $('#TextNoSesi'+dataSesi).html(dataSesi);
         $('.form-filter-jadwal').prop('disabled',true);
@@ -218,21 +232,13 @@
             allowClear: true
         });
 
-        var timeOption = {
-            format : 'hh:ii',
-            weekStart: 0,
-            todayBtn:  0,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 1,
-            minView: 0,
-            maxView: 1,
-            forceParse: 0};
-        $("#formSesiAwal1").datetimepicker(timeOption);
+
+        $("#formSesiAwal"+dataSesi).datetimepicker(timeOption);
     });
 
 
     $('#btnSavejadwal').click(function () {
+
 
         var process = [];
 
@@ -369,28 +375,40 @@
                         }
                 };
 
-                console.log(data);
-
-                //  toastr.success('Data Saved','Success!');
-                //
-                // $('input[name=formCombinedClasses][value=0],input[name=formteamTeaching][value=0]').prop('checked',true);
-                // // $('#formBaseProdi,#formMataKuliah,#formCoordinator,#formTeamTeaching').select2("val",null);
-                // $('#formBaseProdi').select2("val","");
-                // $('#formMataKuliah').select2("val","");
-                // $('#formCoordinator').select2("val","");
-                // $('#formTeamTeaching').select2("val","");
-                //
-                // $('#viewClassGroup,#textSemester,#textTotalSKS').text('-');
-                // $('#formClassGroup,#formCredit1,#formSesiAwal1,#formSesiAkhir1,#textTotalSKSMK').val('');
-                // $('#formTeamTeaching').prop('disabled',true);
-                //
-                // dataSesi=1;
-                // $('#subsesi1').addClass('hide');
-                // $('#bodyAddSesi').html('');
+                // console.log(data);
+                $('#tableForm .form-sesiawal').prop('readonly',false);
+                $('#tableForm .form-control, input[name=formCombinedClasses], input[name=formteamTeaching],#tableForm .select2-select-00,#tableForm .form-sesiawal').prop('disabled',true);
+                $('#removeNewSesi,#addNewSesi').prop('disabled',true);
+                loading_button('#btnSavejadwal');
 
                 var token = jwt_encode(data,'UAP)(*');
                 var url = base_url_js+'api/__crudSchedule';
                 $.post(url,{token:token},function (jsonResult) {
+
+                    setTimeout(function () {
+                        $('#tableForm .form-control, input[name=formCombinedClasses], input[name=formteamTeaching],#tableForm .select2-select-00,#tableForm .form-sesiawal').prop('disabled',false);
+                        $('#tableForm .form-sesiawal').prop('readonly',true);
+                        $('#removeNewSesi,#addNewSesi,#btnSavejadwal').prop('disabled',false);
+                        $('#btnSavejadwal').html('Save');
+
+
+                        toastr.success('Data Saved','Success!');
+
+                        $('input[name=formCombinedClasses][value=0],input[name=formteamTeaching][value=0]').prop('checked',true);
+                        // $('#formBaseProdi,#formMataKuliah,#formCoordinator,#formTeamTeaching').select2("val",null);
+                        $('#formBaseProdi').select2("val","");
+                        $('#formMataKuliah').select2("val","");
+                        $('#formCoordinator').select2("val","");
+                        $('#formTeamTeaching').select2("val","");
+
+                        $('#viewClassGroup,#textSemester,#textTotalSKS').text('-');
+                        $('#formClassGroup,#formCredit1,#formSesiAwal1,#formSesiAkhir1,#textTotalSKSMK').val('');
+                        $('#formTeamTeaching').prop('disabled',true);
+
+                        dataSesi=1;
+                        $('#subsesi1').addClass('hide');
+                        $('#bodyAddSesi').html('');
+                    },3000);
 
                 });
             } else {
@@ -469,18 +487,20 @@
                 '                            </select>' +
                 '                        </div>' +
                 '                        <div class="col-xs-4">' +
-                '                            <input type="time" class="form-control form-jadwal formSesiAwal form-sesiawal" id="formSesiAwal'+dataSesi+'" data-id="'+dataSesi+'" />' +
+                '                            <input type="text" readonly class="form-control form-jadwal formSesiAwal form-sesiawal" id="formSesiAwal'+dataSesi+'" data-id="'+dataSesi+'" />' +
                 '                        </div>' +
                 '                        <div class="col-xs-4">' +
-                '                            <input type="time" class="form-control" id="formSesiAkhir'+dataSesi+'" style="color: #333;" readonly />' +
+                '                            <input type="text" class="form-control" id="formSesiAkhir'+dataSesi+'" style="color: #333;" readonly />' +
                 '                        </div>' +
                 '                    </div>' +
+                '<div id="alertBentrok'+dataSesi+'"></div>' +
                 '                </td>' +
                 '            </tr>');
 
             loadSelectOptionClassroom('#formClassroom'+dataSesi,'');
             fillDays('#formDay'+dataSesi,'Eng','');
             loadSelectOptionTimePerCredit('#formTimePerCredit'+dataSesi,'');
+            $("#formSesiAwal"+dataSesi).datetimepicker(timeOption);
 
         } else {
             toastr.warning('Form Sub Sesi '+dataSesi+' Harus Diisi','Warning!');
@@ -726,7 +746,6 @@
                 action : 'check',
                 formData : {
                     SemesterID : SemesterID,
-                    ProgramsCampusID : ProgramsCampusID,
                     ClassroomID : ClassroomID,
                     DayID : DayID,
                     StartSessions : StartSessions,
@@ -737,20 +756,29 @@
             var token = jwt_encode(data,'UAP)(*');
             var url = base_url_js+'api/__checkSchedule';
             $.post(url,{token:token},function (json_result) {
+                $('#btnSavejadwal,#addNewSesi').prop('disabled',false);
                 $(element).html('');
+                $('.trNewSesi'+ID).css('background','#ffffff');
                 if(json_result.length>0){
+                    $('#btnSavejadwal,#addNewSesi').prop('disabled',true);
+                    $('.trNewSesi'+ID).css('background','#ffeb3b63');
                     $(element).append('<div class="row">' +
                         '                        <div class="col-xs-12" style="margin-top: 20px;">' +
                         '                            <div class="alert alert-danger" role="alert">' +
                         '                                <b><i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right: 5px;"></i> Jadwal bentrok</b>, Silahklan rubah : Ruang / Hari / Jam' +
                         '                                <hr style="margin-bottom: 3px;margin-top: 10px;"/>' +
-                        '                                <ul>' +
-                        '                                    <li>- Ini : <span style="color: blue;">503 | Kamis 13:00:00 - 14:00:00</span></li>' +
+                        '                                <ul id="ulbentrok'+ID+'">' +
                         '                                </ul>' +
                         '                            </div>' +
                         '                        </div>' +
                         '' +
                         '                    </div>');
+
+                    var ul = $('#ulbentrok'+ID);
+                    for(var i=0;i<json_result.length;i++){
+                        var data = json_result[i];
+                        ul.append('<li>'+data.NameEng+' : <span style="color: blue;">'+data.Room+' | '+daysEng[(parseInt(data.DayID)-1)]+' '+data.StartSessions+' - '+data.EndSessions+'</span></li>');
+                    }
                 }
             });
         }

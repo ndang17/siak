@@ -570,6 +570,10 @@ class C_api extends CI_Controller {
                 $data = $this->m_api->getSemester($data_arr['order']);
                 return print_r(json_encode($data));
             }
+            else if($data_arr['action']=='ReadSemesterActiove'){
+                $data = $this->m_api->getSemesterActive();
+                return print_r(json_encode($data));
+            }
         }
     }
 
