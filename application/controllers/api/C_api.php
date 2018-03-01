@@ -571,7 +571,8 @@ class C_api extends CI_Controller {
                 return print_r(json_encode($data));
             }
             else if($data_arr['action']=='ReadSemesterActiove'){
-                $data = $this->m_api->getSemesterActive();
+                $formData = (array) $data_arr['formData'];
+                $data = $this->m_api->getSemesterActive($formData['ProdiID']);
                 return print_r(json_encode($data));
             }
         }
@@ -595,7 +596,13 @@ class C_api extends CI_Controller {
                 return print_r(1);
             }
             else if($data_arr['action']=='read'){
-                
+                $formData = (array) $data_arr['formData'];
+                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['ProdiID']);
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action']=='readgabungan'){
+                $data = $this->m_api->getAllCourseOfferingsMKU();
+                return print_r(json_encode($data));
             }
         }
     }

@@ -9,13 +9,6 @@
 <div class="row" style="margin-top: 30px;">
 
     <div class="col-md-12" style="text-align: right;">
-        <button data-page="penawaran_mk" type="button" class="btn btn-info btn-action control-jadwal">
-            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Course Offerings
-        </button>
-        <button data-page="inputjadwal" type="button" class="btn btn-success btn-action control-jadwal">
-            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Add Schedule
-        </button>
-        |
         <div class="btn-group" role="group" aria-label="...">
 
             <button data-page="jadwal" type="button" class="btn btn-default btn-default-primary btn-action
@@ -24,7 +17,13 @@
             <button data-page="ruangan" type="button" class="btn btn-default btn-default-primary btn-action
                         control-jadwal">Room Schedule</button>
         </div>
-
+        |
+        <button data-page="penawaran_mk" type="button" class="btn btn-info btn-action control-jadwal">
+            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Course Offerings
+        </button>
+        <button data-page="inputjadwal" type="button" class="btn btn-success btn-action control-jadwal">
+            <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Schedule
+        </button>
     </div>
     <div class="col-md-12">
         <hr/>
@@ -42,7 +41,6 @@
 <script>
     $(document).ready(function () {
         loadPage('jadwal');
-
     });
     $(document).on('click','.btn-action',function () {
         var page = $(this).attr('data-page');
@@ -60,7 +58,7 @@
         $.post(url,{token:token},function (page) {
             setTimeout(function () {
                 $('#dataPage').html(page);
-            },1000);
+            },500);
         });
     }
 </script>

@@ -57,7 +57,7 @@
                 <td>:</td>
                 <td>
                     <!--                    <select class="form-control" id="BaseProdi"></select>-->
-                    <select id="formBaseProdi" class="form-control form-jadwal">
+                    <select id="formBaseProdi" class="select2-select-00 col-md-12 full-width-fix form-jadwal" size="5">
                         <option value=""></option>
                     </select>
                 </td>
@@ -228,58 +228,13 @@
         });
 
 
-        // $('#formBaseProdi').select2({
-        //     allowClear: true
-        // });
+        $('#formBaseProdi').select2({
+            allowClear: true
+        });
 
 
         $("#formSesiAwal"+dataSesi).datetimepicker(timeOption);
     });
-
-    $(document).on('change','#formBaseProdi',function () {
-        var Prodi  = $(this).val();
-        if(Prodi!=''){
-            var ProdiID = Prodi.split('.');
-            getCourseOfferings(ProdiID[0],'read');
-        }
-
-    });
-
-    function getCourseOfferings(ProdiID,action) {
-        var url = base_url_js+'api/__crudCourseOfferings';
-        var SemesterID = $('#formSemesterID').val();
-        var data = {
-            action : action,
-            formData : {
-                SemesterID : SemesterID,
-                ProdiID : ProdiID
-            }
-        };
-        var token = jwt_encode(data,'UAP)(*');
-
-        $.post(url,{token:token},function (jsonResult) {
-            console.log(jsonResult);
-            if(jsonResult.length>0){
-                // $('#formMataKuliah')./html('');
-                $('#formMataKuliah').empty();
-                if(action=='readgabungan'){
-                    for(var i=0;i<jsonResult.length;i++) {
-                        var data = jsonResult[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'|'+data.MKCode+'">'+data.MKNameEng+'</option>');
-                    }
-                } else {
-                    var Offerings = jsonResult[0].Offerings;
-                    for(var i=0;i<Offerings.length;i++){
-                        var data = Offerings[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'|'+data.MKCode+'">'+data.MKNameEng+'</option>');
-                    }
-                }
-                
-
-                $('#formMataKuliah').select2({allowClear: true});
-            }
-        });
-    }
 
 
     $('#btnSavejadwal').click(function () {
@@ -670,7 +625,28 @@
         checkSchedule(ID);
     });
 
+    $(document).on('change','#formBaseProdi',function () {
+        var ProdiID  = $(this).val();
+        console.log(ProdiID);
+        getCoursreOfferings(ProdiID);
+    });
 
+    function getCoursreOfferings(ProdiID) {
+        var url = base_url_js+'api/__crudCourseOfferings';
+        var SemesterID = $('#formSemesterID').val();
+        var data = {
+            action : 'read',
+            formData : {
+                SemesterID : SemesterID,
+                ProdiID : ProdiID
+            }
+        };
+        var token = jwt_encode(data,'UAP)(*');
+
+        $.post(url,{token:token},function (jsonResult) {
+            console.log(jsonResult);
+        });
+    }
     
     function setSesiAkhir(ID) {
         var TimePerCredit = $('#formTimePerCredit'+ID).val();
@@ -722,30 +698,17 @@
     }
 
     function loadformCombinedClasses(value) {
-
         if(value==1){
-            getCourseOfferings('','readgabungan');
-            $('#formBaseProdi').prop('disabled',true);
-
+            // $('.single-select').remove();
+            $('#formBaseProdi').prop('multiple',true);
         } else {
-            $('#formBaseProdi').prop('disabled',false);
-            var Prodi  = $('#formBaseProdi').val();
-            if(Prodi!=''){
-                var ProdiID = Prodi.split('.');
-                getCourseOfferings(ProdiID[0],'read');
-            }
+            // $('#formBaseProdi').prepend('<option class="single-select"></option>');
+            $('#formBaseProdi').prop('multiple',false);
         }
 
-
-
-        // if(value==1){
-        //     $('#formBaseProdi').prop('multiple',true);
-        // } else {
-        //     $('#formBaseProdi').prop('multiple',false);
-        // }
-        // $('#formBaseProdi').select2({
-        //     allowClear: true
-        // });
+        $('#formBaseProdi').select2({
+            allowClear: true
+        });
     }
 
     function loadformTeamTeaching(value,element_dosen) {

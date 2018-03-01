@@ -249,27 +249,77 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
-    public function getSemesterActive(){
+    public function getSemesterActive($ProdiID){
         $data = $this->db->query('SELECT * FROM db_academic.semester WHERE Status = 1 LIMIT 1')->result_array();
 
         $result = array(
             'SemesterActive' => $data[0],
-            'DetailCourses' => $this->getDetailCourses($data[0]['CurriculumID'])
+            'DetailCourses' => $this->getDetailCourses($data[0]['CurriculumID'],$ProdiID)
         );
 
         return $result;
     }
 
-    private function getDetailCourses($CurriculumID){
-        $data = $this->db->query('SELECT cd.ID AS CurriculumDetailID,cd.Semester, cd.MKID, cd.MKCode, cd.TotalSKS, 
+    private function getDetailCourses($CurriculumID,$ProdiID){
+        $data = $this->db->query('SELECT cd.ID AS CurriculumDetailID,cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
                                     mk.Name AS MKName, mk.NameEng AS MKNameEng,
                                     ps.Code AS ProdiCode, ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng
                                     FROM db_academic.curriculum_details cd
                                     LEFT JOIN db_academic.program_study ps ON (cd.ProdiID = ps.ID)
                                     LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
-                                    WHERE cd.CurriculumID = "'.$CurriculumID.'" ORDER BY cd.Semester , ps.Code ASC');
+                                    LEFT JOIN db_academic.course_offerings co ON (cd.ID = co.CurriculumDetailID)
+                                    WHERE cd.CurriculumID = "'.$CurriculumID.'" AND cd.ProdiID = "'.$ProdiID.'" AND co.ID IS NULL ORDER BY cd.Semester , ps.Code ASC');
         return $data->result_array();
     }
+
+    public function getAllCourseOfferings($SemesterID,$ProdiID){
+
+        $dataProdi = $this->db->query('SELECT * FROM db_academic.program_study WHERE Status = 1 AND ID = "'.$ProdiID.'" ORDER BY ID ASC ')->result_array();
+
+        $result = [];
+        for($i=0;$i<count($dataProdi);$i++){
+            $dataOfferings = $this->getDetailOfferings($SemesterID,$dataProdi[$i]['ID']);
+            $data = array(
+                'Prodi' => array(
+                    'ID' => $dataProdi[$i]['ID'],
+                    'Code' => $dataProdi[$i]['Code'],
+                    'Name' => $dataProdi[$i]['Name'],
+                    'NameEng' => $dataProdi[$i]['NameEng'],
+                ),
+                'Offerings' => $dataOfferings
+            );
+
+            array_push($result,$data);
+        }
+
+        return $result;
+    }
+
+    private function getDetailOfferings($SemesterID,$ProdiID){
+        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
+                                          mk.Name AS MKName, mk.NameEng AS MKNameEng
+                                            FROM db_academic.course_offerings co
+                                            LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
+                                            LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+                                            WHERE  co.SemesterID = "'.$SemesterID.'" AND co.ProdiID = "'.$ProdiID.'"
+                                   ');
+        return $data->result_array();
+    }
+
+    public function getAllCourseOfferingsMKU(){
+
+        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
+                                          mk.Name AS MKName, mk.NameEng AS MKNameEng 
+                                        FROM db_academic.course_offerings co
+                                        LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
+                                        LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+                                        WHERE mk.BaseProdiID = 7 GROUP BY cd.MKCode
+                                        ');
+
+        return $data->result_array();
+
+    }
+
 
 
     public function getSchedule($DayID,$dataWhere){
