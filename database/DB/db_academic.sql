@@ -2796,6 +2796,7 @@ CREATE TABLE `schedule` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `SemesterID` int(11) NOT NULL,
   `ProgramsCampusID` int(11) NOT NULL,
+  `ProdiID` int(11) DEFAULT NULL,
   `CombinedClasses` enum('0','1') NOT NULL,
   `MKID` int(11) NOT NULL,
   `MKCode` varchar(45) NOT NULL,
@@ -2805,16 +2806,12 @@ CREATE TABLE `schedule` (
   `UpdateBy` varchar(100) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule` */
 
-insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`CombinedClasses`,`MKID`,`MKCode`,`ClassGroup`,`Coordinator`,`TeamTeaching`,`UpdateBy`,`UpdateAt`) values 
-(1,11,1,'0',39,'HBP2017T','HBP-1','1114005','0','2017090','2018-02-27 13:57:08'),
-(4,11,1,'0',39,'HBP2017T','HBP-2','3114014','1','2017090','2018-02-27 14:05:01'),
-(5,11,1,'0',158,'ARC4044','ARC-1','2114002','0','2017090','2018-02-27 14:08:12'),
-(6,11,1,'0',107,'SOC4008','ENT-1','3015016','1','2017090','2018-02-28 10:28:36'),
-(7,11,1,'1',2,'UNI1003','ZO-1','2214036','1','2017090','2018-02-28 10:48:22');
+insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`ProdiID`,`CombinedClasses`,`MKID`,`MKCode`,`ClassGroup`,`Coordinator`,`TeamTeaching`,`UpdateBy`,`UpdateAt`) values 
+(1,11,1,0,'1',168,'UNC0101','ZO-1','2214036','1','2017090','2018-03-02 09:58:26');
 
 /*Table structure for table `schedule_class_group` */
 
@@ -2828,16 +2825,12 @@ CREATE TABLE `schedule_class_group` (
   `ProdiCode` varchar(10) DEFAULT NULL,
   `Group` varchar(10) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_class_group` */
 
 insert  into `schedule_class_group`(`ID`,`ScheduleID`,`ProgramsCampusID`,`SemesterID`,`ProdiCode`,`Group`) values 
-(1,1,1,11,'HBP','HBP-1'),
-(3,4,1,11,'HBP','HBP-2'),
-(4,5,1,11,'ARC','ARC-1'),
-(5,6,1,11,'ENT','ENT-1'),
-(6,7,1,11,'ZO','ZO-1');
+(1,1,1,11,'ZO','ZO-1');
 
 /*Table structure for table `schedule_combinedclasses` */
 
@@ -2848,19 +2841,9 @@ CREATE TABLE `schedule_combinedclasses` (
   `ScheduleID` int(11) NOT NULL,
   `ProdiID` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_combinedclasses` */
-
-insert  into `schedule_combinedclasses`(`ID`,`ScheduleID`,`ProdiID`) values 
-(1,1,5),
-(4,4,5),
-(5,5,1),
-(6,6,3),
-(7,7,2),
-(8,7,3),
-(9,7,5),
-(10,7,11);
 
 /*Table structure for table `schedule_details` */
 
@@ -2876,37 +2859,12 @@ CREATE TABLE `schedule_details` (
   `StartSessions` time NOT NULL,
   `EndSessions` time NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_details` */
 
 insert  into `schedule_details`(`ID`,`ScheduleID`,`ClassroomID`,`Credit`,`DayID`,`TimePerCredit`,`StartSessions`,`EndSessions`) values 
-(1,1,1,2,1,50,'13:00:00','14:40:00'),
-(4,4,1,2,2,50,'09:00:00','10:40:00'),
-(5,5,1,2,1,50,'08:00:00','09:40:00'),
-(6,5,6,2,2,50,'08:00:00','09:40:00'),
-(7,5,6,2,5,50,'08:00:00','09:40:00'),
-(8,6,16,2,1,50,'09:45:00','11:25:00'),
-(9,6,16,2,2,50,'09:45:00','11:25:00'),
-(10,7,4,4,1,50,'10:30:00','13:50:00');
-
-/*Table structure for table `schedule_sesi` */
-
-DROP TABLE IF EXISTS `schedule_sesi`;
-
-CREATE TABLE `schedule_sesi` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ScheduleID` int(11) NOT NULL,
-  `ClassroomID` int(11) NOT NULL,
-  `Credit` int(11) NOT NULL,
-  `DayID` int(11) NOT NULL,
-  `TimePerCredit` int(11) NOT NULL,
-  `StartSessions` time NOT NULL,
-  `EndSessions` time NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `schedule_sesi` */
+(1,1,1,2,1,50,'08:00:00','09:40:00');
 
 /*Table structure for table `schedule_team_teaching` */
 
@@ -2918,20 +2876,13 @@ CREATE TABLE `schedule_team_teaching` (
   `NIP` varchar(45) NOT NULL,
   `Status` enum('0','1') DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_team_teaching` */
 
 insert  into `schedule_team_teaching`(`ID`,`ScheduleID`,`NIP`,`Status`) values 
-(1,4,'1214044','0'),
-(2,4,'2214036','0'),
-(3,4,'1114013','0'),
-(4,6,'2114002','0'),
-(5,6,'3114016','0'),
-(6,6,'1114055','0'),
-(7,7,'1115027','0'),
-(8,7,'1116066','0'),
-(9,7,'1017082','0');
+(1,1,'3114016','0'),
+(2,1,'1114053','0');
 
 /*Table structure for table `schedule_type` */
 
