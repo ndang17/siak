@@ -7,14 +7,14 @@
 
 
 
-            <li class="">
-                <a href="#">
+            <li class="<?php if($this->uri->segment(2)=='human-resources'){echo"current";}?>">
+                <a href="<?php echo base_url('human-resources/employees');?>">
                     <i class="fa fa-user-circle"></i>
                     Master Karyawan
                 </a>
             </li>
-            <li class="">
-                <a href="#">
+            <li class="<?php if($this->uri->segment(2)=='human-resources'){echo"current";}?>">
+                <a href="<?php echo base_url('human-resources/lecturers');?>">
                     <i class="fa fa-download"></i>
                     Master Dosen
                 </a>
@@ -27,7 +27,7 @@
             </li>
             <li class="">
                 <a href="#">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <i class="fa fa-money"></i>
                     Honor Dosen PartTime
                 </a>
             </li>
