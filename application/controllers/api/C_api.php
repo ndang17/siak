@@ -471,14 +471,14 @@ class C_api extends CI_Controller {
                 $insert_id = $this->db->insert_id();
 
                 //schedule_combinedclasses
-                $dataCombine = (array) $formData['schedule_combinedclasses'];
-                for($c=0;$c<count($dataCombine['ProdiIDArray']);$c++){
-                    $dataInsert = array(
-                        'ScheduleID' => $insert_id,
-                        'ProdiID' => $dataCombine['ProdiIDArray'][$c]
-                    );
-                    $this->db->insert('db_academic.schedule_combinedclasses',$dataInsert);
-                }
+//                $dataCombine = (array) $formData['schedule_combinedclasses'];
+//                for($c=0;$c<count($dataCombine['ProdiIDArray']);$c++){
+//                    $dataInsert = array(
+//                        'ScheduleID' => $insert_id,
+//                        'ProdiID' => $dataCombine['ProdiIDArray'][$c]
+//                    );
+//                    $this->db->insert('db_academic.schedule_combinedclasses',$dataInsert);
+//                }
 
                 // Schedule Details
                 $dataScheduleDetails = (array) $formData['schedule_details'];

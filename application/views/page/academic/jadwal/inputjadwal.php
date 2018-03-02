@@ -74,10 +74,9 @@
                 <td style="width: 190px;">Mata Kuliah</td>
                 <td style="width: 1px;">:</td>
                 <td>
-                    <select class="select2-select-00 selec2-mk full-width-fix form-jadwal"
-                            size="5" id="formMataKuliah">
-                        <option value=""></option>
-                    </select>
+                    <div id="divMK">
+                        -
+                    </div>
                     <p style="margin-bottom: 0px;font-size: 10px;">
                         Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>
                         <input type="hide" class="hide" id="textTotalSKSMK" />
@@ -215,7 +214,7 @@
         // loadSelectOptionClassGroup('#formClassGroup','');
 
 
-        $('#formMataKuliah,#formCoordinator,#formTeamTeaching').select2({allowClear: true});
+        $('#formCoordinator,#formTeamTeaching').select2({allowClear: true});
 
 
         $(document).on('change','input[type=radio][fm=dtt-form]',function () {
@@ -236,13 +235,15 @@
         $("#formSesiAwal"+dataSesi).datetimepicker(timeOption);
     });
 
-    $(document).on('change','#formBaseProdi',function () {
+
+
+    $('#formBaseProdi').change(function () {
         var Prodi  = $(this).val();
         if(Prodi!=''){
             var ProdiID = Prodi.split('.');
             getCourseOfferings(ProdiID[0],'read');
+            setGroupClass();
         }
-
     });
 
     function getCourseOfferings(ProdiID,action) {
@@ -260,23 +261,28 @@
         $.post(url,{token:token},function (jsonResult) {
             console.log(jsonResult);
             if(jsonResult.length>0){
+                $('#divMK').html('<select class="select2-select-00 selec2-mk full-width-fix form-jadwal" size="5" id="formMataKuliah">' +
+                    '                        <option value=""></option>' +
+                    '                    </select>');
                 // $('#formMataKuliah')./html('');
-                $('#formMataKuliah').empty();
+                // $('#formMataKuliah').empty();
                 if(action=='readgabungan'){
                     for(var i=0;i<jsonResult.length;i++) {
                         var data = jsonResult[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'|'+data.MKCode+'">'+data.MKNameEng+'</option>');
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
                     }
                 } else {
                     var Offerings = jsonResult[0].Offerings;
                     for(var i=0;i<Offerings.length;i++){
                         var data = Offerings[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'|'+data.MKCode+'">'+data.MKNameEng+'</option>');
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
                     }
                 }
-                
+
 
                 $('#formMataKuliah').select2({allowClear: true});
+            } else {
+                $('#divMK').html('-- No Offerings --');
             }
         });
     }
@@ -336,20 +342,23 @@
         var ProdiIDArray = [];
         var formProdiID = $('#formBaseProdi').val();
         if(formProdiID!=null){
-            if(CombinedClasses==0){
-                var ProdiID = formProdiID.split('.')[0];
-                ProdiIDArray.push(ProdiID);
-            } else {
-                for(var p=0;p<formProdiID.length;p++){
-                    var ProdiID = formProdiID[p].split('.')[0];
-                    ProdiIDArray.push(ProdiID);
-                }
-            }
+            var ProdiID = (CombinedClasses==0) ? formProdiID.split('.')[0] : 0 ;
+
+            // if(CombinedClasses==0){
+            //     var ProdiID = formProdiID.split('.')[0];
+            //     ProdiIDArray.push(ProdiID);
+            // } else {
+            //     for(var p=0;p<formProdiID.length;p++){
+            //         var ProdiID = formProdiID[p].split('.')[0];
+            //         ProdiIDArray.push(ProdiID);
+            //     }
+            // }
         }
         else {
             var choices = (CombinedClasses==0) ? '.select2-choice' : '.select2-choices' ;
             process.push(0); requiredForm('#s2id_formBaseProdi '+choices);
         }
+
 
 
         // schedule_sesi ---
@@ -391,6 +400,7 @@
                             schedule : {
                                 SemesterID : SemesterID,
                                 ProgramsCampusID : ProgramsCampusID,
+                                ProdiID : ProdiID,
                                 CombinedClasses : CombinedClasses,
                                 MKID : MKID,
                                 MKCode : MKCode,
@@ -403,9 +413,9 @@
                             schedule_team_teaching : {
                                 teamTeachingArray : teamTeachingArray
                             },
-                            schedule_combinedclasses : {
-                                ProdiIDArray : ProdiIDArray
-                            },
+                            // schedule_combinedclasses : {
+                            //     ProdiIDArray : ProdiIDArray
+                            // },
                             schedule_details : {
                                 dataScheduleDetailsArray : dataScheduleDetailsArray
                             },
@@ -477,9 +487,7 @@
         }
     });
 
-    $('#formBaseProdi').change(function () {
-        setGroupClass();
-    });
+
 
 
     $('#addNewSesi').click(function () {
@@ -566,7 +574,6 @@
         }
 
     });
-
 
     $('#addClassRoom').click(function () {
         $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +

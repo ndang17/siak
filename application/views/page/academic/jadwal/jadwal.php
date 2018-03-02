@@ -72,7 +72,10 @@
         loadSelectOptionProgramCampus('#filterProgramCampus','');
         loadSelectOptionBaseProdi('#filterBaseProdi','');
         loSelectOptionSemester('#filterSemester','selectedNow');
-        filterSchedule();
+
+        setTimeout(function () {
+            filterSchedule();
+        },500)
     });
 
     $('input[type=checkbox][class=filterDay]').change(function () {
@@ -108,7 +111,7 @@
 
     function filterSchedule() {
 
-        return false;
+        // return false;
 
         var ProgramCampusID = $('#filterProgramCampus').find(':selected').val();
         var SemesterID = $('#filterSemester').find(':selected').val().split('.');
