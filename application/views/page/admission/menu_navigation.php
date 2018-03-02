@@ -10,19 +10,31 @@
             <li class="">
                 <a href="#">
                     <i class="fa fa-user-circle"></i>
-                    Calon Mahasiswa
+                    Master Calon Mahasiswa
                 </a>
             </li>
             <li class="">
                 <a href="#">
-                    <i class="fa fa-download"></i>
-                    Penerimaan Pembayaran
+                    <i class="fa fa-money"></i>
+                    Master Uang Daftar
+                </a>
+            </li>
+            <li class="">
+                <a href="#">
+                  <i class="fa fa-list-alt" aria-hidden="true"></i>
+                    Distribusi Formulir
                 </a>
             </li>
             <li class="">
                 <a href="#">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    Tagihan Mahasiswa
+                    Proses Calon Mahasiswa
+                </a>
+            </li>
+            <li class="">
+                <a href="#">
+                  <i class="fa fa-exchange" aria-hidden="true"></i>
+                    Koreksi Calon Mahasiswa
                 </a>
             </li>
 
@@ -48,5 +60,3 @@
     <div id="divider" class="resizeable"></div>
 </div>
 <!-- /Sidebar -->
-
-

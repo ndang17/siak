@@ -1,4 +1,4 @@
-<?php
+ <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['default_controller'] = 'c_login';
@@ -66,8 +66,9 @@ $route['academic/__setPageJadwal'] = 'page/academic/c_jadwal/setPageJadwal';
 $route['academic/modal-tahun-akademik-detail-prodi'] = 'page/academic/c_akademik/modal_tahun_akademik_detail_prodi';
 $route['academic/modal-tahun-akademik-detail-lecturer'] = 'page/academic/c_akademik/modal_tahun_akademik_detail_lecturer';
 
-
-
+// ======= human-resources ======
+$route['human-resources/lecturers'] = 'page/database/c_database/lecturers';
+$route['human-resources/employees'] = 'page/database/c_database/employees';
 
 // ====== Database =====
 $route['database/lecturers'] = 'page/database/c_database/lecturers';
