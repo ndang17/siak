@@ -320,13 +320,24 @@ class C_api extends CI_Controller {
             $dataForm = (array) $data_arr['dataForm'];
             if($data_arr['action']=='add'){
 
-                $this->db->insert('db_academic.semester',$dataForm);
-                $insert_id = $this->db->insert_id();
+                // Cek
+                $check = $this->db->get_where('db_academic.semester',array('YearCode'=>$dataForm['YearCode']))
+                    ->result_array();
 
-                $this->db->insert('db_academic.academic_years',
-                    array('SemesterID' => $insert_id));
+//                print_r($check);
+//                exit;
+                if(count($check)>0){
+                    return print_r(0);
+                } else {
+                    $this->db->insert('db_academic.semester',$dataForm);
+                    $insert_id = $this->db->insert_id();
 
-                return print_r($insert_id);
+                    $this->db->insert('db_academic.academic_years',
+                        array('SemesterID' => $insert_id));
+
+                    return print_r($insert_id);
+                }
+
             } else if($data_arr['action']=='edit'){
                 $this->db->where('ID', $data_arr['ID']);
                 $this->db->update('db_academic.semester',$dataForm);

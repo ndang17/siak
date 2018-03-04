@@ -77,6 +77,7 @@ class C_tahun_akademik extends MY_Controller {
         $data['itemTahunAkademik'] = [];
 
         $data['ProgramCampusID'] = '';
+        $data['CurriculumID'] = '';
         $data['semester'] = '';
         if($data['action']!='add'){
             $data['itemTahunAkademik'] = $this->m_tahun_akademik->__getDataTahunAkademik($data['id']);
@@ -84,6 +85,7 @@ class C_tahun_akademik extends MY_Controller {
                 $exp = explode(' ',$data['itemTahunAkademik'][0]['Name']);
                 $data['tahun'] = trim($exp[0]);
                 $data['ProgramCampusID'] = $data['itemTahunAkademik'][0]['ProgramCampusID'];
+                $data['CurriculumID'] = $data['itemTahunAkademik'][0]['CurriculumID'];
                 $data['semester'] = substr($data['itemTahunAkademik'][0]['YearCode'],-1);
             }
         }

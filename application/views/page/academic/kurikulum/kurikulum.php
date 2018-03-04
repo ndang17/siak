@@ -130,7 +130,7 @@
         $.post(url,{token:token},function (page) {
             setTimeout(function () {
                 $('#pageKurikulum').html(page);
-            },1000);
+            },500);
         });
 
     }

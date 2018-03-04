@@ -38,7 +38,7 @@
         var url = base_url_js+"academic/modal-tahun-akademik";
         
         var btn_delete = '<button class="btn btn-danger btn-delete-master" style="float: left;" modal-id="'+id+'" id="modalBtnDelete" modal-action="delete">Delete</button>';
-        
+
         $.post(url,{action:action,id:id},function (html) {
 
             $('#GlobalModal .modal-header').html('<h4 class="modal-title">Tahun Akademik</h4>');
@@ -64,6 +64,7 @@
         var action = $(this).attr('modal-action');
         var ID = (action=='add')? '' : $(this).attr('modal-id');
         var ProgramCampusID = $('#modalProgram').find(':selected').val();
+        var CurriculumID = $('#modalCurriculum').find(':selected').val();
         var tahun = $('#modalTahun').find(':selected').val().split('.');
         var semester = $('input[name=semester]:checked').val();
 
@@ -89,6 +90,7 @@
                 dataForm : {
                     ProgramCampusID : ProgramCampusID,
                     YearCode : YearCode,
+                    CurriculumID : CurriculumID,
                     Name : Name,
                     Status : 0,
                     UpdateBy : sessionNIP,
@@ -97,18 +99,29 @@
             };
 
             loading_button(btn_act);
-            $('#modalBtnSave, #modalBtnDelete, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',true);
+            $('#modalBtnSave, #modalBtnDelete, #modalCurriculum, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',true);
 
             var token = jwt_encode(data,'UAP)(*');
             var url = base_url_js+'api/__crudTahunAkademik';
             $.post(url,{token:token},function (result) {
-                loadTable();
-                setTimeout(function () {
-                    toastr.success('Data tersimpan','Success!!')
-                    $('#GlobalModal').modal('hide');
-                    // $('#modalBtnSave').html('Save');
-                    // $('#modalBtnSave, #modalBtnDelete, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
-                },2000);
+                console.log(result);
+                if(result==0){
+                    setTimeout(function () {
+                        $(btn_act).prop('disabled',false).html('Save');
+                        $('#modalBtnSave, #modalBtnDelete, #modalCurriculum, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
+                        toastr.warning('Data Is Exist','Warning!');
+                    },2000);
+                } else {
+                    loadTable();
+                    setTimeout(function () {
+                        toastr.success('Data tersimpan','Success!!');
+                        $('#GlobalModal').modal('hide');
+                        // $('#modalBtnSave').html('Save');
+                        // $('#modalBtnSave, #modalBtnDelete, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
+                    },2000);
+                }
+
+
             });
         }
 
@@ -127,7 +140,7 @@
         $.post(url,{ID:ID},function (html) {
             setTimeout(function () {
                 $('#loadTable').html(html);
-            },2000);
+            },500);
         });
     }
 
@@ -138,7 +151,7 @@
         $.get(url,function (html) {
             setTimeout(function () {
                 $('#loadTable').html(html);
-            },2000);
+            },500);
 
         });
 

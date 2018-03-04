@@ -275,6 +275,18 @@
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins
         FormComponents.init(); // Init all form-specific plugins
+
+        $('.img-fitter').imgFitter({
+
+            // CSS background position
+            backgroundPosition: 'center center',
+
+            // for image loading effect
+            fadeinDelay: 400,
+            fadeinTime: 1200
+
+        });
+
     });
 
     function load_navigation() {
@@ -571,6 +583,17 @@
 
                 }
             }
+        });
+    }
+
+    function loadSelecOptionCurriculum(element,selected) {
+        var url = base_url_js+'api/__getKurikulumSelectOption';
+        $.getJSON(url,function (jsonResult) {
+           for (var i=0;i<jsonResult.length;i++){
+               var data = jsonResult[i];
+               var selc = (data.ID==selected) ? 'selected' : '';
+               $(element).append('<option value="'+data.ID+'" '+selc+'>'+data.Name+'</option>');
+           }
         });
     }
 
