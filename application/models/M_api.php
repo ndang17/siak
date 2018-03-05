@@ -297,10 +297,11 @@ class M_api extends CI_Model {
 
     private function getDetailOfferings($SemesterID,$ProdiID){
         $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
-                                          mk.Name AS MKName, mk.NameEng AS MKNameEng
+                                          mk.Name AS MKName, mk.NameEng AS MKNameEng, s.ID AS ScheduleID
                                             FROM db_academic.course_offerings co
                                             LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
                                             LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+                                            LEFT JOIN db_academic.schedule s ON (cd.MKID = s.MKID AND cd.MKCode = s.MKCode)
                                             WHERE  co.SemesterID = "'.$SemesterID.'" AND co.ProdiID = "'.$ProdiID.'"
                                    ');
         return $data->result_array();
@@ -309,10 +310,11 @@ class M_api extends CI_Model {
     public function getAllCourseOfferingsMKU(){
 
         $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
-                                          mk.Name AS MKName, mk.NameEng AS MKNameEng 
+                                          mk.Name AS MKName, mk.NameEng AS MKNameEng , s.ID AS ScheduleID
                                         FROM db_academic.course_offerings co
                                         LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
                                         LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+                                        LEFT JOIN db_academic.schedule s ON (cd.MKID = s.MKID AND cd.MKCode = s.MKCode)
                                         WHERE mk.BaseProdiID = 7 GROUP BY cd.MKCode
                                         ');
 

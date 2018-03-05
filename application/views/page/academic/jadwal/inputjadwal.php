@@ -81,6 +81,7 @@
                         Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>
                         <input type="hide" class="hide" id="textTotalSKSMK" />
                     </p>
+                    <span style="color: red;" id="alertMK"></span>
                 </td>
             </tr>
             <tr>
@@ -269,13 +270,13 @@
                 if(action=='readgabungan'){
                     for(var i=0;i<jsonResult.length;i++) {
                         var data = jsonResult[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
                     }
                 } else {
                     var Offerings = jsonResult[0].Offerings;
                     for(var i=0;i<Offerings.length;i++){
                         var data = Offerings[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
                     }
                 }
 
@@ -483,6 +484,7 @@
         var dataMK = $('#formMataKuliah').val();
         // var dataMK = $(this).val();
         if(dataMK!=''){
+
             loadDataSKS(dataMK);
         }
     });
@@ -765,12 +767,22 @@
     }
 
     function loadDataSKS(dataMK) {
+        console.log(dataMK);
         var mk = dataMK.split('.');
         var data = {
             action : 'read',
             ID : mk[0],
             MKCode : mk[1]
         };
+
+        console.log(mk[2]);
+        if(mk[2]!='null'){
+            $('#alertMK').text(mk[1]+' - Jadwal Exist');
+            $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
+        } else {
+            $('#alertMK').text('');
+            $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',false);
+        }
 
         var token = jwt_encode(data,'UAP)(*');
         var url = base_url_js+"api/__crudMataKuliah";
