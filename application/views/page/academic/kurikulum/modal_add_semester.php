@@ -261,6 +261,7 @@
             $.post(url,{token:token},function (data_json) {
                 var data = data_json[0];
 
+                console.log(data);
 
                 $('#ModalJenisKurikulum').val(data.CurriculumTypeID);
 
@@ -279,7 +280,16 @@
                 $('#ModalLecturersVal').val(data.LecturerNIP);
 
                 $('#ModalPrasyaratSelectMK').addClass('hide');
-                $('#ModalPrasyaratSelectMKView').removeClass('hide').html(data.DataPrecondition);
+
+
+                $('#ModalPrasyaratVal').val(data.StatusPrecondition);
+                $('#ModalPrasyaratSelectMKView').removeClass('hide').html('<ul id="ulpre"></ul>');
+                if(data.StatusPrecondition==1){
+                    for(var p=0;p<data.DetailPrecondition.length;p++){
+                        var preD = data.DetailPrecondition[p];
+                        $('#ulpre').append('<li>'+preD.NameEng+'</li>');
+                    }
+                }
                 $('#ModalPrasyaratSelectMKVal').val(data.DataPrecondition);
 
                 //
@@ -326,7 +336,9 @@
     $(document).on('change','#ModalPrasyarat',function () {
        if($(this).is(":checked")){
            $('#ModalPrasyaratVal').val(0);
-           $("#ModalPrasyaratSelectMK").select2("val", null);
+           if(action=='add'){
+               $("#ModalPrasyaratSelectMK").select2("val", null);
+           }
            $('#ModalPrasyaratSelectMK').prop('disabled',true);
        } else {
            $('#ModalPrasyaratVal').val(1);
@@ -448,7 +460,7 @@
                     MKType : MKType,
 
                     StatusPrecondition : StatusPrecondition,
-                    DataPrecondition : DataPR__,
+                    DataPrecondition : JSON.stringify(DataPraSyart),
 
                     LecturerNIP : LecturerNIP,
                     CoursesGroupsID : CoursesGroupsID,
@@ -465,6 +477,10 @@
                     UpdateAt : dateTimeNow()
                 }
             };
+
+            console.log(data);
+
+            // return false;
 
             var token = jwt_encode(data,"UAP)(*");
             var url = base_url_js+"api/__crudDetailMK";

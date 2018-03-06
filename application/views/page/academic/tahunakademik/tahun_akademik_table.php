@@ -26,8 +26,10 @@
                     <?php
                     if($item_smt['Status']==1){
                         echo '<span class="label label-success">Publish</span>';
+                        $publish = 'hide';
                     } else {
                         echo '<span class="label label-danger">Unpublish</span>';
+                        $publish = '';
                     }
                     ?>
                 </div>
@@ -40,7 +42,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="edit" class="btn-th-action" id="modalBtnEdit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></li>
-                        <li><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="publish" class="btn-th-action" id="modalBtnPublish"><i class="fa fa-bullhorn" aria-hidden="true"></i> Publish</a></li>
+                        <li class="<?php echo $publish; ?>"><a href="javascript:void(0)" data-id="<?php echo $item_smt['ID']; ?>" data-action="publish" class="btn-th-action" id="modalBtnPublish"><i class="fa fa-bullhorn" aria-hidden="true"></i> Publish</a></li>
                     </ul>
                 </div>
             </td>

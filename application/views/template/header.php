@@ -202,8 +202,8 @@
 
     $(document).on('click','#useLogOut',function () {
         $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Log Me Out ?? </b> ' +
-            '<button type="button" id="btnActionLogOut" class="btn btn-primary" style="margin-right: 5px;">Ya</button>' +
-            '<button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>' +
+            '<button type="button" id="btnActionLogOut" class="btn btn-primary" style="margin-right: 5px;">Yes</button>' +
+            '<button type="button" class="btn btn-default" data-dismiss="modal">No</button>' +
             '</div>');
         $('#NotificationModal').modal('show');
     });
@@ -223,22 +223,22 @@
         var departement = $(this).attr('data-dpt');
         $.post(url,{departement:departement},function () {
 
-            $('#GlobalModal .modal-header').addClass('hide');
-            $('#GlobalModal .modal-body').html('<center>' +
+            $('#NotificationModal .modal-header').addClass('hide');
+            $('#NotificationModal .modal-body').html('<center>' +
                 '                    <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>' +
                 '                    <br/>' +
                 '                    Loading departement . . .' +
                 '                </center>');
-            $('#GlobalModal .modal-footer').addClass('hide');
-            $('#GlobalModal').modal({
+            $('#NotificationModal .modal-footer').addClass('hide');
+            $('#NotificationModal').modal({
                 'backdrop' : 'static',
                 'show' : true
             });
 
             setTimeout(function () {
-                $('#GlobalModal').modal('hide');
+                $('#NotificationModal').modal('hide');
                 window.location.href = base_url_js+'dashboard';
-            },3000);
+            },1500);
         });
 
 

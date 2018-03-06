@@ -139,6 +139,8 @@
         $.post(url,{token:token},function (data_result) {
             var div = $('#dataScedule');
 
+            console.log(data_result);
+
             if(data_result.length>0){
                 div.empty();
                 for(var i=0;i<data_result.length;i++){
@@ -155,13 +157,16 @@
                         '    <thead>' +
                         '    <tr>' +
                         '        <th style="width:5px;" class="th-center">No</th>' +
+                        '        <th style="width:15px;" class="th-center">Code</th>' +
                         '        <th class="th-center">Course</th>' +
+                        '        <th style="width:20px;" class="th-center">Credit</th>' +
                         '        <th style="width:20px;" class="th-center">Group</th>' +
                         '        <th class="th-center">Lecturers</th>' +
-                        '        <th style="width:15px;" class="th-center">Cmbn</th>' +
-                        '        <th class="th-center">Room</th>' +
+                        // '        <th style="width:15px;" class="th-center">Cmbn</th>' +
                         '        <th style="width:150px;" class="th-center">Time</th>' +
-                        '        <th class="th-center">Action</th>' +
+                        '        <th class="th-center">Room</th>' +
+
+                        // '        <th class="th-center">Action</th>' +
                         '    </tr>' +
                         '    </thead>' +
                         '    <tbody id="trData'+i+'"></tbody>' +
@@ -199,15 +204,18 @@
 
                         table.append('<tr>' +
                             '<td class="td-center">'+no+'</td>' +
+                            '<td class="td-center">'+sc[r].MKCode+'</td>' +
                             '<td><b>'+sc[r].MKName+'</b><br/><i>'+sc[r].MKNameEng+'</i></td>' +
+                            '<td class="td-center">'+sc[r].Credit+'</td>' +
                             '<td class="td-center">'+sc[r].ClassGroup+'</td>' +
                             '<td>' +
                             '<span style="color: #427b44;font-size: 15px;"><b>'+sc[r].Lecturer+'</b></span>'+teamTeaching+
                             '</td>' +
-                            '<td class="td-center">'+gabungan+'</td>' +
-                            '<td class="td-center">'+sc[r].Room+'</td>' +
+                            // '<td class="td-center">'+gabungan+'</td>' +
                             '<td class="td-center">'+StartSessions+' - '+EndSessions+'</td>' +
-                            '<td class="td-center"><button class="btn btn-default btn-default-primary">Action</button></td>' +
+                            '<td class="td-center">'+sc[r].Room+'</td>' +
+
+                            // '<td class="td-center"><button class="btn btn-default btn-default-primary">Action</button></td>' +
                             '</tr>');
 
                         no += 1;

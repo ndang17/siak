@@ -57,6 +57,7 @@
 
     function LoadDetailMK(MataKuliah) {
 
+        console.log(MataKuliah);
         for(var i=0;i<MataKuliah.length;i++){
             if(MataKuliah.length==8){
                 $('.btn-addsmt').prop('disabled',true);
@@ -81,19 +82,21 @@
                 '                        <table id="tableSemester'+i+'" class="table table-bordered table-striped table-smt">' +
                 '                            <thead>' +
                 '                            <tr>' +
-                '                                <th rowspan="2" style="width:80px;">No</th>' +
-                '                                <th rowspan="2" style="width:150px;">Kode MK</th>' +
-                '                                <th rowspan="2">Nama MK</th>' +
-                '                                <th rowspan="2">Dosen Pengampu</th>' +
-                '                                <th rowspan="2">Base Prodi</th>' +
-                '                                <th rowspan="2">Total SKS</th>' +
-                '                                <th colspan="3">SKS</th>' +
+                '                                <th style="width:10px;">No</th>' +
+                '                                <th style="width:70px;">Code</th>' +
+                '                                <th>Course</th>' +
+                '                                <th style="width: 15%;">Lecturer</th>' +
+                '                                <th style="width: 15%;">Base Prodi</th>' +
+                '                                <th style="width: 5%;">Total Credit</th>' +
+                '                                <th style="width: 5%;">Pre</th>' +
+                '                                <th style="width: 5%;">Silabus</th>' +
+                '                                <th style="width: 5%;">SAP</th>' +
                 '                            </tr>' +
-                '                            <tr>' +
-                '                                <th style="width:80px;">T</th>' +
-                '                                <th style="width:80px;">P</th>' +
-                '                                <th style="width:80px;">PKL</th>' +
-                '                            </tr>' +
+                // '                            <tr>' +
+                // '                                <th style="width:80px;">T</th>' +
+                // '                                <th style="width:80px;">P</th>' +
+                // '                                <th style="width:80px;">PKL</th>' +
+                // '                            </tr>' +
                 '                            </thead>' +
                 '                            <tbody id="dataSmt'+i+'"></tbody>' +
                 '                        </table>' +
@@ -103,17 +106,23 @@
             var detailSemester = MataKuliah[i].DetailSemester;
             var no=1;
             for(var s=0;s<detailSemester.length;s++){
+
+                var StatusPrecondition = (detailSemester[s].StatusPrecondition==1) ? '<i class="fa fa-check-circle" style="color: green;"></i>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
+                var silabus = (detailSemester[s].StatusSilabus==1) ? '<i class="fa fa-check-circle" style="color: green;"></i>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
+                var sap = (detailSemester[s].StatusSAP==1) ? '<i class="fa fa-check-circle" style="color: green;"></i>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
+
                 $('#dataSmt'+i).append('<tr>' +
                     '<td class="td-center">'+(no++)+'</td>' +
                     '<td class="td-center">'+detailSemester[s].MKCode+'</td>' +
                     '<td><div><a href="javascript:void(0)" class="detailMataKuliah" data-smt="'+MataKuliah[i].Semester+'" data-id="'+detailSemester[s].CDID+'"><b>'+detailSemester[s].NameMKEng+'</b></a>' +
                     '</td>' +
                     '<td><div>'+detailSemester[s].NameLecturer+'</td>' +
-                    '<td>'+detailSemester[s].ProdiName+'</td>' +
+                    '<td>'+detailSemester[s].ProdiNameEng+'</td>' +
                     '<td class="td-center"><div>'+detailSemester[s].TotalSKS+'</div></td>' +
-                    '<td class="td-center"><div>'+detailSemester[s].SKSTeori+'</div></td>' +
-                    '<td class="td-center"><div>'+detailSemester[s].SKSPraktikum+'</div></td>' +
-                    '<td class="td-center"><div>'+detailSemester[s].SKSPraktikLapangan+'</div></td>' +
+                    '<td class="td-center"><div>'+StatusPrecondition+'</div></td>' +
+                    '<td class="td-center"><div>'+silabus+'</div></td>' +
+                    '<td class="td-center"><div>'+sap+'</div></td>' +
+                    // '<td class="td-center"><div>'+detailSemester[s].SKSPraktikLapangan+'</div></td>' +
                     '</tr>');
             }
 

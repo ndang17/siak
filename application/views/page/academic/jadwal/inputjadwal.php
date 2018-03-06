@@ -767,7 +767,7 @@
     }
 
     function loadDataSKS(dataMK) {
-        console.log(dataMK);
+        // console.log(dataMK);
         var mk = dataMK.split('.');
         var data = {
             action : 'read',
@@ -775,7 +775,7 @@
             MKCode : mk[1]
         };
 
-        console.log(mk[2]);
+        // console.log(mk[2]);
         if(mk[2]!='null'){
             $('#alertMK').text(mk[1]+' - Jadwal Exist');
             $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);

@@ -3,8 +3,9 @@
 <div style="text-align: center;">
     <h3>Create <span style="color: green;font-weight: bold;">Kurikulum <?php echo $kurikulum['Year']; ?></span></h3>
     <hr/>
-    <button class="btn btn-danger" id="btnCancle" type="button" data-dismiss="modal">Cencle</button>
     <button class="btn btn-success" id="btnYes">Yes</button>
+    |
+    <button class="btn btn-danger" id="btnCancle" type="button" data-dismiss="modal">Cencle</button>
 
 </div>
 

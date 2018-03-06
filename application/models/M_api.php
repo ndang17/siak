@@ -111,6 +111,7 @@ class M_api extends CI_Model {
                     mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
                     cd.ID AS CDID, cd.CurriculumID, cd.Semester , cd.TotalSKS, cd.SKSTeori, 
                     cd.SKSPraktikum, cd.SKSPraktikLapangan, cd.MKType, cd.DataPrecondition,
+                    cd.StatusSilabus, cd.StatusSAP, cd.StatusMK, cd.StatusPrecondition,
                     em.Name AS NameLecturer';
 
         if($ProdiID!=''){
@@ -183,9 +184,29 @@ class M_api extends CI_Model {
                                     LEFT JOIN db_academic.courses_groups cg ON (cg.ID = cd.CoursesGroupsID)
                                     LEFT JOIN db_employees.employees em ON (cd.LecturerNIP = em.NIP)
                                     LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
-                                    WHERE cd.ID = "'.$CDID.'" ');
+                                    WHERE cd.ID = "'.$CDID.'" ')->result_array();
 
-        return $data->result_array();
+
+        if($data[0]['StatusPrecondition']==1){
+            $dataPre = json_decode($data[0]['DataPrecondition']);
+
+            $pre_arr = [];
+            for($i=0;$i<count($dataPre);$i++){
+                $exp = explode('.',$dataPre[$i]);
+                $pre = $this->db->query('SELECT ID,MKcode,Name,NameEng FROM db_academic.mata_kuliah 
+                                            WHERE ID="'.$exp[0].'" AND MKCode = "'.$exp[1].'" ')->result_array();
+
+                array_push($pre_arr,$pre[0]);
+            }
+
+            $data[0]['DetailPrecondition'] = $pre_arr;
+
+        }
+
+//        print_r($data);
+//        exit;
+
+        return $data;
     }
 
 
@@ -326,17 +347,29 @@ class M_api extends CI_Model {
 
     public function getSchedule($DayID,$dataWhere){
 
+//        $data = $this->db->query('SELECT s.*,
+//                                          ses.*,
+//                                          mk.Name AS MKName, mk.NameEng AS MKNameEng,
+//                                          em.Name AS Lecturer,
+//                                          cl.Room
+//                                          FROM db_academic.schedule s
+//                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
+//                                              LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
+//                                              LEFT JOIN db_academic.schedule_details ses ON (ses.ScheduleID = s.ID)
+//                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = ses.ClassroomID)
+//                                              WHERE ses.DayID = "'.$DayID.'" ');
+
         $data = $this->db->query('SELECT s.*,
-                                          ses.*,
+                                          sd.ClassroomID,sd.Credit,sd.DayID,sd.TimePerCredit,sd.StartSessions,sd.EndSessions,
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng,
                                           em.Name AS Lecturer,
-                                          cl.Room                                   
-                                          FROM db_academic.schedule s 
-                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
-                                              LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
-                                              LEFT JOIN db_academic.schedule_details ses ON (ses.ScheduleID = s.ID)
-                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = ses.ClassroomID)
-                                              WHERE ses.DayID = "'.$DayID.'" ');
+                                          cl.Room 
+                                          FROM db_academic.schedule_details sd
+                                          LEFT JOIN db_academic.schedule s ON (s.ID=sd.ScheduleID)
+                                          LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
+                                          LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
+                                          LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)                                   
+                                          WHERE sd.DayID = "'.$DayID.'"  ');
 
         $result = $data->result_array();
 
@@ -348,7 +381,6 @@ class M_api extends CI_Model {
                 }
 
             }
-
         }
 
         return $result;

@@ -35,26 +35,41 @@
 
         var action = $(this).attr('data-action');
         var id = $(this).attr('data-id');
-        var url = base_url_js+"academic/modal-tahun-akademik";
-        
-        var btn_delete = '<button class="btn btn-danger btn-delete-master" style="float: left;" modal-id="'+id+'" id="modalBtnDelete" modal-action="delete">Delete</button>';
 
-        $.post(url,{action:action,id:id},function (html) {
+        if(action!='publish'){
+            var url = base_url_js+"academic/modal-tahun-akademik";
 
-            $('#GlobalModal .modal-header').html('<h4 class="modal-title">Tahun Akademik</h4>');
-            $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" id="modalBtnClose" data-dismiss="modal">Close</button>' +
-                '<button type="button" class="btn btn-success" modal-id="'+id+'" modal-action="'+action+'" id="modalBtnSave">Save</button>');
+            var btn_delete = '<button class="btn btn-danger btn-delete-master" style="float: left;" modal-id="'+id+'" id="modalBtnDelete" modal-action="delete">Delete</button>';
+
+            $.post(url,{action:action,id:id},function (html) {
+
+                $('#GlobalModal .modal-header').html('<h4 class="modal-title">Tahun Akademik</h4>');
+                $('#GlobalModal .modal-body').html(html);
+                $('#GlobalModal .modal-footer').html('<button type="button" class="btn btn-default" id="modalBtnClose" data-dismiss="modal">Close</button>' +
+                    '<button type="button" class="btn btn-success" modal-id="'+id+'" modal-action="'+action+'" id="modalBtnSave">Save</button>');
                 // '<button type="button" class="btn btn-success btn-th-action" data-action="add1" id="modalBtnSave">Save</button>');
-            if(action=='edit'){
-                $('#GlobalModal .modal-footer').append(btn_delete);
-            }
-            $('#GlobalModal').modal({
+                if(action=='edit'){
+                    $('#GlobalModal .modal-footer').append(btn_delete);
+                }
+                $('#GlobalModal').modal({
+                    'show' : true,
+                    'backdrop' : 'static'
+                });
+
+            });
+        } else {
+
+            $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Publish ?? </b> ' +
+                '<button type="button" id="btnActionPublish" data-id="'+id+'" class="btn btn-primary" style="margin-right: 5px;">Yes</button>' +
+                '<button type="button" id="btnActionNo" class="btn btn-default" data-dismiss="modal">No</button>' +
+                '</div>');
+            $('#NotificationModal').modal({
                 'show' : true,
                 'backdrop' : 'static'
             });
 
-        });
+        }
+
 
 
     });
@@ -131,6 +146,25 @@
     $(document).on('click','.btn-detail-tahun-akademik',function () {
         var ID = $(this).attr('data-id');
         loadDetailPageTahunAkademik(ID);
+    });
+
+    $(document).on('click','#btnActionPublish',function () {
+       var url = base_url_js+'api/__crudDataDetailTahunAkademik';
+       var ID = $(this).attr('data-id');
+       var token = jwt_encode({action:'publish',ID:ID},'UAP)(*');
+       loading_buttonSm('#btnActionPublish');
+       $('#btnActionNo').prop('disabled',true);
+       $.post(url,{token:token},function (result) {
+           loadTable();
+           setTimeout(function () {
+               toastr.success('Data Update','Success');
+               $('#btnActionPublish').html('Yes');
+               $('#btnActionNo,#btnActionPublish').prop('disabled',false);
+               $('#NotificationModal').modal('hide');
+           },1000);
+
+
+       });
     });
     
     
