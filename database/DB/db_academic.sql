@@ -983,7 +983,7 @@ CREATE TABLE `course_offerings` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
@@ -997,7 +997,10 @@ insert  into `course_offerings`(`ID`,`SemesterID`,`ProdiID`,`CurriculumDetailID`
 (7,11,1,949,'2017090','2018-03-05 15:52:55'),
 (8,11,1,952,'2017090','2018-03-06 11:55:51'),
 (9,11,1,783,'2017090','2018-03-06 11:58:08'),
-(10,11,1,947,'2017090','2018-03-06 13:12:00');
+(10,11,1,947,'2017090','2018-03-06 13:12:00'),
+(11,13,1,954,'2017090','2018-03-07 14:25:27'),
+(12,13,1,960,'2017090','2018-03-07 14:30:57'),
+(13,13,1,955,'2017090','2018-03-07 16:20:42');
 
 /*Table structure for table `courses_groups` */
 
@@ -1071,7 +1074,7 @@ CREATE TABLE `curriculum_details` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=957 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=961 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_details` */
 
@@ -2031,7 +2034,8 @@ insert  into `curriculum_details`(`ID`,`CurriculumID`,`Semester`,`CurriculumType
 (953,5,1,1,1,1,8,'ARC1011','1','1114013',1,4,0,0,0,1,'0','',1,1,'2017090','2018-03-06 14:54:52'),
 (954,5,1,1,1,1,9,'ARC1021','1','2117058',0,2,0,0,0,1,'0','',1,1,'2017090','2018-03-06 14:55:24'),
 (955,5,2,1,1,1,168,'UNC0101','1','1017080',1,2,0,0,0,1,'0','',0,0,'2017090','2018-03-06 14:56:32'),
-(956,5,1,1,1,1,36,'ARC2012','1','2516028',0,4,0,0,0,1,'1','[\"1.UNI1004\",\"5.UNI1002\",\"8.ARC1011\",\"17.HBP1007\",\"22.CEM2042\"]',1,0,'2017090','2018-03-06 17:00:10');
+(959,5,3,1,1,1,36,'ARC2012','1',NULL,0,5,0,0,0,1,'1','[\"8.ARC1011\"]',1,1,'2017090','2018-03-07 14:10:46'),
+(960,5,3,1,1,1,99,'ARC0003','0',NULL,0,9,0,0,0,1,'0','null',0,0,'2017090','2018-03-07 15:05:00');
 
 /*Table structure for table `curriculum_types` */
 
@@ -2819,8 +2823,7 @@ CREATE TABLE `programs_campus` (
 /*Data for the table `programs_campus` */
 
 insert  into `programs_campus`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
-(1,'Program Reguler','2017090','2018-01-25 11:10:05'),
-(2,'Program Tes','2017090','2018-01-30 09:13:21');
+(1,'Program Reguler','2017090','2018-01-25 11:10:05');
 
 /*Table structure for table `schedule` */
 

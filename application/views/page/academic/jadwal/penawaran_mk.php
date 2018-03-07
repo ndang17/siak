@@ -152,7 +152,7 @@
     function getSemesterActive(ProdiID) {
         var url = base_url_js+'api/__crudSemester';
         var data = {
-          action : 'ReadSemesterActiove',
+          action : 'ReadSemesterActive',
           formData : {
               ProdiID : ProdiID
           }
@@ -167,8 +167,10 @@
             $('#box1View,#box1Storage,#box2View,#box2Storage').empty();
             for(var i=0;i<jsonResult.DetailCourses.length;i++){
                 var Courses = jsonResult.DetailCourses[i];
-                var color = (Courses.MKType==1) ? 'green' : '#ff5722';
-                $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'" style="color: '+color+';">Smt '+Courses.Semester+' - '+Courses.ProdiCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')</option>');
+                var color = (Courses.StatusMK==1) ? 'green' : 'red';
+                var status = (Courses.StatusMK==1) ? '' : 'disabled';
+                var type = (Courses.MKType==1) ? '*' : '';
+                $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.ProdiCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')'+type+'</option>');
             }
 
         });
@@ -226,7 +228,7 @@
                         '<td class="td-center">'+_data.Semester+'</td>' +
                         '<td class="td-center">'+_data.TotalSKS+'</td>' +
                         '<td class="td-center">'+label+'</td>' +
-                        '<td class="td-center"><button class="btn btn-default btn-default-danger">Remove From Offer</button></td>' +
+                        '<td class="td-center"><button class="btn btn-default btn-default-danger">Remove Offer</button></td>' +
                         '</tr>');
                 }
 

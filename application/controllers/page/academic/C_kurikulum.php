@@ -92,41 +92,41 @@ class C_kurikulum extends MY_Controller {
 
     }
 
-    public function getClassGroup(){
-
-        $token = $this->input->post('token');
-        $key = "UAP)(*";
-        $data_arr = (array) $this->jwt->decode($token,$key);
-
-        $data['department'] = parent::__getDepartement();
-
-        if($data_arr['action']=='read'){
-            $data ['btnAction'] = ($data_arr['options']=='disabledBtnAction') ? 'disabled' : '';
-            $data['dataClassGroup'] = $this->m_akademik->getdataClassGroup();
-            $this->load->view('page/'.$data['department'].'/kurikulum/modal_class_group',$data);
-        } else if($data_arr['action']=='add'){
-            $dataForm = (array) $data_arr['dataForm'];
-            $this->db->insert('db_academic.class_group',$dataForm);
-            $insert_id = $this->db->insert_id();
-
-            return print_r($insert_id);
-        } else if($data_arr['action']=='delete') {
-            $this->db->where('ID', $data_arr['ID']);
-            $this->db->delete('db_academic.class_group');
-            return print_r(1);
-        } else if($data_arr['action']=='edit'){
-            $dataForm = (array) $data_arr['dataForm'];
-            $this->db->where('ID', $data_arr['ID']);
-            $this->db->update('db_academic.class_group',$dataForm);
-            return print_r(1);
-        } else if($data_arr['action']=='read_json'){
-            header('Content-Type: application/json');
-            $data['dataClassGroup'] = $this->m_akademik->getSelectOptionClassGroup();
-            return print_r(json_encode($data['dataClassGroup']));
-        }
-
-
-    }
+//    public function getClassGroup(){
+//
+//        $token = $this->input->post('token');
+//        $key = "UAP)(*";
+//        $data_arr = (array) $this->jwt->decode($token,$key);
+//
+//        $data['department'] = parent::__getDepartement();
+//
+//        if($data_arr['action']=='read'){
+//            $data ['btnAction'] = ($data_arr['options']=='disabledBtnAction') ? 'disabled' : '';
+//            $data['dataClassGroup'] = $this->m_akademik->getdataClassGroup();
+//            $this->load->view('page/'.$data['department'].'/kurikulum/modal_class_group',$data);
+//        } else if($data_arr['action']=='add'){
+//            $dataForm = (array) $data_arr['dataForm'];
+//            $this->db->insert('db_academic.class_group',$dataForm);
+//            $insert_id = $this->db->insert_id();
+//
+//            return print_r($insert_id);
+//        } else if($data_arr['action']=='delete') {
+//            $this->db->where('ID', $data_arr['ID']);
+//            $this->db->delete('db_academic.class_group');
+//            return print_r(1);
+//        } else if($data_arr['action']=='edit'){
+//            $dataForm = (array) $data_arr['dataForm'];
+//            $this->db->where('ID', $data_arr['ID']);
+//            $this->db->update('db_academic.class_group',$dataForm);
+//            return print_r(1);
+//        } else if($data_arr['action']=='read_json'){
+//            header('Content-Type: application/json');
+//            $data['dataClassGroup'] = $this->m_akademik->getSelectOptionClassGroup();
+//            return print_r(json_encode($data['dataClassGroup']));
+//        }
+//
+//
+//    }
 
 
     public function kurikulum_detail2(){

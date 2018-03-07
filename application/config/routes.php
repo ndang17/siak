@@ -37,8 +37,7 @@ $route['academic/kurikulum/add-kurikulum'] = 'page/academic/c_kurikulum/add_kuri
 $route['academic/kurikulum/loadPageDetailMataKuliah'] = 'page/academic/c_kurikulum/loadPageDetailMataKuliah';
 
 $route['academic/kurikulum/data-conf'] = 'page/academic/c_kurikulum/getDataConf';
-$route['academic/kurikulum/getClassGroup'] = 'page/academic/c_kurikulum/getClassGroup';
-//$route['academic/kurikulum/getClassroom'] = 'page/academic/c_kurikulum/getClassroom';
+//$route['academic/kurikulum/getClassGroup'] = 'page/academic/c_kurikulum/getClassGroup';
 
 
 $route['academic/kurikulum-detail-mk'] = 'page/academic/c_kurikulum/kurikulum_detail_mk';
@@ -84,6 +83,7 @@ $route['database/employees'] = 'page/database/c_database/employees';
 $route['api/__getKurikulumByYear'] = 'api/c_api/getKurikulumByYear';
 $route['api/__getBaseProdi'] = 'api/c_api/getProdi';
 $route['api/__getBaseProdiSelectOption'] = 'api/c_api/getProdiSelectOption';
+$route['api/__getBaseProdiSelectOptionAll'] = 'api/c_api/getProdiSelectOptionAll';
 $route['api/__geteducationLevel'] = 'api/c_api/geteducationLevel';
 
 $route['api/__getMKByID'] = 'api/c_api/getMKByID';

@@ -33,15 +33,14 @@
 
                     <div class="btn-group">
                         <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Refrence
+                            <i class="fa fa-cog" aria-hidden="true"></i>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li><a href="javascript:void(0)" data-action="ConfProgram" data-header="Program Kampus" class="btn-conf">Program Kuliah</a></li>
                             <li><a href="javascript:void(0)" data-action="ConfJenisKurikulum" data-header="Jenis Kurikulum" class="btn-conf">Jenis Kurikulum</a></li>
                             <li><a href="javascript:void(0)" data-action="ConfJenisKelompok" data-header="Kelompok Mata Kuliah" class="btn-conf">Kelompok</a></li>
-                            <li><a href="javascript:void(0)" data-action="ClassGroup" data-header="Group Kelas" class="btn-conf">Group Kelas</a></li>
-                            <li><a href="javascript:void(0)" data-action="Classroom" data-header="Classroom" class="btn-conf">Ruangan</a></li>
+<!--                            <li><a href="javascript:void(0)" data-action="ClassGroup" data-header="Group Kelas" class="btn-conf">Group Kelas</a></li>-->
                         </ul>
                     </div>
 
@@ -85,11 +84,10 @@
         var header = $(this).attr('data-header');
         if(action == 'ConfJenisKurikulum' || action == 'ConfJenisKelompok' || action=='ConfProgram'){
             modal_dataConf(action,header);
-        } else if(action=='ClassGroup'){
-            modal_dataClassGroup(action,header);
-        } else if(action=='Classroom'){
-            modal_dataClassroom(action,header);
         }
+        // else if(action=='ClassGroup'){
+        //     modal_dataClassGroup(action,header);
+        // }
     });
 
     $(document).on('click','.btn-control',function () {

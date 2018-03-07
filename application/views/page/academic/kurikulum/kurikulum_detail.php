@@ -7,6 +7,12 @@
     .table-smt thead th {
         text-align: center;
     }
+    .btn-silabus,.btn-sap {
+        border-radius: 20px;
+        padding: 1px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 </style>
 
 <div class="col-md-12">
@@ -57,7 +63,7 @@
 
     function LoadDetailMK(MataKuliah) {
 
-        console.log(MataKuliah);
+        // console.log(MataKuliah);
         for(var i=0;i<MataKuliah.length;i++){
             if(MataKuliah.length==8){
                 $('.btn-addsmt').prop('disabled',true);
@@ -85,12 +91,13 @@
                 '                                <th style="width:10px;">No</th>' +
                 '                                <th style="width:70px;">Code</th>' +
                 '                                <th>Course</th>' +
-                '                                <th style="width: 15%;">Lecturer</th>' +
+                // '                                <th style="width: 15%;">Lecturer</th>' +
                 '                                <th style="width: 15%;">Base Prodi</th>' +
+                '                                <th style="width: 5%;">Ed Level</th>' +
                 '                                <th style="width: 5%;">Total Credit</th>' +
                 '                                <th style="width: 5%;">Pre</th>' +
-                '                                <th style="width: 5%;">Silabus</th>' +
-                '                                <th style="width: 5%;">SAP</th>' +
+                '                                <th style="width: 9%;">Silabus</th>' +
+                '                                <th style="width: 9%;">SAP</th>' +
                 '                            </tr>' +
                 // '                            <tr>' +
                 // '                                <th style="width:80px;">T</th>' +
@@ -108,16 +115,22 @@
             for(var s=0;s<detailSemester.length;s++){
 
                 var StatusPrecondition = (detailSemester[s].StatusPrecondition==1) ? '<i class="fa fa-check-circle" style="color: green;"></i>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
-                var silabus = (detailSemester[s].StatusSilabus==1) ? '<i class="fa fa-check-circle" style="color: green;"></i>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
-                var sap = (detailSemester[s].StatusSAP==1) ? '<i class="fa fa-check-circle" style="color: green;"></i>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
 
+                var silabus = (detailSemester[s].StatusSilabus==1) ? '<button class="btn btn-sm btn-default btn-default-danger btn-silabus hide"><i class="fa fa-download" aria-hidden="true"></i></button> ' +
+                    '<label class="btn btn-sm btn-default btn-default-success btn-silabus"><i class="fa fa-upload" aria-hidden="true"></i> Upload <input type="file" style="display: none;"></label>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
+
+                var sap = (detailSemester[s].StatusSAP==1) ? '<button class="btn btn-sm btn-default btn-default-danger btn-silabus hide"><i class="fa fa-download" aria-hidden="true"></i></button> ' +
+                    '<label class="btn btn-sm btn-default btn-default-success btn-silabus"><i class="fa fa-upload" aria-hidden="true"></i> Upload <input type="file" style="display: none;"></label>' : '<i class="fa fa-minus-circle" style="color: red;"></i>';
+
+                var StatusMK = (detailSemester[s].StatusMK==1) ? 'green' : 'red';
                 $('#dataSmt'+i).append('<tr>' +
                     '<td class="td-center">'+(no++)+'</td>' +
-                    '<td class="td-center">'+detailSemester[s].MKCode+'</td>' +
+                    '<td class="td-center"><span style="color:'+StatusMK+';">'+detailSemester[s].MKCode+'</span></td>' +
                     '<td><div><a href="javascript:void(0)" class="detailMataKuliah" data-smt="'+MataKuliah[i].Semester+'" data-id="'+detailSemester[s].CDID+'"><b>'+detailSemester[s].NameMKEng+'</b></a>' +
                     '</td>' +
-                    '<td><div>'+detailSemester[s].NameLecturer+'</td>' +
+                    // '<td><div>'+detailSemester[s].NameLecturer+'</td>' +
                     '<td>'+detailSemester[s].ProdiNameEng+'</td>' +
+                    '<td class="td-center"><div>'+detailSemester[s].EducationLevel+'</div></td>' +
                     '<td class="td-center"><div>'+detailSemester[s].TotalSKS+'</div></td>' +
                     '<td class="td-center"><div>'+StatusPrecondition+'</div></td>' +
                     '<td class="td-center"><div>'+silabus+'</div></td>' +

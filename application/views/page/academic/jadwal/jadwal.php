@@ -73,9 +73,13 @@
         loadSelectOptionBaseProdi('#filterBaseProdi','');
         loSelectOptionSemester('#filterSemester','selectedNow');
 
-        setTimeout(function () {
-            filterSchedule();
-        },500)
+        loadAcademicYearOnPublish();
+
+    });
+
+
+    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine',function () {
+        filterSchedule();
     });
 
     $('input[type=checkbox][class=filterDay]').change(function () {
@@ -107,23 +111,31 @@
         }
     });
 
-
+    function loadAcademicYearOnPublish() {
+        var url = base_url_js+"api/__getAcademicYearOnPublish";
+        $.getJSON(url,function (data_json) {
+            getSchedule(1,data_json.ID,'','');
+        });
+    }
 
     function filterSchedule() {
+        var ProgramsCampusID = $('#filterProgramCampus').find(':selected').val();
+        var SemesterID = $('#filterSemester').find(':selected').val().split('.')[0];
+        var Prodi = $('#filterBaseProdi').find(':selected').val();
+        var ProdiID = (Prodi!='') ? Prodi.split('.')[0] : '';
+        var CombinedClasses = $('#filterCombine').find(':selected').val();
 
-        // return false;
+        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses);
+    }
 
-        var ProgramCampusID = $('#filterProgramCampus').find(':selected').val();
-        var SemesterID = $('#filterSemester').find(':selected').val().split('.');
-        var BaseProdi = $('#filterBaseProdi').find(':selected').val().split('.');
-        var CombinedClasses = $('#filterCombine').find(':selected').val().split('.');
+    function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses) {
 
         var data = {
             action : 'read',
             dataWhere  : {
-                ProgramCampusID : ProgramCampusID,
-                SemesterID : SemesterID[0],
-                BaseProdi : BaseProdi,
+                ProgramsCampusID : ProgramsCampusID,
+                SemesterID : SemesterID,
+                ProdiID : ProdiID,
                 CombinedClasses : CombinedClasses,
                 Days : checkedDay,
                 DaysName : {
@@ -132,6 +144,8 @@
                 }
             }
         };
+
+        console.log(data);
 
         var url = base_url_js+'api/__crudSchedule';
         var token = jwt_encode(data,'UAP)(*');
@@ -142,7 +156,7 @@
             console.log(data_result);
 
             if(data_result.length>0){
-                div.empty();
+                div.html('');
                 for(var i=0;i<data_result.length;i++){
 
                     var classDay = (i>4) ? 'label-danger' : 'label-info';

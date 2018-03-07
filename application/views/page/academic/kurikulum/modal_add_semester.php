@@ -90,10 +90,10 @@
 
                         <div style="margin-top: 10px;">
                             <span class="hide" id="ModalPrasyaratSelectMKView"></span>
-                            <select class="select2-select-00 full-width-fix" size="5" multiple disabled id="ModalPrasyaratSelectMK">
+                            <select class="select2-select-00 full-width-fix form-edit" size="5" multiple disabled id="ModalPrasyaratSelectMK">
                                 <option value=""></option>
                             </select>
-                            <input class="hide" id="ModalPrasyaratSelectMKVal" />
+                            <input class="hide" readonly id="ModalPrasyaratSelectMKVal" />
                         </div>
                     </div>
                 </div>
@@ -101,23 +101,24 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-sm-4 control-label">Dosen Pengajar</label>
-            <div class="col-sm-8">
-                <span id="ModalLecturersView" style="line-height: 2.3;font-weight: bold;" class="hide"></span>
-                <select class="select2-select-00 full-width-fix" size="5" id="ModalLecturers">
-                    <option value=""></option>
-                </select>
-                <input class="hide" id="ModalLecturersVal" type="hide"/>
-            </div>
-        </div>
+<!--        <div class="form-group">-->
+<!--            <label class="col-sm-4 control-label">Dosen Pengajar</label>-->
+<!--            <div class="col-sm-8">-->
+<!--                <span id="ModalLecturersView" style="line-height: 2.3;font-weight: bold;" class="hide"></span>-->
+<!--                <select class="select2-select-00 full-width-fix" size="5" id="ModalLecturers">-->
+<!--                    <option value=""></option>-->
+<!--                </select>-->
+<!--                <input class="hide" id="ModalLecturersVal" type="hide"/>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!-- Untuk membuka form dosen silahkan search "--- Dosen" lalu buka setiap komentarnya -->
 
         <div class="form-group">
             <label class="col-sm-4 control-label">Kelompok</label>
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col-sm-10">
-                        <select class="form-control" id="ModalKelompokMK">
+                        <select class="form-control form-edit" id="ModalKelompokMK">
                             <option value=""></option>
                         </select>
                     </div>
@@ -133,7 +134,7 @@
                             <div class="well">
                                 <div class="row">
                                     <div class="col-xs-9">
-                                        <input class="form-control" id="FormAddItemMK" placeholder="Input kelompok...">
+                                        <input class="form-control form-edit" id="FormAddItemMK" placeholder="Input kelompok...">
                                     </div>
                                     <label class="col-xs-3">
                                         <a href="javascript:void(0)" id="btnAddItemMK" class="btn btn-default btn-block btn-default-success"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
@@ -150,19 +151,19 @@
 
             <div class="col-sm-3">
                 <label>Total SKS</label>
-                <input class="form-control" id="ModalFormTotalSKS" type="number">
+                <input class="form-control form-edit" id="ModalFormTotalSKS" type="number">
             </div>
             <div class="col-sm-3">
                 <label>Teori</label>
-                <input class="form-control" id="ModalFormSKSTeori" type="number">
+                <input class="form-control form-edit" id="ModalFormSKSTeori" type="number">
             </div>
             <div class="col-sm-3">
                 <label>Praktek</label>
-                <input class="form-control" id="ModalFormSKSPraktek" type="number">
+                <input class="form-control form-edit" id="ModalFormSKSPraktek" type="number">
             </div>
             <div class="col-sm-3">
                 <label>Praktek Lap.</label>
-                <input class="form-control" id="ModalFormSKSPraktekLapangan" type="number">
+                <input class="form-control form-edit" id="ModalFormSKSPraktekLapangan" type="number">
             </div>
         </div>
 
@@ -207,9 +208,11 @@
             <div class="col-sm-12" id="BtnFooter">
                 <button type="button" id="ModalbtnCancleForm" data-dismiss="modal" class="btn btn-default">Cancle</button>
                 <button type="button" id="ModalbtnSaveForm" class="btn btn-success">Save</button>
-                <button type="button" id="ModalbtnEditForm" class="btn btn-default hide">Edit Data</button>
+                <button type="button" id="ModalbtnEditForm" class="btn btn-default btn-default-success hide">Edit Data</button>
             </div>
         </div>
+
+        <div id="alertCourse"></div>
 
     </form>
 </div>
@@ -233,8 +236,13 @@
             loadSelectOptionBaseProdi('#ModalSelectProdi','');
             loadSelectOptionEducationLevel('#ModalSelectJenjang','');
             loadSelectOptionAllMataKuliahSingle('#ModalSelectMK','');
-            loadSelectOptionLecturersSingle('#ModalLecturers','');
-            $('#ModalPrasyaratSelectMK, #ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+
+            $('#ModalPrasyaratSelectMK, #ModalSelectMK').select2({allowClear: true});
+
+
+            //---- Dosen
+            // loadSelectOptionLecturersSingle('#ModalLecturers','');
+            // $('#ModalLecturers').select2({allowClear: true});
 
         }
         else if(action=='edit')
@@ -248,7 +256,6 @@
 
             $('#ModalbtnSaveForm').addClass('hide');
             $('#ModalbtnEditForm').removeClass('hide');
-            $('#BtnFooter').append('<button type="button" class="btn btn-danger" style="float:left;">Delete</button>');
 
             var CDID = '<?php echo $CDID; ?>';
             var data = {
@@ -262,6 +269,8 @@
                 var data = data_json[0];
 
                 console.log(data);
+                $('#BtnFooter').append('<button type="button" class="btn btn-danger" data-id="'+data.ID+'" id="ModalbtnDeleteForm" style="float:left;">Delete</button>');
+
 
                 $('#ModalJenisKurikulum').val(data.CurriculumTypeID);
 
@@ -275,9 +284,12 @@
                 $('#ModalSelectMKView').removeClass('hide').html(data.NameMKEng);
                 $('#ModalSelectMKVal').val(data.MKID+'.'+data.MKCode);
 
-                $('#ModalLecturers').addClass('hide');
-                $('#ModalLecturersView').removeClass('hide').html(data.NameLecturer);
-                $('#ModalLecturersVal').val(data.LecturerNIP);
+                // --- Dosen
+                // $('#ModalLecturers').addClass('hide');
+                // $('#ModalLecturersView').removeClass('hide').html(data.NameLecturer);
+                // $('#ModalLecturersVal').val(data.LecturerNIP);
+                // $('#ModalLecturersVal').html(data.LecturerNIP+' | '+data.NameLecturer);
+
 
                 $('#ModalPrasyaratSelectMK').addClass('hide');
 
@@ -292,15 +304,10 @@
                 }
                 $('#ModalPrasyaratSelectMKVal').val(data.DataPrecondition);
 
-                //
-
 
                 $('input[name=jenisMK][value='+data.MKType+']').prop('checked',true);
 
 
-                // $('#ModalLecturers').select2({allowClear: true});
-
-                // $('#ModalLecturers').select2({allowClear: true}).val(data.LecturerNIP).trigger('change');
 
                 $('#ModalKelompokMK').val(data.CoursesGroupsID);
 
@@ -310,10 +317,10 @@
                     $('#ModalPrasyarat').prop('checked',false);
                     // $('#ModalPrasyaratSelectMK').prop('disabled',false);
                 } else {
+
                     // $('#ModalPrasyarat').prop('checked',true);
                 }
 
-                $('#ModalLecturersVal').html(data.LecturerNIP+' | '+data.NameLecturer);
 
                 $('#ModalKelompokMKVal').html(data.NameCoursesGroups);
 
@@ -346,6 +353,36 @@
        }
     });
 
+    $(document).on('click','#ModalbtnDeleteForm',function () {
+        var ID = $(this).attr('data-id');
+        $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Hapus data ?? </b> ' +
+            '<button type="button" data-id="'+ID+'" id="btnActionDeleteYes" class="btn btn-primary" style="margin-right: 5px;">Yes</button>' +
+            '<button type="button" class="btn btn-default" id="btnActionDeleteNo" data-dismiss="modal">No</button>' +
+            '</div>');
+        $('#NotificationModal').modal('show');
+    });
+
+    $(document).on('click','#btnActionDeleteYes',function () {
+        loading_buttonSm('#btnActionDeleteYes');
+        var ID = $(this).attr('data-id');
+        var url = base_url_js+"api/__crudDetailMK";
+        var data = {
+          action : 'delete',
+          ID : ID
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+
+        $.post(url,{token:token},function (result) {
+            pageKurikulum();
+            setTimeout(function () {
+                $('#NotificationModal,#GlobalModal').modal('hide');
+            },500);
+
+        });
+
+    });
+
     $('#btnAddItemJenisKurikulum').click(function () {
         var name = $('#FormAddItemJenisKurikulum').val();
         if(name==''){
@@ -369,30 +406,33 @@
 
     $('#ModalbtnSaveForm').click(function () {
 
-        var process = true;
+        var process = [];
 
-        var kurikulum = $('#selectKurikulum').find(':selected').val().split('.');
-        var CurriculumID = kurikulum[0];
-        var Semester = '<?php echo $semester; ?>';
-        var CurriculumTypeID = $('#ModalJenisKurikulum').find(':selected').val();
+        if(action=='add'){
+            var kurikulum = $('#selectKurikulum').find(':selected').val().split('.');
+            var CurriculumID = kurikulum[0];
+            var Semester = '<?php echo $semester; ?>';
+            var CurriculumTypeID = $('#ModalJenisKurikulum').find(':selected').val();
 
 
-        var ProdiID = $('#ModalSelectProdi').find(':selected').val();
-        process = formRequiredError(ProdiID,'#ModalSelectProdi');
+            var ProdiID = $('#ModalSelectProdi').find(':selected').val();
+            process.push(formRequiredError(ProdiID,'#ModalSelectProdi'));
 
-        var EducationLevelID = $('#ModalSelectJenjang').find(':selected').val();
-        process = formRequiredError(EducationLevelID,'#ModalSelectJenjang');
+            var EducationLevelID = $('#ModalSelectJenjang').find(':selected').val();
+            process.push(formRequiredError(EducationLevelID,'#ModalSelectJenjang'));
 
-        var Datamk = $('#ModalSelectMK').val();
-        if(Datamk!=''){
-            mk = Datamk.split('.');
-            var MKID = mk[0].trim();
-            var MKCode = mk[1].trim();
-            $('#s2id_ModalSelectMK').css('border','1px solid green');
-        } else {
-            $('#s2id_ModalSelectMK').css('border','1px solid red');
-            process = false;
+            var Datamk = $('#ModalSelectMK').val();
+            if(Datamk!=''){
+                mk = Datamk.split('.');
+                var MKID = mk[0].trim();
+                var MKCode = mk[1].trim();
+                $('#s2id_ModalSelectMK a').css('border','1px solid #ccc');
+            } else {
+                $('#s2id_ModalSelectMK a').css('border','1px solid red');
+                process.push(0);
+            }
         }
+
 
 
         var MKType = $('input[name=jenisMK]:checked').val();
@@ -405,24 +445,24 @@
         // } else {
         //     StatusPrecondition = 1;
             if(DataPraSyart==null){
-                toastr.error('Prasyarat Wajib Diisi','Error!!');
                 $('#s2id_ModalPrasyaratSelectMK').css('border','1px solid red');
-                process = false;
+                process.push(0);
             } else if(DataPraSyart[0]=='') {
-                toastr.error('Prasyarat Wajib Diisi','Error!!');
                 $('#s2id_ModalPrasyaratSelectMK').css('border','1px solid red');
-                process = false;
+                process.push(0);
             } else {
                 DataPR__ = JSON.stringify(DataPraSyart);
             }
 
         }
 
-        var LecturerNIP = $('#ModalLecturers').val();
-        process = formRequiredError(LecturerNIP,'#s2id_ModalLecturers');
+        // // --- Dosen
+        // var LecturerNIP = $('#ModalLecturers').val();
+        // process = formRequiredError(LecturerNIP,'#s2id_ModalLecturers');
+
         var CoursesGroupsID = $('#ModalKelompokMK').find(':selected').val();
         var TotalSKS = $('#ModalFormTotalSKS').val();
-        process = formRequiredError(TotalSKS,'#ModalFormTotalSKS');
+        process.push(formRequiredError(TotalSKS,'#ModalFormTotalSKS'));
         var SKSTeori = $('#ModalFormSKSTeori').val();
         var SKSPraktikum = $('#ModalFormSKSPraktek').val();
         var SKSPraktikLapangan = $('#ModalFormSKSPraktekLapangan').val();
@@ -434,51 +474,86 @@
 
 
         // Proses Dulu
-        if(process){
+        if($.inArray(0,process)==-1){
             $('#modalAddSmester .form-control,' +
                 '#modalAddSmester .select2-select-00,' +
                 '#modalAddSmester #ModalPrasyarat,' +
                 '#modalAddSmester input[type=radio],' +
                 '#modalAddSmester .btn')
                 .prop('disabled',true);
+            var data;
 
+            if(action=='add'){
+                data = {
+                    action : action,
+                    ID : ID,
+                    DataPraSyart : DataPraSyart,
+                    dataForm : {
+                        CurriculumID : CurriculumID,
+                        Semester : Semester,
+                        CurriculumTypeID : CurriculumTypeID,
+                        ProdiID : ProdiID,
+                        EducationLevelID : EducationLevelID,
 
+                        MKID : MKID,
+                        MKCode : MKCode,
+                        MKType : MKType,
 
-            var data = {
-                action : action,
-                ID : ID,
-                DataPraSyart : DataPraSyart,
-                dataForm : {
-                    CurriculumID : CurriculumID,
-                    Semester : Semester,
-                    CurriculumTypeID : CurriculumTypeID,
-                    ProdiID : ProdiID,
-                    EducationLevelID : EducationLevelID,
+                        StatusPrecondition : StatusPrecondition,
+                        DataPrecondition : JSON.stringify(DataPraSyart),
 
-                    MKID : MKID,
-                    MKCode : MKCode,
-                    MKType : MKType,
+                        // --- Dosen
+                        // LecturerNIP : LecturerNIP,
+                        CoursesGroupsID : CoursesGroupsID,
+                        TotalSKS : TotalSKS,
+                        SKSTeori : SKSTeori,
+                        SKSPraktikum : SKSPraktikum,
+                        SKSPraktikLapangan : SKSPraktikLapangan,
 
-                    StatusPrecondition : StatusPrecondition,
-                    DataPrecondition : JSON.stringify(DataPraSyart),
+                        StatusMK : StatusMK,
+                        StatusSilabus : StatusSilabus,
+                        StatusSAP : StatusSAP,
 
-                    LecturerNIP : LecturerNIP,
-                    CoursesGroupsID : CoursesGroupsID,
-                    TotalSKS : TotalSKS,
-                    SKSTeori : SKSTeori,
-                    SKSPraktikum : SKSPraktikum,
-                    SKSPraktikLapangan : SKSPraktikLapangan,
+                        UpdateBy : sessionNIP,
+                        UpdateAt : dateTimeNow()
+                    }
+                };
+            } else if(action=='edit'){
+                data = {
+                    action : action,
+                    ID : ID,
+                    DataPraSyart : DataPraSyart,
+                    dataForm : {
+                        // CurriculumID : CurriculumID,
+                        // Semester : Semester,
+                        // CurriculumTypeID : CurriculumTypeID,
+                        // ProdiID : ProdiID,
+                        // EducationLevelID : EducationLevelID,
+                        //
+                        // MKID : MKID,
+                        // MKCode : MKCode,
+                        MKType : MKType,
 
-                    StatusMK : StatusMK,
-                    StatusSilabus : StatusSilabus,
-                    StatusSAP : StatusSAP,
+                        StatusPrecondition : StatusPrecondition,
+                        DataPrecondition : JSON.stringify(DataPraSyart),
 
-                    UpdateBy : sessionNIP,
-                    UpdateAt : dateTimeNow()
-                }
-            };
+                        // --- Dosen
+                        // LecturerNIP : LecturerNIP,
+                        CoursesGroupsID : CoursesGroupsID,
+                        TotalSKS : TotalSKS,
+                        SKSTeori : SKSTeori,
+                        SKSPraktikum : SKSPraktikum,
+                        SKSPraktikLapangan : SKSPraktikLapangan,
 
-            console.log(data);
+                        StatusMK : StatusMK,
+                        StatusSilabus : StatusSilabus,
+                        StatusSAP : StatusSAP,
+
+                        UpdateBy : sessionNIP,
+                        UpdateAt : dateTimeNow()
+                    }
+                };
+            }
 
             // return false;
 
@@ -487,8 +562,13 @@
             loading_button('#ModalbtnSaveForm');
             // return false;
             $.post(url,{token:token},function (result) {
+
+                // if(result)
+
+                // console.log(result.smg);
+
+                $('#alertCourse').html('');
                 setTimeout(function () {
-                    toastr.success('Data tersimpan','Success');
 
                     $('#ModalbtnSaveForm').html('Save');
                     $('#modalAddSmester .form-control,' +
@@ -498,18 +578,30 @@
                         '#modalAddSmester .btn')
                         .prop('disabled',false);
 
-                    if(action=='add'){
+                    if(action=='add' && result.msg==0){
+                        toastr.error('Data have been inserted','Error');
+
+                        $('#alertCourse').html('<div class="alert alert-danger" role="alert">Courses have been inserted in Semester '+result.Semester+'</div>');
+                    } else if(action=='add' && result.msg!=0){
+                        pageKurikulum();
+
                         resetForm();
-                    } else {
+                        toastr.success('Data tersimpan','Success');
+
+                    } else if(action=='edit'){
+                        pageKurikulum();
+
+                        toastr.success('Data tersimpan','Success');
+
                         if(StatusPrecondition!=1){
                             $('#ModalPrasyarat').prop('checked',true);
 
                             $("#ModalPrasyaratSelectMK").select2("val", null);
                             $('#ModalPrasyaratSelectMK').prop('disabled',true);
                         }
-
                     }
-                    pageKurikulum();
+
+
 
 
                 },2000);
@@ -526,31 +618,38 @@
     $('#ModalbtnEditForm').click(function () {
         $(this).addClass('hide');
         $('#ModalbtnSaveForm').removeClass('hide');
-        $('#modalAddSmester .form-control,' +
-            '#modalAddSmester .select2-select-00,' +
-            '#modalAddSmester #ModalPrasyarat,' +
-            '#modalAddSmester input[type=radio],' +
-            '#modalAddSmester .btn[data-toggle=collapse]')
+
+        // $('#modalAddSmester .form-control,' +
+        //     '#modalAddSmester .select2-select-00,' +
+        //     '#modalAddSmester #ModalPrasyarat,' +
+        //     '#modalAddSmester input[type=radio],' +
+        //     '#modalAddSmester .btn[data-toggle=collapse]')
+        //     .prop('disabled',false);
+
+        $('#modalAddSmester .form-edit,#modalAddSmester #ModalPrasyarat,#modalAddSmester input[type=radio],#modalAddSmester .btn[data-toggle=collapse]')
             .prop('disabled',false);
 
-        var mkVal = $('#ModalSelectMKVal').val();
-        loadSelectOptionAllMataKuliahSingle('#ModalSelectMK',mkVal);
-        $('#ModalSelectMK').removeClass('hide');
-        // $('#ModalSelectMKView').removeClass('hide').html(data.NameMKEng);
+        // var mkVal = $('#ModalSelectMKVal').val();
+        // loadSelectOptionAllMataKuliahSingle('#ModalSelectMK',mkVal);
+        // $('#ModalSelectMK').removeClass('hide');
 
-        var lecVal = $('#ModalLecturersVal').val();
-        loadSelectOptionLecturersSingle('#ModalLecturers',lecVal);
-        $('#ModalLecturers').removeClass('hide');
-        // $('#ModalLecturersView').removeClass('hide').html(data.NameLecturer);
+        // --- Dosen
+        // var lecVal = $('#ModalLecturersVal').val();
+        // loadSelectOptionLecturersSingle('#ModalLecturers',lecVal);
+        // $('#ModalLecturers').removeClass('hide');
+        // $('#ModalLecturers').select2({allowClear: true});
 
         var prForm = $('#ModalPrasyaratSelectMKVal').val();
-        console.log(prForm)
-        var prVal = (prForm!='') ? JSON.parse(prForm) : '';
-        loadSelectOptionAllMataKuliahForPraSyarat('#ModalPrasyaratSelectMK',prVal);
+        if(prForm!='' && prForm!='null'){
+            loadSelectOptionAllMataKuliahForPraSyarat('#ModalPrasyaratSelectMK',JSON.parse(prForm));
+        } else {
+            loadSelectOptionAllMataKuliah('#ModalPrasyaratSelectMK');
+        }
+
         $('#ModalPrasyaratSelectMK').removeClass('hide');
 
         $('#ModalPrasyaratSelectMK').select2();
-        $('#ModalSelectMK, #ModalLecturers').select2({allowClear: true});
+        $('#ModalSelectMK').select2({allowClear: true});
 
 
         if(StatusPrecondition!=1){
@@ -570,7 +669,9 @@
         $("#ModalPrasyaratSelectMK").select2("val", null);
         $('#ModalPrasyaratSelectMK').prop('disabled',true);
 
-        $('#ModalLecturers').val(null).trigger('change');
+        // --- Dosen
+        // $('#ModalLecturers').val(null).trigger('change');
+
         $('#ModalKelompokMK').val('');
 
         $('#ModalFormTotalSKS').val('');
@@ -622,10 +723,13 @@
     function formRequiredError(value,element) {
         if(value=='' || value==0 || value==null){
             $(''+element).css('border','1px solid red');
-            return false;
+            setTimeout(function () {
+                $(''+element).css('border','1px solid #ccc');
+            },5000);
+            return 0;
         } else {
-            $(''+element).css('border','1px solid green');
-            return true;
+            $(''+element).css('border','1px solid #ccc');
+            return 1;
         }
 
     }

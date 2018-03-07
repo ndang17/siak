@@ -121,7 +121,7 @@
                 </td>
             </tr>
             <tr class="trNewSesi1">
-                <td>Ruang | Hari | Credit</td>
+                <td>Room | Day | Credit</td>
                 <td>:</td>
                 <td>
                     <div class="row">
@@ -257,6 +257,7 @@
                 ProdiID : ProdiID
             }
         };
+
         var token = jwt_encode(data,'UAP)(*');
 
         $.post(url,{token:token},function (jsonResult) {
@@ -723,7 +724,7 @@
 
     function loadAcademicYearOnPublish() {
         var url = base_url_js+"api/__getAcademicYearOnPublish";
-        $.get(url,function (data_json) {
+        $.getJSON(url,function (data_json) {
             $('#formSemesterID').val(data_json.ID);
             $('#semesterName').html(data_json.YearCode+' | '+data_json.Name);
 
@@ -768,11 +769,16 @@
 
     function loadDataSKS(dataMK) {
         // console.log(dataMK);
+        var SemesterID = $('#formSemesterID').val();
         var mk = dataMK.split('.');
         var data = {
-            action : 'read',
-            ID : mk[0],
-            MKCode : mk[1]
+            action : 'readOfferings',
+            dataForm : {
+                SemesterID : SemesterID,
+                MKID : mk[0],
+                MKCode : mk[1]
+            }
+
         };
 
         // console.log(mk[2]);
@@ -787,6 +793,7 @@
         var token = jwt_encode(data,'UAP)(*');
         var url = base_url_js+"api/__crudMataKuliah";
         $.post(url,{token:token},function (data_json) {
+
             $('#textSemester').html(data_json.Semester);
             $('#textTotalSKS').html(data_json.TotalSKS);
             $('#textTotalSKSMK').val(data_json.TotalSKS);

@@ -47,6 +47,11 @@ class C_api extends CI_Controller {
         return print_r(json_encode($data));
     }
 
+    public function getProdiSelectOptionAll(){
+        $data = $this->m_api->__getBaseProdiSelectOptionAll();
+        return print_r(json_encode($data));
+    }
+
     public function getKurikulumSelectOption(){
         $data = $this->m_api->__getKurikulumSelectOption();
         return print_r(json_encode($data));
@@ -206,11 +211,40 @@ class C_api extends CI_Controller {
 
         if($data_arr['action']=='add'){
             $insert = (array) $data_arr['dataForm'];
-            $this->db->insert('db_academic.curriculum_details',$insert);
-            $insert_id = $this->db->insert_id();
 
-            return print_r($insert_id);
-        } else if($data_arr['action']=='edit'){
+            // Cek apakah sudah dimasukan ke detail kurikulum
+
+            $where = array(
+                'CurriculumID' => $insert['CurriculumID'],
+                'ProdiID' => $insert['ProdiID'],
+                'EducationLevelID' => $insert['EducationLevelID'],
+                'MKID' => $insert['MKID'],
+                'MKCode' => $insert['MKCode']);
+            $this->db->select('Semester');
+            $dataSmt = $this->db->get_where('db_academic.curriculum_details', $where)->result_array();
+
+            if(count($dataSmt)>0){
+                $result = array(
+                    'msg' => 0,
+                    'Semester' => $dataSmt[0]['Semester']
+                );
+                return print_r(json_encode($result));
+
+            } else {
+
+
+                $this->db->insert('db_academic.curriculum_details',$insert);
+                $insert_id = $this->db->insert_id();
+                $result = array(
+                    'msg' => $insert_id
+                );
+                return print_r(json_encode($result));
+            }
+
+
+
+        }
+        else if($data_arr['action']=='edit'){
             $update = (array) $data_arr['dataForm'];
             $this->db->where('ID', $data_arr['ID']);
             $this->db->update('db_academic.curriculum_details',$update);
@@ -221,6 +255,11 @@ class C_api extends CI_Controller {
 
             $insert_id = $data_arr['ID'];
             return print_r($insert_id);
+        }
+        else if($data_arr['action']=='delete') {
+            $this->db->where('ID', $data_arr['ID']);
+            $this->db->delete('db_academic.curriculum_details');
+            return print_r(1);
         }
 
 //        if($data_arr['DataPraSyart']!=''){
@@ -307,6 +346,12 @@ class C_api extends CI_Controller {
                 if(count($data)>0){
                     return print_r(json_encode($data[0]));
                 }
+            }
+            else if($data_arr['action']=='readOfferings') {
+                $dataForm = (array) $data_arr['dataForm'];
+                $data = $this->m_api->getMatakuliahOfferings($dataForm['SemesterID'],$dataForm['MKID'],$dataForm['MKCode']);
+
+                return print_r(json_encode($data[0]));
             }
         }
     }
@@ -546,6 +591,26 @@ class C_api extends CI_Controller {
 //
                 return print_r(json_encode($data));
             }
+            else if($data_arr['action']=='readFilter'){
+                $dataWhere = (array) $data_arr['dataWhere'];
+
+                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
+
+                $daysName = (array) $dataWhere['DaysName'];
+
+//                return print_r(json_encode($data_arr));
+                for($i=0;$i<count($days);$i++){
+                    $data[$i]['Day'] = array(
+                        'DaysID' => $days[$i],
+                        'Eng' => $daysName['Eng'][$i],
+                        'Ind' => $daysName['Ind'][$i]
+                    );
+                    $data[$i]['Details'] = $this->m_api->getScheduleFilter($days[$i],$dataWhere);
+                }
+//
+//
+                return print_r(json_encode($data));
+            }
         }
     }
 
@@ -586,7 +651,7 @@ class C_api extends CI_Controller {
                 $data = $this->m_api->getSemester($data_arr['order']);
                 return print_r(json_encode($data));
             }
-            else if($data_arr['action']=='ReadSemesterActiove'){
+            else if($data_arr['action']=='ReadSemesterActive'){
                 $formData = (array) $data_arr['formData'];
                 $data = $this->m_api->getSemesterActive($formData['ProdiID']);
                 return print_r(json_encode($data));
@@ -617,7 +682,8 @@ class C_api extends CI_Controller {
                 return print_r(json_encode($data));
             }
             else if($data_arr['action']=='readgabungan'){
-                $data = $this->m_api->getAllCourseOfferingsMKU();
+                $formData = (array) $data_arr['formData'];
+                $data = $this->m_api->getAllCourseOfferingsMKU($formData['SemesterID']);
                 return print_r(json_encode($data));
             }
         }

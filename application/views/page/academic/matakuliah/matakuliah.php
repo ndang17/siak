@@ -74,7 +74,7 @@
             '</table>' +
             '</div>');
 
-        loadSelectOptionBaseProdi('#FormBaseProdi','');
+        loadSelectOptionBaseProdiAll('#FormBaseProdi','');
 
         $('#GlobalModal .modal-footer').html('<button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Close</button>' +
             '<button type="button" class="btn btn-success" data-act="add" id="btnAddMK">Save</button>');

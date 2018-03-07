@@ -403,6 +403,16 @@
         });
     }
 
+    function loadSelectOptionBaseProdiAll(element,selected) {
+        var url = base_url_js+"api/__getBaseProdiSelectOptionAll";
+        $.get(url,function (data) {
+            for(var i=0;i<data.length;i++){
+                var selc = (data[i].ID==selected) ? 'selected' : '';
+                $(''+element).append('<option value="'+data[i].ID+'.'+data[i].Code+'" '+selc+'>'+data[i].NameEng+'</option>');
+            }
+        });
+    }
+
 
 
     function loadSelectOptionEducationLevel(element,selected) {
@@ -628,45 +638,25 @@
 
 
     // Untuk CRUD Class Group
-    function modal_dataClassGroup(options,header) {
-        var url = base_url_js+'academic/kurikulum/getClassGroup';
-        var data = {
-            action : 'read',
-            options : options
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (html) {
-            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span></button>' +
-                '<h4 class="modal-title">'+header+'</h4>');
-            $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').html(' ');
-            $('#GlobalModal').modal({
-                'show' : true,
-                'backdrop' : 'static'
-            });
-        });
-    }
-
-    function modal_dataClassroom(options,header) {
-        var url = base_url_js+'academic/kurikulum/getClassroom';
-        var data = {
-            action : 'read',
-            options : options
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (html) {
-            $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span></button>' +
-                '<h4 class="modal-title">'+header+'</h4>');
-            $('#GlobalModal .modal-body').html(html);
-            $('#GlobalModal .modal-footer').html(' ');
-            $('#GlobalModal').modal({
-                'show' : true,
-                'backdrop' : 'static'
-            });
-        });
-    }
+    // function modal_dataClassGroup(options,header) {
+    //     var url = base_url_js+'academic/kurikulum/getClassGroup';
+    //     var data = {
+    //         action : 'read',
+    //         options : options
+    //     };
+    //     var token = jwt_encode(data,'UAP)(*');
+    //     $.post(url,{token:token},function (html) {
+    //         $('#GlobalModal .modal-header').html('<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+    //             '<span aria-hidden="true">&times;</span></button>' +
+    //             '<h4 class="modal-title">'+header+'</h4>');
+    //         $('#GlobalModal .modal-body').html(html);
+    //         $('#GlobalModal .modal-footer').html(' ');
+    //         $('#GlobalModal').modal({
+    //             'show' : true,
+    //             'backdrop' : 'static'
+    //         });
+    //     });
+    // }
 
     function errorInput(element) {
         $(element).css('border','1px solid red');
