@@ -336,7 +336,7 @@ class M_api extends CI_Model {
     }
 
     private function getDetailOfferings($SemesterID,$ProdiID){
-        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
+        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, cd.StatusMK, 
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng, s.ID AS ScheduleID
                                             FROM db_academic.course_offerings co
                                             LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
@@ -349,7 +349,7 @@ class M_api extends CI_Model {
 
     public function getAllCourseOfferingsMKU($SemesterID){
 
-        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, 
+        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, cd.StatusMK, 
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng , s.ID AS ScheduleID
                                         FROM db_academic.course_offerings co
                                         LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)

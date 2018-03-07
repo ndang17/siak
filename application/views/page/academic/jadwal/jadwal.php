@@ -37,7 +37,7 @@
 
 <div class="thumbnail" style="padding: 5px;">
     <label class="checkbox-inline">
-        <input type="checkbox" class="filterDay" value="0" checked> All Day
+        <input type="checkbox" class="filterDay" value="0" checked> All Days
     </label>
     <label class="checkbox-inline">
         <input type="checkbox" class="filterDay" value="1"> Monday
@@ -108,7 +108,18 @@
 
         if(checkedDay.length==0){
             $('input[type=checkbox][value=0]').prop('checked',true);
+            $('.widget-schedule').removeClass('hide');
+        } else {
+            $('.widget-schedule').addClass('hide');
+            if(checkedDay.length>0){
+                for(var i=0;i<checkedDay.length;i++){
+                    $('#dayWidget'+checkedDay[i]).removeClass('hide');
+                }
+            }
         }
+
+
+
     });
 
     function loadAcademicYearOnPublish() {
@@ -145,7 +156,7 @@
             }
         };
 
-        console.log(data);
+        // console.log(data);
 
         var url = base_url_js+'api/__crudSchedule';
         var token = jwt_encode(data,'UAP)(*');
@@ -153,7 +164,7 @@
         $.post(url,{token:token},function (data_result) {
             var div = $('#dataScedule');
 
-            console.log(data_result);
+            // console.log(data_result);
 
             if(data_result.length>0){
                 div.html('');
@@ -162,7 +173,7 @@
                     var classDay = (i>4) ? 'label-danger' : 'label-info';
 
                     div.append('' +
-                        '<div class="widget box">' +
+                        '<div class="widget box widget-schedule" id="dayWidget'+data_result[i].Day.DaysID+'">' +
                         '    <div class="widget-header">' +
                         '        <h4 class=""><span class="'+classDay+'" style="color: #ffffff;padding: 5px;padding-left:10px;padding-right:10px;font-weight: bold;">'+data_result[i].Day.Eng+'</span></h4>' +
                         '    </div>' +
@@ -172,13 +183,13 @@
                         '    <tr>' +
                         '        <th style="width:5px;" class="th-center">No</th>' +
                         '        <th style="width:15px;" class="th-center">Code</th>' +
-                        '        <th class="th-center">Course</th>' +
+                        '        <th style="width:180px;" class="th-center">Course</th>' +
                         '        <th style="width:20px;" class="th-center">Credit</th>' +
                         '        <th style="width:20px;" class="th-center">Group</th>' +
-                        '        <th class="th-center">Lecturers</th>' +
+                        '        <th style="width:150px;" class="th-center">Lecturers</th>' +
                         // '        <th style="width:15px;" class="th-center">Cmbn</th>' +
-                        '        <th style="width:150px;" class="th-center">Time</th>' +
-                        '        <th class="th-center">Room</th>' +
+                        '        <th style="width:130px;" class="th-center">Time</th>' +
+                        '        <th style="width:20px;" class="th-center">Room</th>' +
 
                         // '        <th class="th-center">Action</th>' +
                         '    </tr>' +
@@ -223,7 +234,7 @@
                             '<td class="td-center">'+sc[r].Credit+'</td>' +
                             '<td class="td-center">'+sc[r].ClassGroup+'</td>' +
                             '<td>' +
-                            '<span style="color: #427b44;font-size: 15px;"><b>'+sc[r].Lecturer+'</b></span>'+teamTeaching+
+                            '<span style="color: #427b44;"><b>'+sc[r].Lecturer+'</b></span>'+teamTeaching+
                             '</td>' +
                             // '<td class="td-center">'+gabungan+'</td>' +
                             '<td class="td-center">'+StartSessions+' - '+EndSessions+'</td>' +

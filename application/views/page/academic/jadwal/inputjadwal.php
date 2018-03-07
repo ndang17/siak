@@ -58,7 +58,7 @@
                 <td>
                     <!--                    <select class="form-control" id="BaseProdi"></select>-->
                     <select id="formBaseProdi" class="form-control form-jadwal">
-                        <option value=""></option>
+                        <option value="" disabled selected></option>
                     </select>
                 </td>
             </tr>
@@ -81,7 +81,8 @@
                         Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>
                         <input type="hide" class="hide" id="textTotalSKSMK" />
                     </p>
-                    <span style="color: red;" id="alertMK"></span>
+                    <div id="alertMK"></div>
+
                 </td>
             </tr>
             <tr>
@@ -271,13 +272,13 @@
                 if(action=='readgabungan'){
                     for(var i=0;i<jsonResult.length;i++) {
                         var data = jsonResult[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'.'+data.StatusMK+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
                     }
                 } else {
                     var Offerings = jsonResult[0].Offerings;
                     for(var i=0;i<Offerings.length;i++){
                         var data = Offerings[i];
-                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'.'+data.StatusMK+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
                     }
                 }
 
@@ -301,8 +302,29 @@
         var CombinedClasses = $('input[name=formCombinedClasses]:checked').val();
         var ClassGroup = $('#formClassGroup').val();
 
+        // schedule_combinedclasses ---
+        var ProdiIDArray = [];
+        var formProdiID = $('#formBaseProdi').val();
+        if(formProdiID!=null){
+            var ProdiID = (CombinedClasses==0) ? formProdiID.split('.')[0] : 0 ;
+
+            // if(CombinedClasses==0){
+            //     var ProdiID = formProdiID.split('.')[0];
+            //     ProdiIDArray.push(ProdiID);
+            // } else {
+            //     for(var p=0;p<formProdiID.length;p++){
+            //         var ProdiID = formProdiID[p].split('.')[0];
+            //         ProdiIDArray.push(ProdiID);
+            //     }
+            // }
+        }
+        else {
+            var choices = (CombinedClasses==0) ? '.select2-choice' : '.select2-choices' ;
+            process.push(0); requiredForm('#s2id_formBaseProdi '+choices);
+        }
+
         var formMataKuliah = $('#formMataKuliah').val();
-        if(formMataKuliah!=''){
+        if(formMataKuliah!='' && formMataKuliah!=null){
             var MKID = formMataKuliah.split('.')[0].trim();
             var MKCode = formMataKuliah.split('.')[1].trim();
         } else {
@@ -338,27 +360,6 @@
             else {
                 process.push(0); requiredForm('#s2id_formTeamTeaching .select2-choices');
             }
-        }
-
-        // schedule_combinedclasses ---
-        var ProdiIDArray = [];
-        var formProdiID = $('#formBaseProdi').val();
-        if(formProdiID!=null){
-            var ProdiID = (CombinedClasses==0) ? formProdiID.split('.')[0] : 0 ;
-
-            // if(CombinedClasses==0){
-            //     var ProdiID = formProdiID.split('.')[0];
-            //     ProdiIDArray.push(ProdiID);
-            // } else {
-            //     for(var p=0;p<formProdiID.length;p++){
-            //         var ProdiID = formProdiID[p].split('.')[0];
-            //         ProdiIDArray.push(ProdiID);
-            //     }
-            // }
-        }
-        else {
-            var choices = (CombinedClasses==0) ? '.select2-choice' : '.select2-choices' ;
-            process.push(0); requiredForm('#s2id_formBaseProdi '+choices);
         }
 
 
@@ -781,12 +782,18 @@
 
         };
 
-        // console.log(mk[2]);
-        if(mk[2]!='null'){
-            $('#alertMK').text(mk[1]+' - Jadwal Exist');
+
+
+        if(mk[3]==0){
+            // Cek Status MK Aktif Atau Tidak
+            $('#alertMK').html('<span style="color: red;">'+mk[1]+' - Non Active</span>');
+            $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
+        } else if(mk[2]!='null'){
+            // Cek MK Sudah Di set jadwal atau belum
+            $('#alertMK').html('<span style="color: blue;">'+mk[1]+' - Schedule Is Exist</span>');
             $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
         } else {
-            $('#alertMK').text('');
+            $('#alertMK').html('');
             $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',false);
         }
 
