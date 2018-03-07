@@ -80,6 +80,11 @@ $route['database/showStudent'] = 'page/database/c_database/showStudent';
 $route['database/employees'] = 'page/database/c_database/employees';
 
 
+// --- Modal Admission ----
+$route['admission/master-sma'] = 'page/admission/c_master/sma';
+$route['admission/master-sma/integration'] = 'page/admission/c_master/sma_integration';
+
+
 // ====== API ======
 $route['api/__getKurikulumByYear'] = 'api/c_api/getKurikulumByYear';
 $route['api/__getBaseProdi'] = 'api/c_api/getProdi';
@@ -134,5 +139,9 @@ $route['api/__crudTimePerCredit'] = 'api/c_api/crudTimePerCredit';
 $route['api/__checkSchedule'] = 'api/c_api/checkSchedule';
 
 $route['api/__crudCourseOfferings'] = 'api/c_api/crudCourseOfferings';
+
+// get data SMA dan SMK per Wilayah
+$route['api/__getWilayahURLJson'] = 'api/c_api/getWilayahURLJson';
+$route['api/__getSchoolURLJson'] = 'api/c_api/getSchoolURLJson';
 
 

@@ -481,6 +481,36 @@ class M_api extends CI_Model {
 
     }
 
+    public function saveDataWilayah($arr)
+    {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 600); //600 seconds = 10 minutes
+        $data = $arr['data'];
+        $arr_temp = array();
+        $sql ="select RegionID from db_admission.region";
+        $query=$this->db->query($sql, array())->result();
+        foreach ($query as $key) {
+            $arr_temp[] =  $key->RegionID;
+        }
+
+        for ($i=0; $i < count($data); $i++) {
+            // find data in array
+            $kode_wilayah = $data[$i]['kode_wilayah'];
+            if (!in_array($kode_wilayah, $arr_temp)) {
+                $dataSave = array(
+                        'RegionID' => $data[$i]['kode_wilayah'],
+                        'RegionName' => $data[$i]['nama'],
+                        'RegionCodeMst' => $data[$i]['mst_kode_wilayah']
+                );
+
+                $this->db->insert('db_admission.region', $dataSave);
+            }
+            
+        }
+
+        return "Done";
+    }
+
 
 
 
