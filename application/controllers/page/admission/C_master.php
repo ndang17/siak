@@ -6,7 +6,6 @@ class C_master extends MY_Controller {
     function __construct()
     {
         parent::__construct();
-//        $this->session->set_userdata('departement_nav', 'academic');
         $this->load->model('akademik/m_akademik');
     }
 
@@ -20,18 +19,23 @@ class C_master extends MY_Controller {
     {
         $data['department'] = parent::__getDepartement();
         $content = $this->load->view('page/'.$data['department'].'/master/sma',$data,true);
-        //$content = "test";
         $this->temp($content);
-        //echo "test";
     }
 
     public function sma_integration()
     {
         $data['department'] = parent::__getDepartement();
         $content = $this->load->view('page/'.$data['department'].'/master/sma_integration',$data,true);
-        //$content = "test";
         $this->temp($content);
 
+    }
+
+    public function sma_table()
+    {
+        $token = $this->input->post('token');
+        $data['department'] = parent::__getDepartement();
+        $data['token'] = $token;
+        $this->load->view('page/'.$data['department'].'/master/sma_table',$data);
     }
 
 }

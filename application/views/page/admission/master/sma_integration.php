@@ -62,6 +62,7 @@
     
     $(document).ready(function () {
         $("#btn-sbmt").click(function(){
+            loading_button('#btn-sbmt');
             loadIntegration();
         })
     });
@@ -69,33 +70,61 @@
     function loadIntegration()
     {
         var url_wilayah = "http://jendela.data.kemdikbud.go.id/api/index.php/cwilayah/wilayahKabGet";
-        var url_sekolah ="http://jendela.data.kemdikbud.go.id/api/index.php/Csekolah/detailSekolahGET?mst_kode_wilayah=010100&bentuk=sma";
         //proses wilayah dulu
             $.get(url_wilayah,function (data_json) {
                 jsonData = data_json
             }).done(function () {
                 saveWilayahtoDB(jsonData);
             });
-        //proses sekolah dulu
-                
-
     }
 
     function saveWilayahtoDB(jsonData)  
     {   
-
-        loading_button('#btn-sbmt');
-        var url = base_url_js+'api/__getWilayahURLJson';
-
+        var url = base_url_js+'api/__insertWilayahURLJson';
         $.post(url,{data : jsonData},function (argument) {
-            console.log('success');
-
-        })  .done(function() {
-            $('#btn-sbmt').prop('disabled',false).html('Submit');
-                /*setTimeout(function (argument) {
-                    $('#btn-sbmt').prop('disabled',false).html('Submit');
-                },10000);*/
+            jsonData = argument;
+        }).always(function() {
+            getSchool(jsonData);
         });
+    }
 
+    function getSchool(jsonData)
+    {
+        var kode_wilayah = "";
+        for (var i = 0; i < jsonData.length; i++) {
+            kode_wilayah = jsonData[i].trim();
+            var url_sekolah ="http://jendela.data.kemdikbud.go.id/api/index.php/Csekolah/detailSekolahGET?mst_kode_wilayah=" + kode_wilayah +"&bentuk=sma";
+            //var url_sekolah ="http://jendela.data.kemdikbud.go.id/api/index.php/Csekolah/detailSekolahGET?mst_kode_wilayah=" + kode_wilayah;
+            $.get(url_sekolah,function (data_json) {
+                saveSchooltoDB(data_json);
+                /*if (i == (jsonData.length - 2)) {
+                    $('#btn-sbmt').prop('disabled',false).html('Submit');
+                }*/
+                
+            })
+        }
+
+        for (var i = 0; i < jsonData.length; i++) {
+            kode_wilayah = jsonData[i].trim();
+            var url_sekolah ="http://jendela.data.kemdikbud.go.id/api/index.php/Csekolah/detailSekolahGET?mst_kode_wilayah=" + kode_wilayah +"&bentuk=smk";
+            //var url_sekolah ="http://jendela.data.kemdikbud.go.id/api/index.php/Csekolah/detailSekolahGET?mst_kode_wilayah=" + kode_wilayah;
+            $.get(url_sekolah,function (data_json) {
+                saveSchooltoDB(data_json);
+                /*if (i == (jsonData.length - 2)) {
+                    $('#btn-sbmt').prop('disabled',false).html('Submit');
+                }*/
+            })
+        }
+        setTimeout(function () {
+            $('#btn-sbmt').prop('disabled',false).html('Submit');
+        },300000);
+    }
+
+    function saveSchooltoDB(data_json)
+    {
+        var url = base_url_js+'api/__insertSchoolURLJson';
+        $.post(url,{data : data_json},function (argument) {
+            jsonData = argument;
+        })
     }  
 </script>

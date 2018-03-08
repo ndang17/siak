@@ -551,9 +551,11 @@ class M_api extends CI_Model {
             $arr_temp[] =  $key->RegionID;
         }
 
+        $kode_wilayah_arr = array();
         for ($i=0; $i < count($data); $i++) {
             // find data in array
             $kode_wilayah = $data[$i]['kode_wilayah'];
+            $kode_wilayah_arr[] = $kode_wilayah;
             if (!in_array($kode_wilayah, $arr_temp)) {
                 $dataSave = array(
                         'RegionID' => $data[$i]['kode_wilayah'],
@@ -566,10 +568,59 @@ class M_api extends CI_Model {
             
         }
 
+        return $kode_wilayah_arr;
+    }
+
+    public function saveDataSchool($arr)
+    {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 600); //600 seconds = 10 minutes
+        $data = $arr['data'];
+        $arr_temp = array();
+        $sql ="select SchoolID from db_admission.school";
+        $query=$this->db->query($sql, array())->result();
+        foreach ($query as $key) {
+            $arr_temp[] =  $key->SchoolID;
+        }
+
+        $kode_school_arr = array();
+        for ($i=0; $i < count($data); $i++) {
+            // find data in array
+            $kode_school = $data[$i]['id'];
+            $kode_school_arr[] = $kode_school;
+            if (!in_array($kode_school, $arr_temp)) {
+                $dataSave = array(
+                        'ProvinceID' => $data[$i]['kode_prop'],
+                        'ProvinceName' => $data[$i]['propinsi'],
+                        'CityID' => $data[$i]['kode_kab_kota'],
+                        'CityName' => $data[$i]['kabupaten_kota'],
+                        'DistrictID' => $data[$i]['kode_kec'],
+                        'DistrictName' => $data[$i]['kecamatan'],
+                        'SchoolID' => $data[$i]['id'],
+                        'npsn' => $data[$i]['npsn'],
+                        'SchoolName' => $data[$i]['sekolah'],
+                        'SchoolType' => $data[$i]['bentuk'],
+                        'Status' => $data[$i]['status'],
+                        'SchoolAddress' => $data[$i]['alamat_jalan'],
+                        'Latitude' => $data[$i]['lintang'],
+                        'Longitude' => $data[$i]['bujur'],
+                );
+
+                $this->db->insert('db_admission.school', $dataSave);
+            }
+            
+        }
+
+        //return $kode_school_arr;
         return "Done";
     }
 
-
+    public function getdataWilayah()
+    {
+        $sql = "select * from db_admission.region";
+        $query=$this->db->query($sql, array())->result_array();
+        return $query;
+    }
 
 
 }
