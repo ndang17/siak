@@ -34,7 +34,7 @@
 </style>
 
 <div class="row" style="margin-top: 30px;">
-    <div class="col-md-10 formAddFormKD">
+    <div class="col-md-12 formAddFormKD">
         <div class="widget box">
             <div class="widget-header">
                 <h4 class="header"><i class="icon-reorder"></i> SMA / SMK</h4>
@@ -46,25 +46,17 @@
                     <div class="col-xs-9">
                         <div class="row">
                             <div class="col-xs-12">
-                                <select class="select2-select-00 col-md-12 full-width-fix" id="selectSMA">
+                                <select class="select2-select-00 col-md-12 full-width-fix" id="selectWilayah">
                                     <option></option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row row-sma">
-                    <label class="col-xs-3 control-label">SMA / SMK</label>
-                    <div class="col-xs-9">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <select class="select2-select-00 col-md-12 full-width-fix" id="dataMK">
-                                    <option></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <hr/>
+            <div id="pageSchool">
+                
             </div>
         </div>
     </div>
@@ -78,26 +70,36 @@
 
     function loadSelectOptionWilayahURL()
     {
-        var url = "http://jendela.data.kemdikbud.go.id/api/index.php/cwilayah/wilayahKabGet";
+        //var url = "http://jendela.data.kemdikbud.go.id/api/index.php/cwilayah/wilayahKabGet";
+        var url = base_url_js+'api/__getWilayahURLJson';
         $.get(url,function (data_json) {
 
-            for(var i=0;i<data_json['data'].length;i++){
+            for(var i=0;i<data_json.length;i++){
                 var selected = (i==0) ? 'selected' : '';
-                $('#selectSMA').append('<option value="'+data_json['data'][i].kode_wilayah+'" '+selected+'>'+data_json['data'][i].nama+'</option>');
+                //$('#selectWilayah').append('<option value="'+data_json['data'][i].kode_wilayah+'" '+selected+'>'+data_json['data'][i].nama+'</option>');
+                $('#selectWilayah').append('<option value="'+data_json[i].RegionID+'" '+selected+'>'+data_json[i].RegionName+'</option>');
             }
+            $('#selectWilayah').select2({
+               allowClear: true
+            });
         }).done(function () {
-            //pageKurikulum();
+            pageTableSchool();
         });
+    }
 
-        /*$.getJSON(url, function(data) {
-            for(var i=0;i<data.length;i++){
-                //var selected = (i==0) ? 'selected' : '';
-                //$('#selectSMA').append('<option value="'+data_json[i].kode_wilayah+'" '+selected+'>'+data_json[i].nama+'</option>');
-            };
-        });*/
-
-        /*$.get( url, function( data_json ) {
-          console.log(data_json);
-        });*/
+    function pageTableSchool()
+    {
+        var selectWilayah = $('#selectWilayah').find(':selected').val();
+        loading_page('#pageSchool');
+        var url = base_url_js+'admission/master-sma/table';
+        var data = {
+            wilayah : selectWilayah
+        };
+        var token = jwt_encode(data,"UAP)(*");
+        $.post(url,{token:token},function (page) {
+            setTimeout(function () {
+                $('#pageSchool').html(page);
+            },3000);
+        });
     }
 </script>
