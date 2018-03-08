@@ -30,22 +30,24 @@ class C_jadwal extends MY_Controller {
 
 
         $page = $data_arr['page'];
+        $ScheduleID = $data_arr['ScheduleID'];
 
         $department = parent::__getDepartement();
         $path = 'page/'.$department.'/jadwal';
 
-        $this->cekFileView($path,$page);
+        $this->cekFileView($path,$page,$ScheduleID);
 
     }
 
-    private function cekFileView($path,$file)
+    private function cekFileView($path,$file,$ScheduleID)
     {
 
         $data = false;
         if (file_exists(APPPATH."views/".$path."/{$file}.php"))
         {
-            $data = $this->load->view($path.'/'.$file);
-//            $data = true;
+            $dataView['ScheduleID'] = $ScheduleID;
+            $data = $this->load->view($path.'/'.$file,$dataView);
+
         }
 
         return $data;

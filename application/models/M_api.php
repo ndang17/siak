@@ -378,6 +378,7 @@ class M_api extends CI_Model {
 //                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = ses.ClassroomID)
 //                                              WHERE ses.DayID = "'.$DayID.'" ');
 
+
         $ProgramsCampusID = ($dataWhere['ProgramsCampusID']!='') ? ' AND s.ProgramsCampusID = "'.$dataWhere['ProgramsCampusID'].'" ' : '';
         $SemesterID = ($dataWhere['SemesterID']!='') ? ' AND s.SemesterID = "'.$dataWhere['SemesterID'].'" ' : '';
         $ProdiID = ($dataWhere['ProdiID']!='') ? ' AND s.ProdiID = "'.$dataWhere['ProdiID'].'" ' : '';
@@ -411,6 +412,46 @@ class M_api extends CI_Model {
 
     }
 
+    public function getOneSchedule($ScheduleID){
+        $data = $this->db->query('SELECT s.ID,sm.Name AS semesterName, pc.Name AS viewProgramsCampus,
+                                          s.CombinedClasses,
+                                          ps.NameEng AS ProgramStudy,
+                                          s.ClassGroup AS viewClassGroup,
+                                          mk.MKCode, mk.Name AS viewMataKuliah, mk.NameEng AS viewMataKuliahEng,
+                                          cd.Semester, cd.TotalSKS,
+                                          em.Name AS Coordinator,
+                                          em.NIP,
+                                          s.TeamTeaching,
+                                          s.SubSesi                                          
+                                          FROM  db_academic.schedule s 
+                                          LEFT JOIN db_academic.semester sm ON (s.SemesterID = sm.ID)
+                                          LEFT JOIN db_academic.programs_campus pc ON (s.ProgramsCampusID = pc.ID)
+                                          LEFT JOIN db_academic.program_study ps ON (s.ProdiID = ps.ID)
+                                          LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
+                                          LEFT JOIN db_academic.curriculum_details cd ON (sm.CurriculumID = cd.CurriculumID AND cd.MKID = s.MKID AND cd.MKCode = s.MKCode)
+                                          LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
+                                          WHERE s.ID = "'.$ScheduleID.'" LIMIT 1');
+
+        $result = $data->result_array();
+
+        if(count($result)>0){
+            if($result[0]['TeamTeaching']==1){
+                $dataTeam = $this->getTeamTeaching($result[0]['ID']);
+                for($i2=0;$i2<count($dataTeam);$i2++){
+                    $result[0]['DetailTeamTeaching'][$i2] = $dataTeam[$i2]['NIP'];
+                }
+            }
+
+            // Get Sesi
+            $dataSesi = $this->db->query('SELECT sd.ID AS sdID ,sd.ClassroomID,sd.Credit,sd.DayID,sd.TimePerCredit,sd.StartSessions,sd.EndSessions,
+                                          cl.Room  FROM db_academic.schedule_details sd LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)
+                                          WHERE sd.ScheduleID = "'.$ScheduleID.'" ');
+            $result[0]['SubSesiDetails'] = $dataSesi->result_array();
+        }
+
+        return $result[0];
+    }
+
     private function getTeamTeaching($ScheduleID){
         $data = $this->db->query('SELECT stt.ID,stt.NIP,stt.Status,em.Name AS Lecturer FROM db_academic.schedule_team_teaching stt
                                             LEFT JOIN db_employees.employees em ON (em.NIP = stt.NIP)
@@ -418,6 +459,7 @@ class M_api extends CI_Model {
 
         return $data->result_array();
     }
+
 
     public function getSchedule2($DayID,$dataWhere){
 

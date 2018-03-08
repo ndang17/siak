@@ -230,7 +230,7 @@
                         table.append('<tr>' +
                             '<td class="td-center">'+no+'</td>' +
                             '<td class="td-center">'+sc[r].MKCode+'</td>' +
-                            '<td><b>'+sc[r].MKName+'</b><br/><i>'+sc[r].MKNameEng+'</i></td>' +
+                            '<td><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i></td>' +
                             '<td class="td-center">'+sc[r].Credit+'</td>' +
                             '<td class="td-center">'+sc[r].ClassGroup+'</td>' +
                             '<td>' +

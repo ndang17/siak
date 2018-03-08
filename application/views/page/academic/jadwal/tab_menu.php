@@ -40,17 +40,19 @@
 
 <script>
     $(document).ready(function () {
-        loadPage('jadwal');
+        loadPage('jadwal','');
     });
     $(document).on('click','.btn-action',function () {
         var page = $(this).attr('data-page');
-        loadPage(page);
+        var ScheduleID = (page=='editjadwal') ? $(this).attr('data-id') : '';
+        loadPage(page,ScheduleID);
     });
 
-    function loadPage(page) {
+    function loadPage(page,ScheduleID) {
         loading_page('#dataPage');
         var data = {
-            page : page
+            page : page,
+            ScheduleID : ScheduleID
         };
 
         var token = jwt_encode(data,"UAP)(*");

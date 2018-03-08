@@ -458,7 +458,7 @@
 
         var url = base_url_js+'api/__getAllMK';
         var option = $(''+element);
-        console.log(selected);
+        // console.log(selected);
         $.get(url,function (data) {
             for(var i=0;i<data.length;i++){
 
@@ -489,7 +489,7 @@
             var option = $(''+element);
             for(var i=0; i<data.length; i++){
                 option.append('<option value="'+data[i].NIP+'">'+data[i].NIP+' | '+data[i].Name+'</option>')
-                    .val(''+selected).trigger('change');
+                    .val(selected).trigger('change');
             }
         });
     }

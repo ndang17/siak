@@ -591,26 +591,34 @@ class C_api extends CI_Controller {
 //
                 return print_r(json_encode($data));
             }
-            else if($data_arr['action']=='readFilter'){
-                $dataWhere = (array) $data_arr['dataWhere'];
+            else if($data_arr['action']=='readOneSchedule'){
 
-                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
+                $data = $this->m_api->getOneSchedule($data_arr['ScheduleID']);
 
-                $daysName = (array) $dataWhere['DaysName'];
-
-//                return print_r(json_encode($data_arr));
-                for($i=0;$i<count($days);$i++){
-                    $data[$i]['Day'] = array(
-                        'DaysID' => $days[$i],
-                        'Eng' => $daysName['Eng'][$i],
-                        'Ind' => $daysName['Ind'][$i]
-                    );
-                    $data[$i]['Details'] = $this->m_api->getScheduleFilter($days[$i],$dataWhere);
-                }
-//
-//
                 return print_r(json_encode($data));
             }
+            else if($data_arr['action']=='delete'){
+                $ID = $data_arr['ScheduleID'];
+
+                $tables = array('db_academic.schedule_class_group', 'db_academic.schedule_details', 'db_academic.schedule_team_teaching');
+                $this->db->where('ScheduleID', $ID);
+                $this->db->delete($tables);
+
+                $this->db->reset_query();
+                $this->db->where('ID', $ID);
+                $this->db->delete('db_academic.schedule');
+
+                return print_r(1);
+
+            }
+            else if($data_arr['action']=='deleteSubSesi') {
+                $ID = $data_arr['sdID'];
+                $this->db->where('ID', $ID);
+                $this->db->delete('db_academic.schedule_details');
+
+                return print_r(1);
+            }
+
         }
     }
 

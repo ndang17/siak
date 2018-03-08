@@ -167,7 +167,7 @@
         <hr/>
 
         <div style="text-align: right;">
-            <button class="btn btn-default btn-default-danger" id="removeNewSesi">Remove Sesi</button>
+            <button class="btn btn-default btn-default-danger" id="removeNewSesi">Remove Sub Sesi</button>
             <button class="btn btn-default btn-default-success" data-group="1" id="addNewSesi">Add Sub Sesi</button>
             |
             <button class="btn btn-success" id="btnSavejadwal">Save</button>
@@ -394,7 +394,7 @@
 
             if(textTotalSKSMK==totalCredit){
 
-
+                var SubSesi = (dataSesi>1) ? '1' : '0';
                 var data = {
                     action : 'add',
                     ID : '',
@@ -410,6 +410,7 @@
                                 ClassGroup : ClassGroup,
                                 Coordinator : Coordinator,
                                 TeamTeaching : TeamTeaching,
+                                SubSesi : SubSesi,
                                 UpdateBy : UpdateBy,
                                 UpdateAt : UpdateAt
                             },
@@ -574,7 +575,7 @@
             }
         } else {
             $('#subsesi1').addClass('hide');
-            toastr.info('Minimal 1 sesi dalam penjadwalan','Info');
+            toastr.warning('Belum Ada Sub Sesi','Info');
         }
 
     });
