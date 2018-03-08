@@ -891,6 +891,11 @@ class C_api extends CI_Controller {
         }
     }
 
-
+    public function getWilayahURLJson()
+    {
+        $data = $this->input->post('data');
+        $generate = $this->m_api->saveDataWilayah($data);
+        echo json_encode($generate);
+    }
 
 }

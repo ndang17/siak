@@ -19,6 +19,26 @@
                     Master Uang Daftar
                 </a>
             </li>
+            <li class="<?php if($this->uri->segment(2)=='master-sma'){echo "current open";} ?>">
+                <a href="javascript:void(0);">
+                    <i class="icon-edit"></i>
+                    Master SMA
+                </a>
+                <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='master-sma' && $this->uri->segment(3) == null ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma'); ?>">
+                        <i class="icon-angle-right"></i>
+                        SMA / SMK
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-sma' && $this->uri->segment(3) == "integration" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Integration
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="">
                 <a href="#">
                   <i class="fa fa-list-alt" aria-hidden="true"></i>
