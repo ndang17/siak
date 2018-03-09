@@ -413,11 +413,11 @@ class M_api extends CI_Model {
     }
 
     public function getOneSchedule($ScheduleID){
-        $data = $this->db->query('SELECT s.ID,sm.Name AS semesterName, pc.Name AS viewProgramsCampus,
+        $data = $this->db->query('SELECT s.ID,sm.Name AS semesterName,sm.ID AS SemesterID, pc.Name AS viewProgramsCampus,
                                           s.CombinedClasses,
                                           ps.NameEng AS ProgramStudy,
                                           s.ClassGroup AS viewClassGroup,
-                                          mk.MKCode, mk.Name AS viewMataKuliah, mk.NameEng AS viewMataKuliahEng,
+                                          mk.ID AS MKID, mk.MKCode, mk.Name AS viewMataKuliah, mk.NameEng AS viewMataKuliahEng,
                                           cd.Semester, cd.TotalSKS,
                                           em.Name AS Coordinator,
                                           em.NIP,
@@ -560,7 +560,7 @@ class M_api extends CI_Model {
     public function __checkSchedule($dataFilter){
 //        print_r($dataFilter);
         // Get Jadwal
-        $jadwal = $this->db->query('SELECT sd.DayID,sd.StartSessions, sd.EndSessions, cl.Room, mk.NameEng FROM db_academic.schedule s
+        $jadwal = $this->db->query('SELECT sd.ID AS sdID, sd.DayID,sd.StartSessions, sd.EndSessions, cl.Room, mk.NameEng, mk.ID AS MKID, mk.MKCode FROM db_academic.schedule s
                                               RIGHT JOIN db_academic.schedule_details sd ON (s.ID=sd.ScheduleID)   
                                               LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)
                                               LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)

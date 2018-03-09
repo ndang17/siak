@@ -17,6 +17,8 @@
 <button class="btn btn-success" id="btnSaveDetail">Save</button>
 <hr/>
 
+<h1><?php echo $ID; ?></h1>
+
 
 <div class="alert alert-info" role="alert">
     <b><span id="nameTahunAkademik"></span></b>
@@ -46,6 +48,7 @@
         </td>
         <td>
             <a href="javascript:void(0);" data-head="KRS" data-load="prodi" class="btn btn-sm btn-warning btn-block more_details">Special Case</a>
+            <button class="btn btn-default btn-default-warning btn-block">OK</button>
         </td>
     </tr>
     <tr>

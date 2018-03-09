@@ -262,7 +262,7 @@
         var token = jwt_encode(data,'UAP)(*');
 
         $.post(url,{token:token},function (jsonResult) {
-            console.log(jsonResult);
+            // console.log(jsonResult);
             if(jsonResult.length>0){
                 $('#divMK').html('<select class="select2-select-00 selec2-mk full-width-fix form-jadwal" size="5" id="formMataKuliah">' +
                     '                        <option value=""></option>' +
@@ -689,7 +689,9 @@
         var SesiAwal = $('#formSesiAwal'+ID).val();
         var Credit = $('#formCredit'+ID).val();
 
-        if(TimePerCredit!='' && SesiAwal!='' && Credit!=''){
+        // console.log(ID);
+        // console.log(SesiAwal);
+        if(TimePerCredit!='' && SesiAwal!='' && Credit!='' && typeof SesiAwal != 'undefined'){
             var totalTime = parseInt(TimePerCredit) * parseInt(Credit);
             var expSesi = SesiAwal.split(':');
             var sesiAkhir = moment()

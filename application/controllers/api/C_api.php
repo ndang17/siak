@@ -618,6 +618,52 @@ class C_api extends CI_Controller {
 
                 return print_r(1);
             }
+            else if($data_arr['action']=='edit'){
+                $formData = (array) $data_arr['formData'];
+                $schedule_details = (array) $formData['schedule_details'];
+
+
+                // Update Schedule
+                $ScheduleID = $data_arr['ID'];
+                $ScheduleUpdate = (array) $formData['schedule'];
+                $this->db->where('ID', $ScheduleID);
+                $this->db->update('db_academic.schedule',$ScheduleUpdate);
+                $this->db->reset_query();
+
+                // Update Schedule Detail
+                $dataScheduleDetailsArray = (array) $schedule_details['dataScheduleDetailsArray'];
+                for($d=0;$d<count($dataScheduleDetailsArray);$d++){
+                    $ds = (array) $dataScheduleDetailsArray[$d];
+                    $this->db->where('ID', $ds['sdID']);
+                    $this->db->update('db_academic.schedule_details',(array) $ds['update']);
+                    $this->db->reset_query();
+                }
+
+                // Insert Schedule Detail
+                $dataScheduleDetailsArrayNew = (array) $schedule_details['dataScheduleDetailsArrayNew'];
+                for($d2=0;$d2<count($dataScheduleDetailsArrayNew);$d2++){
+                    $this->db->insert('db_academic.schedule_details',(array) $dataScheduleDetailsArrayNew[$d2]);
+                    $this->db->reset_query();
+                }
+
+                $this->db->where('ScheduleID', $ScheduleID);
+                $this->db->delete('db_academic.schedule_team_teaching');
+                $this->db->reset_query();
+                // Team Teaching
+                if($ScheduleUpdate['TeamTeaching']==1){
+                    $dataTemaTeaching = (array) $formData['schedule_team_teaching'];
+                    for($t=0;$t<count($dataTemaTeaching['teamTeachingArray']);$t++){
+
+                        $arr = (array) $dataTemaTeaching['teamTeachingArray'][$t];
+                        $this->db->insert('db_academic.schedule_team_teaching',$arr);
+                        $this->db->reset_query();
+
+                    }
+                }
+
+                return print_r(1);
+
+            }
 
         }
     }

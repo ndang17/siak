@@ -246,28 +246,30 @@
                         no += 1;
                     }
 
-                    var table = $('#scTable'+i).DataTable({
-                        'iDisplayLength' : 10,
-                        "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
-                        "oTableTools": {
-                            "aButtons": [
-                                {
-                                    "sExtends" : "xls",
-                                    "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
-                                },
-                                {
-                                    "sExtends" : "pdf",
-                                    "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
-                                    "sPdfOrientation" : "landscape",
-                                    "sPdfMessage" : ""+data_result[i].Day.Eng
-                                }
 
-                            ],
-                            "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
-                        }
-
-
-                    });
+                    // Untuk Data Table Jadwal
+                    // var table = $('#scTable'+i).DataTable({
+                    //     'iDisplayLength' : 10,
+                    //     "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
+                    //     "oTableTools": {
+                    //         "aButtons": [
+                    //             {
+                    //                 "sExtends" : "xls",
+                    //                 "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
+                    //             },
+                    //             {
+                    //                 "sExtends" : "pdf",
+                    //                 "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
+                    //                 "sPdfOrientation" : "landscape",
+                    //                 "sPdfMessage" : ""+data_result[i].Day.Eng
+                    //             }
+                    //
+                    //         ],
+                    //         "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
+                    //     }
+                    //
+                    //
+                    // });
                 }
             } else {
                 div.append('<h1>Data Kosong</h1>');

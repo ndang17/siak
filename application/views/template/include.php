@@ -90,6 +90,21 @@
 
     }
 
+    .btn-default-warning {
+        background: #fff !important;
+        color: #f89406 !important;;
+        border: 1px solid #f89406 !important;;
+    }
+
+    .btn-default-warning:hover {
+        background: #f89406  !important;;
+        color: #ffffff  !important;;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+
+    }
+
     /* BTN SUCCESS */
     .btn-default-success {
         background: #fff  !important;;
