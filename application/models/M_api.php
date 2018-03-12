@@ -245,8 +245,13 @@ class M_api extends CI_Model {
             $dataDetail = $this->db->query('SELECT * FROM db_academic.academic_years 
                                               WHERE SemesterID = "'.$id.'"')->result_array();
 
+//            $dt = (count($dataDetail)>0) ? $dataDetail[0] : '';
+
+            if(count($dataDetail)>0){
+                $result['DetailTA'] = $dataDetail[0];
+            }
+
             $result['TahunAkademik'] = $data[0];
-            $result['DetailTA'] = $dataDetail[0];
         } else {
             $result = false;
         }

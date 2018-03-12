@@ -17,12 +17,12 @@
 <button class="btn btn-success" id="btnSaveDetail">Save</button>
 <hr/>
 
-<h1><?php echo $ID; ?></h1>
-
-
 <div class="alert alert-info" role="alert">
     <b><span id="nameTahunAkademik"></span></b>
 </div>
+
+
+<!--<input id="formSemesterID" value="--><?php //echo $ID; ?><!--" readonly />-->
 <table class="table table-bordered table-striped" id="tableDetailTA">
     <thead>
     <tr class="tr-invers">
@@ -48,7 +48,6 @@
         </td>
         <td>
             <a href="javascript:void(0);" data-head="KRS" data-load="prodi" class="btn btn-sm btn-warning btn-block more_details">Special Case</a>
-            <button class="btn btn-default btn-default-warning btn-block">OK</button>
         </td>
     </tr>
     <tr>
@@ -214,6 +213,9 @@
             }
         };
 
+        // console.log(data);
+        // return false;
+
         loading_button('#btnSaveDetail');
         $('.form-tahun-akademik,#btnBack').prop('disabled',true);
 
@@ -242,7 +244,7 @@
         }
         var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token}, function (data) {
-            console.log(data);
+            // console.log(data);
             $('#nameTahunAkademik').html(data.TahunAkademik.Name);
 
             (data.DetailTA.krsStart!=='0000-00-00' && data.DetailTA.krsStart!==null) ? $('#krs_start').datepicker('setDate',new Date(data.DetailTA.krsStart)) : '';

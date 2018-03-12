@@ -225,7 +225,7 @@
 
         $('input[type=radio][name=formCombinedClasses]').change(function () {
             loadformCombinedClasses($(this).val());
-            setGroupClass();
+
         });
 
 
@@ -703,11 +703,11 @@
         }
     }
 
-    function setGroupClass() {
+    function setGroupClass(value) {
         var CombinedClasses = $('input[name=formCombinedClasses]:checked').val();
         var formBaseProdi = $('#formBaseProdi').val();
 
-        if(formBaseProdi!=null){
+        if(value==1){
             var ProgramsCampusID = $('#formProgramsCampusID').val();
             var SemesterID = $('#formSemesterID').val();
             var ProdiCode = (CombinedClasses==0) ? formBaseProdi.split('.')[1] : 'ZO';
@@ -723,7 +723,27 @@
                 $('#viewClassGroup').html(result.Group);
                 $('#formClassGroup').val(result.Group);
             });
+        } else {
+            if(formBaseProdi!=null){
+                var ProgramsCampusID = $('#formProgramsCampusID').val();
+                var SemesterID = $('#formSemesterID').val();
+                var ProdiCode = (CombinedClasses==0) ? formBaseProdi.split('.')[1] : 'ZO';
+
+                var data = {
+                    ProgramsCampusID : ProgramsCampusID,
+                    SemesterID : SemesterID,
+                    ProdiCode : ProdiCode
+                };
+                var token = jwt_encode(data,'UAP)(*');
+                var url = base_url_js+'api/__getClassGroup';
+                $.post(url,{token:token},function (result) {
+                    $('#viewClassGroup').html(result.Group);
+                    $('#formClassGroup').val(result.Group);
+                });
+            }
         }
+
+
     }
 
     function loadAcademicYearOnPublish() {
@@ -744,11 +764,13 @@
         } else {
             $('#formBaseProdi').prop('disabled',false);
             var Prodi  = $('#formBaseProdi').val();
-            if(Prodi!=''){
+            if(Prodi!=null){
                 var ProdiID = Prodi.split('.');
                 getCourseOfferings(ProdiID[0],'read');
             }
         }
+
+        setGroupClass(value);
 
 
 

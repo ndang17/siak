@@ -164,7 +164,7 @@
         $.post(url,{token:token},function (data_result) {
             var div = $('#dataScedule');
 
-            // console.log(data_result);
+            console.log(data_result);
 
             if(data_result.length>0){
                 div.html('');
@@ -181,9 +181,9 @@
                         '<table class="table table-bordered table-striped" id="scTable'+i+'">' +
                         '    <thead>' +
                         '    <tr>' +
-                        '        <th style="width:5px;" class="th-center">No</th>' +
-                        '        <th style="width:15px;" class="th-center">Code</th>' +
-                        '        <th style="width:180px;" class="th-center">Course</th>' +
+                        '        <th style="width:3px;" class="th-center">No</th>' +
+                        '        <th style="width:10px;" class="th-center">Code</th>' +
+                        '        <th style="width:200px;" class="th-center">Course</th>' +
                         '        <th style="width:20px;" class="th-center">Credit</th>' +
                         '        <th style="width:20px;" class="th-center">Group</th>' +
                         '        <th style="width:150px;" class="th-center">Lecturers</th>' +
@@ -227,10 +227,12 @@
                             }
                         }
 
+                        var Subsesi = (sc[r].SubSesi==1)? '<span class="label label-default">Sub-Sesi</span> | ' :'';
+
                         table.append('<tr>' +
                             '<td class="td-center">'+no+'</td>' +
                             '<td class="td-center">'+sc[r].MKCode+'</td>' +
-                            '<td><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i></td>' +
+                            '<td>'+Subsesi+'<a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i></td>' +
                             '<td class="td-center">'+sc[r].Credit+'</td>' +
                             '<td class="td-center">'+sc[r].ClassGroup+'</td>' +
                             '<td>' +

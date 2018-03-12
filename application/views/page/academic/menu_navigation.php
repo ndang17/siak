@@ -26,12 +26,19 @@
                     Tahun Akademik
                 </a>
             </li>
-            <li class="<?php if($this->uri->segment(2)=='ketersediaan-dosen'){echo "current";} ?>">
-                <a href="<?php echo base_url('academic/ketersediaan-dosen'); ?>">
-                    <i class="fa fa-pencil-square-o"></i>
-                    Ketersediaan Dosen
+
+            <li class="">
+                <a href="#">
+                    <i class="fa fa-percent"></i>
+                    Beasiswa
                 </a>
             </li>
+<!--            <li class="--><?php //if($this->uri->segment(2)=='ketersediaan-dosen'){echo "current";} ?><!--">-->
+<!--                <a href="--><?php //echo base_url('academic/ketersediaan-dosen'); ?><!--">-->
+<!--                    <i class="fa fa-pencil-square-o"></i>-->
+<!--                    Ketersediaan Dosen-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="<?php if($this->uri->segment(2)=='reference'){echo "current";} ?>">
                 <a href="<?php echo base_url('academic/reference'); ?>">
                     <i class="fa fa-external-link-square"></i>

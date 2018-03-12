@@ -15,6 +15,7 @@ $route['uath/authUserPassword'] = 'c_login/authUserPassword';
 $route['auth/authGoogle'] = 'c_login/authGoogle';
 // $route['auth/gen_pass'] = 'c_login/gen_pass';
 $route['auth/logMeOut'] = 'c_login/logMeOut';
+$route['sendmail'] = 'c_login/sendmail';
 
 $route['authEmp/(:any)/(:any)'] = 'c_login/genratePassword2/$1/$2';
 
