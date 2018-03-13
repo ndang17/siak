@@ -980,30 +980,34 @@ CREATE TABLE `course_offerings` (
   `SemesterID` int(11) NOT NULL,
   `ProdiID` int(11) NOT NULL,
   `CurriculumDetailID` int(11) NOT NULL,
+  `ToSemester` text,
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
-insert  into `course_offerings`(`ID`,`SemesterID`,`ProdiID`,`CurriculumDetailID`,`UpdateBy`,`UpdateAt`) values 
-(1,11,9,743,'2017090','2018-03-01 13:48:55'),
-(2,11,8,749,'2017090','2018-03-01 13:49:45'),
-(3,11,10,734,'2017090','2018-03-01 13:49:56'),
-(4,11,6,758,'2017090','2018-03-01 13:50:26'),
-(5,11,1,779,'2017090','2018-03-01 17:12:35'),
-(6,11,1,781,'2017090','2018-03-05 14:45:40'),
-(7,11,1,949,'2017090','2018-03-05 15:52:55'),
-(8,11,1,952,'2017090','2018-03-06 11:55:51'),
-(9,11,1,783,'2017090','2018-03-06 11:58:08'),
-(10,11,1,947,'2017090','2018-03-06 13:12:00'),
-(11,13,1,954,'2017090','2018-03-07 14:25:27'),
-(12,13,1,960,'2017090','2018-03-07 14:30:57'),
-(13,13,1,955,'2017090','2018-03-07 16:20:42'),
-(14,13,2,961,'2017090','2018-03-09 08:19:51'),
-(15,13,1,963,'2017090','2018-03-12 13:41:36'),
-(16,13,1,962,'2017090','2018-03-12 13:41:36');
+insert  into `course_offerings`(`ID`,`SemesterID`,`ProdiID`,`CurriculumDetailID`,`ToSemester`,`UpdateBy`,`UpdateAt`) values 
+(1,11,9,743,'[\"6\",\"8\"]','2017090','2018-03-01 13:48:55'),
+(2,11,8,749,'[\"6\",\"8\"]','2017090','2018-03-01 13:49:45'),
+(3,11,10,734,'[\"6\",\"8\"]','2017090','2018-03-01 13:49:56'),
+(4,11,6,758,'[\"6\",\"8\"]','2017090','2018-03-01 13:50:26'),
+(5,11,1,779,'[\"6\",\"8\"]','2017090','2018-03-01 17:12:35'),
+(6,11,1,781,'[\"6\",\"8\"]','2017090','2018-03-05 14:45:40'),
+(7,11,1,949,'[\"6\",\"8\"]','2017090','2018-03-05 15:52:55'),
+(8,11,1,952,'[\"6\",\"8\"]','2017090','2018-03-06 11:55:51'),
+(9,11,1,783,'[\"6\",\"8\"]','2017090','2018-03-06 11:58:08'),
+(10,11,1,947,'[]','2017090','2018-03-06 13:12:00'),
+(11,13,1,954,'[\"6\",\"8\"]','2017090','2018-03-07 14:25:27'),
+(12,13,1,960,'[\"6\",\"8\"]','2017090','2018-03-07 14:30:57'),
+(13,13,1,955,'[\"6\",\"8\"]','2017090','2018-03-07 16:20:42'),
+(14,13,2,961,'[\"6\",\"8\"]','2017090','2018-03-09 08:19:51'),
+(15,13,1,963,'[\"3\"]','2017090','2018-03-12 13:41:36'),
+(16,13,1,962,'[]','2017090','2018-03-12 13:41:36'),
+(17,13,3,964,'[\"1\",\"3\",\"5\"]','2017090','2018-03-13 16:40:51'),
+(18,13,3,965,'[\"1\",\"3\",\"5\"]','2017090','2018-03-13 16:40:51'),
+(19,13,3,967,'[\"1\",\"3\",\"5\"]','2017090','2018-03-13 16:40:51');
 
 /*Table structure for table `courses_groups` */
 
@@ -1077,7 +1081,7 @@ CREATE TABLE `curriculum_details` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=964 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=968 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_details` */
 
@@ -2041,7 +2045,11 @@ insert  into `curriculum_details`(`ID`,`CurriculumID`,`Semester`,`CurriculumType
 (960,5,3,1,1,1,99,'ARC0003','0',NULL,0,9,0,0,0,1,'0','null',0,0,'2017090','2018-03-08 09:34:15'),
 (961,5,2,1,2,5,16,'CEM1041','1',NULL,0,4,0,0,0,1,'0','null',0,1,'2017090','2018-03-09 08:19:31'),
 (962,5,8,1,1,5,54,'SOC3002','1',NULL,0,4,0,0,0,1,'0','null',1,1,'2017090','2018-03-12 13:40:37'),
-(963,5,8,1,1,5,55,'SOC3003','1',NULL,0,2,0,0,0,1,'0','[\"\"]',1,0,'2017090','2018-03-12 13:41:04');
+(963,5,8,1,1,5,55,'SOC3003','1',NULL,0,2,0,0,0,1,'0','[\"\"]',1,0,'2017090','2018-03-12 13:41:04'),
+(964,5,1,1,3,1,1,'UNI1004','0',NULL,0,4,0,0,0,1,'0','null',1,0,'2017090','2018-03-13 16:37:37'),
+(965,5,1,1,3,1,2,'UNI1003','1',NULL,0,3,0,0,0,1,'0','[\"\"]',1,1,'2017090','2018-03-13 16:37:54'),
+(966,5,2,1,3,1,4,'SOC1001','1',NULL,0,4,0,0,0,1,'0','null',1,0,'2017090','2018-03-13 16:38:18'),
+(967,5,2,1,3,1,10,'ARC1031','1',NULL,0,3,0,0,0,1,'0','[\"\"]',0,0,'2017090','2018-03-13 16:38:34');
 
 /*Table structure for table `curriculum_types` */
 
@@ -2824,12 +2832,32 @@ CREATE TABLE `programs_campus` (
   `UpdateBy` varchar(20) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `programs_campus` */
 
 insert  into `programs_campus`(`ID`,`Name`,`UpdateBy`,`UpdateAt`) values 
 (1,'Program Reguler','2017090','2018-01-25 11:10:05');
+
+/*Table structure for table `range_credits` */
+
+DROP TABLE IF EXISTS `range_credits`;
+
+CREATE TABLE `range_credits` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IPSStart` float(5,2) DEFAULT NULL,
+  `IPSEnd` float(5,2) DEFAULT NULL,
+  `Credit` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+/*Data for the table `range_credits` */
+
+insert  into `range_credits`(`ID`,`IPSStart`,`IPSEnd`,`Credit`) values 
+(1,0.00,1.99,16),
+(2,2.00,2.50,19),
+(3,2.51,3.00,22),
+(4,3.01,4.00,24);
 
 /*Table structure for table `schedule` */
 
@@ -4688,6 +4716,28 @@ insert  into `std_schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`BaseProdiID`,`
 (2456,12,1,14,171,'UNC0102','3017098',0,4,24,'162','08:00:00','09:40:00',NULL,NULL),
 (2457,12,1,3,158,'ARC4044','2114040',1,2,27,'166','08:00:00','12:00:00',NULL,NULL),
 (2458,12,1,6,340,'ENT1234','1116066',0,3,3,'438','08:00:00','09:40:00',NULL,NULL);
+
+/*Table structure for table `std_semester` */
+
+DROP TABLE IF EXISTS `std_semester`;
+
+CREATE TABLE `std_semester` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Semester` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+/*Data for the table `std_semester` */
+
+insert  into `std_semester`(`ID`,`Semester`) values 
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5),
+(6,6),
+(7,7),
+(8,8);
 
 /*Table structure for table `time_per_credits` */
 

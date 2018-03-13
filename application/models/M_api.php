@@ -341,13 +341,24 @@ class M_api extends CI_Model {
     }
 
     private function getDetailOfferings($SemesterID,$ProdiID){
+
+//        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, cd.StatusMK,
+//                                          mk.Name AS MKName, mk.NameEng AS MKNameEng, s.ID AS ScheduleID
+//                                            FROM db_academic.course_offerings co
+//                                            LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
+//                                            LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
+//                                            LEFT JOIN db_academic.schedule s ON (s.SemesterID = co.SemesterID AND cd.MKID = s.MKID AND cd.MKCode = s.MKCode)
+//                                            WHERE  co.SemesterID = "'.$SemesterID.'" AND co.ProdiID = "'.$ProdiID.'"
+//                                   ');
+
+        // Load Mata Kuliah Saat Input Jadwal Tanpa Mata Kuliah Umum
         $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, cd.StatusMK, 
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng, s.ID AS ScheduleID
                                             FROM db_academic.course_offerings co
                                             LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)
                                             LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID AND cd.MKCode = mk.MKCode)
                                             LEFT JOIN db_academic.schedule s ON (s.SemesterID = co.SemesterID AND cd.MKID = s.MKID AND cd.MKCode = s.MKCode)
-                                            WHERE  co.SemesterID = "'.$SemesterID.'" AND co.ProdiID = "'.$ProdiID.'"
+                                            WHERE  co.SemesterID = "'.$SemesterID.'" AND co.ProdiID = "'.$ProdiID.'" AND mk.BaseProdiID != 7
                                    ');
         return $data->result_array();
     }
@@ -554,6 +565,11 @@ class M_api extends CI_Model {
 
     public function __getAllGrade(){
         $data = $this->db->query('SELECT * FROM db_academic.grade ORDER BY EndRange DESC');
+        return $data->result_array();
+    }
+
+    public function __getRangeCredits(){
+        $data = $this->db->query('SELECT * FROM db_academic.range_credits ORDER BY Credit DESC');
         return $data->result_array();
     }
 

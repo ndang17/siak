@@ -284,7 +284,8 @@
 
 
                 $('#formMataKuliah').select2({allowClear: true});
-            } else {
+            }
+            else {
                 $('#divMK').html('-- No Offerings --');
             }
         });

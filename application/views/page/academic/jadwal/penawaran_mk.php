@@ -59,6 +59,17 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-12">
+                        <h4>Offerings To Semester</h4>
+                        <div class="well">
+                            <div id="formOfferingsToSemester"></div>
+                        </div>
+                        <div style="padding-left: 20px;">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="formCheckSmesterAll" value="" checked> <b>All Semester</b>
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-md-12" style="text-align: right;">
                         <hr/>
                         <button class="btn btn-success form-offer" id="btnSaveMK">Save</button>
@@ -82,8 +93,6 @@
 <!--        </div>-->
 
         <div class="row" id="dataOfferings"></div>
-
-
     </div>
 </div>
 
@@ -93,7 +102,9 @@
         Plugins.init(); // Init all plugins
         FormComponents.init(); // Init all form-specific plugins
         loadSelectOptionBaseProdi('#formProdi','');
+        getOfferingsToSemester();
 
+        window.formSemester = [];
         // getSemesterActive();
 
     });
@@ -117,6 +128,7 @@
                     SemesterID : SemesterID,
                     ProdiID : ProdiID,
                     CurriculumDetailID : arrID[i],
+                    ToSemester : JSON.stringify(formSemester),
                     UpdateBy : sessionNIP,
                     UpdateAt : dateTimeNow()
                 };
@@ -146,6 +158,68 @@
         } else {
             toastr.error('Form Required','Error!');
         }
+
+    });
+
+    $(document).on('click','.btn-semester-offer',function () {
+
+        var url = base_url_js+'api/__crudStdSemester';
+        var token = jwt_encode({action:'read'},'UAP)(*');
+        $.post(url,{token:token},function (jsonResult) {
+
+            $('#NotificationModal .modal-body').html('<div id="smt"></div>' +
+                '<hr/>' +
+                '<div style="text-align: right;">' +
+                '<label class="checkbox-inline" style="margin-right: 15px;">' +
+                '  <input type="checkbox" id="inlineCheckbox1" value="option1"> All Semester' +
+                '</label>'+
+                '<button class="btn btn-success">Save</button></div>');
+
+            for(var i=0;i<jsonResult.length;i++){
+                $('#smt').append('<label class="checkbox-inline">' +
+                    '  <input type="checkbox" id="inlineCheckbox1" value="option1"> Semester '+jsonResult[i].Semester+' ' +
+                    '</label>');
+            }
+
+            $('#NotificationModal').modal('show');
+        });
+
+
+    });
+
+    $(document).on('change','.check-smt',function () {
+        var v = $(this).val();
+        console.log(v);
+        if($(this).is(':checked')){
+            formSemester.push(v);
+        } else {
+            formSemester = $.grep(formSemester, function(value) {
+                return value != v;
+            });
+        }
+
+        if(formSemester.length==0){
+            $('#formCheckSmesterAll').prop('checked',true);
+        } else {
+            $('#formCheckSmesterAll').prop('checked',false);
+        }
+
+        console.log(formSemester);
+    });
+
+    $('#formCheckSmesterAll').change(function () {
+
+        if($(this).is(':checked')){
+            formSemester = [];
+            $('.check-smt').prop('checked',false);
+        } else {
+            if(formSemester.length==0){
+                $('#formCheckSmesterAll').prop('checked',true);
+            } else {
+                $('#formCheckSmesterAll').prop('checked',false);
+            }
+        }
+
 
     });
 
@@ -206,6 +280,7 @@
                     '                <th class="th-center" style="width: 1%;">No</th>' +
                     '                <th class="th-center" style="width: 5%;">Code</th>' +
                     '                <th class="th-center">Course</th>' +
+                    '                <th class="th-center" style="width: 15%;">Offerings To Semester</th>' +
                     '                <th class="th-center" style="width: 5%;">Semester</th>' +
                     '                <th class="th-center" style="width: 5%;">Credit</th>' +
                     '                <th class="th-center" style="width: 5%;">Type</th>' +
@@ -225,6 +300,8 @@
                         '<td class="td-center">'+(no++)+'</td>' +
                         '<td class="td-center">'+_data.MKCode+'</td>' +
                         '<td><b>'+_data.MKName+'</b><br/><i>'+_data.MKNameEng+'</i></td>' +
+                        '<td class="td-center">All' +
+                        '<br/><a href="javascript:void(0)" class="btn-semester-offer" style="float: right;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> </td>' +
                         '<td class="td-center">'+_data.Semester+'</td>' +
                         '<td class="td-center">'+_data.TotalSKS+'</td>' +
                         '<td class="td-center">'+label+'</td>' +
@@ -236,6 +313,19 @@
                     'iDisplayLength' : 5
                 });
             }
+        });
+    }
+
+    function getOfferingsToSemester() {
+        var smt = $('#formOfferingsToSemester');
+        var url = base_url_js+'api/__crudStdSemester';
+        var token = jwt_encode({action:'read'},'UAP)(*');
+        $.post(url,{token:token},function (jsonResult) {
+           for(var i=0;i<jsonResult.length;i++){
+               smt.append('<label class="checkbox-inline">' +
+                   '  <input type="checkbox" class="check-smt" value="'+jsonResult[i].Semester+'"> Semester '+jsonResult[i].Semester+' ' +
+                   '</label>');
+           }
         });
     }
 
