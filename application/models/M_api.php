@@ -352,7 +352,7 @@ class M_api extends CI_Model {
 //                                   ');
 
         // Load Mata Kuliah Saat Input Jadwal Tanpa Mata Kuliah Umum
-        $data = $this->db->query('SELECT co.ID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, cd.StatusMK, 
+        $data = $this->db->query('SELECT co.ID, co.ToSemester, cd.ProdiID, cd.Semester, cd.MKType, cd.MKID, cd.MKCode, cd.TotalSKS, cd.StatusMK, 
                                           mk.Name AS MKName, mk.NameEng AS MKNameEng, s.ID AS ScheduleID
                                             FROM db_academic.course_offerings co
                                             LEFT JOIN db_academic.curriculum_details cd ON (co.CurriculumDetailID = cd.ID)

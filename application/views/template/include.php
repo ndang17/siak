@@ -19,7 +19,9 @@
 
 <link rel="stylesheet" href="<?php  echo base_url('assets/template/css/fontawesome/font-awesome.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/template/css/fontawesome4/css/font-awesome.min.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css'); ?>">
+
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css'); ?>">
 <!--[if IE 7]>
 <link rel="stylesheet" href="assets/css/fontawesome/font-awesome-ie7.min.css">
 <![endif]-->
@@ -272,7 +274,9 @@
 <!-- JWT Decode -->
 <script type="text/javascript" src="<?php echo base_url('assets/plugins/');?>jwt/decode/build/jwt-decode.min.js"></script>
 
-<script type="text/javascript" src="<?php echo base_url('assets/datetimepicker/js/bootstrap-datetimepicker.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js');?>"></script>
+
+<script type="text/javascript" src="<?php echo base_url('assets/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js');?>"></script>
 <!-- Custom -->
 <script type="text/javascript">
     window.base_url_js = "<?php echo base_url(); ?>";

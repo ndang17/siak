@@ -742,6 +742,33 @@ class C_api extends CI_Controller {
                 $data = $this->m_api->getAllCourseOfferingsMKU($formData['SemesterID']);
                 return print_r(json_encode($data));
             }
+            else if($data_arr['action']=='editSemester') {
+//                $formData = (array) $data_arr['formData'];
+                $this->db->set('ToSemester', $data_arr['ToSemester']);
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->update('db_academic.course_offerings');
+
+                return print_r(1);
+            }
+            // Untuk mengecek apakah MK Offering sudah dibuatkan jadwal atau belum
+            else if($data_arr['action']=='checkCourse'){
+                $dataWhere = (array) $data_arr['dataWhere'];
+                $query = $this->db
+                    ->get_where('db_academic.schedule', $dataWhere)
+                    ->result_array();
+
+                if(count($query)>0){
+                    return print_r(0);
+                } else {
+                    return print_r(1);
+                }
+            }
+            else if($data_arr['action']=='delete'){
+                $this->db->where('ID', $data_arr['ID']);
+                $this->db->delete('db_academic.course_offerings');
+
+                return print_r(1);
+            }
         }
     }
 

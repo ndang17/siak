@@ -164,7 +164,7 @@
         $.post(url,{token:token},function (data_result) {
             var div = $('#dataScedule');
 
-            console.log(data_result);
+            // console.log(data_result);
 
             if(data_result.length>0){
                 div.html('');
