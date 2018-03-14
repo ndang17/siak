@@ -13,12 +13,12 @@
                     Master Calon Mahasiswa
                 </a>
             </li>
-            <li class="">
+            <!--<li class="">
                 <a href="#">
                     <i class="fa fa-money"></i>
                     Master Uang Daftar
                 </a>
-            </li>
+            </li>-->
             <li class="<?php if($this->uri->segment(2)=='master-sma'){echo "current open";} ?>">
                 <a href="javascript:void(0);">
                     <i class="icon-edit"></i>
@@ -35,6 +35,70 @@
                         <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
                         <i class="icon-angle-right"></i>
                         Integration
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<?php if($this->uri->segment(2)=='master-config'){echo "current open";} ?>">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-address-book-o"></i>
+                    Master Config
+                </a>
+                <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='master-config' && $this->uri->segment(3) == "set-email" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-config/set-email'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Email
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-config' && $this->uri->segment(3) == "total-account" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Total Account
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-config' && $this->uri->segment(3) == "lama-pembayaran" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Lama Pembayaran
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-config' && $this->uri->segment(3) == "harga-formulir" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Harga Formulir
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<?php if($this->uri->segment(2)=='master-registration'){echo "current open";} ?>">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-address-book-o"></i>
+                    Master Registration
+                </a>
+                <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "number-formulir" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Number Formulir
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "sales-koordinator-wilayah" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Sales Koordinator Wilayah
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "sales-koordinator-kota" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Sales Koordinator Kota
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "document-checklist" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Document Checklist
                         </a>
                     </li>
                 </ul>

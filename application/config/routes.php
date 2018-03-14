@@ -81,9 +81,13 @@ $route['database/employees'] = 'page/database/c_database/employees';
 
 
 // --- Modal Admission ----
+// --- Master ----
 $route['admission/master-sma'] = 'page/admission/c_master/sma';
 $route['admission/master-sma/integration'] = 'page/admission/c_master/sma_integration';
 $route['admission/master-sma/table'] = 'page/admission/c_master/sma_table';
+$route['admission/master-config/set-email'] = 'page/admission/c_master/config_set_email';
+$route['admission/master-config/testing_email'] = 'page/admission/c_master/testing_email';
+$route['admission/master-config/save_email'] = 'page/admission/c_master/save_email';
 
 
 // ====== API ======
@@ -148,4 +152,5 @@ $route['api/__crudCourseOfferings'] = 'api/c_api/crudCourseOfferings';
 $route['api/__insertWilayahURLJson'] = 'api/c_api/insertWilayahURLJson';
 $route['api/__insertSchoolURLJson'] = 'api/c_api/insertSchoolURLJson';
 $route['api/__getWilayahURLJson'] = 'api/c_api/getWilayahURLJson';
+$route['api/__getSMAWilayah'] = 'api/c_api/getSMAWilayah';
 

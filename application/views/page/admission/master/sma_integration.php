@@ -117,7 +117,7 @@
         }
         setTimeout(function () {
             $('#btn-sbmt').prop('disabled',false).html('Submit');
-        },300000);
+        },200000);
     }
 
     function saveSchooltoDB(data_json)
