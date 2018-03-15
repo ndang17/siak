@@ -132,11 +132,18 @@ class C_auth extends MY_Controller {
             print_r($no_sama);
         }
         else if($table=='mhs'){
-            $angkatan = 17;
+            $angkatan = 2014;
 
-            $db_lokal = 'ta_20'.$angkatan;
-                $data = $this->db_server->query('SELECT * FROM siak4.mahasiswa WHERE substring(NPM,3,2) = '.$angkatan)->result_array();
+            $db_lokal = 'ta_'.$angkatan;
+                $data = $this->db_server->query('SELECT d.NIP AS AcademicMentor,mhs.* FROM siak4.mahasiswa mhs 
+                                                    LEFT JOIN siak4.setpembimbing s ON (mhs.ID=s.MhswID)
+                                                    LEFT JOIN siak4.dosen d ON (d.ID = s.PembimbingID)
+                                                WHERE mhs.TahunMasuk =  '.$angkatan)->result_array();
             $this->db->truncate($db_lokal.'.students');
+
+            $this->db->where('Year', $angkatan);
+            $this->db->delete('db_academic.auth_students');
+
 //            $this->db->truncate('db_academic.auth_students');
             for($i=0;$i<count($data);$i++){
 //                $expPU = explode('@',$data[$i]['Email']);
@@ -202,8 +209,9 @@ class C_auth extends MY_Controller {
                     'HP' => $data[$i]['HP'],
 //                    'Email' => '',
                     'ClassOf' => $data[$i]['TahunMasuk'],
-                    'EmailPU' => strtolower($EmailPU),
+//                    'EmailPU' => strtolower($EmailPU),
                     'Jacket' => $data[$i]['Jacket'],
+                    'AcademicMentor' => $data[$i]['AcademicMentor'],
                     'AnakKe' => $data[$i]['AnakKe'],
                     'JumlahSaudara' => $data[$i]['JumlahSaudara'],
                     'NationExamValue' => $data[$i]['Nilaiunas'],
@@ -230,16 +238,21 @@ class C_auth extends MY_Controller {
 
                 $this->db->insert($db_lokal.'.students',$arr);
 
-                $arrAuth = array(
-                    'NPM' => $data[$i]['NPM'],
-                    'Password' => '57178f8a57dd1c8b1c084a339c433d3569989c44',
-                    'Year' => $data[$i]['TahunMasuk'],
-                    'EmailPU' => $EmailPU,
-                    'StatusStudentID' => $data[$i]['StatusMhswID'],
-                    'Status' => '0'
-                );
 
-                $this->db->insert('db_academic.auth_students',$arrAuth);
+                if($data[$i]['StatusMhswID']=='3' || $data[$i]['StatusMhswID']==3){
+                    $arrAuth = array(
+                        'NPM' => $data[$i]['NPM'],
+                        'Password' => $this->genratePassword($data[$i]['NPM'],'123456'),
+                        'Year' => $data[$i]['TahunMasuk'],
+                        'EmailPU' => $EmailPU,
+                        'StatusStudentID' => $data[$i]['StatusMhswID'],
+                        'Status' => '0'
+                    );
+
+                    $this->db->insert('db_academic.auth_students',$arrAuth);
+                }
+
+
             }
         }
         else if($table=='prodi'){
