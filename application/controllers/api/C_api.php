@@ -1044,4 +1044,15 @@ class C_api extends CI_Controller {
         echo json_encode($generate);
     }
 
+     public function getSMAWilayah()
+    {
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $result = $this->m_api->__getSMAWilayah($data_arr['wilayah']);
+
+        return print_r(json_encode($result));
+    }
+
 }

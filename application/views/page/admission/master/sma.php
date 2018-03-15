@@ -87,6 +87,10 @@
         });
     }
 
+    $(document).on('change','#selectWilayah',function () {
+        pageTableSchool();
+    });
+
     function pageTableSchool()
     {
         var selectWilayah = $('#selectWilayah').find(':selected').val();

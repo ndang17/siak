@@ -685,5 +685,11 @@ class M_api extends CI_Model {
         return $query;
     }
 
+    public function __getSMAWilayah($kode_wilayah)
+    {
+        $sql = "select * from db_admission.school as a where a.CityID = ? ";
+        $query=$this->db->query($sql, array($kode_wilayah))->result_array();
+        return $query;
+    }
 
 }
