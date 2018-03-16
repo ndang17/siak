@@ -245,4 +245,101 @@ class M_master extends CI_Model {
     $query=$this->db->query($sql, array($DocumentChecklist));
   }
 
+  public function getDataFormulirOnline($tahun)
+  {
+    $sql = "select a.ID,a.Years,a.FormulirCode,a.Status,a.CreateAT,b.Name from db_admission.formulir_number_online_m as a join db_employees.employees as b on a.CreatedBY = b.NIP where a.Years = ?";
+    $query=$this->db->query($sql, array($tahun))->result_array();
+    return $query;
+  }
+
+  public function count_account()
+  {
+      $sql = "select CountAccount from db_admission.count_account as a where a.active = 1 order by a.CreateAT desc limit 1";
+      $query=$this->db->query($sql, array())->result_array();
+      return $query[0]['CountAccount'];
+  }
+
+  public function generate_formulir_online($tahun)
+  {
+    $max_execution_time = 830;
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', $max_execution_time); //
+    $countGetData = count($this->getDataFormulirOnline($tahun));
+    $count_account = $this->count_account();
+    if ($countGetData > 0) {
+      if ($countGetData != $count_account) {
+        for ($i=($countGetData+1); $i <=$count_account; $i++) { 
+          $this->insertDataFormulirOnline($tahun,$i);
+        }
+      }
+    }
+    else
+    {
+      for ($i=1; $i <=$count_account; $i++) { 
+        $this->insertDataFormulirOnline($tahun,$i);
+      }
+    }
+  }
+
+  public function insertDataFormulirOnline($tahun,$increment)
+  {
+    $yy = substr($tahun,2,2); 
+    $code = "O";
+    for ($i=strlen($increment); $i < 3; $i++) { 
+      $increment = "0".$increment;
+    }
+    $dataSave = array(
+            'Years' => $tahun,
+            'FormulirCode' => $yy.$code.$increment,
+            'CreateAT' => date('Y-m-d'),
+            'CreatedBY' => $this->session->userdata('NIP'),
+    );
+    $this->db->insert('db_admission.formulir_number_online_m', $dataSave);
+  }
+
+  public function getDataFormulirOffline($tahun)
+  {
+    $sql = "select a.ID,a.Years,a.FormulirCode,a.Status,a.CreateAT,b.Name from db_admission.formulir_number_offline_m as a join db_employees.employees as b on a.CreatedBY = b.NIP where a.Years = ?";
+    $query=$this->db->query($sql, array($tahun))->result_array();
+    return $query;
+  }
+
+  public function generate_formulir_offline($tahun)
+  {
+    $max_execution_time = 830;
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', $max_execution_time); //
+    $countGetData = count($this->getDataFormulirOffline($tahun));
+    $count_account = $this->count_account();
+    if ($countGetData > 0) {
+      if ($countGetData != $count_account) {
+        for ($i=($countGetData+1); $i <=$count_account; $i++) { 
+          $this->insertDataFormulirOffline($tahun,$i);
+        }
+      }
+    }
+    else
+    {
+      for ($i=1; $i <=$count_account; $i++) { 
+        $this->insertDataFormulirOffline($tahun,$i);
+      }
+    }
+  }
+
+  public function insertDataFormulirOffline($tahun,$increment)
+  {
+    $yy = substr($tahun,2,2); 
+    $code = "M";
+    for ($i=strlen($increment); $i < 3; $i++) { 
+      $increment = "0".$increment;
+    }
+    $dataSave = array(
+            'Years' => $tahun,
+            'FormulirCode' => $yy.$code.$increment,
+            'CreateAT' => date('Y-m-d'),
+            'CreatedBY' => $this->session->userdata('NIP'),
+    );
+    $this->db->insert('db_admission.formulir_number_offline_m', $dataSave);
+  }
+
 }

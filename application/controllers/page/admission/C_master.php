@@ -363,4 +363,52 @@ class C_master extends MY_Controller {
         $this->temp($content);
     }
 
+    public function loadDataFormulirOnline()
+    {
+        $input = $this->getInputToken();
+        $this->data['passSelectTahun'] = $input['selectTahun'];
+        $content = $this->load->view('page/'.$this->data['department'].'/master/load_formulir_online',$this->data,true);
+        echo $content;
+    }
+
+    public function get_json_formulir_online()
+    {
+        $input = $this->getInputToken();
+        $data = $this->m_master->getDataFormulirOnline($input['selectTahun']);
+        return print_r(json_encode($data));
+    }
+
+    public function generate_formulir_online()
+    {
+        $input = $this->getInputToken();
+        $this->m_master->generate_formulir_online($input['selectTahun']);
+    }
+
+    public function formulir_offline()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/formulir_offline',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function loadDataFormulirOffline()
+    {
+        $input = $this->getInputToken();
+        $this->data['passSelectTahun'] = $input['selectTahun'];
+        $content = $this->load->view('page/'.$this->data['department'].'/master/load_formulir_offline',$this->data,true);
+        echo $content;
+    }
+
+    public function get_json_formulir_offline()
+    {
+        $input = $this->getInputToken();
+        $data = $this->m_master->getDataFormulirOffline($input['selectTahun']);
+        return print_r(json_encode($data));
+    }
+
+    public function generate_formulir_offline()
+    {
+        $input = $this->getInputToken();
+        $this->m_master->generate_formulir_offline($input['selectTahun']);
+    }
+
 }

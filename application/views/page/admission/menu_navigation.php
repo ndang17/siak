@@ -115,7 +115,7 @@
                     Master Registration
                 </a>
                 <ul class="sub-menu">
-                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "number-formulir" ){echo "current";} ?>">
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "number-formulir" ){echo "open-default";} ?>">
                         <a href="javascript:void(0);">
                         <i class="icon-angle-right"></i>
                         Number Formulir
