@@ -75,6 +75,8 @@ $route['human-resources/employees'] = 'page/database/c_database/employees';
 
 // ====== Database =====
 $route['database/lecturers'] = 'page/database/c_database/lecturers';
+$route['database/lecturer-details/(:any)'] = 'page/database/c_database/lecturersDetails/$1';
+$route['database/loadpagelecturersDetails'] = 'page/database/c_database/loadpagelecturersDetails';
 $route['database/students'] = 'page/database/c_database/students';
 $route['database/showStudent'] = 'page/database/c_database/showStudent';
 $route['database/employees'] = 'page/database/c_database/employees';
@@ -151,6 +153,7 @@ $route['api/__crudTimePerCredit'] = 'api/c_api/crudTimePerCredit';
 $route['api/__checkSchedule'] = 'api/c_api/checkSchedule';
 
 $route['api/__crudCourseOfferings'] = 'api/c_api/crudCourseOfferings';
+$route['api/__crudLecturer'] = 'api/c_api/crudLecturer';
 
 // get data SMA dan SMK per Wilayah
 $route['api/__insertWilayahURLJson'] = 'api/c_api/insertWilayahURLJson';

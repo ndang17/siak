@@ -49,11 +49,11 @@
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right">
 
-            <li>
-                <a href="javascript:void(0);">
-                    Dept : <span style="color:yellow;"><?php echo ucwords($departement); ?></span>
-                </a>
-            </li>
+<!--            <li>-->
+<!--                <a href="javascript:void(0);">-->
+<!--                    Dept : <span style="color:yellow;">--><?php //echo ucwords($departement); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="dropdown <?php if($this->uri->segment(1)=='database'){echo 'current';} ?>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-database"></i>

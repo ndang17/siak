@@ -578,6 +578,14 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
+    public function __getLecturerDetail($NIP){
+
+//        $data = $this->db->query('SELECT e.* FROM db_employees.employees e WHERE e.NIP="'.$NIP.'" AND e.PositionMain = "14.7"');
+        $data = $this->db->query('SELECT e.* FROM db_employees.employees e WHERE e.NIP="'.$NIP.'" LIMIT 1 ');
+
+        return $data->result_array()[0];
+    }
+
     public function __checkSchedule($dataFilter){
 //        print_r($dataFilter);
         // Get Jadwal

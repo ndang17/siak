@@ -73,6 +73,7 @@ class C_api extends CI_Controller {
         return print_r(json_encode($data));
     }
 
+
     public function getAllMK(){
         $data = $this->m_api->__getAllMK();
         return print_r(json_encode($data));
@@ -1024,6 +1025,21 @@ class C_api extends CI_Controller {
         }
     }
 
+    public function crudLecturer(){
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        if(count($data_arr)>0){
+            if($data_arr['action']=='read'){
+                $NIP = $data_arr['NIP'];
+                $data = $this->m_api->__getLecturerDetail($NIP);
+                return print_r(json_encode($data));
+            }
+        }
+
+    }
+
     public function insertWilayahURLJson()
     {
         $data = $this->input->post('data');
@@ -1054,5 +1070,7 @@ class C_api extends CI_Controller {
 
         return print_r(json_encode($result));
     }
+
+
 
 }

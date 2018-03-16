@@ -67,7 +67,7 @@
                     '<td class="td-center"><img src="'+imgsrc+'" class="img-rounded" width="30" height="30" style="max-width: 30px;object-fit: scale-down;"/></td>' +
                     '<td>'+data[i].NIP+'</td>'+
                     '<td>'+data[i].NIDN+'</td>'+
-                    '<td><a href="javascript:void(0)"><b>'+data[i].TitleAhead+' '+data[i].Name+' '+data[i].TitleBehind+'</b></a></td>'+
+                    '<td><a href="'+base_url_js+'database/lecturer-details/'+data[i].NIP+'"><b>'+data[i].TitleAhead+' '+data[i].Name+' '+data[i].TitleBehind+'</b></a></td>'+
                     '<td class="td-center">'+data[i].Gender+'</td>'+
                     '<td>Jabatan</td>' +
                     '<td>Posisi</td>' +

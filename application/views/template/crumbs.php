@@ -16,7 +16,8 @@
     </ul>
 
     <ul class="crumb-buttons">
-        <li><a href="javascript:void(0);" title=""><i id="current_time_update"></i><span></span></a></li>
+<!--        <li><a href="javascript:void(0);" title=""><i id="current_time_update"></i><span></span></a></li>-->
+        <li><a href="javascript:void(0);" title="">Department : <span style="color:#ff1100;"><?php echo ucwords($departement); ?></span><span></span></a></li>
     </ul>
 
 <!--    <ul class="crumb-buttons">-->
@@ -40,9 +41,9 @@
 
 
 
-        setInterval(function () {
-            $('#current_time_update').html(moment().format('dddd, Do MMM YYYY h:mm:ss A'));
-        }, 1000);
+        // setInterval(function () {
+        //     $('#current_time_update').html(moment().format('dddd, Do MMM YYYY h:mm:ss A'));
+        // }, 1000);
 
 
     });

@@ -38,6 +38,18 @@ class C_database extends MY_Controller {
         $this->temp($content);
     }
 
+    public function lecturersDetails($NIP){
+        $data['NIP']=$NIP;
+        $content = $this->load->view('page/database/lecturer/lecturer_menu',$data,true);
+        $this->temp($content);
+    }
+
+    public function loadpagelecturersDetails(){
+        $page = $this->input->post('page');
+        $data['NIP'] = $this->input->post('NIP');
+        $this->load->view('page/database/lecturer/'.$page,$data);
+    }
+
     public function students()
     {
         $content = $this->load->view('page/database/students','',true);
