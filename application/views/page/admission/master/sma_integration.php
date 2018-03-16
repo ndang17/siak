@@ -37,7 +37,7 @@
     <div class="col-md-10 formAddFormKD">
         <div class="widget box">
             <div class="widget-header">
-                <h4 class="header"><i class="icon-reorder"></i> Integration</h4>
+                <h4 class="header"><i class="icon-reorder"></i> Integration dari <a href="http://jendela.data.kemdikbud.go.id/api/index.php/Csekolah/detailSekolahGET?mst_kode_wilayah=010100">http://jendela.data.kemdikbud.go.id</a></h4>
             </div>
             <div class="widget-content">
                 <!--  -->
@@ -51,6 +51,8 @@
                         </div>
                     </div>
                 </div>
+                <strong>Note : </strong><br>
+                Data yang diintegrasikan adalah Data Wilayah,Data SMA dan Data SMK
             </div>
         </div>
     </div>

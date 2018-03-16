@@ -61,7 +61,8 @@ class C_master extends MY_Controller {
         $pwd = $input['pwd'];
         $smtp_port = $input['smtp_port'];
         $smtp_host = $input['smtp_host'];
-        $to = "alhadi.rahman@podomorouniversity.ac.id";
+        $to = $this->m_sendemail->getToEmail('Testing');
+        //$to = "alhadi.rahman@podomorouniversity.ac.id";
         $subject = "Testemail";
         $sendEmail = $this->m_sendemail->sendEmail($to,$subject,$smtp_host,$smtp_port,$email,$pwd);
         return print_r(json_encode($sendEmail));
@@ -89,7 +90,7 @@ class C_master extends MY_Controller {
     {
         $this->data['getColoumn'] = $this->m_master->getColumnTable('db_admission.count_account');
         $this->data['getData'] = $this->m_master->showData('db_admission.count_account');
-        echo $this->load->view('page/'.$this->data['department'].'/master/table_total_account',$this->data,true);
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_master_global',$this->data,true);
         
     }
 
@@ -127,6 +128,239 @@ class C_master extends MY_Controller {
                 # code...
                 break;
         }
+    }
+
+    public function email_to()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/email_to',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function load_table_email_to()
+    {
+        $this->data['getColoumn'] = $this->m_master->getColumnTable('db_admission.email_to');
+        $this->data['getData'] = $this->m_master->showData('db_admission.email_to');
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_master_global',$this->data,true);
+    }
+
+    public function submit_email_to()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_email_to($input['EmailTo'],$input['fungsi']);
+                break;
+            case 'edit':
+                $this->m_master->editData_email_to($input['EmailTo'],$input['fungsi'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_email_to($input['CDID']);
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_email_to($input['CDID'],$input['Active']);
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function lama_pembayaran()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/lama_pembayaran',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function load_table_master($table)
+    {
+        $this->data['getColoumn'] = $this->m_master->getColumnTable('db_admission.'.$table);
+        $this->data['getData'] = $this->m_master->showData('db_admission.'.$table);
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_master_global',$this->data,true);
+    }
+
+    public function submit_lama_pembayaran()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_lama_pembayaran($input['Longtime']);
+                break;
+            case 'edit':
+                $this->m_master->editData_lama_pembayaran($input['Longtime'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'deadline_register');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_active_table($input['CDID'],$input['Active'],'deadline_register');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function harga_formulir()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/harga_formulir',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_harga_formulir()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_harga_formulir($input['PriceFormulir']);
+                break;
+            case 'edit':
+                $this->m_master->editData_harga_formulir($input['PriceFormulir'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'price_formulir');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_active_table($input['CDID'],$input['Active'],'price_formulir');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function global_wilayah()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/global_wilayah',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function loadTableMasterNoAction($table)
+    {
+        $this->data['getColoumn'] = $this->m_master->getColumnTable('db_admission.'.$table);
+        $this->data['getData'] = $this->m_master->showData('db_admission.'.$table);
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_master_global_no_action',$this->data,true);
+    }
+
+    public function jenis_tempat_tinggal()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/jenis_tempat_tinggal',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_jenis_tempat_tinggal()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_jenis_tempat_tinggal($input['JenisTempatTinggal']);
+                break;
+            case 'edit':
+                $this->m_master->editData_jenis_tempat_tinggal($input['JenisTempatTinggal'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'register_jtinggal_m');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'register_jtinggal_m');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function pendapatan()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/pendapatan',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_pendapatan()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_pendapatan($input['Income']);
+                break;
+            case 'edit':
+                $this->m_master->editData_pendapatan($input['Income'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'register_income_m');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'register_income_m');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function agama()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/agama',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function load_table_master_agama()
+    {
+        $this->data['getColoumn'] = $this->m_master->getColumnTable('siak4.agama');
+        $this->data['getData'] = $this->m_master->showData('siak4.agama');
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_master_global_no_action',$this->data,true);
+    }
+
+    public function tipe_sekolah()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/tipe_sekolah',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function load_table_tipe_sekolah()
+    {
+        $this->data['getColoumn'] = $this->m_master->getColumnTable('admissions.school_type');
+        $this->data['getData'] = $this->m_master->showData('admissions.school_type');
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_master_tipe_sekolah',$this->data,true);
+    }
+
+    public function  document_checklist()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/document_checklist',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_document_checklist()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_document_checklist($input['DocumentChecklist']);
+                break;
+            case 'edit':
+                $this->m_master->editData_document_checklist($input['DocumentChecklist'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'reg_doc_checklist');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'reg_doc_checklist');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function formulir_online()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/formulir_online',$this->data,true);
+        $this->temp($content);
     }
 
 }
