@@ -88,6 +88,10 @@ $route['admission/master-sma/table'] = 'page/admission/c_master/sma_table';
 $route['admission/master-config/set-email'] = 'page/admission/c_master/config_set_email';
 $route['admission/master-config/testing_email'] = 'page/admission/c_master/testing_email';
 $route['admission/master-config/save_email'] = 'page/admission/c_master/save_email';
+$route['admission/master-config/total-account'] = 'page/admission/c_master/total_account';
+$route['admission/master-config/loadTableTotalAccount'] = 'page/admission/c_master/load_table_total_account';
+$route['admission/master-config/modalform/(:any)'] = 'page/admission/c_master/modalform/$1';
+$route['admission/master-config/submit_count_account'] = 'page/admission/c_master/submit_count_account';
 
 
 // ====== API ======

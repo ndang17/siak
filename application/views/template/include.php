@@ -686,5 +686,45 @@
         return false;
     }
 
+    // BY ADHI
+    function Validation_leastCharacter(leastNumber,string,theName)
+    {
+        var result = {status:1, messages:""};
+        var stringLenght =  string.length;
+        if (stringLenght < leastNumber) {
+            result = {status : 0,messages: theName + " at least " + leastNumber + " character"};
+        }
+        return result;
+    }
+
+    function Validation_email(string,theName)
+    {
+        var result = {status:1, messages:""};
+        var regexx =  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (!string.match(regexx)) {
+            result = {status : 0,messages: theName + " an invalid email address! "};
+        }
+        return result;
+    }
+
+    function Validation_required(string,theName)
+    {
+        var result = {status:1, messages:""};
+        if (string == "" || string == null) {
+            result = {status : 0,messages: theName + " is required! "};
+        }
+        return result;
+    }
+
+    function Validation_numeric(string,theName)
+    {
+        var result = {status:1, messages:""};
+        var regexx =  /^\d+$/;;
+        if (!string.match(regexx)) {
+            result = {status : 0,messages: theName + " only numeric! "};
+        }
+        return result;
+    }
+
 
 </script>

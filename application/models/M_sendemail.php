@@ -134,33 +134,45 @@ class M_sendemail extends CI_Model {
         return $arr;
     }
 
-    public function save_email($smtp_host,$smtp_port,$email,$pwd)
+    public function save_email($smtp_host,$smtp_port,$email,$pwd,$text)
     {
         // check existing email ada atau tidak
         $sql = "select * from db_admission.email_set limit 1";
         $data = array();
-        $email = "";
-        $query=$this->db->query($sql, array())->result_array();
-        if (count($query) > 0 ) {
-            # update
-            foreach ($query as $key) {
-                array_push($data,array(
-                                        'smtp_host' => $smtp_host,
-                                        'smtp_port' => $smtp_port,
-                                        'email' => $email,
-                                        'pass' => $pwd,
-                                        'text' => $key->text
-                                      )
-                        );
+        $query=$this->db->query($sql, array())->result();
+        
+        if ($smtp_host != "" || $smtp_port != "" || $email != "" || $pwd != "") {
+            if (count($query) > 0 ) {
+                # update
+                foreach ($query as $key) {
+                    $data = array(
+                                    'smtp_host' => $smtp_host,
+                                    'smtp_port' => $smtp_port,
+                                    'email' => $email,
+                                    'pass' => $pwd,
+                                    'text' => $text
+                                  );
+                }
+
+                $this->db->set($data)
+                         ->update('db_admission.email_set');
             }
-            $this->db->set($data)
-                     //->where('email', $email)
-                     ->update('db_admission.email_set');
+            else
+            {
+                # insert
+                $dataSave = array(
+                        'smtp_host' => $smtp_host,
+                        'smtp_port' => $smtp_port,
+                        'email' => $email,
+                        'pass' => $pwd,
+                        'text' => $text
+                                );
+
+                $this->db->insert('db_admission.email_set', $dataSave);
+
+            }
         }
-        else
-        {
-            # insert
-        }
+        return "Done";
     }
 
 }

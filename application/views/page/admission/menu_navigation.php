@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li class="<?php if($this->uri->segment(2)=='master-config' && $this->uri->segment(3) == "total-account" ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <a href="<?php echo base_url('admission/master-config/total-account'); ?>">
                         <i class="icon-angle-right"></i>
                         Total Account
                         </a>
