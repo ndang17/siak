@@ -115,7 +115,14 @@ $route['admission/master-global/loadTableMasterTipeSekolah'] = 'page/admission/c
 $route['admission/master-registration/document-checklist'] = 'page/admission/c_master/document_checklist';
 $route['admission/master-registration/submit_document_checklist'] = 'page/admission/c_master/submit_document_checklist';
 $route['admission/master-registration/number-formulir/online'] = 'page/admission/c_master/formulir_online';
+$route['admission/master-registration/loadDataFormulirOnline'] = 'page/admission/c_master/loadDataFormulirOnline';
+$route['admission/master-registration/getJsonFormulirOnline'] = 'page/admission/c_master/get_json_formulir_online';
+$route['admission/master-registration/GenerateFormulirOnline'] = 'page/admission/c_master/generate_formulir_online';
 
+$route['admission/master-registration/number-formulir/offline'] = 'page/admission/c_master/formulir_offline';
+$route['admission/master-registration/loadDataFormulirOffline'] = 'page/admission/c_master/loadDataFormulirOffline';
+$route['admission/master-registration/getJsonFormulirOffline'] = 'page/admission/c_master/get_json_formulir_offline';
+$route['admission/master-registration/GenerateFormulirOffline'] = 'page/admission/c_master/generate_formulir_offline';
 
 
 // ====== API ======

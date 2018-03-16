@@ -45,17 +45,21 @@
                     <label class="col-xs-3 control-label">Tahun</label>
                     <div class="col-xs-9">
                         <div class="row">
-                            <div class="col-xs-6">
-                                <select class="col-md-12 full-width-fix" id="selectTahun">
+                            <div class="col-xs-4">
+                                <select class="select2-select-00 col-md-4 full-width-fix" id="selectTahun">
                                     <option></option>
                                 </select>
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-inverse btn-notification" id="generate">Generate Formulir Code</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <hr/>
-            <div id="pageSchool">
+            <div id="pageData">
                 
             </div>
         </div>
@@ -66,7 +70,33 @@
 <script type="text/javascript">
     $(document).ready(function () {
         loadTahun();
+        loadNumberFormulir();
     });
+
+    $(document).on('click','#generate', function () {
+       var selectTahun = $("#selectTahun").val();
+       processGenerate(selectTahun);
+    });
+
+    $(document).on('change','#selectTahun',function () {
+        loadNumberFormulir();
+    });
+
+    function processGenerate(tahun)
+    {
+        loading_button('#generate');
+        var url = base_url_js+'admission/master-registration/GenerateFormulirOnline';
+        var data = {
+            selectTahun : tahun
+        };
+        var token = jwt_encode(data,"UAP)(*");
+        $.post(url,{token:token},function (data_json) {
+            setTimeout(function () {
+             loadNumberFormulir();
+             $('#generate').prop('disabled',false).html('Generate Formulir Code');  
+            },2000);
+        });
+    }
 
     function loadTahun()
     {
@@ -77,5 +107,25 @@
             var selected = (i==0) ? 'selected' : '';
             $('#selectTahun').append('<option value="'+ ( parseInt(startTahun) + parseInt(i) ) +'" '+selected+'>'+( parseInt(startTahun) + parseInt(i) )+'</option>');
         }
+        $('#selectTahun').select2({
+          // allowClear: true
+        });
+    }
+
+    function loadNumberFormulir()
+    {
+        $("#pageData").empty();
+        loading_page('#pageData');
+        var selectTahun = $("#selectTahun").val();
+        var url = base_url_js+'admission/master-registration/loadDataFormulirOnline';
+        var data = {
+            selectTahun : selectTahun
+        };
+        var token = jwt_encode(data,"UAP)(*");
+        $.post(url,{token:token},function (data_json) {
+            setTimeout(function () {
+               $("#pageData").html(data_json);
+            },1000);
+        });
     }
 </script>
