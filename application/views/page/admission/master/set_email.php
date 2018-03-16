@@ -35,8 +35,8 @@
                       <input type="text" class="form-control input-width-xxlarge" id="smtp_port" name = 'smtp_port' value = '<?php echo $email['setting']['smtp_port'] ?>'>
                     </div>
                     <div class="form-group">
-                      <label>WYSIWYG:</label>
-                      <textarea rows="5" name="wysiwyg" class="form-control wysiwyg"><?php echo $email['text'] ?></textarea>
+                      <label>Text Messages:</label>
+                      <textarea rows="20" name="wysiwyg" class="form-control wysiwyg"><?php echo $email['text'] ?></textarea>
                     </div>
                       <button type="button" class="btn btn-default" id="sbmt">Submit</button>
                       <button type="button" class="btn btn-info" id = 'test_connection'>Test Connection</button>

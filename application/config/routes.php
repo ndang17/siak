@@ -94,6 +94,28 @@ $route['admission/master-config/total-account'] = 'page/admission/c_master/total
 $route['admission/master-config/loadTableTotalAccount'] = 'page/admission/c_master/load_table_total_account';
 $route['admission/master-config/modalform/(:any)'] = 'page/admission/c_master/modalform/$1';
 $route['admission/master-config/submit_count_account'] = 'page/admission/c_master/submit_count_account';
+$route['admission/master-config/email-to'] = 'page/admission/c_master/email_to';
+$route['admission/master-config/loadTableEmailTo'] = 'page/admission/c_master/load_table_email_to';
+$route['admission/master-config/submit_email_to'] = 'page/admission/c_master/submit_email_to';
+$route['admission/master-config/lama-pembayaran'] = 'page/admission/c_master/lama_pembayaran';
+$route['admission/master-config/loadTableMaster/(:any)'] = 'page/admission/c_master/load_table_master/$1';
+$route['admission/master-config/submit_lama_pembayaran'] = 'page/admission/c_master/submit_lama_pembayaran';
+$route['admission/master-registration/harga-formulir'] = 'page/admission/c_master/harga_formulir';
+$route['admission/master-config/submit_harga_formulir'] = 'page/admission/c_master/submit_harga_formulir';
+$route['admission/master-global/wilayah'] = 'page/admission/c_master/global_wilayah';
+$route['admission/master-config/loadTableMasterNoAction/(:any)'] = 'page/admission/c_master/loadTableMasterNoAction/$1';
+$route['admission/master-global/jenis-tempat-tinggal'] = 'page/admission/c_master/jenis_tempat_tinggal';
+$route['admission/master-config/submit_jenis_tempat_tinggal'] = 'page/admission/c_master/submit_jenis_tempat_tinggal';
+$route['admission/master-global/pendapatan'] = 'page/admission/c_master/pendapatan';
+$route['admission/master-config/submit_Pendapatan'] = 'page/admission/c_master/submit_pendapatan';
+$route['admission/master-global/agama'] = 'page/admission/c_master/agama';
+$route['admission/master-global/loadTableMasterAgama'] = 'page/admission/c_master/load_table_master_agama';
+$route['admission/master-global/tipe-sekolah'] = 'page/admission/c_master/tipe_sekolah';
+$route['admission/master-global/loadTableMasterTipeSekolah'] = 'page/admission/c_master/load_table_tipe_sekolah';
+$route['admission/master-registration/document-checklist'] = 'page/admission/c_master/document_checklist';
+$route['admission/master-registration/submit_document_checklist'] = 'page/admission/c_master/submit_document_checklist';
+$route['admission/master-registration/number-formulir/online'] = 'page/admission/c_master/formulir_online';
+
 
 
 // ====== API ======

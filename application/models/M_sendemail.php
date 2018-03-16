@@ -175,4 +175,19 @@ class M_sendemail extends CI_Model {
         return "Done";
     }
 
+    public function getToEmail($function = null)
+    {
+        $email_to = "it@podomorouniversity.ac.id";
+        if ($function != null) {
+            $arr_temp = array();
+            $sql = "select EmailTo from db_admission.email_to as a where Active = 1 and Function = ?";
+            $query=$this->db->query($sql, array($function))->result();
+            foreach ($query as $key) {
+               $arr_temp[] = $key->EmailTo;
+            }
+            $email_to = implode($arr_temp, ",");
+        }
+        return $email_to;
+    }
+
 }
