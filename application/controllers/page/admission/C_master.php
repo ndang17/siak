@@ -411,4 +411,33 @@ class C_master extends MY_Controller {
         $this->m_master->generate_formulir_offline($input['selectTahun']);
     }
 
+    public function jacket_size()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/jacket_size',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_jacket_size()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_Jacket_Size($input['JacketSize']);
+                break;
+            case 'edit':
+                $this->m_master->editData_Jacket_Size($input['JacketSize'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'register_jacket_size_m');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'register_jacket_size_m');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
 }

@@ -28,5 +28,11 @@ class C_dashboard extends MY_Controller {
         $this->temp($content);
     }
 
+    public function load_data_registration_upload()
+    {
+        $content = $this->load->view('page/load_data_registration_upload',$this->data,true);
+        echo $content;
+    }
+
 
 }
