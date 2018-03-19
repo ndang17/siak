@@ -109,9 +109,8 @@ CREATE TABLE `auth_students` (
   `StatusStudentID` int(11) DEFAULT NULL,
   `Status` enum('0','1') DEFAULT NULL,
   `LastLogin` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `EmailPU_UNIQUE` (`EmailPU`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=521 DEFAULT CHARSET=latin1;
 
 /*Data for the table `auth_students` */
 
@@ -196,7 +195,354 @@ insert  into `auth_students`(`ID`,`NPM`,`Password`,`Year`,`EmailPU`,`StatusStude
 (78,'22140008','1c3a5b4592ee5a60b2c05bee06697d33921fb087',2014,'acinia.nindartin@podomorouniversity.ac.id',3,'0',NULL),
 (79,'22140006','567af9d1c8e0122b88cb7c826f511af916b11b65',2014,'joshua.hasian@podomorouniversity.ac.id',3,'0',NULL),
 (80,'22140009','5a9756d8f765e60ca1bea08b42861ecd3c2e76ea',2014,'salim.trifanjaya@podomorouniversity.ac.id',3,'0',NULL),
-(81,'22140010','f57953b2889e4139a546fdf6ba4da21eda1d219a',2014,'aggam.rifat@podomorouniversity.ac.id',3,'0',NULL);
+(81,'22140010','f57953b2889e4139a546fdf6ba4da21eda1d219a',2014,'aggam.rifat@podomorouniversity.ac.id',3,'0',NULL),
+(174,'11150010','d7eb4e653a7174636b9f598fa490832c7098f94c',2015,'leonardo.thedra@podomorouniversity.ac.id',3,'0',NULL),
+(175,'22150008','2cdbf46abd8c54eee6b0354eef14fbc3e0c62aa2',2015,'sherrin.haryanti@podomorouniversity.ac.id',3,'0',NULL),
+(176,'22150006','122ad724882f2475e9599f2f923435fe3b55cbad',2015,'erinna.aileen@podomorouniversity.ac.id',3,'0',NULL),
+(177,'11150009','144f60594f94f1941c49738b1e675c33c9ee1eba',2015,'kelvin.kelvin@podomorouniversity.ac.id',3,'0',NULL),
+(178,'22150002','a393423014bf8c7d57fd12e15747bb54d541d625',2015,'YOSIA.HARYANTO@podomorouniversity.ac.id',3,'0',NULL),
+(179,'22150003','92f5e6833369afb289520a1dfb5b647e453aad91',2015,'steven.wijaya2@podomorouniversity.ac.id',3,'0',NULL),
+(180,'22150004','83d118c1ce7297eb357cec7f58523a4c93df7e64',2015,'grace.yosephine@podomorouniversity.ac.id',3,'0',NULL),
+(181,'22150005','863826ce35fcee9b8f910895e04efd5f714385c0',2015,'nicolas.hasiando@podomorouniversity.ac.id',3,'0',NULL),
+(182,'11150005','c431cd29fefaf5a7443ce8ac8e25d22a95e7cef0',2015,'devin.christopher@podomorouniversity.ac.id',3,'0',NULL),
+(183,'11150025','cd465cd32353dc9cfdf3b124a78632c6dcea9225',2015,'franscisco.kevin@podomorouniversity.ac.id',3,'0',NULL),
+(184,'11150004','e3d1f2273b366da308c62f21bae2f170a284f31a',2015,'maria.sofia@podomorouniversity.ac.id',3,'0',NULL),
+(185,'41150007','65f830e0233ff115d2faacc52e3a66630b0537e1',2015,'ario.suhada@podomorouniversity.ac.id',3,'0',NULL),
+(186,'22150007','1bbf4a5780113720b22ae3695fcafc3bb445378b',2015,'nadya.dwivania@podomorouniversity.ac.id',3,'0',NULL),
+(187,'11150001','e9b21c67edcb24441bafd8b4ca948e5b400d2e9c',2015,'jimmy@podomorouniversity.ac.id',3,'0',NULL),
+(188,'22150001','fa10f2131fc5096d73e9d11bf850f0946cfcd06b',2015,'steven.wijaya1@podomorouniversity.ac.id',3,'0',NULL),
+(189,'11150012','ef9fb45cb5a7462be65fa51a961680b94bc62f2e',2015,'ivan.darrick@podomorouniversity.ac.id',3,'0',NULL),
+(190,'22150014','eb8770ed83874c64d71b71bcb62ac96fe95f7609',2015,'yos.hadi@podomorouniversity.ac.id',3,'0',NULL),
+(191,'11150013','45f657023bf21165b065f27bf6882caf5d829949',2015,'novia@podomorouniversity.ac.id',3,'0',NULL),
+(192,'11150007','d28e4661eb7033c7887f6959cdb4dede4e670ca1',2015,'andre.wijaya15@podomorouniversity.ac.id',3,'0',NULL),
+(193,'11150015','fe82aabff76c24f17b662caef2c7eaa4f42c0c5e',2015,'wilson@podomorouniversity.ac.id',3,'0',NULL),
+(194,'11150016','8c7a009954cad4206e87a87d57db7c2e10ee824c',2015,'herdiman.indra@podomorouniversity.ac.id',3,'0',NULL),
+(195,'11150017','06d79a27bf9ac9335e2dbfc53141a8bb40fde8f7',2015,'khansis.wellesley@podomorouniversity.ac.id',3,'0',NULL),
+(196,'11150037','f352481bf7908bf85310adca8a32ec42f0bafcac',2015,'aditya.tan@podomorouniversity.ac.id',3,'0',NULL),
+(197,'11150024','485eed82b52574a3838e65e7fcc4bd196079c7e9',2015,'alvindo.oktobriando@podomorouniversity.ac.id',3,'0',NULL),
+(198,'11150026','58273a6dc58260f6bc22d4f35c0e2377bd802e8d',2015,'jaeysen.kanily@podomorouniversity.ac.id',3,'0',NULL),
+(199,'11150027','11f863e65ee249b82a1ad1775d8a6fdeb35e87a4',2015,'richard.andario@podomorouniversity.ac.id',3,'0',NULL),
+(200,'11150028','0830490d735e1db297af5f587b5ba8e622633970',2015,'darius.prayoga@podomorouniversity.ac.id',3,'0',NULL),
+(201,'11150029','8f80a1a40d82d717afa59dda6e4687413fc6b3bb',2015,'muhammad.resaldi@podomorouniversity.ac.id',3,'0',NULL),
+(202,'11150003','18d2d72d91e040c28f306f5be51439c727606fd0',2015,'aldo.ginola@podomorouniversity.ac.id',3,'0',NULL),
+(203,'11150022','0241a28d27f4e97daf405c24befdb6c2bdd59d73',2015,'kevin.hutama@podomorouniversity.ac.id',3,'0',NULL),
+(204,'11150034','20c93517f486bae1b3db1d102f87a63736282b81',2015,'cindy.halim@podomorouniversity.ac.id',3,'0',NULL),
+(205,'11150035','5f3e62000b7cfb8c2511b3dfe96131e58a6793ee',2015,'aaron.kevin@podomorouniversity.ac.id',3,'0',NULL),
+(206,'31150007','38c3dde3b51e9a90c686f070d2d31ec6913bd0d8',2015,'angeline.fransisca@podomorouniversity.ac.id',3,'0',NULL),
+(207,'31150008','6529aabcfd35a03b918a1dde9bd4cde824902a50',2015,'feren.lisniawati@podomorouniversity.ac.id',3,'0',NULL),
+(208,'31150009','887abdc0e12aafec3c4874dd14375af466d7a600',2015,'josephine@podomorouniversity.ac.id',3,'0',NULL),
+(209,'31150010','c1c2ac6a9c085da0ddcef33a6db3a2bd11ad28c7',2015,'gary.lentini@podomorouniversity.ac.id',3,'0',NULL),
+(210,'31150017','040e96747f3d60829f9a1894b087b9b76fc599b9',2015,'livia.laura@podomorouniversity.ac.id',3,'0',NULL),
+(211,'31150018','d18bea9c705239f807d0217c6591ae31292009b5',2015,'jenny.lia@podomorouniversity.ac.id',3,'0',NULL),
+(212,'31150019','2f95e0485a333c954a24629c9055dd43058cfe65',2015,'johan.hardjana@podomorouniversity.ac.id',3,'0',NULL),
+(213,'31150020','58454f206e0f9639785165abae229782220b2b86',2015,'felicia.wijaya@podomorouniversity.ac.id',3,'0',NULL),
+(214,'31150021','8286282668ee5314a7d1463246b98d5fc72cb773',2015,'geraldy.surya@podomorouniversity.ac.id',3,'0',NULL),
+(215,'31150022','4279696b55ad63f00ee20941205297b02d785706',2015,'felicia.rachael@podomorouniversity.ac.id',3,'0',NULL),
+(216,'31150023','98907a04b08bc3b7ec1e0870e88ca61024178bcb',2015,'juliana@podomorouniversity.ac.id',3,'0',NULL),
+(217,'31150025','e2b392f59353185cb4228a5fcfe676f2594c8799',2015,'carina.lim@podomorouniversity.ac.id',3,'0',NULL),
+(218,'31150032','2a085f21eb659ef3afa6a808106c9dbd80fee2f5',2015,'gary.johan@podomorouniversity.ac.id',3,'0',NULL),
+(219,'31150033','cc72d413ef7a4cc5514560176afce070c5515c47',2015,'ria.thalia@podomorouniversity.ac.id',3,'0',NULL),
+(220,'31150034','7233716442ac10cf373da1043d880b1202921ceb',2015,'sherly.agnes@podomorouniversity.ac.id',3,'0',NULL),
+(221,'31150035','f74992a9a7098701cf5dfd8cf8c549d724e31fba',2015,'sabrina.agnes@podomorouniversity.ac.id',3,'0',NULL),
+(222,'31150036','83b3db637dc52812b05f887699e7ed9448039c94',2015,'dannia.avanty@podomorouniversity.ac.id',3,'0',NULL),
+(223,'31150037','95b3ae6aefa615f726d31a7517951fc8b1b72e3a',2015,'kenrick.gunawan@podomorouniversity.ac.id',3,'0',NULL),
+(224,'31150038','8d4b876b3fd342793ad9909b14e575aec6e4fb1b',2015,'kania.adhisty@podomorouniversity.ac.id',3,'0',NULL),
+(225,'31150040','2629b9b42834f9b44ef5ad4f891a1e9794ccd673',2015,'rikanitasari@podomorouniversity.ac.id',3,'0',NULL),
+(226,'31150041','c9625845260982826c4f95ef0f0d5f8ba071aa39',2015,'novela.sunjan@podomorouniversity.ac.id',3,'0',NULL),
+(227,'31150042','4d735f855b9fac4b933ae587b862a03e3c2984bf',2015,'natalia.macyana@podomorouniversity.ac.id',3,'0',NULL),
+(228,'31150043','a17e9b6dc0782c45c5851ebbf6fe6c60c29637c7',2015,'jennifer.gisela@podomorouniversity.ac.id',3,'0',NULL),
+(229,'31150045','8bb0a514c5e178c64d1b87b856ea0465ec84fcc2',2015,'jane.wilbert@podomorouniversity.ac.id',3,'0',NULL),
+(230,'31150047','30c942562d8b9841cdad483f856a300cbe76bf43',2015,'albert1@podomorouniversity.ac.id--',3,'0',NULL),
+(231,'31150048','8a9fc7696545cf7ebddc72c9c1cb43381094d581',2015,'ricky.anderson@podomorouniversity.ac.id',3,'0',NULL),
+(232,'31150049','94d6512f9c0d37f87626959c37087c2e278df3ec',2015,'nilufur.barnett@podomorouniversity.ac.id',3,'0',NULL),
+(233,'31150050','86ff6dd034567ff27f7e59563d926e1811a3d311',2015,'agnes.giovany@podomorouniversity.ac.id',3,'0',NULL),
+(234,'31150057','33dd281646ce79ba3eb8b73465cb2fcc74a2549e',2015,'angelica.juventia@podomorouniversity.ac.id',3,'0',NULL),
+(235,'31150058','b472e261f89e1cb7039e35259c159ea60187de66',2015,'yosua.chandra@podomorouniversity.ac.id',3,'0',NULL),
+(236,'31150059','0b637d3fa28273aa8c91403b081b13fd7d6c6d49',2015,'gishella.claudia@podomorouniversity.ac.id',3,'0',NULL),
+(237,'31150060','728a31e8531377f60fd44270ed6502510d8f82a9',2015,'willzen.yinsenso@podomorouniversity.ac.id',3,'0',NULL),
+(238,'31150061','d00c5bff7dc7000931e3985cbefc837f8e17d395',2015,'antonius.wibawa@podomorouniversity.ac.id',3,'0',NULL),
+(239,'31150062','0018f17db54e44170696b4486a3a38127604b0c4',2015,'rika.mandasari@podomorouniversity.ac.id',3,'0',NULL),
+(240,'31150063','e4f876dc59557aef4624180823ce11eb68d28e2e',2015,'geraldi.putranto@podomorouniversity.ac.id',3,'0',NULL),
+(241,'31150065','b84781a5be7ebdc499499f193e4ce664515f26cf',2015,'valencia.putri@podomorouniversity.ac.id',3,'0',NULL),
+(242,'31150066','a7625193392cdf8a7a1768194cc8954df076f638',2015,'enzie.gunthoro@podomorouniversity.ac.id',3,'0',NULL),
+(243,'31150067','e0c96afa06e324248b5d01375fc6c63c17683b1f',2015,'wina@podomorouniversity.ac.id',3,'0',NULL),
+(244,'31150068','1cea6f0a0559c5ce962def9d72fd360e73cd2b22',2015,'rekha.novia@podomorouniversity.ac.id',3,'0',NULL),
+(245,'31150069','5346889e9d7a55fffcfd8289197ce319b6c79be5',2015,'harley.hanindhito@podomorouniversity.ac.id',3,'0',NULL),
+(246,'31150070','862ea7907bc0b600691378a8029691aaaffaaf93',2015,'selly.marsellina@podomorouniversity.ac.id',3,'0',NULL),
+(247,'31150072','b8ffdc6da3e94facdbc9078a03e8bc041eabb948',2015,'nanda.karina@podomorouniversity.ac.id',3,'0',NULL),
+(248,'31150073','5c57497241e254a57a777f704e51b3fa91689a68',2015,'audrey.karenina@podomorouniversity.ac.id',3,'0',NULL),
+(249,'31150074','844975adc797d3749f848a98e51f717500d1cecb',2015,'jason.yohatha@podomorouniversity.ac.id',3,'0',NULL),
+(250,'31150075','ac9c1613bba068d34759f7f100927f7172b9cc6e',2015,'revan.lamora@podomorouniversity.ac.id',3,'0',NULL),
+(251,'31150076','7ec0884da1b4d3f3ab4f96571a9cc40d96b73ebf',2015,'aaron.sebastian@podomorouniversity.ac.id',3,'0',NULL),
+(252,'21150007','fecc2b0fc98d6c65963d83571eae7863d372fc76',2015,'maggie.gunawan@podomorouniversity.ac.id',3,'0',NULL),
+(253,'21150008','9fe6471ef97e6b9dab65ddabe91c4e619e4798ef',2015,'michael.bowijaya@podomorouniversity.ac.id',3,'0',NULL),
+(254,'21150015','9b6b686ad292eb339ed3a36f97b62c79ee179b7f',2015,'evan.raynaldo@podomorouniversity.ac.id',3,'0',NULL),
+(255,'21150020','34cf5b54aefd1cc2db7311fe08260cb0479e9e11',2015,'angelia.suryanti@podomorouniversity.ac.id',3,'0',NULL),
+(256,'21150022','b2148fea6b06b09e124b2b8a1bd02e671fc24954',2015,'malcolm.david@podomorouniversity.ac.id',3,'0',NULL),
+(257,'21150045','1a54147662ea09a0d74c28177ca5a2f4a73ec16c',2015,'michael.goenardy@podomorouniversity.ac.id',3,'0',NULL),
+(258,'21150042','96b64a42f85dacbe961e8509ccb23c16a6a7955a',2015,'sophia.sambara@podomorouniversity.ac.id',3,'0',NULL),
+(259,'11150036','c2936b4522c135d481b0d2d8448762e7cf0c5beb',2015,'aaron.margetan@podomorouniversity.ac.id',3,'0',NULL),
+(260,'41150008','d4eeb833c26ecc15107a643fb77f6bbafdbe05ff',2015,'rudi.pisteo@podomorouniversity.ac.id',3,'0',NULL),
+(261,'41150010','c166e9f173580c99e385718d9d8ffb81daccc9e8',2015,'elita.tirta@podomorouniversity.ac.id',3,'0',NULL),
+(262,'41150004','621b9ed665601ef6760dcd69675d495faabcf1d5',2015,'argysan.taruna@podomorouniversity.ac.id',3,'0',NULL),
+(263,'41150002','0bc5d05c053110d31287b738035045947b0d2097',2015,'cindy.yolanda@podomorouniversity.ac.id',3,'0',NULL),
+(264,'41150006','4db316a3ae18c552c6bac9f9fca23f77795a53b9',2015,'kenny.wangestu@podomorouniversity.ac.id',3,'0',NULL),
+(265,'21150027','7cc9ccffb41d86f9f590897cd0ea6a9f88f72417',2015,'albert1@podomorouniversity.ac.id---',3,'0',NULL),
+(266,'41150005','e6527c65a09dae5d4700d191d93a892a01e559ad',2015,'rini.driyani@podomorouniversity.ac.id',3,'0',NULL),
+(267,'41150001','355f19e708abb4dce2644390e54823f7df77570b',2015,'marcell.anggara@podomorouniversity.ac.id',3,'0',NULL),
+(268,'11150006','3bbf710f5c78a9eb1bfd66e115b92d4732633d02',2015,'samuel.hansen@podomorouniversity.ac.id',3,'0',NULL),
+(269,'11150008','c14fc3e517d4cdec041d4ee956e6733f6e081a3e',2015,'karen@podomorouniversity.ac.id',3,'0',NULL),
+(270,'11150018','d0805d0ffdb172426423b71f3f61392f28deec87',2015,'meta.anggriani@podomorouniversity.ac.id',3,'0',NULL),
+(271,'11150011','d947410bf896218ef77879d9ecd96d3b5b0e43e8',2015,'angelia.rinaldi@podomorouniversity.ac.id',3,'0',NULL),
+(272,'11150032','53a2f60e9b04083f989b68c169cb24e1e34de23f',2015,'kevin.kusnandi@podomorouniversity.ac.id    kevinkusnadi9@gmail.com',3,'0',NULL),
+(273,'11150030','fce2ad0df201cf058b6c5afb4c85d23e7b45d76a',2015,'kristy.rachmawati@podomorouniversity.ac.id',3,'0',NULL),
+(274,'11150023','77593e5e79c609515bb1be97be49f1aa03f874d0',2015,'neviree.andara@podomorouniversity.ac.id',3,'0',NULL),
+(275,'11150021','3034c06b7071f7345e4e939e93387529ddea8565',2015,'aaron.philbert@podomorouniversity.ac.id',3,'0',NULL),
+(276,'11150020','eb4e426e87e5fcee5f864ad7436c1b1a4915a5f7',2015,'rudy.sandy@podomorouniversity.ac.id',3,'0',NULL),
+(277,'11150019','008b86994e6a3e00471ad0acbbe27ba8a7d5f2f7',2015,'afaf@podomorouniversity.ac.id',3,'0',NULL),
+(278,'22150010','ba69219de8be650e0fe11c6a523a66d8e76e2a7b',2015,'ZHAZHA.LITINA@podomorouniversity.ac.id',3,'0',NULL),
+(279,'22150011','09f7ee5e07126c7e3d37794ce687b1f27d8d6fdd',2015,'terrence.finsenda@podomorouniversity.ac.id',3,'0',NULL),
+(280,'22150013','1cd2fe02db9d44ea117102814c4cc2a5d1062a3a',2015,'antonius.fujiono@podomorouniversity.ac.id',3,'0',NULL),
+(281,'22150009','9448041e444df14b31d30f302badb789b87bc543',2015,'steven.jenius@podomorouniversity.ac.id',3,'0',NULL),
+(282,'22150012','eef89e04b457fb5cf75b37a7b6ae3df57f795127',2015,'achmad.saldy@podomorouniversity.ac.id',3,'0',NULL),
+(283,'21150026','06f80ecb47fc89cdb23ea5df227b7d476249e5fb',2015,'silvia.marchelina@podomorouniversity.ac.id',3,'0',NULL),
+(284,'41150011','f3647ab9a924e15735a18092f099c84479732941',2015,'eunice.christina@podomorouniversity.ac.id',3,'0',NULL),
+(285,'21150025','ca012a940c32e2e393590939c472529a7b3d48c5',2015,'jetle.chandra@podomorouniversity.ac.id',3,'0',NULL),
+(286,'21150024','6ce035d2da8c13b6bb52ed49777bdc3366eea5bf',2015,'renoska.antono@podomorouniversity.ac.id',3,'0',NULL),
+(287,'31150001','b9b1b554a76689da5eada1a6a4118d8a8dd6ae94',2015,'nadila.wimona@podomorouniversity.ac.id',3,'0',NULL),
+(288,'31150026','625e0c8f11a93a5cc1303171c19e3d2a3010e0b8',2015,'philips.sogo@podomorouniversity.ac.id',3,'0',NULL),
+(289,'31150011','2bef9395da12d99582a69159b60313d9ac5a8714',2015,'evelyn.thea@podomorouniversity.ac.id',3,'0',NULL),
+(290,'31150051','ecefe410bed09c171711651bd452b74e64260526',2015,'amelia@podomorouniversity.ac.id',3,'0',NULL),
+(291,'22150016','26bf34b43e3e225659d9df6eaa865761ccf352c6',2015,'jevica@podomorouniversity.ac.id',3,'0',NULL),
+(292,'21150005','505829d59801edf94bdf3d93231e85a0e2cb565a',2015,'jeremia.immanuel@podomorouniversity.ac.id',3,'0',NULL),
+(293,'21150004','d106e18f99647b10a50ead4937882b960ddc64bb',2015,'meriska.patricia@podomorouniversity.ac.id',3,'0',NULL),
+(294,'21150012','a546949fd42ac3135057172a5d2676206e76e33c',2015,'jeffrans@podomorouniversity.ac.id',3,'0',NULL),
+(295,'21150001','ab52cb89a0a655cbf2a3a6f96a373dd0dab5a133',2015,'mohammad.reyhan@podomorouniversity.ac.id',3,'0',NULL),
+(296,'21150019','7d51a39ac323f0f4283dc2ad4065fcc10be2c015',2015,'regina.valensia@podomorouniversity.ac.id',3,'0',NULL),
+(297,'31150024','9159bf33748135bdb57065e8977d7b9ce51d263c',2015,'lidya.setiawati@podomorouniversity.ac.id',3,'0',NULL),
+(298,'31150014','7f1339a72f4b104c4540cb1723da04c30f274c4a',2015,'david.rindo@podomorouniversity.ac.id',3,'0',NULL),
+(299,'12150001','8a6f1aef090ca69f828a1505b00faf5702956740',2015,'deoga.prayudha@podomorouniversity.ac.id',3,'0',NULL),
+(300,'31150012','1a29c3ee6183fdac14aa76a724e1936cb0aec493',2015,'denny.tirtha@podomorouniversity.ac.id',3,'0',NULL),
+(301,'31150003','cabb384dea04ed1384a87394d4fb4364a30798eb',2015,'rudy.lim@podomorouniversity.ac.id',3,'0',NULL),
+(302,'31150015','59a9fe0ef90a0e7df0f18c1262ee73d1284419ad',2015,'yuddie@podomorouniversity.ac.id',3,'0',NULL),
+(303,'21150010','36031355501f8ae6efb08dade0a3d7549206cdf6',2015,'muhammad.nuril@podomorouniversity.ac.id',3,'0',NULL),
+(304,'12150002','fea945c64b8ec71073d2dfa3a2e78ef8aa4e47f2',2015,'chrish.shannan@podomorouniversity.ac.id',3,'0',NULL),
+(305,'12150003','a393ce2f699d062c8f5f5b349fd064d957144f61',2015,'michael.michael@podomorouniversity.ac.id',3,'0',NULL),
+(306,'31150005','cf111db28a1d7aedd1b9657ed634b3fc37207deb',2015,'theodora@podomorouniversity.ac.id',3,'0',NULL),
+(307,'21150009','af688d87141157d62c6fa93270ec11f03c4cb4f2',2015,'fransisca.yongsie@podomorouniversity.ac.id',3,'0',NULL),
+(308,'31150016','3190c9e12971b95316384247aed4902a4c862efa',2015,'febryansyah.nindya@podomorouniversity.ac.id',3,'0',NULL),
+(309,'31150039','263e6fad3a930a4194144b3b890bf4a774aae9b5',2015,'elisa.chandra@podomorouniversity.ac.id',3,'0',NULL),
+(310,'21150011','f2e526a0485556b9e0a80708d0d7e6433dc7d83c',2015,'marisca.tjandra@podomorouniversity.ac.id',3,'0',NULL),
+(311,'21150034','0b90b2a7147018a74f45e41e0a95e4f1a5bcc79c',2015,'raden.roro@podomorouniversity.ac.id',3,'0',NULL),
+(312,'21150037','3e75d418f1e8ca72841e78662666d3b10a900a61',2015,'ferry.muljono@podomorouniversity.ac.id',3,'0',NULL),
+(313,'31150053','762109675342a4d8b4672092101c870a2e9b4c38',2015,'theophilus.hans@podomorouniversity.ac.id',3,'0',NULL),
+(314,'31150052','ecc26a810c30ed887233964bb8f563041537ef65',2015,'venny.wijaya@podomorouniversity.ac.id',3,'0',NULL),
+(315,'21150038','2a70446656595e154e77730a4dfcb5ddd4fab54a',2015,'febryan.adsutan@podomorouniversity.ac.id',3,'0',NULL),
+(316,'31150055','1a65a52f6b9ae5201f899d37a618b4f4a09c5071',2015,'lilis.amalia@podomorouniversity.ac.id',3,'0',NULL),
+(317,'21150039','38a0d461ce9e1e163b9a021dc4fb1529db16fdfc',2015,'nethania@podomorouniversity.ac.id',3,'0',NULL),
+(318,'21150030','dcc36247503b249ce7b96b9737091f32c3c9b063',2015,'justyne@podomorouniversity.ac.id',3,'0',NULL),
+(319,'31150046','93a3ea979cf05848e7b8df3795f0459d261e8e88',2015,'karina.tiana@podomorouniversity.ac.id',3,'0',NULL),
+(320,'31150027','1fd3681118eb98f16d5ce810ee422591881f3f14',2015,'agnes.angelika@podomorouniversity.ac.id',3,'0',NULL),
+(321,'21150035','6f61f59c9e459935ebbce147c1a901b5d146832e',2015,'vegadania.mayrisky@podomorouniversity.ac.id',3,'0',NULL),
+(322,'21150021','adbd7b37be23031b26e1ff44a2c05176e3af63d8',2015,'joel.awi@podomorouniversity.ac.id',3,'0',NULL),
+(323,'31150006','04495f4e0c88f879c5ec9a088b600c1c3dacd5a3',2015,'bella@podomorouniversity.ac.id',3,'0',NULL),
+(324,'21150033','a456256eb4fdf2db5a5bcf5f3ba235579a245f2e',2015,'kevin.suryadi@podomorouniversity.ac.id',3,'0',NULL),
+(325,'31150030','3f443a8806aed8a95aededab5754e8f0758f38e1',2015,'fransiska@podomorouniversity.ac.id',3,'0',NULL),
+(326,'31150031','fd596329b7ccc04488fe406e9de6dae8b5196f5e',2015,'britney.tiufany@podomorouniversity.ac.id',3,'0',NULL),
+(327,'31150054','9934809b794abc5497c632d1756620f0e6cfc60c',2015,'ricky.setiawan@podomorouniversity.ac.id',3,'0',NULL),
+(328,'21150006','adb439280683fecd6ce29b3635ad1cc3f8e2ec7c',2015,'novita@podomorouniversity.ac.id',3,'0',NULL),
+(329,'31150004','40a79e219fd6ea1fd7b6f05d280f3f53aedfaa5c',2015,'mulya.persada@podomorouniversity.ac.id',3,'0',NULL),
+(330,'31150028','e8c03626e9fd2d873aeff9afc722bf985d8984a3',2015,'meiria.katida@podomorouniversity.ac.id',3,'0',NULL),
+(331,'31150002','64a7d7429f4b89d1ae29ee897e92bba81d912b48',2015,'valeria.sharoon@podomorouniversity.ac.id',3,'0',NULL),
+(332,'12150004','f61ae0eb3aa861e3ab161c7d4a67ff0c4cae68d0',2015,'jeannada.nathasya@podomorouniversity.ac.id',3,'0',NULL),
+(333,'31150029','c789ce4dc184c42c32065e4e6d01f75dafc62203',2015,'vivi.olivia@podomorouniversity.ac.id',3,'0',NULL),
+(334,'21150002','fd5e6d194eab673d272316ff47cb693959dda157',2015,'vanessa.yudanto@podomorouniversity.ac.id',3,'0',NULL),
+(335,'21150018','0dda24226eb6b1b2f41fe453dcdc6441a26e9c35',2015,'fandy.arismendi@podomorouniversity.ac.id',3,'0',NULL),
+(336,'21150016','7c236587e61be0f0495d8185c36ed0c2fd720ec1',2015,'alessandro@podomorouniversity.ac.id',3,'0',NULL),
+(337,'21150032','0f44a3760203b402a09b3a36967f9fa7c18160a3',2015,'cathleen.charity@podomorouniversity.ac.id',3,'0',NULL),
+(338,'31150064','863fae4bfa0f10e388f71429f369ef9bab54a84d',2015,'kevin.darsono@podomorouniversity.ac.id',3,'0',NULL),
+(339,'31150071','f5d39e5240fc3aff16806a18b5a1e92ae6e517b4',2015,'james.kurniawan@podomorouniversity.ac.id',3,'0',NULL),
+(340,'41150009','b1f55442cb4bbd68130eb841b9ef299bc24ee61e',2015,'edi.sumanto@podomorouniversity.ac.id',3,'0',NULL),
+(341,'11160014','3a1a6930f51107a07d945ac2ed6542905a9f66c8',2016,'hermawan.sutanto@podomorouniversity.ac.id',3,'0',NULL),
+(342,'11160002','dd69bfa3aa9d90c9f84c8cf2d6650663384786ff',2016,'metta.halim@podomorouniversity.ac.id',3,'0',NULL),
+(343,'11160019','5ef990ab9cb0390f72a1fd82c055f2683a72a20a',2016,'william.edbert@podomorouniversity.ac.id',3,'0',NULL),
+(344,'11160007','46945ee05d33ad445c2c1136b21db490b3219e55',2016,'kevin.kevin@podomorouniversity.ac.id',3,'0',NULL),
+(345,'11160008','e51e7eb79b671ab382830592508a07ed5fabb1ef',2016,'richard.william@podomorouniversity.ac.id',3,'0',NULL),
+(346,'11160009','a4dd7b8a9a2904bd0644461c6258973797fec694',2016,'jennifer.leilani@podomorouniversity.ac.id',3,'0',NULL),
+(347,'11160001','719fb50b096369544c8ab33966c1615a3c0d4911',2016,'william@podomorouniversity.ac.id',3,'0',NULL),
+(348,'11160006','e93439e4e61e89f23957a510a9917ddc0dc2a7c6',2016,'rae.rheyski@podomorouniversity.ac.id',3,'0',NULL),
+(349,'11160005','1573e8f77065a49e05bc40a640958641ce8b72f7',2016,'yolan.kyrana@podomorouniversity.ac.id',3,'0',NULL),
+(350,'11160018','70839c38d40d2e72127c2d3e66c19e9160df3df6',2016,'jeremy.gozal@podomorouniversity.ac.id',3,'0',NULL),
+(351,'11160013','09e9b022a18b94e2240b309cdb5de38df6c51a94',2016,'dearvid.yoga@podomorouniversity.ac.id',3,'0',NULL),
+(352,'11160012','5d28d347c07d0c750e9610cd024f1f5ff35a0622',2016,'mishael.arviano@podomorouniversity.ac.id',3,'0',NULL),
+(353,'11160011','5583881c469459eef125d631ac4c9090cee0bb4d',2016,'budyanto@podomorouniversity.ac.id',3,'0',NULL),
+(354,'11160026','9dc64c21846ec96784ed139812fff485d12c8682',2016,'carissa@podomorouniversity.ac.id',3,'0',NULL),
+(355,'11160024','9a84c0321c9898cab1cd886456180b09c8fa6e24',2016,'albert.gustavo@podomorouniversity.ac.id',3,'0',NULL),
+(356,'11160022','a6f6e1f798d1f84b34f3fa712bb088585f7e70a8',2016,'valentina.sinciera@podomorouniversity.ac.id',3,'0',NULL),
+(357,'11160020','f04884d413844f5de62ca331afa41696decb4cf0',2016,'khendy.chan@podomorouniversity.ac.id',3,'0',NULL),
+(358,'11160004','01da57eac5d71022a3bc3958a432e5d73cfdb2da',2016,'katherin.wijaya@podomorouniversity.ac.id',3,'0',NULL),
+(359,'11160010','4015922cd4e4bf842d0ee120317c9b3cf3f13d7b',2016,'william.pukarta@podomorouniversity.ac.id',3,'0',NULL),
+(360,'11160025','9e0b970a6bca4e13662793a17ce2dc7f8999b864',2016,'sheree.enrica@podomorouniversity.ac.id',3,'0',NULL),
+(361,'11160023','9453cc80dfaf1d20a0d13c7c343dc170e31e1d9a',2016,'samuel.irawan@podomorouniversity.ac.id',3,'0',NULL),
+(362,'11160021','dc84b3b95664b9a6ef11fe79ff65e36768921766',2016,'chintya.nabhila@podomorouniversity.ac.id',3,'0',NULL),
+(363,'11160039','f02ee44e8afeee5bf7607a8392472afb8f184b8a',2016,' dimas.wiradinata@podomorouniversity.ac.id',3,'0',NULL),
+(364,'11160035','b5248f45c3d0e6d79a1b286fe7294ad8f675a128',2016,'josh.feliks@podomorouniversity.ac.id',3,'0',NULL),
+(365,'11160034','92ecfb588e7f3621736449de0b2401a4c940b514',2016,'janica.caroline@podomorouniversity.ac.id',3,'0',NULL),
+(366,'11160033','02e5a3ca4303dd765af0592681a1c63b4e8bfa1a',2016,'kendo.purnomo@podomorouniversity.ac.id',3,'0',NULL),
+(367,'11160003','dc87d390eb27b25e8a8c558632eb57d74084ae50',2016,'leonard.ichsan@podomorouniversity.ac.id',3,'0',NULL),
+(368,'41160005','6d095bba8a75c1be9bb40f782b4759d66dbf3f4f',2016,'michael.surya@podomorouniversity.ac.id',3,'0',NULL),
+(369,'31160005','89c3a7919d86cd58376fa9d59bee0f5368d1c33f',2016,'carine.ana@podomorouniversity.ac.id',3,'0',NULL),
+(370,'31160006','eaffe073eaad5a354c847d8440db8bf90e9ca7f5',2016,'vincent.tjendra@podomorouniversity.ac.id',3,'0',NULL),
+(371,'31160007','f4822ec589d44886ba59ba90c61c845c8da3bf54',2016,'zieshen.giovanni@podomorouniversity.ac.id',3,'0',NULL),
+(372,'31160008','dc8da315145a9bca4b64d3005ec90898c68cef07',2016,'felicia.kammal@podomorouniversity.ac.id',3,'0',NULL),
+(373,'31160009','600ad01c9748ee050aeb9dc226f7ed2ca40cb64d',2016,'mega.joselina@podomorouniversity.ac.id',3,'0',NULL),
+(374,'31160010','26260156c6b59fee5d4d50d32503aab1cd6ffc44',2016,'nicolas.theodore@podomorouniversity.ac.id',3,'0',NULL),
+(375,'31160011','4a4a1bb14a40851872f59ac75563149834bfa5e3',2016,'lukman.noval@podomorouniversity.ac.id',3,'0',NULL),
+(376,'31160012','e4d9afe48500d2ef6a1b98b0803fbf92d708215c',2016,'evania@podomorouniversity.ac.id',3,'0',NULL),
+(377,'31160013','29330db9dba4a7306785b2bc0258ad07fccf32bb',2016,'dominika.leoni@podomorouniversity.ac.id',3,'0',NULL),
+(378,'31160014','5fe8c73be5b46d5a8342e13a638cb5bcefbd0fb9',2016,'kevin.huang@podomorouniversity.ac.id',3,'0',NULL),
+(379,'31160015','df20dff5af11469bfd602cbb4d663c2bc58d37d7',2016,'jovan.hernando@podomorouniversity.ac.id',3,'0',NULL),
+(380,'31160016','fbe45dceffb4db9b9330833c02857afb75d04e9a',2016,'dona.monica@podomorouniversity.ac.id',3,'0',NULL),
+(381,'31160017','d1fc4237611c04e12bbfca0b42ad148cbaa8c785',2016,'calvin.andrico@podomorouniversity.ac.id',3,'0',NULL),
+(382,'31160018','9acb38e993fae009e0015174a0f8f2468061a690',2016,'govinda.wahyu@podomorouniversity.ac.id',3,'0',NULL),
+(383,'31160019','a93a954adc43a623429600b2bccc98ff3003ce08',2016,'felix.wijaya@podomorouniversity.ac.id',3,'0',NULL),
+(384,'31160020','cc1f4939291a2e48a70bc316d8f1f4117801e2e8',2016,'reginald@podomorouniversity.ac.id',3,'0',NULL),
+(385,'31160021','182757f70f735603fb38eaf7ff9ddd80fe62e764',2016,'hardita.suhanda@podomorouniversity.ac.id',3,'0',NULL),
+(386,'31160022','5807b47979b58697cb1dbc58c5c757e93ff9d12e',2016,'aldio.hendry@podomorouniversity.ac.id',3,'0',NULL),
+(387,'31160023','5fddd3acfec900e7c692e95e136f03b1f89b3636',2016,'muhammad.lutfi@podomorouniversity.ac.id',3,'0',NULL),
+(388,'31160024','b3f26dc6e80694e0624f083d4370801041263efc',2016,'sigrid.martina@podomorouniversity.ac.id',3,'0',NULL),
+(389,'31160030','e51ff698701195997c1fbe059b5c18c19a158a42',2016,'dimy.alyssa@podomorouniversity.ac.id',3,'0',NULL),
+(390,'31160031','7b5f51d844fcf5d78852d996a87a3fc5223aea93',2016,'denato@podomorouniversity.ac.id',3,'0',NULL),
+(391,'31160032','70843895bf1107b545da0b8ee6456513df72fbc6',2016,'veren.alvera@podomorouniversity.ac.id',3,'0',NULL),
+(392,'31160033','cf3696004ddd2d4b9c3e2da3aaea35424ac3ffff',2016,'andrew.surya@podomorouniversity.ac.id',3,'0',NULL),
+(393,'31160034','afeb20f0cd326dd82435c047d0473b644de7b072',2016,'felicia.belinda@podomorouniversity.ac.id',3,'0',NULL),
+(394,'31160035','89f47320af77111f0fef29176c1c264eadd33c2f',2016,'angela.kaawoan@podomorouniversity.ac.id',3,'0',NULL),
+(395,'31160036','30246236be26dbace27e68b246354e6c3666e399',2016,'caroline@podomorouniversity.ac.id',3,'0',NULL),
+(396,'31160037','504de7746cdb10c46b5688828e78eeacc4c01066',2016,'brigitta.sabrina@podomorouniversity.ac.id',3,'0',NULL),
+(397,'31160038','2217996e6b434f0b07b1e0672372c616425ef16b',2016,'winnu.dhammika@podomorouniversity.ac.id',3,'0',NULL),
+(398,'31160039','b9f9e51ae92ca836d967186eb6d38d899b8caffd',2016,'lewi.sichilia@podomorouniversity.ac.id',3,'0',NULL),
+(399,'31160040','b90ef5a0f3f7cb1aee6e233a70b3596d57d6a7ed',2016,'carissa.florencia@podomorouniversity.ac.id',3,'0',NULL),
+(400,'31160041','cd5a99654d6ac1a82e56a791263cffdcb72ca5cb',2016,'antonio.pranata@podomorouniversity.ac.id',3,'0',NULL),
+(401,'31160042','fefb69f8cb5aafc954ec182027ccaf703e44e604',2016,'veren@podomorouniversity.ac.id',3,'0',NULL),
+(402,'31160043','1978a413e1002b06946469df8b42302107896828',2016,'clara.jocom@podomorouniversity.ac.id',3,'0',NULL),
+(403,'31160044','133c043433bd12a8d37eaf3ad495541881087edd',2016,'ryan.bowen@podomorouniversity.ac.id',3,'0',NULL),
+(404,'31160046','f353f51120e219e1861f1e06a58be79b8ac7e2b4',2016,'blenda.frederica@podomorouniversity.ac.id',3,'0',NULL),
+(405,'31160047','0c128e3170bfa7ba64f1616c0f174f4410977054',2016,'ervita.chandra@podomorouniversity.ac.id',3,'0',NULL),
+(406,'31160048','ed8e063d65cbf398a411995e1a41e91204232b7c',2016,'eveline.anggreani@podomorouniversity.ac.id',3,'0',NULL),
+(407,'41160003','e9788964996fb2a4edc9757a62c3b242c2560df6',2016,'andre.kusuma@podomorouniversity.ac.id',3,'0',NULL),
+(408,'31160054','e718fccd2f439f7d3ec1ad56f59d1031c644e1e1',2016,'natalia@podomorouniversity.ac.id',3,'0',NULL),
+(409,'31160055','e540d87a2ce1bbf69986e84ed6accc12fa1107df',2016,'farren.devika@podomorouniversity.ac.id',3,'0',NULL),
+(410,'31160056','c3ca6f297ddb958ea0f71c82b5f2ccd3fbf84e69',2016,'marco.leonardo@podomorouniversity.ac.id',3,'0',NULL),
+(411,'31160057','922a3d6c57675919e565ca82df3e35f3fbac2595',2016,'bella.dwitama@podomorouniversity.ac.id',3,'0',NULL),
+(412,'31160058','5ab141bc480dabbe31f682e7fe52cc5db3d60e12',2016,'zalicha.azizashany@podomorouniversity.ac.id',3,'0',NULL),
+(413,'31160059','0235ca4aeb3be7941d6469fc902d67ee9054b882',2016,'samuel.anwar@podomorouniversity.ac.id',3,'0',NULL),
+(414,'31160060','b6caa4328bcb222fee8441b7afa22aff2a69d1f4',2016,'edelin@podomorouniversity.ac.id',3,'0',NULL),
+(415,'31160061','5cdb2278a6931182d1acfb4b2e70c04a3866933c',2016,'shrileen@podomorouniversity.ac.id',3,'0',NULL),
+(416,'31160062','07cf8e46c1bc2403ea4eab6efcb459ecbb0e439a',2016,'verawaty.iwan@podomorouniversity.ac.id',3,'0',NULL),
+(417,'31160063','17ca28d21e53cadef59bd315bab75c6d9c63af3c',2016,'verensya.wijaya@podomorouniversity.ac.id',3,'0',NULL),
+(418,'31160064','5e490e4a0788990a2f8831f4e53da1b41f32ec0b',2016,'elyza.yasmine@podomorouniversity.ac.id',3,'0',NULL),
+(419,'31160065','d93f6b5a4307ed8b4b28a6ba51713429cde76908',2016,'jesselyn.stephanie@podomorouniversity.ac.id',3,'0',NULL),
+(420,'31160066','a49eee1d59bcb325652695528fa3288d78c59a02',2016,'selvita.bilianti@podomorouniversity.ac.id',3,'0',NULL),
+(421,'31160067','b44bbffaf2ecf3ff312406967190b1ff81ee9993',2016,'cynthia.purnama@podomorouniversity.ac.id',3,'0',NULL),
+(422,'31160068','79bb4ec1e67ca620886b256622a3766d1e11a9a8',2016,'Imanuel@podomorouniversity.ac.id',3,'0',NULL),
+(423,'31160069','1eabd0fcb31c26b1d557efc1b23c159ef8d5c404',2016,'michaela.agnes@podomorouniversity.ac.id',3,'0',NULL),
+(424,'31160070','f156575fbacf96d4b85894b6ebe4511d8774362d',2016,'catherine.sasmita@podomorouniversity.ac.id',3,'0',NULL),
+(425,'31160071','909fdd28294ab487907eb1a62744c041a0ce48cf',2016,'joshua.thamando@podomorouniversity.ac.id',3,'0',NULL),
+(426,'31160072','b2d39d192b3aa37d5edb79a5d0f8336fe3100aa3',2016,'michael.liurentio@podomorouniversity.ac.id',3,'0',NULL),
+(427,'31160078','dcb19ec6f48acc8ac2254bab5f80f5205d969909',2016,'hansen.liharianto@podomorouniversity.ac.id',3,'0',NULL),
+(428,'31160080','252ba9466d2bc513eef0dabe5d0897bf045338c1',2016,'hendry.hernando@podomorouniversity.ac.id',3,'0',NULL),
+(429,'31160081','15bec6b32038b6bd790dda95ab53ad654d619582',2016,'rachel.desideria@podomorouniversity.ac.id',3,'0',NULL),
+(430,'31160082','8b151dd367ada4e54fe280c61de56b81cc1d1081',2016,'vonny.lewy@podomorouniversity.ac.id',3,'0',NULL),
+(431,'31160083','fa4d8c0eecce54537af9a1395b9ae5d772a0f3d7',2016,'grendy.aprianto@podomorouniversity.ac.id',3,'0',NULL),
+(432,'31160084','ef22898a2c32ff6ef645ed9bafe68c1ea8f5c108',2016,'ibrahim.pasha@podomorouniversity.ac.id',3,'0',NULL),
+(433,'31160085','e0f80993b76fd01b2976cdac3510731559f6b6b4',2016,'widya.novitasari@podomorouniversity.ac.id',3,'0',NULL),
+(434,'31160087','1ee7b73b1d659559ba12083bac45d291f3ce30d4',2016,'vincent.aditya@podomorouniversity.ac.id',3,'0',NULL),
+(435,'31160089','86850d12c08f69d0384854a5509fda907cff78de',2016,'gary.setiawan@podomorouniversity.ac.id',3,'0',NULL),
+(436,'31160090','dfa20602c1965a762bc6e994ec46c958565cfcad',2016,'nicola.nerissa@podomorouniversity.ac.id',3,'0',NULL),
+(437,'31160091','d99269b21bcce48bd9e6c53c92e4a10eceee7075',2016,'rindriyani.batoo@podomorouniversity.ac.id',3,'0',NULL),
+(438,'31160092','2003099cfca78357b421f2d483fd11aeceb29fb4',2016,'hanady.japranata@podomorouniversity.ac.id',3,'0',NULL),
+(439,'31160093','d18aabecdb6368d2a92c46afb20c3c6b7accf014',2016,'kezia.elsy@podomorouniversity.ac.id',3,'0',NULL),
+(440,'31160094','4ea45f1cd9e0b437a483d18b614d05dc0e940f2c',2016,'jordi.hadibowo@podomorouniversity.ac.id',3,'0',NULL),
+(441,'31160095','a8b16305d7e6741371f813831fa42751b7aafd8d',2016,'adrian.sutanto@podomorouniversity.ac.id',3,'0',NULL),
+(442,'31160096','dd521cddcf74ca4e3e5633362fb49a56be737e7f',2016,'alexander.benedict@podomorouniversity.ac.id',3,'0',NULL),
+(443,'41160002','425dcf5f94ee13b7274825a8830b3c6e6bcc12a1',2016,'putri.ramadhanty@podomorouniversity.ac.id',3,'0',NULL),
+(444,'24160003','13b480d9eb95b427e3be5a7c156434ff27b9fbd8',2016,'tree.tuti@podomorouniversity.ac.id',3,'0',NULL),
+(445,'22160006','d47c4f1ff4881af97b7a9af4794a1252b376700d',2016,'angelia.nafthalie@podomorouniversity.ac.id',3,'0',NULL),
+(446,'22160007','8db6e1e612c3bb247ee3f262eb95218ec3d49808',2016,'ravli.thaufiq@podomorouniversity.ac.id',3,'0',NULL),
+(447,'41160009','5fe389443dfa3a62092d8b016fe6b83cb1516850',2016,'griselda.maurilla@podomorouniversity.ac.id',3,'0',NULL),
+(448,'41160007','a3b4f36a4324e78ee0ec9abf486314b994c82de5',2016,'nelsen.linardy@podomorouniversity.ac.id',3,'0',NULL),
+(449,'12160006','cc30e8fa2d9a3bbf058fae19d971761e42906427',2016,'jason.yordan@podomorouniversity.ac.id',3,'0',NULL),
+(450,'12160007','a643d7347c3fcd7d495adce87334223943df5a80',2016,'daren.dwi@podomorouniversity.ac.id',3,'0',NULL),
+(451,'41160001','4fdd94bcbe2b4c797ab8a36895eb99dc8873942e',2016,'trisha.tanisha@podomorouniversity.ac.id',3,'0',NULL),
+(452,'41160008','f98fa1af7d0b161e94ad01cd261d28c2a0d3a4b2',2016,'sekar.wiji@podomorouniversity.ac.id',3,'0',NULL),
+(453,'11160015','e61813faf653f1095e2887fa4ebb38a1a6d4d412',2016,'priscilla.vinnie@podomorouniversity.ac.id',3,'0',NULL),
+(454,'11160016','95e4ab3332ee0cd497a055983b07536aeff54ad9',2016,'winny.cristy@podomorouniversity.ac.id',3,'0',NULL),
+(455,'11160031','cb120441b7e3672ff728f497f0edb8157dc9db5d',2016,'yolanda.octavalery@podomorouniversity.ac.id',3,'0',NULL),
+(456,'11160017','27aedfbbc2bea571191b76aa1ca3eec20ea200c6',2016,'brandon.christian@podomorouniversity.ac.id',3,'0',NULL),
+(457,'11160032','5f8698783e7a9ede95d2957eb07a8a51c04ad990',2016,'indra.sri@podomorouniversity.ac.id',3,'0',NULL),
+(458,'11160030','a487f5b6dd092b5db407093777b22a3cc64772ed',2016,'elbert.edison@podomorouniversity.ac.id',3,'0',NULL),
+(459,'11160029','e8641dccf29d8aa36916499b0efc6e2849ab4938',2016,'brian.tjong@podomorouniversity.ac.id',3,'0',NULL),
+(460,'11160028','33dab4049d71a3ab500adda3426d5c24556e1ae5',2016,'yenni.varensia@podomorouniversity.ac.id',3,'0',NULL),
+(461,'11160027','7dd1e2e2c6e0d671d7b793e4cba7882da55830b5',2016,'fernaldy.putra@podomorouniversity.ac.id',3,'0',NULL),
+(462,'31160074','b34c31a85e0af7729e790e40c2a4bedd0b8b2ca8',2016,'hendry.pratama@podomorouniversity.ac.id',3,'0',NULL),
+(463,'31160075','16086a7d4168dbcb6b18789302efde2cd6a1ce19',2016,'then.yerevan@podomorouniversity.ac.id',3,'0',NULL),
+(464,'31160050','3f1205be23240b99ca2b391bd4bcf0e8b67a5a63',2016,'damien.wesley@podomorouniversity.ac.id',3,'0',NULL),
+(465,'31160051','066ebdda9e8b5fd8f9509793c296f233cb722819',2016,'chara.citra@podomorouniversity.ac.id',3,'0',NULL),
+(466,'31160002','9ca4d1b411950b2c274b77f0008c30b7845715e4',2016,'vanessa.josephine@podomorouniversity.ac.id',3,'0',NULL),
+(467,'31160026','e508041bd2fd44f447f3380f45fc7b255b91b3b3',2016,'reinhart.osmond@podomorouniversity.ac.id',3,'0',NULL),
+(468,'31160027','78d9cb4132040fe1c7fe4cfb3f081449f37b2bad',2016,'joshua.christiandi@podomorouniversity.ac.id',3,'0',NULL),
+(469,'24160002','5ca92634f93d1a8a12416e7d8a53ed8dc5366278',2016,'alifia.intan@podomorouniversity.ac.id',3,'0',NULL),
+(470,'23160002','6d8a53a4962a0c9f904f723de309024318325f9b',2016,'blasius.fabianus@podomorouniversity.ac.id',3,'0',NULL),
+(471,'12160002','7e52895503d7a44878319a99753a6108db10918a',2016,'kathrin@podomorouniversity.ac.id',3,'0',NULL),
+(472,'31160049','4e570522dde6c40c85534999ccb33f143ad31370',2016,'christine.devina@podomorouniversity.ac.id',3,'0',NULL),
+(473,'31160025','5914eb33bf178e6c35d3cba872641903791ad978',2016,'ricky@podomorouniversity.ac.id',3,'0',NULL),
+(474,'31160073','8acac8ea1bcce530a7b887cb5ce3344d37d239bc',2016,'andre.evan@podomorouniversity.ac.id',3,'0',NULL),
+(475,'12160001','f00a8f0035b2665ebf8fa68e26d97fae42dd3010',2016,'adrian@podomorouniversity.ac.id',3,'0',NULL),
+(476,'26160001','db7edf99b1c42a4d693edb920e4f11551c8ba924',2016,'erlangga.mahandsmara@podomorouniversity.ac.id',3,'0',NULL),
+(477,'23160001','cca294c5837369cdbe45c6624b22310eaa4697c4',2016,'jessen.santoso@podomorouniversity.ac.id',3,'0',NULL),
+(478,'24160001','78a6be7d88c3f239bab35a0da66a7a01d6caf209',2016,'angelica@podomorouniversity.ac.id',3,'0',NULL),
+(479,'12160003','cd43cafb4b3c827fbb7184fd288436806d31c663',2016,'jeremy.immanuel@podomorouniversity.ac.id',3,'0',NULL),
+(480,'21160002','969f6c526a3fd0b23e7b2239ad252d8af666b933',2016,'varren.anastasia@podomorouniversity.ac.id',3,'0',NULL),
+(481,'21160006','ccb2680e5be0543e528f37b12ae9bfa6f3226cec',2016,'alexander.bong@podomorouniversity.ac.id',3,'0',NULL),
+(482,'21160010','6aaffefef6f7cce45192ab7aa6641912a3ec6939',2016,'cindy.margaretha@podomorouniversity.ac.id',3,'0',NULL),
+(483,'21160019','d175e2d97b3a53ee8d05fe766c1e90a6a01ced74',2016,'kelvin@podomorouniversity.ac.id',3,'0',NULL),
+(484,'22160002','5a63678a75a785cbc8634848cb627b7c2b3b1a05',2016,'steven.harison@podomorouniversity.ac.id',3,'0',NULL),
+(485,'41160006','97847ec3b27bee7737eee82c237d6614b2b99b3e',2016,'kennytalesia.putra@podomorouniversity.ac.id',3,'0',NULL),
+(486,'21160017','5fd881e583af7f7374a364619574b359e004cef4',2016,'kezia.febriany@podomorouniversity.ac.id',3,'0',NULL),
+(487,'21160016','c031c4e8ad528f73c3a6f1dfc03e99b2da344a5c',2016,'paramita.sherentya@podomorouniversity.ac.id',3,'0',NULL),
+(488,'31160001','cd117c30711aac096999f6099027db86fbb31e2e',2016,'leonard.farrel@podomorouniversity.ac.id',3,'0',NULL),
+(489,'21160014','9b56b5db2b852e6736701f8d6a860bfbc5792a98',2016,'afuwan.halim@podomorouniversity.ac.id',3,'0',NULL),
+(490,'21160013','46d4e4dea2d1709e3f82b5a8031c836f6ad6da83',2016,'billi.kurniawan@podomorouniversity.ac.id',3,'0',NULL),
+(491,'22160003','fb13a073634f9bb848e0108af9b65a135a618369',2016,'richard.yuliant@podomorouniversity.ac.id',3,'0',NULL),
+(492,'22160001','817a64e7b0a578c7575fc4fc767ae814ac1a90b9',2016,'marcelino.danu@podomorouniversity.ac.id',3,'0',NULL),
+(493,'21160003','6e94af7fb7b153de19a43bc62195951e79f21f9c',2016,'melisa@podomorouniversity.ac.id',3,'0',NULL),
+(494,'31160003','42d4f59367d4cb75ae51b9d6bab8811d46ba6ae0',2016,'michael1@podomorouniversity.ac.id',3,'0',NULL),
+(495,'21160001','d2912f5cd2a4cb4a52bd3ddcd754c158dcf61343',2016,'oliver.kenny@podomorouniversity.ac.id',3,'0',NULL),
+(496,'31160004','6820c945371ccf70ee8e903a5903e0f5f4d63691',2016,'timothy.krisna@podomorouniversity.ac.id',3,'0',NULL),
+(497,'21160004','eb08d1ad1524feabd1a3579fcf245aecd4e6bb45',2016,'kevin.ferlie@podomorouniversity.ac.id',3,'0',NULL),
+(498,'21160008','d65167e8e73542f964ffc45a4a757cb496e00fa1',2016,'dennis.owen@podomorouniversity.ac.id',3,'0',NULL),
+(499,'31160029','05b8fbe29c7ba432a4ad93933a5e1102af79b9f2',2016,'hani.dwili@podomorouniversity.ac.id',3,'0',NULL),
+(500,'31160028','3c0a081a1457869980ab91459f940589ddeb7ff7',2016,'samantha.evans@podomorouniversity.ac.id',3,'0',NULL),
+(501,'21160007','d09a7b2fc49dad942c2692c7df8a4026884620bf',2016,'steven.verdianta@podomorouniversity.ac.id',3,'0',NULL),
+(502,'21160009','882089c80432962d97e67da95a801d29d2cca8c0',2016,'yensen.febrian@podomorouniversity.ac.id',3,'0',NULL),
+(503,'12160004','c0382a4dbe05d4a80287d01ae4e05391cdbb075b',2016,'vanessa@podomorouniversity.ac.id',3,'0',NULL),
+(504,'21160012','8751669b34da7c0df17fdd38029f384a912bf032',2016,'desky.rico@podomorouniversity.ac.id',3,'0',NULL),
+(505,'41160004','518625583e89af661ba845132a997f9ba953eddd',2016,'maria.lutgardis@podomorouniversity.ac.id',3,'0',NULL),
+(506,'31160052','b073ca231ddd6a26b942ecc746489aefc81c8f26',2016,'regina.ismanto@podomorouniversity.ac.id',3,'0',NULL),
+(507,'31160053','a98ea477b6598d81e96c57c4f200c82e3c78d1b8',2016,'vanessa.felicia@podomorouniversity.ac.id',3,'0',NULL),
+(508,'12160005','65b11563dd1786e0690be9dd5c5d82d0892300f6',2016,'felicia.stephanie@podomorouniversity.ac.id',3,'0',NULL),
+(509,'22160004','4f0293ae4cf5422d35cbd5006f390993c8c85736',2016,'taufik.ramadhan@podomorouniversity.ac.id',3,'0',NULL),
+(510,'21160018','e60cf48e7cfb6da7cc947834ad81b9a1651aca0b',2016,'elshadday@podomorouniversity.ac.id',3,'0',NULL),
+(511,'22160005','997217d710fb4bae0045426f53dcaed8542a1c98',2016,'rakha.iskandar@podomorouniversity.ac.id',3,'0',NULL),
+(512,'31160077','0e16f1075f7136de0ac08c428fcb11c106de2d1c',2016,'cynthia.chaisa@podomorouniversity.ac.id',3,'0',NULL),
+(513,'21160021','fc29ad82f8fa20675e8b4376fbe4a7aa4436fcf2',2016,'david.nicodemus@podomorouniversity.ac.id',3,'0',NULL),
+(514,'31160076','146ec54f6c25ae934a1786971231bfa441ecd6f3',2016,'keny@podomorouniversity.ac.id',3,'0',NULL),
+(515,'21160020','d7ec1686af0448d9cc0ee737ef13f1253fea2265',2016,'rio.christian@podomorouniversity.ac.id',3,'0',NULL),
+(516,'21160022','c925f72c9b6fec06ca4f1925f1baac0560cfc1ee',2016,'shandy.febriyana@podomorouniversity.ac.id',3,'0',NULL),
+(517,'21160023','cd3ec5e1785201b50b60c7c2d708a50a9ca1c870',2016,'aldo.chinaldy@podomorouniversity.ac.id',3,'0',NULL),
+(518,'21160026','c289fdb3a44e489fc3a47de4bdab3e6579b2d802',2016,'arnott.ferels@podomorouniversity.ac.id',3,'0',NULL),
+(519,'21160025','2101701cbb3f9d1c75154ef43e5369995376f425',2016,'michael.adrian@podomorouniversity.ac.id',3,'0',NULL),
+(520,'21160027','d1d13f360a0bf55271583b1f461ae5feb72d85c0',2016,' vernando.antoni@podomorouniversity.ac.id',3,'0',NULL);
 
 /*Table structure for table `class_group` */
 
@@ -287,7 +633,7 @@ CREATE TABLE `course_offerings` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
@@ -302,7 +648,7 @@ insert  into `course_offerings`(`ID`,`SemesterID`,`ProdiID`,`CurriculumDetailID`
 (8,11,1,952,'[\"6\",\"8\"]','2017090','2018-03-06 11:55:51'),
 (9,11,1,783,'[\"6\",\"8\"]','2017090','2018-03-06 11:58:08'),
 (10,11,1,947,'[]','2017090','2018-03-06 13:12:00'),
-(11,13,1,954,'[\"1\",\"8\"]','2017090','2018-03-07 14:25:27'),
+(11,13,1,954,'[]','2017090','2018-03-07 14:25:27'),
 (12,13,1,960,'[\"6\",\"8\"]','2017090','2018-03-07 14:30:57'),
 (13,13,1,955,'[\"6\",\"8\"]','2017090','2018-03-07 16:20:42'),
 (14,13,2,961,'[\"6\",\"8\"]','2017090','2018-03-09 08:19:51'),
@@ -313,7 +659,8 @@ insert  into `course_offerings`(`ID`,`SemesterID`,`ProdiID`,`CurriculumDetailID`
 (19,13,3,967,'[\"1\",\"3\",\"5\"]','2017090','2018-03-13 16:40:51'),
 (22,13,1,968,'[\"8\"]','2017090','2018-03-14 11:44:15'),
 (23,13,1,969,'[\"8\"]','2017090','2018-03-14 11:44:15'),
-(24,13,2,970,'[\"8\",\"8\"]','2017090','2018-03-14 15:00:42');
+(24,13,2,970,'[\"8\",\"8\"]','2017090','2018-03-14 15:00:42'),
+(25,13,1,971,'[]','2017090','2018-03-19 15:51:55');
 
 /*Table structure for table `courses_groups` */
 
@@ -387,7 +734,7 @@ CREATE TABLE `curriculum_details` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=971 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=972 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_details` */
 
@@ -1358,7 +1705,8 @@ insert  into `curriculum_details`(`ID`,`CurriculumID`,`Semester`,`CurriculumType
 (967,5,2,1,3,1,10,'ARC1031','1',NULL,0,3,0,0,0,1,'0','[\"\"]',0,0,'2017090','2018-03-13 16:38:34'),
 (968,5,5,1,1,1,100,'ARC0004','1',NULL,0,3,0,0,0,1,'0','null',1,0,'2017090','2018-03-14 11:42:27'),
 (969,5,5,1,1,1,155,'ARC0009','1',NULL,0,3,0,0,0,1,'0','null',0,0,'2017090','2018-03-14 11:43:54'),
-(970,5,8,1,2,1,14,'CEM1013','1',NULL,0,4,0,0,0,1,'0','null',0,0,'2017090','2018-03-14 15:00:18');
+(970,5,8,1,2,1,14,'CEM1013','1',NULL,0,4,0,0,0,1,'0','null',0,0,'2017090','2018-03-14 15:00:18'),
+(971,5,4,1,1,1,347,'ARC2214','1',NULL,0,6,0,0,0,1,'0','null',0,0,'2017090','2018-03-19 15:51:42');
 
 /*Table structure for table `curriculum_types` */
 
@@ -2188,7 +2536,7 @@ CREATE TABLE `schedule` (
   `UpdateBy` varchar(100) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule` */
 
@@ -2203,7 +2551,8 @@ insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`ProdiID`,`Combined
 (13,13,1,1,'0',55,'SOC3003','ARC-4','2114002','0','0','2017090','2018-03-12 13:42:26'),
 (15,13,1,1,'0',54,'SOC3002','ARC-5','1114005','0','1','2017090','2018-03-12 15:05:35'),
 (16,13,1,0,'1',168,'UNC0101','ZO-1','3116015','0','0','2017090','2018-03-12 16:43:04'),
-(17,13,1,2,'0',14,'CEM1013','CEM-2','2215008','0','0','2017090','2018-03-14 15:01:14');
+(17,13,1,2,'0',14,'CEM1013','CEM-2','2215008','0','0','2017090','2018-03-14 15:01:14'),
+(18,13,1,1,'0',347,'ARC2214','ARC-5','2415078','0','0','2017090','2018-03-19 15:52:47');
 
 /*Table structure for table `schedule_class_group` */
 
@@ -2217,7 +2566,7 @@ CREATE TABLE `schedule_class_group` (
   `ProdiCode` varchar(10) DEFAULT NULL,
   `Group` varchar(10) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_class_group` */
 
@@ -2232,7 +2581,8 @@ insert  into `schedule_class_group`(`ID`,`ScheduleID`,`ProgramsCampusID`,`Semest
 (13,13,1,13,'ARC','ARC-4'),
 (15,15,1,13,'ARC','ARC-5'),
 (16,16,1,13,'ZO','ZO-1'),
-(17,17,1,13,'CEM','CEM-2');
+(17,17,1,13,'CEM','CEM-2'),
+(18,18,1,13,'ARC','ARC-5');
 
 /*Table structure for table `schedule_details` */
 
@@ -2248,7 +2598,7 @@ CREATE TABLE `schedule_details` (
   `StartSessions` time NOT NULL,
   `EndSessions` time NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_details` */
 
@@ -2269,7 +2619,8 @@ insert  into `schedule_details`(`ID`,`ScheduleID`,`ClassroomID`,`Credit`,`DayID`
 (33,15,1,2,1,50,'14:50:00','16:30:00'),
 (34,15,1,2,3,50,'14:50:00','16:30:00'),
 (35,16,1,2,5,50,'07:15:00','08:55:00'),
-(36,17,1,4,2,50,'09:00:00','12:20:00');
+(36,17,1,4,2,50,'09:00:00','12:20:00'),
+(37,18,2,6,1,50,'09:00:00','14:00:00');
 
 /*Table structure for table `schedule_team_teaching` */
 
@@ -2368,16 +2719,9 @@ CREATE TABLE `std_krs` (
   `ApprovalPAAt` datetime DEFAULT NULL,
   `ApprovalKaprodiAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `std_krs` */
-
-insert  into `std_krs`(`ID`,`SemesterID`,`NPM`,`ScheduleID`,`Status`,`InputAt`,`ApprovalPAAt`,`ApprovalKaprodiAt`) values 
-(1,13,'21140007',15,'0','2018-03-16 16:55:02',NULL,NULL),
-(2,13,'21140007',7,'0','2018-03-16 16:55:04',NULL,NULL),
-(3,13,'21140006',12,'1','2018-03-16 16:59:18',NULL,NULL),
-(4,13,'21140006',15,'1','2018-03-16 16:59:19',NULL,NULL),
-(5,13,'21140006',13,'1','2018-03-16 16:59:20',NULL,NULL);
 
 /*Table structure for table `std_schedule` */
 
@@ -2404,19 +2748,19 @@ CREATE TABLE `std_schedule` (
 
 /*Data for the table `std_schedule` */
 
-/*Table structure for table `std_semester` */
+/*Table structure for table `std_semester_del` */
 
-DROP TABLE IF EXISTS `std_semester`;
+DROP TABLE IF EXISTS `std_semester_del`;
 
-CREATE TABLE `std_semester` (
+CREATE TABLE `std_semester_del` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Semester` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
-/*Data for the table `std_semester` */
+/*Data for the table `std_semester_del` */
 
-insert  into `std_semester`(`ID`,`Semester`) values 
+insert  into `std_semester_del`(`ID`,`Semester`) values 
 (1,1),
 (2,2),
 (3,3),

@@ -957,21 +957,21 @@ class C_api extends CI_Controller {
         }
     }
 
-    public function crudStdSemester(){
-        $token = $this->input->post('token');
-        $key = "UAP)(*";
-        $data_arr = (array) $this->jwt->decode($token,$key);
-
-        if(count($data_arr)>0) {
-            if($data_arr['action']=='read'){
-                $this->db->order_by('Semester', 'ASC');
-                $data = $this->db->get('db_academic.std_semester')
-                    ->result_array();
-
-                return print_r(json_encode($data));
-            }
-        }
-    }
+//    public function crudStdSemester(){
+//        $token = $this->input->post('token');
+//        $key = "UAP)(*";
+//        $data_arr = (array) $this->jwt->decode($token,$key);
+//
+//        if(count($data_arr)>0) {
+//            if($data_arr['action']=='read'){
+//                $this->db->order_by('ID', 'ASC');
+//                $data = $this->db->get('db_academic.semester')
+//                    ->result_array();
+//
+//                return print_r(json_encode($data));
+//            }
+//        }
+//    }
 
     public function crudTimePerCredit(){
         $token = $this->input->post('token');

@@ -175,8 +175,8 @@
         formSemesterEdit = (Smt!='') ? SmtArr.sort() : [];
         var sAll = (Smt!='') ? '' : 'checked';
 
-        var url = base_url_js+'api/__crudStdSemester';
-        var token = jwt_encode({action:'read'},'UAP)(*');
+        var url = base_url_js+'api/__crudSemester';
+        var token = jwt_encode({action:'read',order:'ASC'},'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
 
 
@@ -189,12 +189,15 @@
                 '</label>'+
                 '<button class="btn btn-success" data-id="'+ID+'" data-prodi="'+Prodi+'" id="btnSaveSemesterEdit">Save</button> <button id="btnCloseSemesterEdit" data-dismiss="modal" class="btn btn-default">Close</button></div>');
 
+            var semester = 1;
             for(var i=0;i<jsonResult.length;i++){
 
-                var s = ($.inArray(""+jsonResult[i].Semester,SmtArr)!=-1) ? 'checked' : '';
+                var s = ($.inArray(""+semester,SmtArr)!=-1) ? 'checked' : '';
                 $('#smt').append('<label class="checkbox-inline">' +
-                    '  <input type="checkbox" class="check-smt-edit" value="'+jsonResult[i].Semester+'" '+s+'> Semester '+jsonResult[i].Semester+' ' +
+                    '  <input type="checkbox" class="check-smt-edit" value="'+semester+'" '+s+'> Semester '+semester+' ' +
                     '</label>');
+
+                semester += 1;
             }
 
             $('#NotificationModal').modal('show');
@@ -480,13 +483,17 @@
 
     function getOfferingsToSemester() {
         var smt = $('#formOfferingsToSemester');
-        var url = base_url_js+'api/__crudStdSemester';
-        var token = jwt_encode({action:'read'},'UAP)(*');
+        var url = base_url_js+'api/__crudSemester';
+        var token = jwt_encode({action:'read',order:'ASC'},'UAP)(*');
+        var semester = 1;
         $.post(url,{token:token},function (jsonResult) {
+            console.log(jsonResult);
            for(var i=0;i<jsonResult.length;i++){
                smt.append('<label class="checkbox-inline">' +
-                   '  <input type="checkbox" class="check-smt" value="'+jsonResult[i].Semester+'"> Semester '+jsonResult[i].Semester+' ' +
+                   '  <input type="checkbox" class="check-smt" value="'+semester+'"> Semester '+semester+' ' +
                    '</label>');
+
+               semester += 1;
            }
         });
     }

@@ -132,7 +132,7 @@ class C_auth extends MY_Controller {
             print_r($no_sama);
         }
         else if($table=='mhs'){
-            $angkatan = 2014;
+            $angkatan = 2016;
 
             $db_lokal = 'ta_'.$angkatan;
                 $data = $this->db_server->query('SELECT d.NIP AS AcademicMentor,mhs.* FROM siak4.mahasiswa mhs 
@@ -422,9 +422,9 @@ class C_auth extends MY_Controller {
 
         }
         else if($table=='krs'){
-            $angkatan = 14;
+            $angkatan = 2015;
 
-            $db_lokal = 'ta_20'.$angkatan;
+            $db_lokal = 'ta_'.$angkatan;
 //            $data = $this->db_server->query('SELECT r.ID,j.TahunID AS SemesterID, th.TahunID AS YearCode,m.NPM,r.JadwalID AS ScheduleID,
 //mk.MKKode AS MKCode,mk.Nama AS MKName, mk.NamaInggris AS MKNameEng,
 //r.Evaluasi1,r.Evaluasi2,r.Evaluasi3,r.Evaluasi4,r.Evaluasi5,
@@ -436,8 +436,8 @@ class C_auth extends MY_Controller {
 //left join siak4.matakuliah mk ON(j.MKID = mk.ID)
 //WHERE r.JadwalID!=\'\' AND r.NilaiAkhir!=0.00 AND substring(m.NPM,3,2)='.$angkatan)->result_array();
 
-            $dataMhs = $this->db_server->query('SELECT ID FROM siak4.mahasiswa m where substring(m.NPM,3,2)='.$angkatan)->result_array();
-            $this->db->truncate($db_lokal.'.study_planning_old');
+            $dataMhs = $this->db_server->query('SELECT ID FROM siak4.mahasiswa m where m.TahunMasuk='.$angkatan)->result_array();
+            $this->db->truncate($db_lokal.'.study_planning');
             for($m=0;$m<count($dataMhs);$m++){
 
                 $data = $this->db_server->query('SELECT 
@@ -459,6 +459,12 @@ class C_auth extends MY_Controller {
                                                 GROUP BY m.ID')->result_array();
 
                 for($i=0;$i<count($data);$i++){
+
+                    $GradeValue = [4.00,3.70,3.30,3.00,2.70,2.30,2.00,1.00,0.00];
+                    $Grade = ['A','A-','B+','B','B-','C+','C','D','E'];
+
+                    $GV = $GradeValue[array_search($data[$i]['Grade'],$Grade)];
+
                     $data_insert = array(
                         'SemesterID' => $data[$i]['SemesterID'],
                         'YearCode' => $data[$i]['YearCode'],
@@ -477,9 +483,10 @@ class C_auth extends MY_Controller {
                         'UAS' => $data[$i]['UAS'],
                         'Score' => $data[$i]['Score'],
                         'Grade' => $data[$i]['Grade'],
+                        'GradeValue' => $GV,
                         'Approval' => $data[$i]['Approval']
                     );
-                    $this->db->insert($db_lokal.'.study_planning_old',$data_insert);
+                    $this->db->insert($db_lokal.'.study_planning',$data_insert);
                 }
 
             }
@@ -490,28 +497,28 @@ class C_auth extends MY_Controller {
 
         }
         else if($table=='khs'){
-            $angkatan = 14;
+            $angkatan = 2015;
 
-            $db_lokal = 'ta_20'.$angkatan;
+            $db_lokal = 'ta_'.$angkatan;
 
             $data = $this->db_server->query('SELECT hs.TahunID AS SemesterID, m.NPM, hs.SKSIPS AS SKS, hs.IPS, hs.IPK , hs.SKSIPK AS TotalSKS
                                         FROM siak4.hasilstudi hs
                                         LEFT JOIN siak4.mahasiswa m ON(hs.MhswID = m.ID)
-                                        WHERE substring(m.NPM,3,2)='.$angkatan)->result_array();
+                                        WHERE m.TahunMasuk='.$angkatan)->result_array();
 
-            $this->db->truncate($db_lokal.'.study_results_old');
+            $this->db->truncate($db_lokal.'.study_results');
 
             for ($i=0;$i<count($data);$i++){
                 $dataInsert = array(
                     'NPM' => $data[$i]['NPM'],
                     'SemesterID' => $data[$i]['SemesterID'],
-                    'SKS' => $data[$i]['SKS'],
+                    'CreditSemester' => $data[$i]['SKS'],
                     'IPS' => $data[$i]['IPS'],
                     'IPK' => $data[$i]['IPK'],
                     'TotalSKS' => $data[$i]['TotalSKS']
                 );
 
-                $this->db->insert($db_lokal.'.study_results_old',$dataInsert);
+                $this->db->insert($db_lokal.'.study_results',$dataInsert);
             }
 
 
