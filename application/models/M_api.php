@@ -700,4 +700,15 @@ class M_api extends CI_Model {
         return $query;
     }
 
+    public function getDataRegisterUpload()
+    {
+        $sql = "select a.ID,a.Name,a.Email,b.SchoolName,a.PriceFormulir,a.RegisterAT,c.FileUpload,c.CreateAT as uploadAT
+                from db_admission.register as a LEFT JOIN db_admission.school as b
+                on a.SchoolID = b.ID
+                LEFT JOIN db_admission.register_verification as c
+                on a.ID = c.RegisterID";
+        $query=$this->db->query($sql, array())->result_array();
+        return $query;
+    }
+
 }

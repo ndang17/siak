@@ -82,7 +82,7 @@ $route['database/showStudent'] = 'page/database/c_database/showStudent';
 $route['database/employees'] = 'page/database/c_database/employees';
 
 
-// --- Modal Admission ----
+// --- Admission ----
 // --- Master ----
 $route['admission/master-sma'] = 'page/admission/c_master/sma';
 $route['admission/master-sma/integration'] = 'page/admission/c_master/sma_integration';
@@ -123,6 +123,17 @@ $route['admission/master-registration/number-formulir/offline'] = 'page/admissio
 $route['admission/master-registration/loadDataFormulirOffline'] = 'page/admission/c_master/loadDataFormulirOffline';
 $route['admission/master-registration/getJsonFormulirOffline'] = 'page/admission/c_master/get_json_formulir_offline';
 $route['admission/master-registration/GenerateFormulirOffline'] = 'page/admission/c_master/generate_formulir_offline';
+$route['admission/master-registration/jacket-size'] = 'page/admission/c_master/jacket_size';
+$route['admission/master-register/submit_jacket_size'] = 'page/admission/c_master/submit_jacket_size';
+
+
+
+// ---Finance----
+$route['finance/penerimaan-pembayaran/verifikasi-pembayaran/registration_online'] =  'page/finance/c_finance/verfikasi_pembayaran_registration_online';
+
+
+// ---global---
+$route['loadDataRegistrationUpload'] =  'C_global/load_data_registration_upload';
 
 
 // ====== API ======
@@ -189,4 +200,7 @@ $route['api/__insertWilayahURLJson'] = 'api/c_api/insertWilayahURLJson';
 $route['api/__insertSchoolURLJson'] = 'api/c_api/insertSchoolURLJson';
 $route['api/__getWilayahURLJson'] = 'api/c_api/getWilayahURLJson';
 $route['api/__getSMAWilayah'] = 'api/c_api/getSMAWilayah';
+
+// get data untuk finance
+$route['api/__getDataRegisterUpload'] = 'api/c_api/getDataRegisterUpload';
 

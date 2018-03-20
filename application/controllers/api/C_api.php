@@ -1071,6 +1071,12 @@ class C_api extends CI_Controller {
         return print_r(json_encode($result));
     }
 
+    public function getDataRegisterUpload()
+    {
+        $getData = $this->m_api->getDataRegisterUpload();
+        echo json_encode($getData);
+    }
+
 
 
 }

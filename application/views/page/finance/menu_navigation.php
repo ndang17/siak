@@ -7,11 +7,33 @@
 
 
 
-            <li class="">
-                <a href="#">
+            <li class="<?php if($this->uri->segment(2)=='penerimaan-pembayaran'){echo "current open";} ?>">
+                <a href="javascript:void(0);">
                     <i class="fa fa-download"></i>
                     Penerimaan Pembayaran
                 </a>
+                <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='penerimaan-pembayaran' && $this->uri->segment(3) == "verifikasi-pembayaran" ){echo "open-default";} ?>">
+                        <a href="javascript:void(0);">
+                            <i class="icon-angle-right"></i>
+                            Verifikasi Pembayaran
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="<?php if($this->uri->segment(2)=='penerimaan-pembayaran' && $this->uri->segment(3) == "verifikasi-pembayaran" && $this->uri->segment(4) == "registration_online"){echo "current";} ?>">
+                                <a href="<?php echo base_url('finance/penerimaan-pembayaran/verifikasi-pembayaran/registration_online'); ?>">
+                                    <i class="icon-angle-right"></i>
+                                    Registration Online
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="">
+                                    <i class="icon-angle-right"></i>
+                                    Mahasiswa
+                                </a>
+                            </li>
+                        </ul>    
+                    </li>
+                </ul>
             </li>
             <li class="">
                 <a href="#">

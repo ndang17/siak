@@ -342,4 +342,19 @@ class M_master extends CI_Model {
     $this->db->insert('db_admission.formulir_number_offline_m', $dataSave);
   }
 
+  public function inserData_Jacket_Size($JacketSize)
+  {
+    $dataSave = array(
+            'JacketSize' => strtoupper($JacketSize),
+            'CreateAT' => date('Y-m-d'),
+    );
+    $this->db->insert('db_admission.register_jacket_size_m', $dataSave);
+  }
+
+  public function editData_Jacket_Size($JacketSize,$ID)
+  {
+    $sql = "update db_admission.register_jacket_size_m set JacketSize = ? where ID = ".$ID;
+    $query=$this->db->query($sql, array($JacketSize));
+  }
+  
 }

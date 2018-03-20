@@ -147,6 +147,12 @@
                         Sales Koordinator Kota
                         </a>
                     </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "jacket-size" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-registration/jacket-size'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Jacket Size
+                        </a>
+                    </li>
                     <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "document-checklist" ){echo "current";} ?>">
                         <a href="<?php echo base_url('admission/master-registration/document-checklist'); ?>">
                         <i class="icon-angle-right"></i>

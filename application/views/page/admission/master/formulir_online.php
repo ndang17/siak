@@ -34,7 +34,7 @@
 </style>
 
 <div class="row" style="margin-top: 30px;">
-    <div class="col-md-12 formAddFormKD">
+    <div class="col-md-12">
         <div class="widget box">
             <div class="widget-header">
                 <h4 class="header"><i class="icon-reorder"></i> Formulir Online</h4>

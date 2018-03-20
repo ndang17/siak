@@ -16,7 +16,7 @@
         </ul>
 
         <!-- Logo -->
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="<?php echo base_url('dashboard'); ?>">
             <!-- <img src="<?php echo base_url('images/logo-hitam-putih.png'); ?>" alt="Podomoro University" style="width:130px;" /> -->
             <img src="<?php echo base_url('images/logo-header-color.png'); ?>" alt="Podomoro University" style="width:150px;" />
             <!-- <strong>Podomoro</strong> University -->
