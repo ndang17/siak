@@ -89,7 +89,7 @@
                toastr.success('Data berhasil disimpan', 'Success!');
                loadTable();
                $('#NotificationModal').modal('hide');
-            },2000);
+            },500);
         });
   });
 
@@ -121,7 +121,7 @@
                toastr.success('Data berhasil disimpan', 'Success!');
                loadTable();
                $('#NotificationModal').modal('hide');
-            },2000);
+            },500);
         });
   });
 
@@ -146,7 +146,7 @@
                 toastr.success('Data berhasil disimpan', 'Success!');
                 $('#ModalbtnSaveForm').prop('disabled',false).html('Save');
                 loadTable();
-             },2000);
+             },500);
          });
      }
      else
@@ -209,7 +209,7 @@
     $.post(url,function (data_json) {
         setTimeout(function () {
             $("#pageData").html(data_json);
-        },2000);
+        },500);
     });
   }  
 

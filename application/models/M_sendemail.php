@@ -64,7 +64,7 @@ class M_sendemail extends CI_Model {
     public function textEmail($text = null)
     {
         if ($text == null) {
-            $text = '<div style="margin:0;padding:10px 0;background-color:#ebebeb;font-size:14px;line-height:20px;font-family:Helvetica,sans-serif;width:100%;text-align:center">
+            $text1 = '<div style="margin:0;padding:10px 0;background-color:#ebebeb;font-size:14px;line-height:20px;font-family:Helvetica,sans-serif;width:100%;text-align:center">
                     <div class="adM">
                     <br>
                     </div>
@@ -93,12 +93,41 @@ class M_sendemail extends CI_Model {
                     <td colspan="3">
                     <div style="background-color:#fff;border-top:1px solid #ddd; ">';
         }
+        else
+        {
+            $text1 = '<div style="margin:0;padding:10px 0;background-color:#ebebeb;font-size:14px;line-height:20px;font-family:Helvetica,sans-serif;width:100%;text-align:center">
+                    <div class="adM">
+                    <br>
+                    </div>
+                    <table style="width:600px;margin:0 auto;background-color:#ebebeb" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                    <td></td>
+                    <td style="background-color:#fff;padding:0 30px;color:#333;vertical-align:top">
+                    <br>
+                    <div style="font-family:Proxima Nova Semi-bold,Helvetica,sans-serif;font-weight:bold;font-size:24px;line-height:24px;color:#2196f3">
+                    Podomoro University
+                    </div>
+                    <div style="font-family:Proxima Nova Reg,Helvetica,sans-serif">
+                    <div style="max-width:600px;margin:30px 0;display:block;font-size:14px;text-align:left!important">
+                    '.$text.'
+                    <br><br>Best Regard, <br> IT Podomoro University (it@podomorouniversity.ac.id)
+                    <br><br><br>
+                    <p style="color:#EB6936;"><i>*) Do not reply, this email is sent automatically</i> </p>
+                    </div>
+                    </td>
+                    <td></td>
+                    </tr>
+                    <tr>
+                    <td colspan="3">
+                    <div style="background-color:#fff;border-top:1px solid #ddd; ">';
+        }
 
-        return $this->VariableClass['text'] = $text;
+        return $this->VariableClass['text'] = $text1;
         
     }
 
-    public function sendEmail($to = null,$subject = null,$smtp_host = null,$smtp_port = null,$smtp_user = null,$smtp_pass = null)
+    public function sendEmail($to = null,$subject = null,$smtp_host = null,$smtp_port = null,$smtp_user = null,$smtp_pass = null,$text = null)
     {   
         $arr = array(
             'status' => 1,
@@ -108,6 +137,7 @@ class M_sendemail extends CI_Model {
         $this->VariableClass['smtp_port'] = $smtp_port;
         $this->VariableClass['smtp_user'] = $smtp_user;
         $this->VariableClass['smtp_pass'] = $smtp_pass;
+        $this->VariableClass['text'] = $text;
 
         $config_email = $this->loadEmailConfig();
         $textEmail = $this->textEmail($this->VariableClass['text']);
