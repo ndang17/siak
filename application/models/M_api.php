@@ -382,18 +382,6 @@ class M_api extends CI_Model {
 
     public function getSchedule($DayID,$dataWhere){
 
-//        $data = $this->db->query('SELECT s.*,
-//                                          ses.*,
-//                                          mk.Name AS MKName, mk.NameEng AS MKNameEng,
-//                                          em.Name AS Lecturer,
-//                                          cl.Room
-//                                          FROM db_academic.schedule s
-//                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
-//                                              LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
-//                                              LEFT JOIN db_academic.schedule_details ses ON (ses.ScheduleID = s.ID)
-//                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = ses.ClassroomID)
-//                                              WHERE ses.DayID = "'.$DayID.'" ');
-
 
         $ProgramsCampusID = ($dataWhere['ProgramsCampusID']!='') ? ' AND s.ProgramsCampusID = "'.$dataWhere['ProgramsCampusID'].'" ' : '';
         $SemesterID = ($dataWhere['SemesterID']!='') ? ' AND s.SemesterID = "'.$dataWhere['SemesterID'].'" ' : '';
@@ -410,7 +398,7 @@ class M_api extends CI_Model {
                                           LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
                                           LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
                                           LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)                                   
-                                          WHERE sd.DayID = "'.$DayID.'" '.$ProgramsCampusID.' '.$SemesterID.' '.$ProdiID.' '.$CombinedClasses);
+                                          WHERE sd.DayID = "'.$DayID.'" '.$ProgramsCampusID.' '.$SemesterID.' '.$ProdiID.' '.$CombinedClasses.' ORDER BY sd.StartSessions ASC ');
 
         $result = $data->result_array();
 

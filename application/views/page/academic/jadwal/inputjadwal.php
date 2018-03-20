@@ -291,7 +291,6 @@
         });
     }
 
-
     $('#btnSavejadwal').click(function () {
 
 
@@ -493,9 +492,6 @@
         }
     });
 
-
-
-
     $('#addNewSesi').click(function () {
 
         var newSesi = true;
@@ -607,7 +603,6 @@
     });
 
     $(document).on('click','#btnSaveClassroom',function () {
-
 
         var process = true;
 
