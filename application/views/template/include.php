@@ -752,5 +752,14 @@
         });
     }
 
+    function getValueChecbox(element)
+    {
+         var allVals = [];
+         $('.datatable2 :checked').each(function() {
+           allVals.push($(this).val());
+         });
+         return allVals;
+    }
+
 
 </script>

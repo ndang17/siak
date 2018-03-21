@@ -130,10 +130,11 @@ $route['admission/master-register/submit_jacket_size'] = 'page/admission/c_maste
 
 // ---Finance----
 $route['finance/penerimaan-pembayaran/verifikasi-pembayaran/registration_online'] =  'page/finance/c_finance/verfikasi_pembayaran_registration_online';
+$route['finance/confirmed-verifikasi-pembayaran-registration_online'] =  'page/finance/c_finance/confirmed_verfikasi_pembayaran_registration_online';
 
 
 // ---global---
-$route['loadDataRegistrationUpload'] =  'C_global/load_data_registration_upload';
+$route['loadDataRegistrationUpload'] =  'api/C_global/load_data_registration_upload';
 
 
 // ====== API ======
