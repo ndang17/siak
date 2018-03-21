@@ -21,7 +21,7 @@
 				</div>
 			</div>
 			<hr/>
-			<div id="dataRegVerified">
+			<div id="dataRegVerification">
 			    
 			</div>
 			<div id = "tblResultCSV" class = "col-md-12 hide">
@@ -30,7 +30,7 @@
 					<thead>
 						<tr>
 							<th class="checkbox-column">
-								<input type="checkbox" class="uniform" value="nothing;nothing;nothing" id ="dataResultCheckAll">
+								<input type="checkbox" class="uniform" value="nothing;nothing;nothing;nothing;nothing" id ="dataResultCheckAll">
 							</th>
 							<th class="hidden-xs">Nama</th>
 							<th>Email</th>
@@ -52,104 +52,7 @@
 				<br>
 		</div>
 	</div> <!-- /.col-md-6 -->
-	<div class="col-md-12">
-		<div class="widget box">
-			<div class="widget-header">
-				<h4><i class="icon-reorder"></i> List excecute pembayaran via rek koran excel</h4>
-				<div class="toolbar no-padding">
-					<!--<div class="btn-group">
-						<span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span>
-					</div>-->
-				</div>
-			</div>
-			<div class="widget-content no-padding" id="dataResultID">
-				<table class="table table-striped table-checkable table-hover">
-					<thead>
-						<tr>
-							<th class="checkbox-column">
-								<input type="checkbox" class="uniform">
-							</th>
-							<th class="hidden-xs">First Name</th>
-							<th>Last Name</th>
-							<th>Status</th>
-							<th class="align-center">Approve</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="checkbox-column">
-								<input type="checkbox" class="uniform">
-							</td>
-							<td class="hidden-xs">Joey</td>
-							<td>Greyson</td>
-							<td><span class="label label-success">Approved</span></td>
-							<td class="align-center">
-								<span class="btn-group">
-									<a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a>
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<td class="checkbox-column">
-								<input type="checkbox" class="uniform">
-							</td>
-							<td class="hidden-xs">Wolf</td>
-							<td>Bud</td>
-							<td><span class="label label-info">Pending</span></td>
-							<td class="align-center">
-								<span class="btn-group">
-									<a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a>
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<td class="checkbox-column">
-								<input type="checkbox" class="uniform">
-							</td>
-							<td class="hidden-xs">Darin</td>
-							<td>Alec</td>
-							<td><span class="label label-warning">Suspended</span></td>
-							<td class="align-center">
-								<span class="btn-group">
-									<a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a>
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<td class="checkbox-column">
-								<input type="checkbox" class="uniform">
-							</td>
-							<td class="hidden-xs">Andrea</td>
-							<td>Brenden</td>
-							<td><span class="label label-danger">Blocked</span></td>
-							<td class="align-center">
-								<span class="btn-group">
-									<a href="javascript:void(0);" title="Approve" class="btn btn-xs bs-tooltip"><i class="icon-ok"></i></a>
-								</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="row">
-					<div class="table-footer">
-						<div class="col-md-12">
-							<div class="table-actions">
-								<label>Apply action:</label>
-								<select class="select2" data-minimum-results-for-search="-1" data-placeholder="Select action...">
-									<option value=""></option>
-									<option value="Edit">Edit</option>
-									<option value="Delete">Delete</option>
-									<option value="Move">Move</option>
-								</select>
-							</div>
-						</div>
-					</div> <!-- /.table-footer -->
-				</div> <!-- /.row -->
-			</div> <!-- /.widget-content -->
-		</div> <!-- /.widget -->
-	</div> <!-- /.col-md-6 -->
-	<!-- /Static Table -->
-</div> <!-- /.row -->
+</div>
 <div class="row" style="margin-top: 30px;">
     <div class="col-md-12">
         <div class="widget box">
@@ -158,7 +61,8 @@
             </div>
             <div class="widget-content">
                 <!--  -->
-                sad
+                <div id="dataRegVerified">
+                </div>
                 <!-- -->
             </div>
             <hr/>
@@ -176,13 +80,14 @@
 	window.url_images = '<?php echo $this->GlobalVariableAdi['url_registration'] ?>'+'upload/';
 	$(document).ready(function () {
 	    loadDataRegVerification();
+	    loadDataRegVerified();
 	});
 
-	function loadDataRegVerification()
+	function loadDataRegVerified()
 	{
 		$("#dataRegVerified").empty();
 		loading_page('#dataRegVerified');
-		var url = base_url_js+'loadDataRegistrationUpload';
+		var url = base_url_js+'loadDataRegistrationVerified';
 		$.post(url,function (data_json) {
 		    setTimeout(function () {
 		        $("#dataRegVerified").html(data_json);
@@ -190,9 +95,21 @@
 		});
 	}
 
+	function loadDataRegVerification()
+	{
+		$("#dataRegVerification").empty();
+		loading_page('#dataRegVerification');
+		var url = base_url_js+'loadDataRegistrationUpload';
+		$.post(url,function (data_json) {
+		    setTimeout(function () {
+		        $("#dataRegVerification").html(data_json);
+		    },500);
+		});
+	}
+
 	$(document).on('click','#btn-proses', function () {
-		$("#dataRegVerified").empty();
-		loading_page('#dataRegVerified');
+		$("#dataRegVerification").empty();
+		loading_page('#dataRegVerification');
 	  if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
 	  		toastr.error('The File APIs are not fully supported in this browser.', 'Failed!!');
 	        return;
@@ -317,7 +234,7 @@
 			
 			$(".datatable2 tbody").append( '<tr>'+
 					  '<td class="checkbox-column">'+
-					  	'<input type="checkbox" class="uniform" value ="'+dataResult[i]['ID']+";"+dataResult[i]['FileUpload']+";"+dataResult[i]['Email']+'">'+
+					  	'<input type="checkbox" class="uniform" value ="'+dataResult[i]['ID']+";"+dataResult[i]['FileUpload']+";"+dataResult[i]['Email']+";"+dataResult[i]['count']+";"+dataResult[i]['PriceFormulir']+'">'+
 					  '</td>'+
 					  '<td>'+dataResult[i]['Name']+'</td>'+
 					  '<td>'+dataResult[i]['Email']+'</td>'+
@@ -333,7 +250,7 @@
 		}
 
 		setTimeout(function () {
-		     $("#dataRegVerified").html('');
+		     $("#dataRegVerification").html('');
 		     $("#btn-confirm").removeClass('hide');
 		     $(".datatable2").removeClass('hide');
 		     $("#tblResultCSV").removeClass('hide');
@@ -350,21 +267,54 @@
 	});
 
 	$(document).on('click','#btn-confirm', function () {
-		 var RegisterID = getValueChecbox('.datatable2');
+		var RegisterID = getValueChecbox('.datatable2');
 		 if (RegisterID.length == 0) {
 		 	toastr.error("Silahkan checked dahulu", 'Failed!!');
 		 }
 		 else
 		 {
-	 		 //var getAllRegisterID;
-	 		 $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Apakah anda yakin untuk melakukan request ini ?? </b> ' +
-	 		     '<button type="button" id="confirmYesProcess" class="btn btn-primary" style="margin-right: 5px;" data-pass = "'+RegisterID+'">Yes</button>' +
-	 		     '<button type="button" class="btn btn-default" data-dismiss="modal">No</button>' +
-	 		     '</div>');
-	 		 $('#NotificationModal').modal('show');
-	 	     console.log(RegisterID);
+		 	var msg = '';
+		 	console.log(RegisterID);
+		 	for (var i = 0; i < RegisterID.length; i++) {
+		 		var split = RegisterID[i].split(';');
+		 		if (split[0] != 'nothing') {
+		 			if (split[1] == 'null') {
+		 				msg = '<ul><li>Apakah anda yakin untuk mengkonfirmasi yang belum melakukan upload bukti pembayaran ?</li>';
+		 				break;
+		 			}
+		 		}
+		 	}
+
+		 	for (var i = 0; i < RegisterID.length; i++) {
+		 		var split = RegisterID[i].split(';');
+		 		if (split[0] != 'nothing') {
+		 			if (split[3] > 1) {
+		 				msg += '<li>Apakah anda yakin untuk menkonfirmasi bahwa price number = '+split[4]+' memiliki lebih dari satu data pada file Rekening Koran ?</li>';
+		 				break;
+		 			}
+		 		}
+		 	}
+
+		 	if(msg == '')
+		 	{
+	 			 //var getAllRegisterID;
+	 			 $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Apakah anda yakin untuk melakukan request ini ?? </b> ' +
+	 			     '<button type="button" id="confirmYesProcess" class="btn btn-primary" style="margin-right: 5px;" data-pass = "'+RegisterID+'">Yes</button>' +
+	 			     '<button type="button" class="btn btn-default" data-dismiss="modal">No</button>' +
+	 			     '</div>');
+	 			 $('#NotificationModal').modal('show');
+	 		     console.log(RegisterID);
+		 	}
+		 	else{
+		 		msg += '</ul>'
+		 		$('#NotificationModal .modal-body').html('<div style="text-align: left;"><b>'+msg+'</b></div> ' +
+		 		    '<button type="button" id="confirmYesProcess" class="btn btn-primary" style="margin-right: 5px;" data-pass = "'+RegisterID+'">Yes</button>' +
+		 		    '<button type="button" class="btn btn-default" data-dismiss="modal">No</button>' +
+		 		    '');
+		 		$('#NotificationModal').modal('show');
+		 	}
+	 		 
 		 }
-		 
 
 	});
 
@@ -393,6 +343,7 @@
                toastr.options.fadeOut = 10000;
                toastr.success('Data berhasil disimpan', 'Success!');
                loadDataRegVerification();
+               loadDataRegVerified();
                $("#tblResultCSV").addClass('hide');
                $('#NotificationModal').modal('hide');
                $("#btn-confirm").addClass("hide");

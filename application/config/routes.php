@@ -135,6 +135,7 @@ $route['finance/confirmed-verifikasi-pembayaran-registration_online'] =  'page/f
 
 // ---global---
 $route['loadDataRegistrationUpload'] =  'api/C_global/load_data_registration_upload';
+$route['loadDataRegistrationVerified'] =  'api/C_global/load_data_registration_verified';
 
 
 // ====== API ======
@@ -204,4 +205,5 @@ $route['api/__getSMAWilayah'] = 'api/c_api/getSMAWilayah';
 
 // get data untuk finance
 $route['api/__getDataRegisterUpload'] = 'api/c_api/getDataRegisterUpload';
+$route['api/__getDataRegisterVerified'] = 'api/c_api/getDataRegisterVerified';
 
