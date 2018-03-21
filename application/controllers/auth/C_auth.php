@@ -48,15 +48,46 @@ class C_auth extends MY_Controller {
         if($table=='karyawan'){
             $data = $this->db_server->query('SELECT k.*FROM siak4.karyawan k ')->result_array();
 //            ,u.password  JOIN siak4.user u ON (k.NIP = u.Nama)
-            print_r(count($data));
+//            print_r(count($data));
 //            print_r($data);
 
-//            exit;
+
             for($i=0;$i<count($data);$i++){
+
+//                $PositionMain ='';
+//                $arrIT = [2017090,2016065,2018018];
+//                if(array_search($data[$i]['NIP'],$arrIT)!=''){
+//                    $PositionMain = '12.13';
+//                }
+
+                switch ($data[$i]['NIP']){
+                    case '2017090':
+                        $PositionMain = '12.13';
+                        $EmailPU = 'nandang.mulyadi@podomorouniversity.ac.id';
+                        break;
+                    case '2016065' :
+                        $PositionMain = '12.13';
+                        $EmailPU = 'novita.riani@podomorouniversity.ac.id';
+                        break;
+                    case '2018018' :
+                        $PositionMain = '12.13';
+                        $EmailPU = 'alhadi.rahman@podomorouniversity.ac.id';
+                        break;
+                    case '2017101' :
+                        $PositionMain = '12.11';
+                        $EmailPU = 'faried.irmansyah@podomorouniversity.ac.id';
+                        break;
+
+                    default :
+                        $PositionMain = '';
+                        $EmailPU = '';
+                }
+
                 $arr = array(
                     "ReligionID" => $data[$i]['AgamaID'],
 
 
+                    "PositionMain" => $PositionMain,
                     "CityID" => $data[$i]['KotaID'],
                     "ProvinceID" => $data[$i]['PropinsiID'],
                     "NIP" => $data[$i]['NIP'],
@@ -70,7 +101,8 @@ class C_auth extends MY_Controller {
                     "Phone" => $data[$i]['Telepon'],
                     "HP" => $data[$i]['HP'],
                     "Email" => $data[$i]['Email'],
-//                    "Password" => $data[$i]['password'],
+                    "EmailPU" => $EmailPU,
+                    "Password" => $this->genratePassword($data[$i]['NIP'],123456),
                     "Address" => $data[$i]['Alamat'],
                     "Photo" => $data[$i]['Foto']
 
@@ -96,8 +128,8 @@ class C_auth extends MY_Controller {
                     $arr = array(
                         "ReligionID" => $data[$i]['AgamaID'],
 
-
                         "PositionMain" => '14.7',
+                        "ProdiID" => $data[$i]['ProdiID'],
                         "StatusEmployeeID" => $Status,
                         "CityID" => $data[$i]['KotaID'],
                         "ProvinceID" => $data[$i]['PropinsiID'],
@@ -112,7 +144,7 @@ class C_auth extends MY_Controller {
                         "Phone" => $data[$i]['Telepon'],
                         "HP" => $data[$i]['HP'],
                         "Email" => $data[$i]['Email'],
-//                        "Password" => $data[$i]['password'],
+                        "Password" => $this->genratePassword($data[$i]['NIP'],123456),
                         "Address" => $data[$i]['Alamat'],
                         "NIDN" => $data[$i]['NIDN'],
                         "Photo" => $data[$i]['Foto']

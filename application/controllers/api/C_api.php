@@ -6,6 +6,7 @@ class C_api extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
         $this->load->model('m_api');
         $this->load->model('akademik/m_tahun_akademik');

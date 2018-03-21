@@ -707,5 +707,13 @@ class M_api extends CI_Model {
         return $query;
     }
 
+    public function __checkDateKRS($date){
+        $data = $this->db->query('SELECT ay.krsStart,ay.krsEnd,ay.SemesterID FROM db_academic.semester s 
+                                            JOIN db_academic.academic_years ay ON (ay.SemesterID = s.ID)
+                                            WHERE ay.krsStart <= "'.$date.'" AND ay.krsEnd >= "'.$date.'" AND s.Status = 1 ');
+
+        return $data->result_array();
+    }
+
 
 }
