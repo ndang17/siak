@@ -28,4 +28,10 @@ class C_global extends CI_Controller {
         echo $content;
     }
 
+    public function load_data_registration_verified()
+    {
+        $content = $this->load->view('page/load_data_registration_verified',$this->data,true);
+        echo $content;
+    }
+
 }

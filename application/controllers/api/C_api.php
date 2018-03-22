@@ -1078,6 +1078,12 @@ class C_api extends CI_Controller {
         echo json_encode($getData);
     }
 
+    public function getDataRegisterVerified()
+    {
+        $getData = $this->m_api->getDataRegisterVerified();
+        echo json_encode($getData);
+    }
+
 
 
 }

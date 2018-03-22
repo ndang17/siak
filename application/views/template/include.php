@@ -729,7 +729,7 @@
     function LoaddataTable(element) {
         var table = $(element).DataTable({
             'iDisplayLength' : 5,
-            'ordering' : false,
+            'ordering' : true,
             "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
             "oTableTools": {
                 "aButtons": [

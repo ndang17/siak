@@ -45,7 +45,7 @@ class C_finance extends MY_Controller {
         $input = $this->getInputToken();
         $arrdata = $input['arrdata'];
         $getEmailnURL = $this->getEmailnURL($arrdata);
-        //$SendEmail = $this->SendEmailToCandidate($getEmailnURL);
+        $SendEmail = $this->SendEmailToCandidate($getEmailnURL);
         $saveData = $this->SaveDataVerification($arrdata);
         //return print_r(json_encode($this->data));
     }
