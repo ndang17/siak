@@ -323,8 +323,8 @@ class C_master extends MY_Controller {
 
     public function load_table_tipe_sekolah()
     {
-        $this->data['getColoumn'] = $this->m_master->getColumnTable('admissions.school_type');
-        $this->data['getData'] = $this->m_master->showData('admissions.school_type');
+        $this->data['getColoumn'] = $this->m_master->getColumnTable('db_admission.school_type');
+        $this->data['getData'] = $this->m_master->showData('db_admission.school_type');
         echo $this->load->view('page/'.$this->data['department'].'/master/table_master_tipe_sekolah',$this->data,true);
     }
 
@@ -433,6 +433,35 @@ class C_master extends MY_Controller {
                 break;        
             case 'getactive':
                 $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'register_jacket_size_m');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function jurusan_sekolah()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/jurusan_sekolah',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_jurusan_sekolah()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_jurusan_sekolah($input['SchoolMajor']);
+                break;
+            case 'edit':
+                $this->m_master->editData_jurusan_sekolah($input['SchoolMajor'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'register_major_school');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'register_major_school');
                 break;    
             default:
                 # code...

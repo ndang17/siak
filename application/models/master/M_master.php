@@ -356,5 +356,20 @@ class M_master extends CI_Model {
     $sql = "update db_admission.register_jacket_size_m set JacketSize = ? where ID = ".$ID;
     $query=$this->db->query($sql, array($JacketSize));
   }
+
+  public function inserData_jurusan_sekolah($SchoolMajor)
+  {
+    $dataSave = array(
+            'SchoolMajor' => strtoupper($SchoolMajor),
+            'CreateAT' => date('Y-m-d'),
+    );
+    $this->db->insert('db_admission.register_major_school', $dataSave);
+  }
+
+  public function editData_jurusan_sekolah($SchoolMajor,$ID)
+  {
+    $sql = "update db_admission.register_major_school set SchoolMajor = ? where ID = ".$ID;
+    $query=$this->db->query($sql, array($SchoolMajor));
+  }
   
 }
