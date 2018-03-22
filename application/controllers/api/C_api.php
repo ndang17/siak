@@ -220,8 +220,7 @@ class C_api extends CI_Controller {
                 'CurriculumID' => $insert['CurriculumID'],
                 'ProdiID' => $insert['ProdiID'],
                 'EducationLevelID' => $insert['EducationLevelID'],
-                'MKID' => $insert['MKID'],
-                'MKCode' => $insert['MKCode']);
+                'MKID' => $insert['MKID']);
             $this->db->select('Semester');
             $dataSmt = $this->db->get_where('db_academic.curriculum_details', $where)->result_array();
 
@@ -711,7 +710,7 @@ class C_api extends CI_Controller {
             }
             else if($data_arr['action']=='ReadSemesterActive'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getSemesterActive($formData['ProdiID']);
+                $data = $this->m_api->getSemesterActive($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
                 return print_r(json_encode($data));
             }
         }
@@ -724,19 +723,24 @@ class C_api extends CI_Controller {
 
         if(count($data_arr)>0) {
             if ($data_arr['action'] == 'add') {
+//                $formData = (array) $data_arr['formData'];
+//
+//                for($i=0;$i<count($formData);$i++){
+//                    $dataInsert = (array) $formData[$i];
+//                    $this->db->insert('db_academic.course_offerings',$dataInsert);
+////                    $insert_id = $this->db->insert_id();
+//                }
+//
+//                return print_r(1);
                 $formData = (array) $data_arr['formData'];
+                $this->db->insert('db_academic.course_offerings',$formData);
+                $insert_id = $this->db->insert_id();
+                return print_r($insert_id);
 
-                for($i=0;$i<count($formData);$i++){
-                    $dataInsert = (array) $formData[$i];
-                    $this->db->insert('db_academic.course_offerings',$dataInsert);
-//                    $insert_id = $this->db->insert_id();
-                }
-
-                return print_r(1);
             }
             else if($data_arr['action']=='read'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['ProdiID']);
+                $data = $this->m_api->getAllCourseOfferings($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
                 return print_r(json_encode($data));
             }
             else if($data_arr['action']=='readgabungan'){

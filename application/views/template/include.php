@@ -422,6 +422,17 @@
         });
     }
 
+    function loadSelectOptionCurriculum(element,selected) {
+        var url = base_url_js+"api/__getKurikulumSelectOption";
+        $.get(url,function (data_json) {
+            // console.log(data_json);
+            for(var i=0;i<data_json.length;i++){
+                var selected = (data_json[i].ID==selected) ? 'selected' : '';
+                $(element).append('<option value="'+data_json[i].ID+'.'+data_json[i].Year+'" '+selected+'>'+data_json[i].NameEng+'</option>');
+            }
+        });
+    }
+
     function loadSelectOptionBaseProdiAll(element,selected) {
         var url = base_url_js+"api/__getBaseProdiSelectOptionAll";
         $.get(url,function (data) {
@@ -615,16 +626,16 @@
         });
     }
 
-    function loadSelecOptionCurriculum(element,selected) {
-        var url = base_url_js+'api/__getKurikulumSelectOption';
-        $.getJSON(url,function (jsonResult) {
-           for (var i=0;i<jsonResult.length;i++){
-               var data = jsonResult[i];
-               var selc = (data.ID==selected) ? 'selected' : '';
-               $(element).append('<option value="'+data.ID+'" '+selc+'>'+data.Name+'</option>');
-           }
-        });
-    }
+    // function loadSelecOptionCurriculum(element,selected) {
+    //     var url = base_url_js+'api/__getKurikulumSelectOption';
+    //     $.getJSON(url,function (jsonResult) {
+    //        for (var i=0;i<jsonResult.length;i++){
+    //            var data = jsonResult[i];
+    //            var selc = (data.ID==selected) ? 'selected' : '';
+    //            $(element).append('<option value="'+data.ID+'" '+selc+'>'+data.NameEng+'</option>');
+    //        }
+    //     });
+    // }
 
 
     function fillDays(element,lang,selected) {

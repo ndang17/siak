@@ -7,25 +7,12 @@
 
 
 <div class="row" style="margin-bottom: 15px;">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-4 col-md-offset-4">
         <div class="thumbnail">
-            <div class="row">
-                <div class="col-xs-4">
-                    <select class="form-control" id="formCurriculum">
-                        <option value="" disabled selected>--- Select Curriculum ---</option>
-                        <option disabled>------------------------------------------</option>
-                    </select>
-                </div>
-                <div class="col-xs-4">
-                    <select class="form-control form-offer" id="formProdi">
-                        <option value="" disabled selected>--- Select Program Study ---</option>
-                        <option disabled>------------------------------------------</option>
-                    </select>
-                </div>
-                <div class="col-xs-4">
-                    <select class="form-control" id="formSemester"></select>
-                </div>
-            </div>
+            <select class="form-control form-offer" id="formProdi">
+                <option value="" disabled selected>--- Select Program Study ---</option>
+                <option disabled>------------------------------------------</option>
+            </select>
         </div>
     </div>
 </div>
@@ -72,21 +59,15 @@
                 </div>
 
                 <div class="row">
-<!--                    <div class="col-md-12">-->
-<!--                        <h4>Offerings To Semester</h4>-->
-<!--                        <div class="well">-->
-<!--                            <div id="formOfferingsToSemester"></div>-->
-<!--                        </div>-->
-<!--                        <div style="padding-left: 20px;">-->
-<!--                            <label class="checkbox-inline">-->
-<!--                                <input type="checkbox" id="formCheckSmesterAll" value="" checked> <b>All Semester</b>-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <div class="col-md-12 hide" id="OfferingDiv">
-                        <h4>Offering Another Semester</h4>
+                    <div class="col-md-12">
+                        <h4>Offerings To Semester</h4>
                         <div class="well">
-                            <div id="btnAnother"></div>
+                            <div id="formOfferingsToSemester"></div>
+                        </div>
+                        <div style="padding-left: 20px;">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="formCheckSmesterAll" value="" checked> <b>All Semester</b>
+                            </label>
                         </div>
                     </div>
                     <div class="col-md-12" style="text-align: right;">
@@ -117,213 +98,68 @@
 
 <script>
     $(document).ready(function () {
-
-        Array.prototype.unique = function() {
-            var a = this.concat();
-            for(var i=0; i<a.length; ++i) {
-                for(var j=i+1; j<a.length; ++j) {
-                    if(a[i] === a[j])
-                        a.splice(j--, 1);
-                }
-            }
-
-            return a;
-        };
-
-        var array1 = [1,2,3];
-        var array2 = [3,4,2,5];
-// Merges both arrays and gets unique items
-        var array3 = array1.concat(array2).unique();
-        console.log(array3);
-
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins
         FormComponents.init(); // Init all form-specific plugins
-        // loadSelecOptionCurriculum('#formCurriculum','')
-        loadSelectOptionCurriculum('#formCurriculum','');
         loadSelectOptionBaseProdi('#formProdi','');
         getOfferingsToSemester();
 
         window.formSemester = [];
         window.formSemesterEdit = [];
-
         // getSemesterActive();
 
     });
 
 
-    $(document).on('change','#formCurriculum,#formProdi',function () {
-        // $('#formSemester').prop('disabled',false);
-        loadCourse();
+    $(document).on('change','#formProdi',function () {
+        var ProdiID = $(this).val();
+        getSemesterActive(ProdiID)
     });
-
-    $(document).on('change','#formSemester',function () {
-        var DataYear = $('#formCurriculum').val();
-        var Prodi = $('#formProdi').val();
-        var Semester = $('#formSemester').val();
-
-        $('#textSemester').text(Semester);
-
-
-        if(DataYear!=null && Prodi!=null && Semester!=null){
-            var CurriculumID = DataYear.split('.')[0];
-            var ProdiID = Prodi.split('.')[0];
-            getSemesterActive(CurriculumID,ProdiID,Semester);
-            $('.divSmt-cl').removeClass('hide');
-            $('#divSmt'+Semester).addClass('hide');
-            $('#OfferingDiv').removeClass('hide');
-        }
-    });
-
-    function loadCourse() {
-
-        var DataYear = $('#formCurriculum').val();
-        var Prodi = $('#formProdi').val();
-
-        var year = (DataYear!=null) ? DataYear.split('.')[1] : '';
-        var ProdiID = (Prodi!=null) ? Prodi.split('.')[0] : '';
-
-        var url = base_url_js+'api/__getKurikulumByYear';
-
-        var data = {
-            year : year,
-            ProdiID : ProdiID
-        };
-
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (resultJeson) {
-
-            if(resultJeson.MataKuliah.length>0){
-                $('#formSemester').empty();
-
-                $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
-                    '                <option disabled>------------------------------------------</option>');
-
-
-                $('#OfferingDiv').addClass('hide');
-                $('#btnAnother').html('');
-                for(var i=0;i<resultJeson.MataKuliah.length;i++){
-                    var mk = resultJeson.MataKuliah[i];
-
-                    if(mk.DetailSemester.length>0){
-                        $('#formSemester').append('<option value="'+mk.Semester+'">Semester '+mk.Semester+'</option>');
-
-                        $('#btnAnother').append('<span class="divSmt-cl" id="divSmt'+mk.Semester+'"><button class="btn btn-sm btn-default btn-default-warning btnSmtAnother-cl" data-tg="0" data-id="'+mk.Semester+'" id="btnSmtAnother'+mk.Semester+'">Semester '+mk.Semester+'</button> ' +
-                            '<input id="dataMK'+mk.Semester+'" class="hide" type="hide" hidden readonly /></span>');
-
-                        $('#dataMK'+mk.Semester).val(JSON.stringify(mk));
-                    }
-
-                }
-
-
-            }
-
-        });
-
-        var Semester = $('#formSemester').val();
-
-        if(DataYear!=null && Prodi!=null && Semester!=null){
-            $('#box1View,#box1Storage,#box2View,#box2Storage').empty();
-            var CurriculumID = DataYear.split('.')[0];
-            // getSemesterActive(CurriculumID,ProdiID,Semester);
-        }
-
-
-    }
-
-    $(document).on('click','.btnSmtAnother-cl',function () {
-
-        var tg = $(this).attr('data-tg');
-
-
-
-        var id = $(this).attr('data-id');
-        var dataCourse = $('#dataMK'+id).val();
-
-        var dataJSON = JSON.parse(dataCourse);
-
-        // console.log(dataJSON);
-
-        if(tg==1){
-            $(this).addClass('btn-default btn-default-warning');
-            $(this).removeClass('btn-warning');
-            $(this).attr('data-tg',0);
-
-            for(var i=0;i<dataJSON.DetailSemester.length;i++){
-                var Courses = dataJSON.DetailSemester[i];
-                // console.log(Courses);
-
-                $('#box1View option[value='+Courses.CDID+']').remove();
-                $('#box2View option[value='+Courses.CDID+']').remove();
-            }
-
-        } else {
-            $(this).removeClass('btn-default btn-default-warning');
-            $(this).addClass('btn-warning');
-            $(this).attr('data-tg',1);
-
-            for(var i=0;i<dataJSON.DetailSemester.length;i++){
-                var Courses = dataJSON.DetailSemester[i];
-                // console.log(Courses);
-                var color = (Courses.StatusMK==1) ? '#ff9800' : 'red';
-                var status = (Courses.StatusMK==1) ? '' : 'disabled';
-
-                $('#box1View').append('<option value="'+Courses.CDID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.MKCode+' | '+Courses.NameMKEng+' (Credit : '+Courses.TotalSKS+')</option>');
-
-            }
-
-        }
-
-
-    });
-
-
-
-    // $(document).on('change','#formProdi',function () {
-    //     var ProdiID = $(this).val();
-    //     // getSemesterActive(ProdiID)
-    // });
-
-
 
     $('#btnSaveMK').click(function () {
         var dataID = $('#box2View').find('option').map(function() { return this.value }).get().join(",");
-        var Arr_CDID = dataID.split(',');
+        var arrID = dataID.split(',');
         var SemesterID = $('#formSemesterID').val();
-        var CurriculumID = $('#formCurriculum').val();
         var ProdiID = $('#formProdi').val();
-        var Semester = $('#formSemester').val();
 
-        if(CurriculumID!=null && ProdiID!=null && Semester!=null){
+        if(dataID!='' && ProdiID!=null && arrID.length>0){
+
+            var formData = [];
+            for(var i=0;i<arrID.length;i++){
+                var datainsert = {
+                    SemesterID : SemesterID,
+                    ProdiID : ProdiID,
+                    CurriculumDetailID : arrID[i],
+                    ToSemester : JSON.stringify(formSemester.sort()),
+                    UpdateBy : sessionNIP,
+                    UpdateAt : dateTimeNow()
+                };
+
+                formData.push(datainsert);
+            }
+
             var data = {
                 action : 'add',
-                formData : {
-                    SemesterID : SemesterID,
-                    CurriculumID : CurriculumID.split('.')[0],
-                    ProdiID : ProdiID.split('.')[0],
-                    Semester : Semester,
-                    Arr_CDID : JSON.stringify(Arr_CDID),
-                    UpdateBy : sessionNIP,
-                    UpdateAt : dateTimeNow(),
-                }
+                formData : formData
             };
 
             var token = jwt_encode(data,'UAP)(*');
             var url = base_url_js+'api/__crudCourseOfferings';
+            $.post(url,{token:token},function (jsonResult) {
 
-            $.post(url,{token:token},function (resultJSON) {
+                $('.form-offer').prop('disabled',true);
+                loading_button('#btnSaveMK');
+                toastr.success('Data Saved','Success!');
+                setTimeout(function () {
+                    $('.form-offer').prop('disabled',false);
+                    $('#btnSaveMK').html('Save');
+                },1000);
 
+                getSemesterActive(ProdiID);
             });
-
-            console.log(data);
+        } else {
+            toastr.error('Form Required','Error!');
         }
-
-
-
-        // return false;
-
-
 
     });
 
@@ -524,45 +360,34 @@
 
     });
 
-    function getSemesterActive(CurriculumID,ProdiID,Semester) {
-
-
+    function getSemesterActive(ProdiID) {
         var url = base_url_js+'api/__crudSemester';
         var data = {
           action : 'ReadSemesterActive',
           formData : {
-              CurriculumID : CurriculumID,
-              ProdiID : ProdiID,
-              Semester : Semester
+              ProdiID : ProdiID
           }
         };
-
         var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
-
-            // console.log(jsonResult);
-
             var SemesterActive = jsonResult.SemesterActive;
+            $('#textSemester').text(SemesterActive.Name);
             $('#formSemesterID').val(SemesterActive.ID);
-            //
 
-            // getListCourseOfferings(SemesterActive.ID,CurriculumID,ProdiID,Semester);
-
-
+            getListCourseOfferings(ProdiID);
             $('#box1View,#box1Storage,#box2View,#box2Storage').empty();
             for(var i=0;i<jsonResult.DetailCourses.length;i++){
                 var Courses = jsonResult.DetailCourses[i];
                 var color = (Courses.StatusMK==1) ? 'green' : 'red';
                 var status = (Courses.StatusMK==1) ? '' : 'disabled';
                 var type = (Courses.MKType==1) ? '*' : '';
-                $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.MKCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')'+type+'</option>');
+                $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.ProdiCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')'+type+'</option>');
             }
 
         });
     }
 
-    // function getListCourseOfferings(SemesterID,ProdiID) {
-    function getListCourseOfferings(CurriculumID,ProdiID,Semester) {
+    function getListCourseOfferings(ProdiID) {
         var url = base_url_js+'api/__crudCourseOfferings';
         var SemesterID = $('#formSemesterID').val();
 
@@ -572,13 +397,9 @@
             action : 'read',
             formData : {
                 SemesterID : SemesterID,
-                CurriculumID : CurriculumID,
-                ProdiID : Prodi,
-                Semester : Semester
+                ProdiID : Prodi
             }
         };
-
-        console.log(data);
         var token = jwt_encode(data,'UAP)(*');
 
         $.post(url,{token:token},function (jsonResult) {
@@ -666,7 +487,7 @@
         var token = jwt_encode({action:'read',order:'ASC'},'UAP)(*');
         var semester = 1;
         $.post(url,{token:token},function (jsonResult) {
-            // console.log(jsonResult);
+            console.log(jsonResult);
            for(var i=0;i<jsonResult.length;i++){
                smt.append('<label class="checkbox-inline">' +
                    '  <input type="checkbox" class="check-smt" value="'+semester+'"> Semester '+semester+' ' +

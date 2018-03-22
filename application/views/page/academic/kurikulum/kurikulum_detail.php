@@ -63,7 +63,7 @@
 
     function LoadDetailMK(MataKuliah) {
 
-        // console.log(MataKuliah);
+         // console.log(MataKuliah);
         for(var i=0;i<MataKuliah.length;i++){
             if(MataKuliah.length==8){
                 $('.btn-addsmt').prop('disabled',true);
