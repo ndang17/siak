@@ -64,7 +64,7 @@ class M_api extends CI_Model {
 
 
     // ==== KURIKULUM ====
-    public function __getKurikulumByYear($year,$ProdiID){
+    public function __getKurikulumByYear($SemesterSearch,$year,$ProdiID){
 
         // Mendapatkan Kurikulum
         $detail_kurikulum = $this->Kurikulum($year);
@@ -75,7 +75,7 @@ class M_api extends CI_Model {
             $semester = $this->Semester($detail_kurikulum['ID']);
 
             for($i=0;$i<count($semester);$i++){
-                $semester[$i]['DetailSemester'] = $this->DetailMK($detail_kurikulum['ID'],$semester[$i]['Semester'],$ProdiID);
+                $semester[$i]['DetailSemester'] = $this->DetailMK($SemesterSearch,$detail_kurikulum['ID'],$ProdiID,$semester[$i]['Semester']);
             }
 
             $result = array(
@@ -112,7 +112,7 @@ class M_api extends CI_Model {
     }
 
 
-    private function DetailMK($CurriculumID,$Semester,$ProdiID){
+    private function DetailMK($SemesterSearch,$CurriculumID,$ProdiID,$Semester){
         $select = 'SELECT 
                     ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng, 
                     mk.MKCode, mk.Name AS NameMK, mk.NameEng AS NameMKEng, 
@@ -130,7 +130,7 @@ class M_api extends CI_Model {
                                                 WHERE cd.CurriculumID="'.$CurriculumID.'" 
                                                 AND cd.Semester="'.$Semester.'"
                                                 AND cd.ProdiID="'.$ProdiID.'"
-                                                ORDER BY mk.MKCode ASC');
+                                                ORDER BY mk.MKCode ASC')->result_array();
         } else {
             $data = $this->db->query($select.' FROM db_academic.curriculum_details cd 
                                                 LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID)
@@ -139,11 +139,35 @@ class M_api extends CI_Model {
                                                 LEFT JOIN db_academic.education_level edu ON (edu.ID = cd.EducationLevelID)
                                                 WHERE cd.CurriculumID="'.$CurriculumID.'" 
                                                 AND cd.Semester="'.$Semester.'"
-                                                ORDER BY mk.MKCode ASC');
+                                                ORDER BY mk.MKCode ASC')->result_array();
+        }
+
+        if(count($data)>0 && $SemesterSearch!=''){
+            $dataSMT = $this->db->query('SELECT * FROM db_academic.semester WHERE Status = 1 LIMIT 1')->result_array();
+            for($i=0;$i<count($data);$i++){
+                $data[$i]['Offering'] = false;
+                $dataOffering = $this->db->query('SELECT co.Arr_CDID FROM db_academic.course_offerings co
+                                    WHERE
+                                    co.SemesterID = "'.$dataSMT[0]['ID'].'"
+                                    AND co.CurriculumID = "'.$CurriculumID.'"
+                                    AND co.ProdiID = "'.$ProdiID.'"
+                                    AND co.Semester = "'.$SemesterSearch.'" LIMIT 1 ')->result_array();
+
+
+                if(count($dataOffering)){
+                    $dataCourse = json_decode($dataOffering[0]['Arr_CDID']);
+
+                    if(in_array($data[$i]['CDID'],$dataCourse)){
+                        $data[$i]['Offering'] = true;
+                    }
+
+                }
+
+            }
         }
 
 
-        return $data->result_array();
+        return $data;
     }
 
 
@@ -299,13 +323,13 @@ class M_api extends CI_Model {
 
         $result = array(
             'SemesterActive' => $data[0],
-            'DetailCourses' => $this->getDetailCourses($CurriculumID,$ProdiID,$Semester)
+            'DetailCourses' => $this->getDetailCourses($data[0]['ID'],$CurriculumID,$ProdiID,$Semester)
         );
 
         return $result;
     }
 
-    private function getDetailCourses($CurriculumID,$ProdiID,$Semester){
+    private function getDetailCourses($SemesterID,$CurriculumID,$ProdiID,$Semester){
 //        $data = $this->db->query('SELECT cd.ID AS CurriculumDetailID,cd.Semester, cd.MKType, cd.MKID, mk.MKCode, cd.TotalSKS, cd.StatusMK,
 //                                    mk.Name AS MKName, mk.NameEng AS MKNameEng,
 //                                    ps.Code AS ProdiCode, ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng
@@ -330,17 +354,49 @@ class M_api extends CI_Model {
                                     AND cd.ProdiID = "'.$ProdiID.'" 
                                     AND cd.Semester = "'.$Semester.'" 
                                      
-                                    ORDER BY cd.Semester , ps.Code ASC');
-        return $data->result_array();
+                                    ORDER BY cd.Semester , ps.Code ASC')->result_array();
+
+
+
+        if(count($data)>0){
+            for($i=0;$i<count($data);$i++){
+                $data[$i]['Offering'] = false;
+                $dataOffering = $this->db->query('SELECT co.Arr_CDID FROM db_academic.course_offerings co
+                                    WHERE 
+                                    co.SemesterID = "'.$SemesterID.'" 
+                                    AND co.CurriculumID = "'.$CurriculumID.'" 
+                                    AND co.ProdiID = "'.$ProdiID.'" 
+                                    AND co.Semester = "'.$Semester.'" LIMIT 1 ')->result_array();
+
+                if(count($dataOffering)){
+                    $dataCourse = json_decode($dataOffering[0]['Arr_CDID']);
+
+                    if(in_array($data[$i]['CurriculumDetailID'],$dataCourse)){
+                        $data[$i]['Offering'] = true;
+                    }
+
+                }
+
+
+            }
+        }
+
+//        print_r($data);
+
+
+
+
+
+        return $data;
     }
 
-    public function getAllCourseOfferings($SemesterID,$ProdiID){
+    public function getAllCourseOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester){
 
         $dataProdi = $this->db->query('SELECT * FROM db_academic.program_study WHERE Status = 1 AND ID = "'.$ProdiID.'" ORDER BY ID ASC ')->result_array();
 
         $result = [];
         for($i=0;$i<count($dataProdi);$i++){
-            $dataOfferings = $this->getDetailOfferings($SemesterID,$dataProdi[$i]['ID']);
+            $dataOfferings = $this->getDetailAllOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester);
             $data = array(
                 'Prodi' => array(
                     'ID' => $dataProdi[$i]['ID'],
@@ -355,6 +411,42 @@ class M_api extends CI_Model {
         }
 
         return $result;
+    }
+
+    private function getDetailAllOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester){
+
+        $data = $this->db->query('SELECT * FROM db_academic.course_offerings co 
+                                        WHERE co.SemesterID = "'.$SemesterID.'" 
+                                        AND co.CurriculumID = "'.$CurriculumID.'" 
+                                        AND co.ProdiID = "'.$ProdiID.'" 
+                                        AND co.Semester = "'.$Semester.'" LIMIT 1 ')->result_array();
+
+        $result = [];
+        if(count($data)>0){
+            $Course = json_decode($data[0]['Arr_CDID']);
+
+            $CourseArr = [];
+
+            for($i=0;$i<count($Course);$i++){
+                $dataCourse = $this->db->query('SELECT cd.ID AS CDID, cd.ProdiID, cd.Semester, cd.MKType, cd.TotalSKS, cd.StatusMK, cd.MKID, mk.MKCode, 
+                                                      mk.NameEng AS MKNameEng,
+                                                      mk.Name AS MKName,
+                                                      s.ID AS ScheduleID 
+                                                      FROM db_academic.curriculum_details cd
+                                                      LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID)
+                                                      LEFT JOIN db_academic.schedule s ON (s.MKID = cd.MKID) 
+                                                      WHERE cd.ID = "'.$Course[$i].'" LIMIT 1')->result_array()[0];
+
+                array_push($CourseArr,$dataCourse);
+            }
+
+            $result = $data;
+
+            $result[0]['Details'] = $CourseArr;
+        }
+
+        return $result;
+
     }
 
     private function getDetailOfferings($SemesterID,$ProdiID){

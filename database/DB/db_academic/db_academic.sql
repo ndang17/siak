@@ -634,13 +634,15 @@ CREATE TABLE `course_offerings` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
 insert  into `course_offerings`(`ID`,`SemesterID`,`CurriculumID`,`ProdiID`,`Semester`,`Arr_CDID`,`UpdateBy`,`UpdateAt`) values 
-(1,13,5,1,1,'[\"953\",\"954\",\"960\",\"959\",\"972\"]','2017090','2018-03-22 16:39:27'),
-(2,13,5,1,3,'[\"953\",\"954\",\"960\",\"959\"]','2017090','2018-03-22 16:49:20');
+(2,13,5,1,3,'[\"953\",\"954\",\"959\",\"960\"]','2017090','2018-03-22 16:49:20'),
+(3,13,5,2,2,'[\"961\",\"970\"]','2017090','2018-03-23 14:44:06'),
+(4,13,5,2,8,'[\"961\",\"970\"]','2017090','2018-03-23 14:44:16'),
+(6,13,5,1,1,'[\"954\"]','2017090','2018-03-23 16:58:32');
 
 /*Table structure for table `courses_groups` */
 

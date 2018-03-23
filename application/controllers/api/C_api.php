@@ -33,7 +33,7 @@ class C_api extends CI_Controller {
         $key = "UAP)(*";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
-        $result = $this->m_api->__getKurikulumByYear($data_arr['year'],$data_arr['ProdiID']);
+        $result = $this->m_api->__getKurikulumByYear($data_arr['SemesterSearch'],$data_arr['year'],$data_arr['ProdiID']);
 
         return print_r(json_encode($result));
     }
@@ -723,24 +723,22 @@ class C_api extends CI_Controller {
 
         if(count($data_arr)>0) {
             if ($data_arr['action'] == 'add') {
-//                $formData = (array) $data_arr['formData'];
-//
-//                for($i=0;$i<count($formData);$i++){
-//                    $dataInsert = (array) $formData[$i];
-//                    $this->db->insert('db_academic.course_offerings',$dataInsert);
-////                    $insert_id = $this->db->insert_id();
-//                }
-//
-//                return print_r(1);
                 $formData = (array) $data_arr['formData'];
                 $this->db->insert('db_academic.course_offerings',$formData);
                 $insert_id = $this->db->insert_id();
                 return print_r($insert_id);
+            }
+            else if($data_arr['action']=='edit'){
+                $formData = (array) $data_arr['formData'];
 
+                $this->db->where('ID', $data_arr['OfferID']);
+                $this->db->update('db_academic.course_offerings',$formData);
+
+                return print_r($data_arr['OfferID']);
             }
             else if($data_arr['action']=='read'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getAllCourseOfferings($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
+                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
                 return print_r(json_encode($data));
             }
             else if($data_arr['action']=='readgabungan'){
@@ -770,10 +768,42 @@ class C_api extends CI_Controller {
                 }
             }
             else if($data_arr['action']=='delete'){
-                $this->db->where('ID', $data_arr['ID']);
-                $this->db->delete('db_academic.course_offerings');
 
-                return print_r(1);
+                $query = $this->db->get_where('db_academic.course_offerings', array('ID' => $data_arr['OfferID']), 1)->result_array();
+
+                if(count($query)>0){
+                    $Arr_CDID = json_decode($query[0]['Arr_CDID']);
+
+                    if(count($Arr_CDID)>1){
+                        $result = [];
+                        if (($key = array_search($data_arr['CDID'], $Arr_CDID)) !== false) {
+                            for($a=0;$a<count($Arr_CDID);$a++){
+                                if($a!=$key){
+                                    array_push($result,$Arr_CDID[$a]);
+                                }
+                            }
+                        }
+
+                        $this->db->set('Arr_CDID', json_encode($result));
+                        $this->db->where('ID', $data_arr['OfferID']);
+                        $this->db->update('db_academic.course_offerings');
+
+                        return print_r(1);
+
+
+                    } else if(count($Arr_CDID)==1){
+                        $this->db->where('ID', $data_arr['OfferID']);
+                        $this->db->delete('db_academic.course_offerings');
+                        return print_r(1);
+
+                    }
+
+
+//                    print_r(json_encode($r));
+
+
+                }
+
             }
         }
     }

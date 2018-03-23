@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-md-12" style="text-align: right;">
                         <hr/>
-                        <button class="btn btn-success form-offer" id="btnSaveMK">Save</button>
+                        <button class="btn btn-success form-offer" data-action="add" id="btnSaveMK">Save</button>
                     </div>
                 </div>
 
@@ -134,7 +134,7 @@
         var array2 = [3,4,2,5];
 // Merges both arrays and gets unique items
         var array3 = array1.concat(array2).unique();
-        console.log(array3);
+        // console.log(array3);
 
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins
@@ -142,10 +142,12 @@
         // loadSelecOptionCurriculum('#formCurriculum','')
         loadSelectOptionCurriculum('#formCurriculum','');
         loadSelectOptionBaseProdi('#formProdi','');
-        getOfferingsToSemester();
+        // getOfferingsToSemester();
 
         window.formSemester = [];
         window.formSemesterEdit = [];
+
+        window.DataArr_CDID = [];
 
         // getSemesterActive();
 
@@ -154,10 +156,15 @@
 
     $(document).on('change','#formCurriculum,#formProdi',function () {
         // $('#formSemester').prop('disabled',false);
-        loadCourse();
+        loadCourse('');
+        loadDatapage();
     });
 
     $(document).on('change','#formSemester',function () {
+        loadDatapage();
+    });
+
+    function loadDatapage() {
         var DataYear = $('#formCurriculum').val();
         var Prodi = $('#formProdi').val();
         var Semester = $('#formSemester').val();
@@ -168,14 +175,18 @@
         if(DataYear!=null && Prodi!=null && Semester!=null){
             var CurriculumID = DataYear.split('.')[0];
             var ProdiID = Prodi.split('.')[0];
+            loadCourse(Semester);
+
             getSemesterActive(CurriculumID,ProdiID,Semester);
             $('.divSmt-cl').removeClass('hide');
             $('#divSmt'+Semester).addClass('hide');
             $('#OfferingDiv').removeClass('hide');
-        }
-    });
 
-    function loadCourse() {
+        }
+    }
+
+
+    function loadCourse(SemesterSearch) {
 
         var DataYear = $('#formCurriculum').val();
         var Prodi = $('#formProdi').val();
@@ -186,6 +197,7 @@
         var url = base_url_js+'api/__getKurikulumByYear';
 
         var data = {
+            SemesterSearch : SemesterSearch,
             year : year,
             ProdiID : ProdiID
         };
@@ -194,24 +206,41 @@
         $.post(url,{token:token},function (resultJeson) {
 
             if(resultJeson.MataKuliah.length>0){
-                $('#formSemester').empty();
-
-                $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
-                    '                <option disabled>------------------------------------------</option>');
 
 
-                $('#OfferingDiv').addClass('hide');
-                $('#btnAnother').html('');
+
+                if(SemesterSearch!=''){
+                    $('#OfferingDiv').removeClass('hide');
+                    $('#btnAnother').html('');
+
+                } else {
+                    $('#OfferingDiv').addClass('hide');
+                    $('#formSemester').empty();
+
+                    $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
+                        '                <option disabled>------------------------------------------</option>');
+                }
+
+
                 for(var i=0;i<resultJeson.MataKuliah.length;i++){
                     var mk = resultJeson.MataKuliah[i];
 
                     if(mk.DetailSemester.length>0){
-                        $('#formSemester').append('<option value="'+mk.Semester+'">Semester '+mk.Semester+'</option>');
 
-                        $('#btnAnother').append('<span class="divSmt-cl" id="divSmt'+mk.Semester+'"><button class="btn btn-sm btn-default btn-default-warning btnSmtAnother-cl" data-tg="0" data-id="'+mk.Semester+'" id="btnSmtAnother'+mk.Semester+'">Semester '+mk.Semester+'</button> ' +
-                            '<input id="dataMK'+mk.Semester+'" class="hide" type="hide" hidden readonly /></span>');
+                        if(SemesterSearch!=''){
+                            if(SemesterSearch!=mk.Semester){
+                                $('#btnAnother').append('<span class="divSmt-cl" id="divSmt'+mk.Semester+'"><button class="btn btn-sm btn-default btn-default-warning btnSmtAnother-cl" data-tg="0" data-id="'+mk.Semester+'" id="btnSmtAnother'+mk.Semester+'">Semester '+mk.Semester+'</button> ' +
+                                    '<input id="dataMK'+mk.Semester+'" class="hide" type="hide" hidden readonly /></span>');
 
-                        $('#dataMK'+mk.Semester).val(JSON.stringify(mk));
+                                $('#dataMK'+mk.Semester).val(JSON.stringify(mk));
+                            }
+
+                        } else {
+                            $('#formSemester').append('<option value="'+mk.Semester+'">Semester '+mk.Semester+'</option>');
+                        }
+
+
+
                     }
 
                 }
@@ -252,7 +281,7 @@
 
             for(var i=0;i<dataJSON.DetailSemester.length;i++){
                 var Courses = dataJSON.DetailSemester[i];
-                // console.log(Courses);
+
 
                 $('#box1View option[value='+Courses.CDID+']').remove();
                 $('#box2View option[value='+Courses.CDID+']').remove();
@@ -265,11 +294,14 @@
 
             for(var i=0;i<dataJSON.DetailSemester.length;i++){
                 var Courses = dataJSON.DetailSemester[i];
-                // console.log(Courses);
-                var color = (Courses.StatusMK==1) ? '#ff9800' : 'red';
-                var status = (Courses.StatusMK==1) ? '' : 'disabled';
 
-                $('#box1View').append('<option value="'+Courses.CDID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.MKCode+' | '+Courses.NameMKEng+' (Credit : '+Courses.TotalSKS+')</option>');
+                if(Courses.Offering==false){
+                    var color = (Courses.StatusMK==1) ? '#ff9800' : 'red';
+                    var status = (Courses.StatusMK==1) ? '' : 'disabled';
+
+                    $('#box1View').append('<option value="'+Courses.CDID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.MKCode+' | '+Courses.NameMKEng+' (Credit : '+Courses.TotalSKS+')</option>');
+                }
+
 
             }
 
@@ -279,44 +311,56 @@
     });
 
 
-
-    // $(document).on('change','#formProdi',function () {
-    //     var ProdiID = $(this).val();
-    //     // getSemesterActive(ProdiID)
-    // });
-
-
-
     $('#btnSaveMK').click(function () {
+
+
+        var action = $(this).attr('data-action');
         var dataID = $('#box2View').find('option').map(function() { return this.value }).get().join(",");
-        var Arr_CDID = dataID.split(',');
+
+        var data_CDID = dataID.split(',');
+
+
+        var Arr_CDID = (action=='edit') ? $.merge(DataArr_CDID,data_CDID) : data_CDID;
+        var OfferID = (action=='edit') ? $(this).attr('data-idoffer') : '';
+
         var SemesterID = $('#formSemesterID').val();
-        var CurriculumID = $('#formCurriculum').val();
+        var Curriculum = $('#formCurriculum').val();
         var ProdiID = $('#formProdi').val();
         var Semester = $('#formSemester').val();
 
-        if(CurriculumID!=null && ProdiID!=null && Semester!=null){
+        if(Curriculum!=null && ProdiID!=null && Semester!=null){
+
+            var CurriculumID = Curriculum.split('.')[0];
+
             var data = {
-                action : 'add',
+                action : action,
+                OfferID : OfferID,
                 formData : {
                     SemesterID : SemesterID,
-                    CurriculumID : CurriculumID.split('.')[0],
+                    CurriculumID : CurriculumID,
                     ProdiID : ProdiID.split('.')[0],
                     Semester : Semester,
-                    Arr_CDID : JSON.stringify(Arr_CDID),
+                    Arr_CDID : JSON.stringify(Arr_CDID.sort()),
                     UpdateBy : sessionNIP,
-                    UpdateAt : dateTimeNow(),
+                    UpdateAt : dateTimeNow()
                 }
             };
+
 
             var token = jwt_encode(data,'UAP)(*');
             var url = base_url_js+'api/__crudCourseOfferings';
 
             $.post(url,{token:token},function (resultJSON) {
+                toastr.success('Saved','Success');
+                $('#box2View,#box2Storage').empty();
+                loadDatapage();
+                // getListCourseOfferings(SemesterID,CurriculumID,ProdiID,Semester);
+                // loadCourse(Semester);
+                // $('#formSemester').val('');
+                // $('#btnAnother').html('');
 
             });
 
-            console.log(data);
         }
 
 
@@ -327,149 +371,175 @@
 
     });
 
-    $(document).on('click','.btn-semester-offer',function () {
-        var ID = $(this).attr('data-id');
-        var Prodi = $(this).attr('data-prodi');
-        var Smt = $(this).attr('data-smt');
+    function getSemesterActive(CurriculumID,ProdiID,Semester) {
 
-        var SmtArr = Smt.split(',');
-
-
-
-        formSemesterEdit = (Smt!='') ? SmtArr.sort() : [];
-        var sAll = (Smt!='') ? '' : 'checked';
 
         var url = base_url_js+'api/__crudSemester';
-        var token = jwt_encode({action:'read',order:'ASC'},'UAP)(*');
+        var data = {
+            action : 'ReadSemesterActive',
+            formData : {
+                CurriculumID : CurriculumID,
+                ProdiID : ProdiID,
+                Semester : Semester
+            }
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+        $.post(url,{token:token},function (jsonResult) {
+
+            var SemesterActive = jsonResult.SemesterActive;
+            $('#formSemesterID').val(SemesterActive.ID);
+
+            // getListCourseOfferings(SemesterActive.ID,CurriculumID,ProdiID,Semester);
+
+            $('#box1View,#box1Storage,#box2View,#box2Storage').empty();
+            for(var i=0;i<jsonResult.DetailCourses.length;i++){
+                var Courses = jsonResult.DetailCourses[i];
+                if(Courses.Offering==false){
+                    
+                    var color = (Courses.StatusMK==1) ? 'green' : 'red';
+                    var status = (Courses.StatusMK==1) ? '' : 'disabled';
+                    var type = (Courses.MKType==1) ? '*' : '';
+                    $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.MKCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')'+type+'</option>');
+                }
+
+            }
+
+            getListCourseOfferings(SemesterActive.ID,CurriculumID,ProdiID,Semester);
+
+        });
+    }
+    
+    
+    function getListCourseOfferings(SemesterID,CurriculumID,ProdiID,Semester) {
+        var url = base_url_js+'api/__crudCourseOfferings';
+
+        var Prodi = (ProdiID.split('.').length>0) ? ProdiID.split('.')[0] : ProdiID;
+
+        var data = {
+            action : 'read',
+            formData : {
+                SemesterID : SemesterID,
+                CurriculumID : CurriculumID,
+                ProdiID : Prodi,
+                Semester : Semester
+            }
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+
+        $('#btnSaveMK').prop('disabled',true);
         $.post(url,{token:token},function (jsonResult) {
 
 
+            // console.log(jsonResult);
 
-            $('#NotificationModal .modal-body').html('<div id="smt"></div>' +
-                '<hr/>' +
-                '<div style="text-align: right;">' +
-                '<label class="checkbox-inline" style="margin-right: 15px;">' +
-                '  <input type="checkbox" id="formCheckSmesterAllEdit" value="" '+sAll+'> All Semester' +
-                '</label>'+
-                '<button class="btn btn-success" data-id="'+ID+'" data-prodi="'+Prodi+'" id="btnSaveSemesterEdit">Save</button> <button id="btnCloseSemesterEdit" data-dismiss="modal" class="btn btn-default">Close</button></div>');
+            $('#dataOfferings').empty();
 
-            var semester = 1;
             for(var i=0;i<jsonResult.length;i++){
+                var data = jsonResult[i];
 
-                var s = ($.inArray(""+semester,SmtArr)!=-1) ? 'checked' : '';
-                $('#smt').append('<label class="checkbox-inline">' +
-                    '  <input type="checkbox" class="check-smt-edit" value="'+semester+'" '+s+'> Semester '+semester+' ' +
+                $('#listProdi').append('<label class="checkbox-inline">' +
+                    '  <input type="checkbox" class="checkProdi" value="'+data.Prodi.ID+'"> '+data.Prodi.NameEng+
                     '</label>');
 
-                semester += 1;
+                $('#dataOfferings').append('<div class="col-md-12"><h3><span class="label label-primary" style="font-size: 15px;">'+data.Prodi.NameEng+'</span></h3>' +
+                    '        <table id="tbData'+i+'" class="table table-bordered">' +
+                    '            <thead>' +
+                    '            <tr>' +
+                    '                <th class="th-center" style="width: 1%;">No</th>' +
+                    '                <th class="th-center" style="width: 5%;">Code</th>' +
+                    '                <th class="th-center">Course</th>' +
+                    // '                <th class="th-center" style="width: 15%;">Offerings To Semester</th>' +
+                    '                <th class="th-center" style="width: 5%;">Semester</th>' +
+                    '                <th class="th-center" style="width: 5%;">Credit</th>' +
+                    '                <th class="th-center" style="width: 5%;">Type</th>' +
+                    '                <th class="th-center" style="width: 15%;">Action</th>' +
+                    '            </tr>' +
+                    '            </thead>' +
+                    '<tbody id="trData'+i+'"></tbody>' +
+                    '        </table><hr/></div>');
+
+                var Offerings = data.Offerings;
+                // console.log(Offerings);
+                if(Offerings.length>0){
+                    $('#btnSaveMK').attr({
+                        'data-action' : 'edit',
+                        'data-idOffer' : Offerings[0].ID
+                    });
+
+                    DataArr_CDID = JSON.parse(Offerings[0].Arr_CDID);
+                    var tr = $('#trData'+i);
+                    var no=1;
+                    for(var s=0;s<Offerings[0].Details.length;s++){
+                        var _data = Offerings[0].Details[s];
+                        var label = (_data.MKType=='1' && _data.Semester == Semester) ? '<span class="label label-success">Required</span>' : '<span class="label label-danger">Optional</span>';
+
+                        var tr_bg = (_data.Semester != Semester) ? '#ffffdd' : '';
+                        // var smt = JSON.parse(_data.ToSemester);
+                        // var smt__ = '';
+                        // var dataSmt = '';
+                        // if(smt.length>0){
+                        //     for(var i=0;i<smt.length;i++){
+                        //         // var k = (i!=(smt.length - 1)) ? '' : ', ';
+                        //         var k = (i!=0) ? ', ':'';
+                        //         // var k2 = (i!=0) ? ',':'';
+                        //
+                        //
+                        //         smt__ = smt__+''+k+'Smt '+smt[i];
+                        //         dataSmt = dataSmt+''+k.trim()+''+smt[i]
+                        //     }
+                        // } else {
+                        //     smt__ = 'All Semester';
+                        // }
+
+
+                        var btnDelete = (_data.ScheduleID!=null) ? 'Courses Are Scheduled'
+                            : '<button class="btn btn-default btn-default-danger btn-delete-offer" data-idoffer="'+Offerings[0].ID+'" data-cdid="'+_data.CDID+'" data-mk="'+_data.MKID+'|'+_data.MKCode+'">Remove Offer</button>' ;
+
+
+                        tr.append('<tr style="background: '+tr_bg+';">' +
+                            '<td class="td-center">'+(no++)+'</td>' +
+                            '<td class="td-center">'+_data.MKCode+'</td>' +
+                            '<td><b>'+_data.MKName+'</b><br/><i>'+_data.MKNameEng+'</i></td>' +
+                            // '<td class="td-center"> '+smt__+' ' +
+                            // // ' '+_data.ToSemester+' ' +
+                            // '<br/><a href="javascript:void(0)" class="btn-semester-offer" data-id="'+_data.ID+'" data-prodi="'+ProdiID+'" data-smt="'+dataSmt+'" style="float: right;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> </td>' +
+                            '<td class="td-center">'+_data.Semester+'</td>' +
+                            '<td class="td-center">'+_data.TotalSKS+'</td>' +
+                            '<td class="td-center">'+label+'</td>' +
+                            '<td class="td-center">'+btnDelete+'</td>' +
+                            '</tr>');
+                    }
+                } else {
+                    $('#btnSaveMK').attr({
+                        'data-action' : 'add',
+                        'data-idOffer' : 0
+                    });
+                }
+
+
+                var table = $('#tbData'+i).DataTable({
+                    'iDisplayLength' : 25
+                });
             }
 
-            $('#NotificationModal').modal('show');
+        }).done(function () {
+            $('#btnSaveMK').prop('disabled',false);
         });
 
-
-    });
-
-    $(document).on('change','.check-smt-edit',function () {
-        var v = $(this).val();
-
-        if($(this).is(':checked')){
-            formSemesterEdit.push(v);
-        } else {
-            formSemesterEdit = $.grep(formSemesterEdit, function(value) {
-                return value != v;
-            });
-        }
-
-        if(formSemesterEdit.length==0){
-            $('#formCheckSmesterAllEdit').prop('checked',true);
-        } else {
-            $('#formCheckSmesterAllEdit').prop('checked',false);
-        }
-
-        formSemesterEdit.sort();
-
-    });
-
-    $(document).on('change','#formCheckSmesterAllEdit',function () {
-        if($(this).is(':checked')){
-            formSemesterEdit = [];
-            $('.check-smt-edit').prop('checked',false);
-        } else {
-            if(formSemesterEdit.length==0){
-                $('#formCheckSmesterAllEdit').prop('checked',true);
-            } else {
-                $('#formCheckSmesterAllEdit').prop('checked',false);
-            }
-        }
-    });
-
-    $(document).on('click','#btnSaveSemesterEdit',function () {
-
-        var ID = $(this).attr('data-id');
-        var Prodi = $(this).attr('data-prodi');
-
-        var data = {
-            action : 'editSemester',
-            ID : ID,
-            ToSemester : JSON.stringify(formSemesterEdit)
-        };
-
-        loading_buttonSm('#btnSaveSemesterEdit');
-        $('#btnCloseSemesterEdit').prop('disabled',true);
-
-        var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+'api/__crudCourseOfferings';
-        $.post(url,{token:token},function (result) {
-            getSemesterActive(Prodi);
-            setTimeout(function () { $('#NotificationModal').modal('hide'); },1000);
-        });
+    }
 
 
-    });
 
-    $(document).on('change','.check-smt',function () {
-        var v = $(this).val();
+</script>
 
-        if($(this).is(':checked')){
-            formSemester.push(v);
-        } else {
-            formSemester = $.grep(formSemester, function(value) {
-                return value != v;
-            });
-        }
-
-        if(formSemester.length==0){
-            $('#formCheckSmesterAll').prop('checked',true);
-        } else {
-            $('#formCheckSmesterAll').prop('checked',false);
-        }
-
-        formSemester.sort();
-
-    });
-
-    $('#formCheckSmesterAll').change(function () {
-
-        if($(this).is(':checked')){
-            formSemester = [];
-            $('.check-smt').prop('checked',false);
-        } else {
-            if(formSemester.length==0){
-                $('#formCheckSmesterAll').prop('checked',true);
-            } else {
-                $('#formCheckSmesterAll').prop('checked',false);
-            }
-        }
-
-
-    });
-
+<script>
     $(document).on('click','.btn-delete-offer',function () {
 
         // Cek Apakah Offering sudah di set jadwal atau belum
-        var ID = $(this).attr('data-id');
-        var Prodi = $(this).attr('data-prodi');
+        var CDID = $(this).attr('data-cdid');
+        var OfferID = $(this).attr('data-idoffer');
         var SemesterID = $('#formSemesterID').val();
         var Course = $(this).attr('data-mk').split('|');
 
@@ -477,8 +547,7 @@
             action : 'checkCourse',
             dataWhere : {
                 SemesterID : SemesterID,
-                MKID : Course[0],
-                MKCode : Course[1]
+                MKID : Course[0]
             }
 
         };
@@ -493,7 +562,7 @@
                     '</div>');
             } else {
                 $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Delete Offerings ?? </b> ' +
-                    '<button type="button" id="btnDeleteOfferYes" data-id="'+ID+'" data-prodi="'+Prodi+'" class="btn btn-primary" style="margin-right: 5px;">Yes</button> ' +
+                    '<button type="button" id="btnDeleteOfferYes" data-idoffer="'+OfferID+'" data-cdid="'+CDID+'" class="btn btn-primary" style="margin-right: 5px;">Yes</button> ' +
                     '<button type="button" id="btnDeleteOfferNo" class="btn btn-default" data-dismiss="modal">No</button>' +
                     '</div>');
             }
@@ -506,9 +575,16 @@
 
     $(document).on('click','#btnDeleteOfferYes',function () {
 
-        var ID = $(this).attr('data-id');
-        var Prodi = $(this).attr('data-prodi');
-        var token = jwt_encode({action:'delete',ID:ID},"UAP)(*");
+        var CDID = $(this).attr('data-cdid');
+        var OfferID = $(this).attr('data-idoffer');
+
+        var data = {
+            action : 'delete',
+            OfferID : OfferID,
+            CDID : CDID
+        };
+
+        var token = jwt_encode(data,"UAP)(*");
         var url = base_url_js+'api/__crudCourseOfferings';
 
         loading_buttonSm('#btnDeleteOfferYes');
@@ -516,167 +592,13 @@
 
         $.post(url,{token:token},function (result) {
             toastr.success('Data Deleted','Success');
-            getSemesterActive(Prodi);
+            loadDatapage();
+
             setTimeout(function () {
                 $('#NotificationModal').modal('hide');
             },1000);
         });
 
     });
-
-    function getSemesterActive(CurriculumID,ProdiID,Semester) {
-
-
-        var url = base_url_js+'api/__crudSemester';
-        var data = {
-          action : 'ReadSemesterActive',
-          formData : {
-              CurriculumID : CurriculumID,
-              ProdiID : ProdiID,
-              Semester : Semester
-          }
-        };
-
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (jsonResult) {
-
-            // console.log(jsonResult);
-
-            var SemesterActive = jsonResult.SemesterActive;
-            $('#formSemesterID').val(SemesterActive.ID);
-            //
-
-            // getListCourseOfferings(SemesterActive.ID,CurriculumID,ProdiID,Semester);
-
-
-            $('#box1View,#box1Storage,#box2View,#box2Storage').empty();
-            for(var i=0;i<jsonResult.DetailCourses.length;i++){
-                var Courses = jsonResult.DetailCourses[i];
-                var color = (Courses.StatusMK==1) ? 'green' : 'red';
-                var status = (Courses.StatusMK==1) ? '' : 'disabled';
-                var type = (Courses.MKType==1) ? '*' : '';
-                $('#box1View').append('<option value="'+Courses.CurriculumDetailID+'" style="color: '+color+';" '+status+'>Smt '+Courses.Semester+' - '+Courses.MKCode+' | '+Courses.MKNameEng+' (Credit : '+Courses.TotalSKS+')'+type+'</option>');
-            }
-
-        });
-    }
-
-    // function getListCourseOfferings(SemesterID,ProdiID) {
-    function getListCourseOfferings(CurriculumID,ProdiID,Semester) {
-        var url = base_url_js+'api/__crudCourseOfferings';
-        var SemesterID = $('#formSemesterID').val();
-
-        var Prodi = (ProdiID.split('.').length>0) ? ProdiID.split('.')[0] : ProdiID;
-
-        var data = {
-            action : 'read',
-            formData : {
-                SemesterID : SemesterID,
-                CurriculumID : CurriculumID,
-                ProdiID : Prodi,
-                Semester : Semester
-            }
-        };
-
-        console.log(data);
-        var token = jwt_encode(data,'UAP)(*');
-
-        $.post(url,{token:token},function (jsonResult) {
-
-            $('#dataOfferings').empty();
-
-            for(var i=0;i<jsonResult.length;i++){
-                var data = jsonResult[i];
-
-                $('#listProdi').append('<label class="checkbox-inline">' +
-                    '  <input type="checkbox" class="checkProdi" value="'+data.Prodi.ID+'"> '+data.Prodi.NameEng+
-                    '</label>');
-
-                $('#dataOfferings').append('<div class="col-md-12"><h3><span class="label label-primary" style="font-size: 15px;">'+data.Prodi.NameEng+'</span></h3>' +
-                    '        <table id="tbData'+i+'" class="table table-bordered table-striped">' +
-                    '            <thead>' +
-                    '            <tr>' +
-                    '                <th class="th-center" style="width: 1%;">No</th>' +
-                    '                <th class="th-center" style="width: 5%;">Code</th>' +
-                    '                <th class="th-center">Course</th>' +
-                    '                <th class="th-center" style="width: 15%;">Offerings To Semester</th>' +
-                    '                <th class="th-center" style="width: 5%;">Semester</th>' +
-                    '                <th class="th-center" style="width: 5%;">Credit</th>' +
-                    '                <th class="th-center" style="width: 5%;">Type</th>' +
-                    '                <th class="th-center" style="width: 15%;">Action</th>' +
-                    '            </tr>' +
-                    '            </thead>' +
-                    '<tbody id="trData'+i+'"></tbody>' +
-                    '        </table><hr/></div>');
-
-                var Offerings = data.Offerings;
-                var tr = $('#trData'+i);
-                var no=1;
-                for(var s=0;s<Offerings.length;s++){
-                    var _data = Offerings[s];
-                    var label = (_data.MKType=='1') ? '<span class="label label-success">Required</span>' : '<span class="label label-danger">Optional</span>';
-
-                    var smt = JSON.parse(_data.ToSemester);
-                    var smt__ = '';
-                    var dataSmt = '';
-                    if(smt.length>0){
-                        for(var i=0;i<smt.length;i++){
-                            // var k = (i!=(smt.length - 1)) ? '' : ', ';
-                            var k = (i!=0) ? ', ':'';
-                            // var k2 = (i!=0) ? ',':'';
-
-
-                            smt__ = smt__+''+k+'Smt '+smt[i];
-                            dataSmt = dataSmt+''+k.trim()+''+smt[i]
-                        }
-                    } else {
-                        smt__ = 'All Semester';
-                    }
-
-
-                    var btnDelete = (_data.ScheduleID!=null) ? 'Courses Are Scheduled'
-                        : '<button class="btn btn-default btn-default-danger btn-delete-offer" data-id="'+_data.ID+'" data-prodi="'+ProdiID+'" data-mk="'+_data.MKID+'|'+_data.MKCode+'">Remove Offer</button>' ;
-
-
-                    tr.append('<tr>' +
-                        '<td class="td-center">'+(no++)+'</td>' +
-                        '<td class="td-center">'+_data.MKCode+'</td>' +
-                        '<td><b>'+_data.MKName+'</b><br/><i>'+_data.MKNameEng+'</i></td>' +
-                        '<td class="td-center"> '+smt__+' ' +
-                        // ' '+_data.ToSemester+' ' +
-                        '<br/><a href="javascript:void(0)" class="btn-semester-offer" data-id="'+_data.ID+'" data-prodi="'+ProdiID+'" data-smt="'+dataSmt+'" style="float: right;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> </td>' +
-                        '<td class="td-center">'+_data.Semester+'</td>' +
-                        '<td class="td-center">'+_data.TotalSKS+'</td>' +
-                        '<td class="td-center">'+label+'</td>' +
-                        '<td class="td-center">'+btnDelete+'</td>' +
-                        '</tr>');
-                }
-
-                var table = $('#tbData'+i).DataTable({
-                    'iDisplayLength' : 5
-                });
-            }
-
-        });
-    }
-
-    function getOfferingsToSemester() {
-        var smt = $('#formOfferingsToSemester');
-        var url = base_url_js+'api/__crudSemester';
-        var token = jwt_encode({action:'read',order:'ASC'},'UAP)(*');
-        var semester = 1;
-        $.post(url,{token:token},function (jsonResult) {
-            // console.log(jsonResult);
-           for(var i=0;i<jsonResult.length;i++){
-               smt.append('<label class="checkbox-inline">' +
-                   '  <input type="checkbox" class="check-smt" value="'+semester+'"> Semester '+semester+' ' +
-                   '</label>');
-
-               semester += 1;
-           }
-        });
-    }
-
-
 
 </script>

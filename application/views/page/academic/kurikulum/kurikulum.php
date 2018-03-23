@@ -122,6 +122,7 @@
         loading_page('#pageKurikulum');
         var url = base_url_js+'academic/kurikulum-detail';
         var data = {
+            SemesterSearch : '',
             year : year,
             ProdiID : prodiID
         };
