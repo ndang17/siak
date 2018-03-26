@@ -3,7 +3,6 @@
     <tr>
         <th style="width: 1%;">No</th>
         <th style="width: 20%;">Program</th>
-        <th style="width: 20%;">Curriculum</th>
         <th style="width: 7%;">Year</th>
         <th>Name</th>
         <th style="width: 15%;">Action</th>
@@ -17,7 +16,6 @@
         <tr>
             <td class="td-center"><?php echo $no; ?></td>
             <td><?php echo $item_smt['ProgramName']; ?></td>
-            <td><?php echo $item_smt['CurriculumName']; ?></td>
             <td class="td-center"><?php echo $item_smt['YearCode']; ?></td>
             <td>
 <!--                <a href="--><?php //echo base_url('academic/tahun-akademik/'.$item_smt['YearCode']); ?><!--">--><?php //echo $item_smt['Name']; ?><!--</a>-->

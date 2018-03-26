@@ -363,9 +363,9 @@ class C_api extends CI_Controller {
         $data_arr = (array) $this->jwt->decode($token,$key);
 
         if(count($data_arr)>0){
-            $dataForm = (array) $data_arr['dataForm'];
-            if($data_arr['action']=='add'){
 
+            if($data_arr['action']=='add'){
+                $dataForm = (array) $data_arr['dataForm'];
                 // Cek
                 $check = $this->db->get_where('db_academic.semester',array('YearCode'=>$dataForm['YearCode']))
                     ->result_array();
@@ -384,14 +384,26 @@ class C_api extends CI_Controller {
                     return print_r($insert_id);
                 }
 
-            } else if($data_arr['action']=='edit'){
+            }
+            else if($data_arr['action']=='edit'){
+                $dataForm = (array) $data_arr['dataForm'];
                 $this->db->where('ID', $data_arr['ID']);
                 $this->db->update('db_academic.semester',$dataForm);
                 return print_r(1);
-            } else if($data_arr['action']=='delete'){
+            }
+            else if($data_arr['action']=='delete'){
                 $this->db->where('ID', $data_arr['ID']);
                 $this->db->delete('db_academic.semester');
                 return print_r(1);
+            }
+            else if($data_arr['action']=='read'){
+
+                $data = $this->db->order_by('ID', 'DESC')
+                    ->get_where('db_academic.semester',array('IsSemesterAntara'=>'0'))
+                    ->result_array();
+
+                return print_r(json_encode($data));
+
             }
         }
 

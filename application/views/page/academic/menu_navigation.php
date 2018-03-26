@@ -27,6 +27,14 @@
                 </a>
             </li>
 
+
+            <li class="<?php if($this->uri->segment(2)=='semester-antara'){echo "current";} ?>">
+                <a href="<?php echo base_url('academic/semester-antara'); ?>">
+                    <i class="fa fa-random"></i>
+                    Semester Antara
+                </a>
+            </li>
+
             <li class="">
                 <a href="#">
                     <i class="fa fa-percent"></i>
@@ -85,12 +93,6 @@
                 <a href="#">
                     <i class="fa fa-area-chart"></i>
                     Nilai
-                </a>
-            </li>
-            <li class="">
-                <a href="#">
-                    <i class="fa fa-random"></i>
-                    Semester Antara
                 </a>
             </li>
             <li class="">

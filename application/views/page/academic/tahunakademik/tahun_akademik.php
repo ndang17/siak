@@ -79,7 +79,6 @@
         var action = $(this).attr('modal-action');
         var ID = (action=='add')? '' : $(this).attr('modal-id');
         var ProgramCampusID = $('#modalProgram').find(':selected').val();
-        var CurriculumID = $('#modalCurriculum').find(':selected').val();
         var tahun = $('#modalTahun').find(':selected').val().split('.');
         var semester = $('input[name=semester]:checked').val();
 
@@ -105,7 +104,6 @@
                 dataForm : {
                     ProgramCampusID : ProgramCampusID,
                     YearCode : YearCode,
-                    CurriculumID : CurriculumID,
                     Name : Name,
                     Status : 0,
                     UpdateBy : sessionNIP,
@@ -119,13 +117,13 @@
             var token = jwt_encode(data,'UAP)(*');
             var url = base_url_js+'api/__crudTahunAkademik';
             $.post(url,{token:token},function (result) {
-                console.log(result);
+                // console.log(result);
                 if(result==0){
                     setTimeout(function () {
                         $(btn_act).prop('disabled',false).html('Save');
                         $('#modalBtnSave, #modalBtnDelete, #modalCurriculum, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
                         toastr.warning('Data Is Exist','Warning!');
-                    },2000);
+                    },500);
                 } else {
                     loadTable();
                     setTimeout(function () {
@@ -133,7 +131,7 @@
                         $('#GlobalModal').modal('hide');
                         // $('#modalBtnSave').html('Save');
                         // $('#modalBtnSave, #modalBtnDelete, #modalBtnClose, #modalProgram, #modalTahun, input[name=semester]').prop('disabled',false);
-                    },2000);
+                    },500);
                 }
 
 

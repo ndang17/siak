@@ -7,13 +7,6 @@
         </td>
     </tr>
     <tr>
-        <td>Curriculum</td>
-        <td colspan="2">
-            <select class="form-control" id="modalCurriculum" ></select>
-        </td>
-
-    </tr>
-    <tr>
         <td>Semester</td>
         <td>
             <select class="form-control" id="modalTahun"></select>
@@ -35,11 +28,10 @@
         var action = '<?php echo $action; ?>';
         var Tahun = '<?php echo $tahun; ?>';
         var ProgramCampusID = '<?php echo $ProgramCampusID; ?>';
-        var CurriculumID = '<?php echo $CurriculumID; ?>';
         loadModalTahun(Tahun,action);
         loadSelectOptionConf('#modalProgram','programs_campus',ProgramCampusID);
 
-        loadSelecOptionCurriculum('#modalCurriculum',CurriculumID);
+
 
 
         if(action!='add'){
