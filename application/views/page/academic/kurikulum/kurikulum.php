@@ -5,7 +5,9 @@
         <div class="thumbnail">
             <div class="row">
                 <div class="col-xs-3" style="">
-                    <select class="form-control" id="selectKurikulum"></select>
+                    <select class="form-control" id="selectKurikulum">
+                        <option value="" disabled selected>--- Select Curriculum ---</option>
+                    </select>
                 </div>
                 <div class="col-xs-3">
                     <select class="form-control" id="selectProdi">
@@ -63,7 +65,7 @@
 
 <script>
     $(document).ready(function () {
-        loadSelectOptionKurikulum();
+        loadSelectOptionCurriculum('#selectKurikulum','');
         loadSelectOptionBaseProdi('#selectProdi','');
         loaddataAddKurikulum();
         $('.btn-addsmt').prop('disabled',true);
@@ -120,6 +122,7 @@
         loading_page('#pageKurikulum');
         var url = base_url_js+'academic/kurikulum-detail';
         var data = {
+            SemesterSearch : '',
             year : year,
             ProdiID : prodiID
         };
@@ -132,18 +135,7 @@
         });
 
     }
-    function loadSelectOptionKurikulum() {
-        var url = base_url_js+"api/__getKurikulumSelectOption";
-        $.get(url,function (data_json) {
-            console.log(data_json);
-            for(var i=0;i<data_json.length;i++){
-                var selected = (i==0) ? 'selected' : '';
-                $('#selectKurikulum').append('<option value="'+data_json[i].ID+'.'+data_json[i].Year+'" '+selected+'>'+data_json[i].Name+'</option>');
-            }
-        }).done(function () {
-            pageKurikulum();
-        });
-    }
+
     function loaddataAddKurikulum() {
         for(var i=0;i<2;i++){
             $('#yearAddKurikulum').append('<li>' +
@@ -157,6 +149,7 @@
         var data = {
             Year : year,
             Name : 'Kurikulum '+year,
+            NameEng : 'Curriculum '+year,
             CreateAt : dateTimeNow(),
             CreateBy : '2017090',
             UpdateAt : dateTimeNow(),

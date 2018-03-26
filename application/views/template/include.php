@@ -394,8 +394,31 @@
         return moment().format('YYYY-MM-DD HH:mm:ss');
     }
 
+    function ucwords(str) {
+        return str.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+            return letter.toUpperCase();
+        });
+    }
+
     function log(data) {
         console.log(data);
+    }
+
+    function loadSelectOptionSemester(element,option,selected) {
+
+        var token = jwt_encode({action:'read'},'UAP)(*');
+        var url = base_url_js+'api/__crudTahunAkademik';
+        $.post(url,{token:token},function (jsonResult) {
+
+           if(jsonResult.length>0){
+               for(var i=0;i<jsonResult.length;i++){
+                   var dt = jsonResult[i];
+                   var v = (option=="Name") ? dt.Name : dt.ID;
+                   $(element).append('<option value="'+v+'">'+dt.Name+'</option>');
+               }
+           }
+        });
+
     }
 
     function loadSelectOptionProgramCampus(element,selected) {
@@ -422,6 +445,17 @@
         });
     }
 
+    function loadSelectOptionCurriculum(element,selected) {
+        var url = base_url_js+"api/__getKurikulumSelectOption";
+        $.get(url,function (data_json) {
+            // console.log(data_json);
+            for(var i=0;i<data_json.length;i++){
+                var selected = (data_json[i].ID==selected) ? 'selected' : '';
+                $(element).append('<option value="'+data_json[i].ID+'.'+data_json[i].Year+'" '+selected+'>'+data_json[i].NameEng+'</option>');
+            }
+        });
+    }
+
     function loadSelectOptionBaseProdiAll(element,selected) {
         var url = base_url_js+"api/__getBaseProdiSelectOptionAll";
         $.get(url,function (data) {
@@ -431,8 +465,6 @@
             }
         });
     }
-
-
 
     function loadSelectOptionEducationLevel(element,selected) {
         var url = base_url_js+"api/__geteducationLevel";
@@ -615,16 +647,16 @@
         });
     }
 
-    function loadSelecOptionCurriculum(element,selected) {
-        var url = base_url_js+'api/__getKurikulumSelectOption';
-        $.getJSON(url,function (jsonResult) {
-           for (var i=0;i<jsonResult.length;i++){
-               var data = jsonResult[i];
-               var selc = (data.ID==selected) ? 'selected' : '';
-               $(element).append('<option value="'+data.ID+'" '+selc+'>'+data.Name+'</option>');
-           }
-        });
-    }
+    // function loadSelecOptionCurriculum(element,selected) {
+    //     var url = base_url_js+'api/__getKurikulumSelectOption';
+    //     $.getJSON(url,function (jsonResult) {
+    //        for (var i=0;i<jsonResult.length;i++){
+    //            var data = jsonResult[i];
+    //            var selc = (data.ID==selected) ? 'selected' : '';
+    //            $(element).append('<option value="'+data.ID+'" '+selc+'>'+data.NameEng+'</option>');
+    //        }
+    //     });
+    // }
 
 
     function fillDays(element,lang,selected) {

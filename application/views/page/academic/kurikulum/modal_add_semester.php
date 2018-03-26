@@ -150,7 +150,7 @@
         <div class="form-group" style="border-top: 1px solid #d3d3d3;border-bottom: 1px solid #d3d3d3; padding: 15px 0px 15px 0px;background: lightyellow;">
 
             <div class="col-sm-3">
-                <label>Total SKS</label>
+                <label>Total Credit</label>
                 <input class="form-control form-edit" id="ModalFormTotalSKS" type="number">
             </div>
             <div class="col-sm-3">
@@ -496,7 +496,6 @@
                         EducationLevelID : EducationLevelID,
 
                         MKID : MKID,
-                        MKCode : MKCode,
                         MKType : MKType,
 
                         StatusPrecondition : StatusPrecondition,
