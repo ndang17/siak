@@ -159,6 +159,9 @@
     .td-center, .th-center , .tr-center {
         text-align: center;
     }
+    .head-center th {
+        text-align: center;
+    }
 
 
     /* Untuk datatable */
@@ -404,7 +407,7 @@
         console.log(data);
     }
 
-    function loadSelectOptionSemester(element,option,selected) {
+    function loadSelectOptionSemester(element,selected) {
 
         var token = jwt_encode({action:'read'},'UAP)(*');
         var url = base_url_js+'api/__crudTahunAkademik';
@@ -413,8 +416,9 @@
            if(jsonResult.length>0){
                for(var i=0;i<jsonResult.length;i++){
                    var dt = jsonResult[i];
-                   var v = (option=="Name") ? dt.Name : dt.ID;
-                   $(element).append('<option value="'+v+'">'+dt.Name+'</option>');
+                   var sc = (selected==dt.ID) ? 'selected' : '';
+                   // var v = (option=="Name") ? dt.Name : dt.ID;
+                   $(element).append('<option value="'+dt.ID+'.'+dt.Name+'" '+sc+'>'+dt.Name+'</option>');
                }
            }
         });

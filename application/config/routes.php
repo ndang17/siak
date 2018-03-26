@@ -55,6 +55,7 @@ $route['academic/tahun-akademik-detail'] = 'page/academic/c_tahun_akademik/tahun
 $route['academic/tahun-akademik-detail-date'] = 'page/academic/c_tahun_akademik/tahun_akademik_detail_date';
 
 $route['academic/semester-antara'] = 'page/academic/c_semester_antara';
+$route['academic/semester-antara/details/(:num)'] = 'page/academic/c_semester_antara/loadDetails/$1';
 
 
 $route['academic/ketersediaan-dosen'] = 'page/academic/c_akademik/ketersediaan_dosen';

@@ -196,7 +196,13 @@
         $('#TextNoSesi'+dataSesi).html(dataSesi);
         $('.form-filter-jadwal').prop('disabled',true);
 
-        loadAcademicYearOnPublish();
+        if(SemesterAntara==0){
+            loadAcademicYearOnPublish('');
+        } else {
+            loadAcademicYearOnPublish('SemesterAntara');
+        }
+
+
 
         loadSelectOptionBaseProdi('#formBaseProdi');
         loadSelectOptionConf('#formProgramsCampusID','programs_campus','');
@@ -742,10 +748,15 @@
 
     }
 
-    function loadAcademicYearOnPublish() {
+    function loadAcademicYearOnPublish(smt) {
         var url = base_url_js+"api/__getAcademicYearOnPublish";
-        $.getJSON(url,function (data_json) {
-            $('#formSemesterID').val(data_json.ID);
+        $.getJSON(url,{smt:smt},function (data_json) {
+            if(smt=='SemesterAntara'){
+                $('#formSemesterID').val(data_json.SemesterID);
+            } else {
+                $('#formSemesterID').val(data_json.ID);
+            }
+
             $('#semesterName').html(data_json.YearCode+' | '+data_json.Name);
 
         });

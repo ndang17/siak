@@ -139,6 +139,13 @@
         App.init(); // Init layout and core plugins
         Plugins.init(); // Init all plugins
         FormComponents.init(); // Init all form-specific plugins
+
+
+        // Cek Semester Antara
+        // if($('#formSemesterAntara').is(':checked')){
+        //     SemesterAntara = 1;
+        // }
+
         // loadSelecOptionCurriculum('#formCurriculum','')
         loadSelectOptionCurriculum('#formCurriculum','');
         loadSelectOptionBaseProdi('#formProdi','');
@@ -158,6 +165,7 @@
 
     $(document).on('change','#formCurriculum,#formProdi',function () {
         // $('#formSemester').prop('disabled',false);
+        resetPenawaranMK();
         loadCourse('');
         loadDatapage();
     });
@@ -275,16 +283,13 @@
 
         var tg = $(this).attr('data-tg');
 
-
-
         var id = $(this).attr('data-id');
         var dataCourse = $('#dataMK'+id).val();
 
         var dataJSON = JSON.parse(dataCourse);
 
-        // console.log(dataJSON);
-
         if(tg==1){
+            console.log('if');
             $(this).addClass('btn-default btn-default-warning');
             $(this).removeClass('btn-warning');
             $(this).attr('data-tg',0);
@@ -298,6 +303,7 @@
             }
 
         } else {
+            console.log('else');
             $(this).removeClass('btn-default btn-default-warning');
             $(this).addClass('btn-warning');
             $(this).attr('data-tg',1);
@@ -351,6 +357,7 @@
                     ProdiID : ProdiID.split('.')[0],
                     Semester : Semester,
                     Arr_CDID : JSON.stringify(Arr_CDID.sort()),
+                    IsSemesterAntara : ''+SemesterAntara,
                     UpdateBy : sessionNIP,
                     UpdateAt : dateTimeNow()
                 }
@@ -390,7 +397,8 @@
             formData : {
                 CurriculumID : CurriculumID,
                 ProdiID : ProdiID,
-                Semester : Semester
+                Semester : Semester,
+                IsSemesterAntara : ''+SemesterAntara
             }
         };
 
@@ -432,7 +440,8 @@
                 SemesterID : SemesterID,
                 CurriculumID : CurriculumID,
                 ProdiID : Prodi,
-                Semester : Semester
+                Semester : Semester,
+                IsSemesterAntara : ''+SemesterAntara
             }
         };
 

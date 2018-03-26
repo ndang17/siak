@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.5.0 (64 bit)
-MySQL - 10.1.26-MariaDB : Database - db_academic
+SQLyog Trial v12.5.1 (64 bit)
+MySQL - 10.1.25-MariaDB : Database - db_academic
 *********************************************************************
 */
 
@@ -13,6 +13,8 @@ MySQL - 10.1.26-MariaDB : Database - db_academic
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_academic` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `db_academic`;
 
 /*Table structure for table `academic_years` */
 
@@ -629,18 +631,18 @@ CREATE TABLE `course_offerings` (
   `ProdiID` int(11) NOT NULL,
   `Semester` int(11) DEFAULT NULL,
   `Arr_CDID` text NOT NULL,
+  `IsSemesterAntara` enum('0','1') NOT NULL,
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
-insert  into `course_offerings`(`ID`,`SemesterID`,`CurriculumID`,`ProdiID`,`Semester`,`Arr_CDID`,`UpdateBy`,`UpdateAt`) values 
-(2,13,5,1,3,'[\"953\",\"954\",\"959\",\"960\"]','2017090','2018-03-22 16:49:20'),
-(3,13,5,2,2,'[\"961\",\"970\"]','2017090','2018-03-23 14:44:06'),
-(4,13,5,2,8,'[\"961\",\"970\"]','2017090','2018-03-23 14:44:16'),
-(6,13,5,1,1,'[\"954\"]','2017090','2018-03-23 16:58:32');
+insert  into `course_offerings`(`ID`,`SemesterID`,`CurriculumID`,`ProdiID`,`Semester`,`Arr_CDID`,`IsSemesterAntara`,`UpdateBy`,`UpdateAt`) values 
+(2,13,5,1,3,'[\"953\",\"954\",\"959\",\"960\"]','0','2017090','2018-03-22 16:49:20'),
+(3,13,5,2,2,'[\"961\",\"970\"]','0','2017090','2018-03-23 14:44:06'),
+(4,13,5,2,8,'[\"961\",\"970\"]','0','2017090','2018-03-23 14:44:16');
 
 /*Table structure for table `courses_groups` */
 
@@ -2516,27 +2518,13 @@ CREATE TABLE `schedule` (
   `Coordinator` varchar(45) NOT NULL,
   `TeamTeaching` enum('0','1') NOT NULL,
   `SubSesi` enum('0','1') DEFAULT NULL,
+  `IsSemesterAntara` enum('0','1') NOT NULL,
   `UpdateBy` varchar(100) NOT NULL,
   `UpdateAt` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule` */
-
-insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`ProdiID`,`CombinedClasses`,`MKID`,`MKCode`,`ClassGroup`,`Coordinator`,`TeamTeaching`,`SubSesi`,`UpdateBy`,`UpdateAt`) values 
-(1,11,1,0,'1',168,'UNC0101','ZO-1','2214036','1','0','2017090','2018-03-02 09:58:26'),
-(2,11,1,1,'0',175,'ARC1131','ARC-1','2214036','0','0','2017090','2018-03-05 14:26:15'),
-(3,11,1,1,'0',344,'ARC1222','ARC-2','2114002','1','0','2017090','2018-03-05 15:53:38'),
-(4,11,1,1,'0',343,'ARC1212','ARC-3','1114053','1','1','2017090','2018-03-06 13:13:44'),
-(7,13,1,1,'0',9,'ARC1021','ARC-1','3114016','0','0','2017090','2018-03-20 12:01:50'),
-(10,13,1,2,'0',16,'CEM1041','CEM-1','1114013','1','1','2017090','2018-03-12 08:17:03'),
-(12,13,1,1,'0',99,'ARC0003','ARC-3','1114013','1','1','2017090','2018-03-20 13:40:36'),
-(13,13,1,1,'0',55,'SOC3003','ARC-4','2114002','0','0','2017090','2018-03-20 12:01:17'),
-(15,13,1,1,'0',54,'SOC3002','ARC-5','1114005','0','1','2017090','2018-03-12 15:05:35'),
-(16,13,1,0,'1',168,'UNC0101','ZO-1','3116015','0','0','2017090','2018-03-12 16:43:04'),
-(17,13,1,2,'0',14,'CEM1013','CEM-2','2215008','0','0','2017090','2018-03-14 15:01:14'),
-(18,13,1,1,'0',347,'ARC2214','ARC-5','2415078','0','0','2017090','2018-03-19 15:52:47'),
-(19,13,1,1,'0',462,'ARC4162','ARC-6','2116012','1','1','2017090','2018-03-20 09:31:52');
 
 /*Table structure for table `schedule_class_group` */
 
@@ -2550,24 +2538,9 @@ CREATE TABLE `schedule_class_group` (
   `ProdiCode` varchar(10) DEFAULT NULL,
   `Group` varchar(10) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_class_group` */
-
-insert  into `schedule_class_group`(`ID`,`ScheduleID`,`ProgramsCampusID`,`SemesterID`,`ProdiCode`,`Group`) values 
-(1,1,1,11,'ZO','ZO-1'),
-(2,2,1,11,'ARC','ARC-1'),
-(3,3,1,11,'ARC','ARC-2'),
-(4,4,1,11,'ARC','ARC-3'),
-(7,7,1,13,'ARC','ARC-1'),
-(10,10,1,13,'CEM','CEM-1'),
-(12,12,1,13,'ARC','ARC-3'),
-(13,13,1,13,'ARC','ARC-4'),
-(15,15,1,13,'ARC','ARC-5'),
-(16,16,1,13,'ZO','ZO-1'),
-(17,17,1,13,'CEM','CEM-2'),
-(18,18,1,13,'ARC','ARC-5'),
-(19,19,1,13,'ARC','ARC-6');
 
 /*Table structure for table `schedule_combinedclasses` */
 
@@ -2596,49 +2569,9 @@ CREATE TABLE `schedule_details` (
   `StartSessions` time NOT NULL,
   `EndSessions` time NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
-
-/*Data for the table `schedule_details` */
-
-insert  into `schedule_details`(`ID`,`ScheduleID`,`ClassroomID`,`Credit`,`DayID`,`TimePerCredit`,`StartSessions`,`EndSessions`) values 
-(1,1,1,2,1,50,'08:00:00','09:40:00'),
-(2,2,1,3,1,50,'09:45:00','12:15:00'),
-(3,3,1,3,3,50,'08:00:00','10:30:00'),
-(4,4,4,2,1,50,'08:00:00','09:40:00'),
-(5,4,4,2,2,50,'08:00:00','09:40:00'),
-(6,4,4,2,5,50,'08:00:00','09:40:00'),
-(9,7,3,2,1,50,'09:45:00','11:25:00'),
-(24,12,2,3,3,50,'14:00:00','16:30:00'),
-(26,12,1,2,4,50,'09:20:00','11:00:00'),
-(27,10,1,2,1,50,'13:05:00','14:45:00'),
-(28,12,1,3,5,50,'09:00:00','11:30:00'),
-(29,10,1,2,3,50,'12:00:00','13:40:00'),
-(30,13,2,2,2,50,'09:00:00','10:40:00'),
-(33,15,1,2,1,50,'14:50:00','16:30:00'),
-(34,15,1,2,3,50,'14:50:00','16:30:00'),
-(35,16,1,2,5,50,'07:15:00','08:55:00'),
-(36,17,1,4,2,50,'09:00:00','12:20:00'),
-(37,18,2,6,1,50,'09:00:00','14:00:00'),
-(38,19,1,3,4,50,'13:00:00','15:30:00'),
-(39,19,1,3,5,50,'13:00:00','15:30:00');
-
-/*Table structure for table `schedule_sesi` */
-
-DROP TABLE IF EXISTS `schedule_sesi`;
-
-CREATE TABLE `schedule_sesi` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ScheduleID` int(11) NOT NULL,
-  `ClassroomID` int(11) NOT NULL,
-  `Credit` int(11) NOT NULL,
-  `DayID` int(11) NOT NULL,
-  `TimePerCredit` int(11) NOT NULL,
-  `StartSessions` time NOT NULL,
-  `EndSessions` time NOT NULL,
-  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `schedule_sesi` */
+/*Data for the table `schedule_details` */
 
 /*Table structure for table `schedule_team_teaching` */
 
@@ -2650,42 +2583,9 @@ CREATE TABLE `schedule_team_teaching` (
   `NIP` varchar(45) NOT NULL,
   `Status` enum('0','1') DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
-
-/*Data for the table `schedule_team_teaching` */
-
-insert  into `schedule_team_teaching`(`ID`,`ScheduleID`,`NIP`,`Status`) values 
-(1,1,'3114016','0'),
-(2,1,'1114053','0'),
-(3,3,'3114016','0'),
-(4,3,'2214036','0'),
-(5,4,'3115061','0'),
-(6,4,'3114039','0'),
-(7,4,'2516028','0'),
-(13,0,'3114014','0'),
-(14,0,'3114038','0'),
-(15,0,'1114058','0'),
-(18,10,'1114005','0'),
-(19,10,'3114014','0'),
-(22,19,'3114016','0'),
-(23,19,'2114040','0'),
-(24,19,'2215055','0'),
-(25,12,'1214044','0'),
-(26,12,'2117058','0');
-
-/*Table structure for table `schedule_type` */
-
-DROP TABLE IF EXISTS `schedule_type`;
-
-CREATE TABLE `schedule_type` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `BaseProdiID` int(11) NOT NULL,
-  `ScheduleID` int(11) NOT NULL,
-  `Type` enum('0','1') NOT NULL,
-  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `schedule_type` */
+/*Data for the table `schedule_team_teaching` */
 
 /*Table structure for table `semester` */
 
@@ -2714,6 +2614,28 @@ insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`Updat
 (11,1,20171,'2017/2018 Ganjil',0,'2017090','2018-01-30 22:36:27'),
 (12,1,20172,'2017/2018 Genap',0,'2017090','2018-03-06 14:20:41'),
 (13,1,20181,'2018/2019 Ganjil',1,'2017090','2018-03-06 14:56:56');
+
+/*Table structure for table `semester_antara` */
+
+DROP TABLE IF EXISTS `semester_antara`;
+
+CREATE TABLE `semester_antara` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SemesterID` int(11) NOT NULL,
+  `YearCode` int(11) DEFAULT NULL,
+  `Name` varchar(100) DEFAULT NULL,
+  `Status` enum('0','1') DEFAULT NULL,
+  `UpdateBy` varchar(50) DEFAULT NULL,
+  `UpdateAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+/*Data for the table `semester_antara` */
+
+insert  into `semester_antara`(`ID`,`SemesterID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
+(1,13,20183,'2018/2019 Ganjil - Antara','1','2017090','2018-03-26 10:53:17'),
+(2,12,20174,'2017/2018 Genap - Antara','0','2017090','2018-03-26 10:55:39'),
+(3,7,20163,'2016/2017 Ganjil - Antara','0','2017090','2018-03-26 10:56:01');
 
 /*Table structure for table `status_student` */
 

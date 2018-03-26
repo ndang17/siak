@@ -399,11 +399,46 @@ class C_api extends CI_Controller {
             else if($data_arr['action']=='read'){
 
                 $data = $this->db->order_by('ID', 'DESC')
-                    ->get_where('db_academic.semester',array('IsSemesterAntara'=>'0'))
+                    ->get('db_academic.semester')
                     ->result_array();
 
                 return print_r(json_encode($data));
 
+            }
+
+            else if($data_arr['action']=='addSemesterAntara'){
+                $dataForm = (array) $data_arr['dataForm'];
+                // Cek
+                $check = $this->db->get_where('db_academic.semester_antara',array('YearCode'=>$dataForm['YearCode']))
+                    ->result_array();
+
+                if(count($check)>0){
+                    return print_r(0);
+                } else {
+                    $this->db->insert('db_academic.semester_antara',$dataForm);
+                    $insert_id = $this->db->insert_id();
+
+//                    $this->db->insert('db_academic.academic_years',
+//                        array('SemesterID' => $insert_id));
+
+                    return print_r($insert_id);
+                }
+            }
+            else if($data_arr['action']=='readSemesterAntara'){
+                $data = $this->db
+                    ->select('semester_antara.*')
+                    ->join('db_academic.semester','semester.ID = semester_antara.SemesterID')
+                    ->order_by('semester_antara.YearCode', 'DESC')
+                    ->get('db_academic.semester_antara')
+                    ->result_array();
+
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action']=='checkSemesterAntara'){
+                $data = $this->db
+                    ->get_where('db_academic.semester_antara',array('Status'=>'1'))
+                    ->result_array();
+                return print_r(json_encode($data));
             }
         }
 
@@ -442,7 +477,17 @@ class C_api extends CI_Controller {
 
     public function getAcademicYearOnPublish(){
 
-        $data = $this->m_api->__getAcademicYearOnPublish();
+        $smt = $this->input->get('smt');
+
+        if($smt=='SemesterAntara'){
+            $data = $this->db
+                ->get_where('db_academic.semester_antara',array('Status'=>'1'))
+                ->result_array();
+        } else {
+            $data = $this->m_api->__getAcademicYearOnPublish();
+        }
+
+
         return print_r(json_encode($data[0]));
     }
 
@@ -722,7 +767,7 @@ class C_api extends CI_Controller {
             }
             else if($data_arr['action']=='ReadSemesterActive'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getSemesterActive($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
+                $data = $this->m_api->getSemesterActive($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester'],$formData['IsSemesterAntara']);
                 return print_r(json_encode($data));
             }
         }
@@ -750,7 +795,8 @@ class C_api extends CI_Controller {
             }
             else if($data_arr['action']=='read'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
+                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['CurriculumID'],
+                    $formData['ProdiID'],$formData['Semester'],$formData['IsSemesterAntara']);
                 return print_r(json_encode($data));
             }
             else if($data_arr['action']=='readgabungan'){
@@ -785,6 +831,10 @@ class C_api extends CI_Controller {
 
                 if(count($query)>0){
                     $Arr_CDID = json_decode($query[0]['Arr_CDID']);
+
+//                    print_r($Arr_CDID);
+//
+//                    exit;
 
                     if(count($Arr_CDID)>1){
                         $result = [];

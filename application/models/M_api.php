@@ -318,18 +318,18 @@ class M_api extends CI_Model {
         return $data->result_array();
     }
 
-    public function getSemesterActive($CurriculumID,$ProdiID,$Semester){
+    public function getSemesterActive($CurriculumID,$ProdiID,$Semester,$IsSemesterAntara){
         $data = $this->db->query('SELECT * FROM db_academic.semester WHERE Status = 1 LIMIT 1')->result_array();
 
         $result = array(
             'SemesterActive' => $data[0],
-            'DetailCourses' => $this->getDetailCourses($data[0]['ID'],$CurriculumID,$ProdiID,$Semester)
+            'DetailCourses' => $this->getDetailCourses($data[0]['ID'],$CurriculumID,$ProdiID,$Semester,$IsSemesterAntara)
         );
 
         return $result;
     }
 
-    private function getDetailCourses($SemesterID,$CurriculumID,$ProdiID,$Semester){
+    private function getDetailCourses($SemesterID,$CurriculumID,$ProdiID,$Semester,$IsSemesterAntara){
 //        $data = $this->db->query('SELECT cd.ID AS CurriculumDetailID,cd.Semester, cd.MKType, cd.MKID, mk.MKCode, cd.TotalSKS, cd.StatusMK,
 //                                    mk.Name AS MKName, mk.NameEng AS MKNameEng,
 //                                    ps.Code AS ProdiCode, ps.Name AS ProdiName, ps.NameEng AS ProdiNameEng
@@ -366,7 +366,8 @@ class M_api extends CI_Model {
                                     co.SemesterID = "'.$SemesterID.'" 
                                     AND co.CurriculumID = "'.$CurriculumID.'" 
                                     AND co.ProdiID = "'.$ProdiID.'" 
-                                    AND co.Semester = "'.$Semester.'" LIMIT 1 ')->result_array();
+                                    AND co.Semester = "'.$Semester.'"
+                                    AND co.IsSemesterAntara = "'.$IsSemesterAntara.'" LIMIT 1 ')->result_array();
 
                 if(count($dataOffering)){
                     $dataCourse = json_decode($dataOffering[0]['Arr_CDID']);
@@ -390,13 +391,13 @@ class M_api extends CI_Model {
         return $data;
     }
 
-    public function getAllCourseOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester){
+    public function getAllCourseOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester,$IsSemesterAntara){
 
         $dataProdi = $this->db->query('SELECT * FROM db_academic.program_study WHERE Status = 1 AND ID = "'.$ProdiID.'" ORDER BY ID ASC ')->result_array();
 
         $result = [];
         for($i=0;$i<count($dataProdi);$i++){
-            $dataOfferings = $this->getDetailAllOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester);
+            $dataOfferings = $this->getDetailAllOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester,$IsSemesterAntara);
             $data = array(
                 'Prodi' => array(
                     'ID' => $dataProdi[$i]['ID'],
@@ -413,13 +414,15 @@ class M_api extends CI_Model {
         return $result;
     }
 
-    private function getDetailAllOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester){
+    private function getDetailAllOfferings($SemesterID,$CurriculumID,$ProdiID,$Semester,$IsSemesterAntara){
 
         $data = $this->db->query('SELECT * FROM db_academic.course_offerings co 
                                         WHERE co.SemesterID = "'.$SemesterID.'" 
                                         AND co.CurriculumID = "'.$CurriculumID.'" 
                                         AND co.ProdiID = "'.$ProdiID.'" 
-                                        AND co.Semester = "'.$Semester.'" LIMIT 1 ')->result_array();
+                                        AND co.Semester = "'.$Semester.'"
+                                        AND co.IsSemesterAntara = "'.$IsSemesterAntara.'"
+                                         LIMIT 1 ')->result_array();
 
         $result = [];
         if(count($data)>0){
