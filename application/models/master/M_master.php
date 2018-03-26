@@ -239,10 +239,10 @@ class M_master extends CI_Model {
     $this->db->insert('db_admission.reg_doc_checklist', $dataSave);
   }
 
-  public function editData_document_checklist($DocumentChecklist,$ID)
+  public function editData_document_checklist($DocumentChecklist,$ID,$Required)
   {
-    $sql = "update db_admission.reg_doc_checklist set DocumentChecklist = ? where ID = ".$ID;
-    $query=$this->db->query($sql, array($DocumentChecklist));
+    $sql = "update db_admission.reg_doc_checklist set DocumentChecklist = ?, Required = ? where ID = ".$ID;
+    $query=$this->db->query($sql, array($DocumentChecklist,$Required));
   }
 
   public function getDataFormulirOnline($tahun)

@@ -131,11 +131,13 @@
      var aksi = $("#ModalbtnSaveForm").attr('aksi');
      var id = $("#ModalbtnSaveForm").attr('kodeuniq');
      var DocumentChecklist = $("#DocumentChecklist").val();
+     var Required = $("#Required").val();
      var url = base_url_js+'admission/master-registration/submit_document_checklist';
      var data = {
          Action : aksi,
          CDID : id,
          DocumentChecklist:DocumentChecklist,
+         Required : Required,
      };
 
      if (validationInput = validation(data)) {
