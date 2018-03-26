@@ -120,13 +120,14 @@ $route['admission/master-registration/number-formulir/online'] = 'page/admission
 $route['admission/master-registration/loadDataFormulirOnline'] = 'page/admission/c_master/loadDataFormulirOnline';
 $route['admission/master-registration/getJsonFormulirOnline'] = 'page/admission/c_master/get_json_formulir_online';
 $route['admission/master-registration/GenerateFormulirOnline'] = 'page/admission/c_master/generate_formulir_online';
-
 $route['admission/master-registration/number-formulir/offline'] = 'page/admission/c_master/formulir_offline';
 $route['admission/master-registration/loadDataFormulirOffline'] = 'page/admission/c_master/loadDataFormulirOffline';
 $route['admission/master-registration/getJsonFormulirOffline'] = 'page/admission/c_master/get_json_formulir_offline';
 $route['admission/master-registration/GenerateFormulirOffline'] = 'page/admission/c_master/generate_formulir_offline';
 $route['admission/master-registration/jacket-size'] = 'page/admission/c_master/jacket_size';
 $route['admission/master-register/submit_jacket_size'] = 'page/admission/c_master/submit_jacket_size';
+$route['admission/master-global/jurusan-sekolah'] = 'page/admission/c_master/jurusan_sekolah';
+$route['admission/master-config/submit_jurusan_sekolah'] = 'page/admission/c_master/submit_jurusan_sekolah';
 
 
 

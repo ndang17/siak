@@ -57,22 +57,28 @@
                         Wilayah
                         </a>
                     </li>
-                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "set-email" ){echo "current";} ?>">
+                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "jenis-tempat-tinggal" ){echo "current";} ?>">
                         <a href="<?php echo base_url('admission/master-global/jenis-tempat-tinggal'); ?>">
                         <i class="icon-angle-right"></i>
                         Jenis Tempat Tinggal
                         </a>
                     </li>
-                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "set-email" ){echo "current";} ?>">
+                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "pendapatan" ){echo "current";} ?>">
                         <a href="<?php echo base_url('admission/master-global/pendapatan'); ?>">
                         <i class="icon-angle-right"></i>
                         Pendapatan
                         </a>
                     </li>
-                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "set-email" ){echo "current";} ?>">
+                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "tipe-sekolah" ){echo "current";} ?>">
                         <a href="<?php echo base_url('admission/master-global/tipe-sekolah'); ?>">
                         <i class="icon-angle-right"></i>
                         Tipe Sekolah
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-global' && $this->uri->segment(3) == "jurusan-sekolah" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-global/jurusan-sekolah'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Jurusan Sekolah
                         </a>
                     </li>
                 </ul>
