@@ -151,6 +151,8 @@
 
         // getSemesterActive();
 
+
+
     });
 
 
@@ -244,6 +246,14 @@
                     }
 
                 }
+
+                if(SemesterSearch==''){
+                    $('#formSemester').append('<option disabled>------------------------------------------</option>');
+                    for(var r=9;r<=14;r++){
+                        $('#formSemester').append('<option value="'+r+'" style="color: red;">Semester '+r+'</option>');
+                    }
+                }
+
 
 
             }

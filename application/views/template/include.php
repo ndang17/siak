@@ -394,8 +394,31 @@
         return moment().format('YYYY-MM-DD HH:mm:ss');
     }
 
+    function ucwords(str) {
+        return str.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+            return letter.toUpperCase();
+        });
+    }
+
     function log(data) {
         console.log(data);
+    }
+
+    function loadSelectOptionSemester(element,option,selected) {
+
+        var token = jwt_encode({action:'read'},'UAP)(*');
+        var url = base_url_js+'api/__crudTahunAkademik';
+        $.post(url,{token:token},function (jsonResult) {
+
+           if(jsonResult.length>0){
+               for(var i=0;i<jsonResult.length;i++){
+                   var dt = jsonResult[i];
+                   var v = (option=="Name") ? dt.Name : dt.ID;
+                   $(element).append('<option value="'+v+'">'+dt.Name+'</option>');
+               }
+           }
+        });
+
     }
 
     function loadSelectOptionProgramCampus(element,selected) {
@@ -442,8 +465,6 @@
             }
         });
     }
-
-
 
     function loadSelectOptionEducationLevel(element,selected) {
         var url = base_url_js+"api/__geteducationLevel";

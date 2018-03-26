@@ -3,12 +3,24 @@
     .tab-right {
         float: right !important;
     }
+
+    .toggle-group .btn-default {
+        z-index: 1000 !important;
+    }
+    .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+    .toggle.ios .toggle-handle { border-radius: 20px; }
 </style>
 
 
 <div class="row" style="margin-top: 30px;">
 
-    <div class="col-md-12" style="text-align: right;">
+    <div class="col-md-4">
+        <div class="">
+            <label>Semester Antara</label>
+            <input type="checkbox" id="formSemesterAntara" checked data-toggle="toggle" data-style="ios">
+        </div>
+    </div>
+    <div class="col-md-8" style="text-align: right;">
         <div class="btn-group" role="group" aria-label="...">
 
             <button data-page="jadwal" type="button" class="btn btn-default btn-default-primary btn-action
@@ -25,14 +37,13 @@
             <i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Schedule
         </button>
     </div>
-    <div class="col-md-12">
-        <hr/>
 
-    </div>
 </div>
+
 
 <div class="row">
     <div class="col-md-12">
+        <hr/>
         <div id="dataPage"></div>
     </div>
 </div>
@@ -41,6 +52,7 @@
 <script>
     $(document).ready(function () {
         loadPage('jadwal','');
+        $('input[type=checkbox][data-toggle=toggle]').bootstrapToggle();
     });
     $(document).on('click','.btn-action',function () {
         var page = $(this).attr('data-page');

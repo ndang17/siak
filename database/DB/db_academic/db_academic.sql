@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.4.3 (64 bit)
-MySQL - 10.1.25-MariaDB : Database - db_academic
+SQLyog Community v12.5.0 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_academic
 *********************************************************************
 */
 
@@ -13,8 +13,6 @@ MySQL - 10.1.25-MariaDB : Database - db_academic
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_academic` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `db_academic`;
 
 /*Table structure for table `academic_years` */
 
@@ -2571,6 +2569,19 @@ insert  into `schedule_class_group`(`ID`,`ScheduleID`,`ProgramsCampusID`,`Semest
 (18,18,1,13,'ARC','ARC-5'),
 (19,19,1,13,'ARC','ARC-6');
 
+/*Table structure for table `schedule_combinedclasses` */
+
+DROP TABLE IF EXISTS `schedule_combinedclasses`;
+
+CREATE TABLE `schedule_combinedclasses` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ScheduleID` int(11) NOT NULL,
+  `ProdiID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule_combinedclasses` */
+
 /*Table structure for table `schedule_details` */
 
 DROP TABLE IF EXISTS `schedule_details`;
@@ -2611,6 +2622,24 @@ insert  into `schedule_details`(`ID`,`ScheduleID`,`ClassroomID`,`Credit`,`DayID`
 (38,19,1,3,4,50,'13:00:00','15:30:00'),
 (39,19,1,3,5,50,'13:00:00','15:30:00');
 
+/*Table structure for table `schedule_sesi` */
+
+DROP TABLE IF EXISTS `schedule_sesi`;
+
+CREATE TABLE `schedule_sesi` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ScheduleID` int(11) NOT NULL,
+  `ClassroomID` int(11) NOT NULL,
+  `Credit` int(11) NOT NULL,
+  `DayID` int(11) NOT NULL,
+  `TimePerCredit` int(11) NOT NULL,
+  `StartSessions` time NOT NULL,
+  `EndSessions` time NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule_sesi` */
+
 /*Table structure for table `schedule_team_teaching` */
 
 DROP TABLE IF EXISTS `schedule_team_teaching`;
@@ -2644,6 +2673,20 @@ insert  into `schedule_team_teaching`(`ID`,`ScheduleID`,`NIP`,`Status`) values
 (25,12,'1214044','0'),
 (26,12,'2117058','0');
 
+/*Table structure for table `schedule_type` */
+
+DROP TABLE IF EXISTS `schedule_type`;
+
+CREATE TABLE `schedule_type` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BaseProdiID` int(11) NOT NULL,
+  `ScheduleID` int(11) NOT NULL,
+  `Type` enum('0','1') NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `schedule_type` */
+
 /*Table structure for table `semester` */
 
 DROP TABLE IF EXISTS `semester`;
@@ -2651,7 +2694,6 @@ DROP TABLE IF EXISTS `semester`;
 CREATE TABLE `semester` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ProgramCampusID` int(11) NOT NULL,
-  `CurriculumID` int(11) NOT NULL,
   `YearCode` int(11) DEFAULT NULL,
   `Name` varchar(100) DEFAULT NULL,
   `Status` int(11) DEFAULT NULL,
@@ -2662,16 +2704,16 @@ CREATE TABLE `semester` (
 
 /*Data for the table `semester` */
 
-insert  into `semester`(`ID`,`ProgramCampusID`,`CurriculumID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(3,1,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
-(4,1,1,20142,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
-(5,1,2,20151,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
-(6,1,2,20152,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
-(7,1,3,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
-(8,1,3,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
-(11,1,4,20171,'2017/2018 Ganjil',0,'2017090','2018-01-30 22:36:27'),
-(12,1,4,20172,'2017/2018 Genap',0,'2017090','2018-03-06 14:20:41'),
-(13,1,5,20181,'2018/2019 Ganjil',1,'2017090','2018-03-06 14:56:56');
+insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
+(3,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
+(4,1,20142,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
+(5,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
+(6,1,20152,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
+(7,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
+(8,1,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
+(11,1,20171,'2017/2018 Ganjil',0,'2017090','2018-01-30 22:36:27'),
+(12,1,20172,'2017/2018 Genap',0,'2017090','2018-03-06 14:20:41'),
+(13,1,20181,'2018/2019 Ganjil',1,'2017090','2018-03-06 14:56:56');
 
 /*Table structure for table `status_student` */
 
