@@ -7,16 +7,16 @@
 
 
 <div class="row" style="margin-bottom: 15px;">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-4 col-md-offset-4">
         <div class="thumbnail">
             <div class="row">
-                <div class="col-xs-4">
-                    <select class="form-control" id="formCurriculum">
-                        <option value="" disabled selected>--- Select Curriculum ---</option>
-                        <option disabled>------------------------------------------</option>
-                    </select>
-                </div>
-                <div class="col-xs-4">
+<!--                <div class="col-xs-4">-->
+<!--                    <select class="form-control" id="formCurriculum">-->
+<!--                        <option value="" disabled selected>--- Select Curriculum ---</option>-->
+<!--                        <option disabled>------------------------------------------</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div class="col-xs-8">
                     <select class="form-control form-offer" id="formProdi">
                         <option value="" disabled selected>--- Select Program Study ---</option>
                         <option disabled>------------------------------------------</option>
@@ -34,7 +34,7 @@
     <div class="col-md-12">
         <div class="widget box">
             <div class="widget-header">
-                <h4><i class="icon-reorder"></i> Semester <span id="textSemester"></span></h4>
+                <h4><i class="icon-reorder"></i> Semester <span id="textSemester"></span> <span id="textCurriculum"></span></h4>
                 <input id="formSemesterID" type="hide" class="hide" readonly>
             </div>
             <div class="widget-content">
@@ -146,8 +146,6 @@
         //     SemesterAntara = 1;
         // }
 
-        // loadSelecOptionCurriculum('#formCurriculum','')
-        loadSelectOptionCurriculum('#formCurriculum','');
         loadSelectOptionBaseProdi('#formProdi','');
         // getOfferingsToSemester();
 
@@ -158,34 +156,59 @@
 
         // getSemesterActive();
 
-
+        loadSelectOPtionAllSemester();
 
     });
 
+    function loadSelectOPtionAllSemester() {
 
-    $(document).on('change','#formCurriculum,#formProdi',function () {
-        // $('#formSemester').prop('disabled',false);
-        resetPenawaranMK();
-        loadCourse('');
-        loadDatapage();
+        var url = base_url_js+'api/__crudTahunAkademik';
+        var token = jwt_encode({action:'DataSemester'},'UAP)(*');
+        $.post(url,{token:token},function (jsonResult) {
+            $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
+                '                <option disabled>------------------------------------------</option>');
+
+            for(var i=0;i<jsonResult.length;i++){
+                var color = (jsonResult[i].Semester>8) ? 'red' : '#333';
+                if(jsonResult[i].Semester<=14){
+                    $('#formSemester').append('<option style="color: '+color+';" value="'+jsonResult[i].Semester+'|'+jsonResult[i].Curriculum.ID+'.'+jsonResult[i].Curriculum.Year+'|'+jsonResult[i].Curriculum.NameEng+'">Semester '+jsonResult[i].Semester+'</option>');
+                }
+
+            }
+        })
+
+        // $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
+        //     '                <option disabled>------------------------------------------</option>');
+
+    }
+
+
+    $(document).on('change','#formProdi',function () {
+        // resetPenawaranMK();
+        // loadDatapage();
     });
 
-    $(document).on('change','#formSemester',function () {
+    $(document).on('change','#formSemester,#formProdi',function () {
         loadDatapage();
     });
 
     function loadDatapage() {
-        var DataYear = $('#formCurriculum').val();
+
+        var dataSmt = $('#formSemester').val();
+
         var Prodi = $('#formProdi').val();
-        var Semester = $('#formSemester').val();
 
-        $('#textSemester').text(Semester);
+        if(dataSmt!=null && Prodi!=null){
+            var DataYear = dataSmt.split('|')[1];
+            var Semester = dataSmt.split('|')[0];
+
+            $('#textSemester').text(Semester);
+            $('#textCurriculum').text(' - '+dataSmt.split('|')[2]);
 
 
-        if(DataYear!=null && Prodi!=null && Semester!=null){
             var CurriculumID = DataYear.split('.')[0];
             var ProdiID = Prodi.split('.')[0];
-            loadCourse(Semester);
+            loadCourse(Semester,DataYear,ProdiID);
 
             getSemesterActive(CurriculumID,ProdiID,Semester);
             $('.divSmt-cl').removeClass('hide');
@@ -196,10 +219,10 @@
     }
 
 
-    function loadCourse(SemesterSearch) {
+    function loadCourse(SemesterSearch,DataYear,Prodi) {
 
-        var DataYear = $('#formCurriculum').val();
-        var Prodi = $('#formProdi').val();
+
+        // var Prodi = $('#formProdi').val();
 
         var year = (DataYear!=null) ? DataYear.split('.')[1] : '';
         var ProdiID = (Prodi!=null) ? Prodi.split('.')[0] : '';
@@ -214,6 +237,7 @@
 
         var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token},function (resultJeson) {
+
 
             if(resultJeson.MataKuliah.length>0){
 
@@ -289,7 +313,6 @@
         var dataJSON = JSON.parse(dataCourse);
 
         if(tg==1){
-            console.log('if');
             $(this).addClass('btn-default btn-default-warning');
             $(this).removeClass('btn-warning');
             $(this).attr('data-tg',0);
@@ -303,7 +326,6 @@
             }
 
         } else {
-            console.log('else');
             $(this).removeClass('btn-default btn-default-warning');
             $(this).addClass('btn-warning');
             $(this).attr('data-tg',1);
@@ -340,11 +362,15 @@
         var OfferID = (action=='edit') ? $(this).attr('data-idoffer') : '';
 
         var SemesterID = $('#formSemesterID').val();
-        var Curriculum = $('#formCurriculum').val();
         var ProdiID = $('#formProdi').val();
-        var Semester = $('#formSemester').val();
 
-        if(Curriculum!=null && ProdiID!=null && Semester!=null){
+
+        var dataSemester = $('#formSemester').val();
+
+        if( ProdiID!=null && dataSemester!=null){
+
+            var Curriculum = dataSemester.split('|')[1];
+            var Semester = dataSemester.split('|')[0];
 
             var CurriculumID = Curriculum.split('.')[0];
 

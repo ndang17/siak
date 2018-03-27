@@ -70,7 +70,7 @@
             var Year = s[0];
             var smt = s[1].split(' ')[1].trim();
 
-            var YearCode = (smt=='Ganjil') ? Year+'3' : Year+'4';
+            var Code = (smt=='Ganjil') ? 3 : 4;
             var Name = Semester+' - Antara';
 
             var ID = (action=='edit') ? dataID : '';
@@ -80,7 +80,8 @@
                 ID : ID,
                 dataForm : {
                     SemesterID : SemesterID,
-                    YearCode : YearCode,
+                    Year : Year,
+                    Code : Code,
                     Name : Name,
                     Status : '0',
                     UpdateBy : sessionNIP,
@@ -139,7 +140,7 @@
                     var status = (data.Status==1) ? '<span class="label label-success">Publish</span>' : '<span class="label label-danger">Unpublish</span>';
                     $('#trSmtAntara').append('<tr>' +
                         '<td class="td-center">'+no+'</td>' +
-                        '<td class="td-center">'+data.YearCode+'</td>' +
+                        '<td class="td-center">'+data.Year+''+data.Code+'</td>' +
                         '<td><a href="javascipt:void(0);" data-id="'+data.ID+'" class="btnDetails">'+data.Name+'</a></td>' +
                         '<td class="td-center">'+status+'</td>' +
                         '</tr>');

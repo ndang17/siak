@@ -367,7 +367,7 @@ class C_api extends CI_Controller {
             if($data_arr['action']=='add'){
                 $dataForm = (array) $data_arr['dataForm'];
                 // Cek
-                $check = $this->db->get_where('db_academic.semester',array('YearCode'=>$dataForm['YearCode']))
+                $check = $this->db->get_where('db_academic.semester',array('Year'=>$dataForm['Year'],'Code'=>$dataForm['Code']))
                     ->result_array();
 
 //                print_r($check);
@@ -409,7 +409,7 @@ class C_api extends CI_Controller {
             else if($data_arr['action']=='addSemesterAntara'){
                 $dataForm = (array) $data_arr['dataForm'];
                 // Cek
-                $check = $this->db->get_where('db_academic.semester_antara',array('YearCode'=>$dataForm['YearCode']))
+                $check = $this->db->get_where('db_academic.semester_antara',array('Year'=>$dataForm['Year'],'Code'=>$dataForm['Code']))
                     ->result_array();
 
                 if(count($check)>0){
@@ -428,7 +428,7 @@ class C_api extends CI_Controller {
                 $data = $this->db
                     ->select('semester_antara.*')
                     ->join('db_academic.semester','semester.ID = semester_antara.SemesterID')
-                    ->order_by('semester_antara.YearCode', 'DESC')
+                    ->order_by('semester_antara.Year', 'DESC')
                     ->get('db_academic.semester_antara')
                     ->result_array();
 
@@ -439,6 +439,14 @@ class C_api extends CI_Controller {
                     ->get_where('db_academic.semester_antara',array('Status'=>'1'))
                     ->result_array();
                 return print_r(json_encode($data));
+            }
+
+            else if($data_arr['action']=='DataSemester'){
+
+                $data = $this->m_api->getSemesterCurriculum();
+
+                return print_r(json_encode($data));
+
             }
         }
 
@@ -865,6 +873,13 @@ class C_api extends CI_Controller {
 
 
                 }
+
+            }
+            else if($data_arr['action']=='readToSchedule') {
+                $formData = (array) $data_arr['formData'];
+
+                $data = $this->m_api->getOfferingsToSetSchedule($formData);
+                return print_r(json_encode($data));
 
             }
         }

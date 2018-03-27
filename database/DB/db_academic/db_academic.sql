@@ -1,5 +1,5 @@
 /*
-SQLyog Trial v12.5.1 (64 bit)
+SQLyog Community v12.4.3 (64 bit)
 MySQL - 10.1.25-MariaDB : Database - db_academic
 *********************************************************************
 */
@@ -42,7 +42,7 @@ CREATE TABLE `academic_years` (
   `edomStart` date DEFAULT NULL,
   `edomEnd` date DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 /*Data for the table `academic_years` */
 
@@ -55,7 +55,8 @@ insert  into `academic_years`(`ID`,`SemesterID`,`krsStart`,`krsEnd`,`bayarStart`
 (6,8,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
 (7,11,'2018-01-25','2018-01-31','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00','0000-00-00'),
 (8,12,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
-(9,13,'2018-03-10','2018-03-30','2018-04-01','2018-04-04','2018-03-11','2018-09-01','2018-05-01','2018-05-19','2018-05-20','2018-05-31','2018-06-01','2018-05-02','2018-05-19','2018-05-20','2018-05-26','2018-05-20','2018-04-30','2018-05-08');
+(9,13,'2018-03-10','2018-03-30','2018-04-01','2018-04-04','2018-03-11','2018-09-01','2018-05-01','2018-05-19','2018-05-20','2018-05-31','2018-06-01','2018-05-02','2018-05-19','2018-05-20','2018-05-26','2018-05-20','2018-04-30','2018-05-08'),
+(10,14,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `academic_years_desc` */
 
@@ -635,14 +636,16 @@ CREATE TABLE `course_offerings` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
 insert  into `course_offerings`(`ID`,`SemesterID`,`CurriculumID`,`ProdiID`,`Semester`,`Arr_CDID`,`IsSemesterAntara`,`UpdateBy`,`UpdateAt`) values 
-(2,13,5,1,3,'[\"953\",\"954\",\"959\",\"960\"]','0','2017090','2018-03-22 16:49:20'),
-(3,13,5,2,2,'[\"961\",\"970\"]','0','2017090','2018-03-23 14:44:06'),
-(4,13,5,2,8,'[\"961\",\"970\"]','0','2017090','2018-03-23 14:44:16');
+(1,13,5,2,2,'[\"953\",\"976\"]','0','2017090','2018-03-27 08:24:13'),
+(2,13,5,3,2,'[\"966\"]','0','2017090','2018-03-27 08:24:25'),
+(3,13,5,2,8,'[\"970\"]','0','2017090','2018-03-27 10:17:19'),
+(4,13,5,1,1,'[\"953\",\"971\"]','1','2017090','2018-03-27 15:51:38'),
+(5,13,5,1,1,'[\"954\",\"960\"]','0','2017090','2018-03-27 16:50:01');
 
 /*Table structure for table `courses_groups` */
 
@@ -716,7 +719,7 @@ CREATE TABLE `curriculum_details` (
   `UpdateBy` varchar(45) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=975 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=977 DEFAULT CHARSET=latin1;
 
 /*Data for the table `curriculum_details` */
 
@@ -1691,7 +1694,9 @@ insert  into `curriculum_details`(`ID`,`CurriculumID`,`Semester`,`CurriculumType
 (971,5,4,1,1,1,347,'1',NULL,0,6,0,0,0,1,'0','null',0,0,'2017090','2018-03-19 15:51:42'),
 (972,5,7,1,1,1,462,'1',NULL,2,6,0,0,0,1,'0','null',0,0,'2017090','2018-03-20 09:29:17'),
 (973,5,6,1,5,5,17,'1',NULL,0,4,0,0,0,1,'0','null',0,0,'2017090','2018-03-22 08:22:46'),
-(974,5,6,1,6,5,56,'1',NULL,0,2,0,0,0,1,'0','null',0,0,'2017090','2018-03-22 08:23:20');
+(974,5,6,1,6,5,56,'1',NULL,0,2,0,0,0,1,'0','null',0,0,'2017090','2018-03-22 08:23:20'),
+(975,5,2,1,2,5,168,'1',NULL,0,2,0,0,0,1,'0','null',0,0,'2017090','2018-03-27 08:21:43'),
+(976,5,2,1,2,1,4,'1',NULL,0,2,0,0,0,1,'0','[\"\"]',0,0,'2017090','2018-03-27 08:23:18');
 
 /*Table structure for table `curriculum_types` */
 
@@ -2594,7 +2599,8 @@ DROP TABLE IF EXISTS `semester`;
 CREATE TABLE `semester` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ProgramCampusID` int(11) NOT NULL,
-  `YearCode` int(11) DEFAULT NULL,
+  `Year` int(11) DEFAULT NULL,
+  `Code` int(11) DEFAULT NULL,
   `Name` varchar(100) DEFAULT NULL,
   `Status` int(11) DEFAULT NULL,
   `UpdateBy` varchar(45) DEFAULT NULL,
@@ -2604,16 +2610,16 @@ CREATE TABLE `semester` (
 
 /*Data for the table `semester` */
 
-insert  into `semester`(`ID`,`ProgramCampusID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(3,1,20141,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
-(4,1,20142,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
-(5,1,20151,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
-(6,1,20152,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
-(7,1,20161,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
-(8,1,20162,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
-(11,1,20171,'2017/2018 Ganjil',0,'2017090','2018-01-30 22:36:27'),
-(12,1,20172,'2017/2018 Genap',0,'2017090','2018-03-06 14:20:41'),
-(13,1,20181,'2018/2019 Ganjil',1,'2017090','2018-03-06 14:56:56');
+insert  into `semester`(`ID`,`ProgramCampusID`,`Year`,`Code`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
+(3,1,2014,1,'2014/2015 Ganjil',0,'2017090','2018-01-30 22:35:12'),
+(4,1,2014,2,'2014/2015 Genap',0,'2017090','2018-01-30 22:35:24'),
+(5,1,2015,1,'2015/2016 Ganjil',0,'2017090','2018-01-30 22:35:34'),
+(6,1,2015,2,'2015/2016 Genap',0,'2017090','2018-01-30 22:35:43'),
+(7,1,2016,1,'2016/2017 Ganjil',0,'2017090','2018-01-30 22:35:54'),
+(8,1,2016,2,'2016/2017 Genap',0,'2017090','2018-01-30 22:36:13'),
+(11,1,2017,1,'2017/2018 Ganjil',0,'2017090','2018-01-30 22:36:27'),
+(12,1,2017,2,'2017/2018 Genap',0,'2017090','2018-03-06 14:20:41'),
+(13,1,2018,1,'2018/2019 Ganjil',1,'2017090','2018-03-06 14:56:56');
 
 /*Table structure for table `semester_antara` */
 
@@ -2622,7 +2628,8 @@ DROP TABLE IF EXISTS `semester_antara`;
 CREATE TABLE `semester_antara` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `SemesterID` int(11) NOT NULL,
-  `YearCode` int(11) DEFAULT NULL,
+  `Year` int(11) DEFAULT NULL,
+  `Code` int(11) DEFAULT NULL,
   `Name` varchar(100) DEFAULT NULL,
   `Status` enum('0','1') DEFAULT NULL,
   `UpdateBy` varchar(50) DEFAULT NULL,
@@ -2632,10 +2639,10 @@ CREATE TABLE `semester_antara` (
 
 /*Data for the table `semester_antara` */
 
-insert  into `semester_antara`(`ID`,`SemesterID`,`YearCode`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
-(1,13,20183,'2018/2019 Ganjil - Antara','1','2017090','2018-03-26 10:53:17'),
-(2,12,20174,'2017/2018 Genap - Antara','0','2017090','2018-03-26 10:55:39'),
-(3,7,20163,'2016/2017 Ganjil - Antara','0','2017090','2018-03-26 10:56:01');
+insert  into `semester_antara`(`ID`,`SemesterID`,`Year`,`Code`,`Name`,`Status`,`UpdateBy`,`UpdateAt`) values 
+(1,13,2018,3,'2018/2019 Ganjil - Antara','1','2017090','2018-03-26 10:53:17'),
+(2,12,2017,4,'2017/2018 Genap - Antara','0','2017090','2018-03-26 10:55:39'),
+(3,7,2017,3,'2016/2017 Ganjil - Antara','0','2017090','2018-03-26 10:56:01');
 
 /*Table structure for table `status_student` */
 

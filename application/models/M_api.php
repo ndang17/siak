@@ -491,6 +491,86 @@ class M_api extends CI_Model {
     }
 
 
+    public function getOfferingsToSetSchedule($dataForm){
+
+//        print_r($dataForm);
+
+        $query = $this->db
+            ->get_where('db_academic.course_offerings', $dataForm)->result_array();
+
+        $result = [];
+        if(count($query)>0){
+            for($i=0;$i<count($query);$i++){
+                $dt = $this->getOfferingsToSetScheduleDetails($query[$i]['Arr_CDID']);
+                $dataRes = array(
+                    'Offerings' => $query[$i],
+                    'Details' => $dt
+                );
+
+                array_push($result,$dataRes);
+            }
+        }
+
+        return $result;
+    }
+
+    private function getOfferingsToSetScheduleDetails($Arr_CDID){
+        $data_CDID = json_decode($Arr_CDID);
+        $result = [];
+        for($i=0;$i<count($data_CDID);$i++){
+            $data = $this->db->query('SELECT cd.ID AS CDID, cd.TotalSKS, mk.ID,mk.MKCode,mk.Name AS MKName, mk.NameEng AS MKNameEng 
+                                                FROM db_academic.curriculum_details cd 
+                                                LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID)
+                                                WHERE cd.ID = "'.$data_CDID[$i].'" LIMIT 1')->result_array();
+
+            if(count($data)>0){
+                array_push($result,$data[0]);
+            }
+
+
+        }
+
+        return $result;
+    }
+
+    public function getSemesterCurriculum(){
+
+
+        $dataCurriculum = $this->db->query('SELECT * FROM db_academic.curriculum c 
+                                                    WHERE c.Year <= (
+                                                      SELECT Year FROM db_academic.semester s WHERE s.Status = 1 LIMIT 1) 
+                                                      ORDER BY c.Year DESC ')->result_array();
+
+        $result=[];
+        for($s=0;$s<count($dataCurriculum);$s++){
+            $data = $this->db->query('SELECT s.* FROM db_academic.semester s 
+                                                    WHERE s.Year>="'.$dataCurriculum[$s]['Year'].'" ')->result_array();
+
+            $smt=1;
+
+            for($i=0;$i<count($data);$i++){
+
+                if($data[$i]['Status']==0){
+                    $smt = $smt + 1;
+                } else {
+                    break;
+                }
+
+
+            }
+
+            $d = array(
+                'Curriculum' => $dataCurriculum[$s],
+                'Semester' => $smt
+            );
+
+            array_push($result,$d);
+
+        }
+
+        return $result;
+    }
+
 
     public function getSchedule($DayID,$dataWhere){
 

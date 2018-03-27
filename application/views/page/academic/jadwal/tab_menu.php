@@ -68,7 +68,17 @@
             SemesterAntara = 0;
         }
 
-        resetPenawaranMK();
+        if(PageNow=='inputjadwal'){
+            if(SemesterAntara==0){
+                loadAcademicYearOnPublish('');
+            } else {
+                loadAcademicYearOnPublish('SemesterAntara');
+            }
+        } else if(PageNow='penawaran_mk'){
+            resetPenawaranMK();
+        }
+
+
         
         // Reset Penawaran MK
     });

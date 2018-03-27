@@ -14,9 +14,6 @@
         color: #333333;
         cursor: text;
     }
-    .tr-prodi {
-        background: lightyellow;
-    }
 </style>
 
 <div class="row" style="margin-bottom: 30px;">
@@ -55,31 +52,16 @@
                     </label>
                 </td>
             </tr>
-
-            <tr class="">
+            <tr>
                 <td>Program Studi</td>
                 <td>:</td>
                 <td>
-                    <select class="form-control fm-prodi" data-id="1" id="formBaseProdi1">
-                        <option value="" selected disabled>--- Select Prodi ---</option>
+                    <!--                    <select class="form-control" id="BaseProdi"></select>-->
+                    <select id="formBaseProdi" class="form-control form-jadwal">
+                        <option value="" disabled selected></option>
                     </select>
                 </td>
             </tr>
-            <tr class="">
-                <td>Mata Kuliah</td>
-                <td>:</td>
-                <td>
-                    <div id="dataMK1"></div>
-                </td>
-            </tr>
-            <tbody id="bodyAddProdi"></tbody>
-            <tr class="hide" id="btnControlProdi">
-                <td colspan="3" class="td-center">
-                    <button class="btn btn-default btn-default-danger" data-remove="0" id="btnRemoveProdi"><i class="fa fa-minus-circle right-margin" aria-hidden="true"></i> Prodi</button> |
-                    <button class="btn btn-default btn-default-success" id="btnAddProdi"><i class="fa fa-plus-circle right-margin" aria-hidden="true"></i> Prodi</button>
-                </td>
-            </tr>
-
             <tr>
                 <td>Group Kelas</td>
                 <td>:</td>
@@ -88,7 +70,21 @@
                     <input type="hide" class="hide" id="formClassGroup" />
                 </td>
             </tr>
+            <tr>
+                <td style="width: 190px;">Mata Kuliah</td>
+                <td style="width: 1px;">:</td>
+                <td>
+                    <div id="divMK">
+                        -
+                    </div>
+                    <p style="margin-bottom: 0px;font-size: 10px;">
+                        Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>
+                        <input type="hide" class="hide" id="textTotalSKSMK" />
+                    </p>
+                    <div id="alertMK"></div>
 
+                </td>
+            </tr>
             <tr>
                 <td>Dosen Koordinator</td>
                 <td>:</td>
@@ -183,102 +179,6 @@
 
 
 <script>
-
-    $(document).ready(function () {
-        loadSelectOptionBaseProdi('#formBaseProdi1');
-        window.dataProdi = 1;
-
-    });
-
-    $('#btnAddProdi').click(function () {
-        dataProdi += 1;
-        $('#bodyAddProdi').append('<tr class="tr-prodi tr-p'+dataProdi+'">' +
-            '                <td>Program Studi</td>' +
-            '                <td>:</td>' +
-            '                <td>' +
-            '                    <select class="form-control fm-prodi" data-id="'+dataProdi+'" id="formBaseProdi'+dataProdi+'"><option value="" selected disabled>--- Select Prodi ---</option></select>' +
-            '                </td>' +
-            '            </tr>' +
-            '            <tr class="tr-prodi tr-p'+dataProdi+'">' +
-            '                <td>Mata Kuliah</td>' +
-            '                <td>:</td>' +
-            '                <td>' +
-            '                    <div id="dataMK'+dataProdi+'"></div>' +
-            '                </td>' +
-            '            </tr>');
-
-        $('#btnRemoveProdi').prop('data-remove',dataProdi);
-        loadSelectOptionBaseProdi('#formBaseProdi'+dataProdi);
-
-    });
-
-    $('#btnRemoveProdi').click(function () {
-        // var IDrm = $(this).attr('data-remove');
-        $('.tr-p'+dataProdi).remove();
-        dataProdi -= 1;
-
-    });
-
-    $(document).on('change','.fm-prodi',function () {
-       var divNum = $(this).attr('data-id');
-       var Prodi = $(this).val();
-       if(Prodi!=''){
-           var ProdiID = Prodi.split('.')[0];
-           getCourseOfferings(ProdiID,divNum);
-           if(dataProdi==1){
-               setGroupClass();
-           }
-       }
-
-    });
-
-    function getCourseOfferings(ProdiID,divNum) {
-        var url = base_url_js+'api/__crudCourseOfferings';
-        var SemesterID = $('#formSemesterID').val();
-        var data = {
-            action : 'readToSchedule',
-            formData : {
-                SemesterID : SemesterID,
-                ProdiID : ProdiID,
-                IsSemesterAntara : ''+SemesterAntara
-            }
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function (jsonResult) {
-            if(jsonResult.length>0){
-                $('#dataMK'+divNum).html('<select class="select2-select-00 full-width-fix" size="5" id="formMataKuliah'+divNum+'">' +
-                    '                        <option value=""></option>' +
-                    '                    </select>');
-
-                for(var i=0;i<jsonResult.length;i++){
-                        var semester = jsonResult[i].Offerings.Semester;
-
-                        var mk = jsonResult[i].Details;
-                        for(var m=0;m<mk.length;m++){
-                            var dataMK = mk[m];
-                            $('#formMataKuliah'+divNum).append('<option>Smt '+semester+' - '+dataMK.MKCode+' | '+dataMK.MKNameEng+'</option>');
-                        }
-                }
-
-                $('#formMataKuliah'+divNum).select2({allowClear: true});
-            } else {
-                $('#dataMK'+divNum).html('<b>No Course To Offerings</b>')
-            }
-        });
-    }
-
-    // $('#formBaseProdi1').change(function () {
-    //     var Prodi  = $(this).val();
-    //     if(Prodi!=''){
-    //         var ProdiID = Prodi.split('.');
-    //         getCourseOfferings(ProdiID[0],'read');
-    //         setGroupClass();
-    //     }
-    // });
-
-</script>
-
-<script>
     $(document).ready(function () {
 
         window.dataSesi = 1;
@@ -293,7 +193,6 @@
             maxView: 1,
             forceParse: 1};
 
-
         $('#TextNoSesi'+dataSesi).html(dataSesi);
         $('.form-filter-jadwal').prop('disabled',true);
 
@@ -305,6 +204,7 @@
 
 
 
+        loadSelectOptionBaseProdi('#formBaseProdi');
         loadSelectOptionConf('#formProgramsCampusID','programs_campus','');
         // loadSelectOptionAllMataKuliahSingle('#formMataKuliah','');
         loadSelectOptionLecturersSingle('#formCoordinator','');
@@ -331,13 +231,71 @@
 
         $('input[type=radio][name=formCombinedClasses]').change(function () {
             loadformCombinedClasses($(this).val());
+
         });
 
+
+        // $('#formBaseProdi').select2({
+        //     allowClear: true
+        // });
 
 
         $("#formSesiAwal"+dataSesi).datetimepicker(timeOption);
     });
 
+
+
+    $('#formBaseProdi').change(function () {
+        var Prodi  = $(this).val();
+        if(Prodi!=''){
+            var ProdiID = Prodi.split('.');
+            getCourseOfferings(ProdiID[0],'read');
+            setGroupClass();
+        }
+    });
+
+    function getCourseOfferings(ProdiID,action) {
+        var url = base_url_js+'api/__crudCourseOfferings';
+        var SemesterID = $('#formSemesterID').val();
+        var data = {
+            action : action,
+            formData : {
+                SemesterID : SemesterID,
+                ProdiID : ProdiID
+            }
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+
+        $.post(url,{token:token},function (jsonResult) {
+            // console.log(jsonResult);
+            if(jsonResult.length>0){
+                $('#divMK').html('<select class="select2-select-00 selec2-mk full-width-fix form-jadwal" size="5" id="formMataKuliah">' +
+                    '                        <option value=""></option>' +
+                    '                    </select>');
+                // $('#formMataKuliah')./html('');
+                // $('#formMataKuliah').empty();
+                if(action=='readgabungan'){
+                    for(var i=0;i<jsonResult.length;i++) {
+                        var data = jsonResult[i];
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'.'+data.StatusMK+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
+                    }
+                } else {
+                    var Offerings = jsonResult[0].Offerings;
+                    for(var i=0;i<Offerings.length;i++){
+                        var data = Offerings[i];
+                        $('#formMataKuliah').append('<option value="'+data.MKID+'.'+data.MKCode+'.'+data.ScheduleID+'.'+data.StatusMK+'">'+data.MKCode+' | '+data.MKNameEng+'</option>');
+                    }
+                }
+
+
+                $('#formMataKuliah').select2({allowClear: true});
+            }
+            else {
+                $('#divMK').html('-- No Offerings --');
+            }
+        });
+    }
 
     $('#btnSavejadwal').click(function () {
 
@@ -531,14 +489,14 @@
 
     });
 
-    // $(document).on('change','#formMataKuliah',function () {
-    //     var dataMK = $('#formMataKuliah').val();
-    //     // var dataMK = $(this).val();
-    //     if(dataMK!=''){
-    //
-    //         loadDataSKS(dataMK);
-    //     }
-    // });
+    $(document).on('change','#formMataKuliah',function () {
+        var dataMK = $('#formMataKuliah').val();
+        // var dataMK = $(this).val();
+        if(dataMK!=''){
+
+            loadDataSKS(dataMK);
+        }
+    });
 
     $('#addNewSesi').click(function () {
 
@@ -749,7 +707,7 @@
 
     function setGroupClass(value) {
         var CombinedClasses = $('input[name=formCombinedClasses]:checked').val();
-        var formBaseProdi = $('#formBaseProdi1').val();
+        var formBaseProdi = $('#formBaseProdi').val();
 
         if(value==1){
             var ProgramsCampusID = $('#formProgramsCampusID').val();
@@ -799,7 +757,7 @@
                 $('#formSemesterID').val(data_json.ID);
             }
 
-            $('#semesterName').html(data_json.Year+''+data_json.Code+' | '+data_json.Name);
+            $('#semesterName').html(data_json.YearCode+' | '+data_json.Name);
 
         });
     }
@@ -807,18 +765,15 @@
     function loadformCombinedClasses(value) {
 
         if(value==1){
-            $('#btnControlProdi').removeClass('hide');
             getCourseOfferings('','readgabungan');
+            $('#formBaseProdi').prop('disabled',true);
 
         } else {
-            dataProdi = 1;
-            $('#btnControlProdi').addClass('hide');
-            $('.tr-prodi').remove();
-
-            var Prodi  = $('#formBaseProdi1').val();
+            $('#formBaseProdi').prop('disabled',false);
+            var Prodi  = $('#formBaseProdi').val();
             if(Prodi!=null){
                 var ProdiID = Prodi.split('.');
-                getCourseOfferings(ProdiID[0],1);
+                getCourseOfferings(ProdiID[0],'read');
             }
         }
 
