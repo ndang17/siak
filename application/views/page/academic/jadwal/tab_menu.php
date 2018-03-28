@@ -74,6 +74,7 @@
             } else {
                 loadAcademicYearOnPublish('SemesterAntara');
             }
+            resetFormSetSchedule();
         } else if(PageNow='penawaran_mk'){
             resetPenawaranMK();
         }

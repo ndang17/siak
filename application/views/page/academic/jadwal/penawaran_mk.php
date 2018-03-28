@@ -379,6 +379,7 @@
                 OfferID : OfferID,
                 formData : {
                     SemesterID : SemesterID,
+                    ProgramsCampusID : 1,
                     CurriculumID : CurriculumID,
                     ProdiID : ProdiID.split('.')[0],
                     Semester : Semester,

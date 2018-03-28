@@ -501,7 +501,7 @@ class M_api extends CI_Model {
         $result = [];
         if(count($query)>0){
             for($i=0;$i<count($query);$i++){
-                $dt = $this->getOfferingsToSetScheduleDetails($query[$i]['Arr_CDID']);
+                $dt = $this->getOfferingsToSetScheduleDetails($query[$i],$query[$i]['Arr_CDID']);
                 $dataRes = array(
                     'Offerings' => $query[$i],
                     'Details' => $dt
@@ -514,7 +514,7 @@ class M_api extends CI_Model {
         return $result;
     }
 
-    private function getOfferingsToSetScheduleDetails($Arr_CDID){
+    private function getOfferingsToSetScheduleDetails($query,$Arr_CDID){
         $data_CDID = json_decode($Arr_CDID);
         $result = [];
         for($i=0;$i<count($data_CDID);$i++){
@@ -523,7 +523,22 @@ class M_api extends CI_Model {
                                                 LEFT JOIN db_academic.mata_kuliah mk ON (cd.MKID = mk.ID)
                                                 WHERE cd.ID = "'.$data_CDID[$i].'" LIMIT 1')->result_array();
 
+
+
             if(count($data)>0){
+                $sc = $this->db->query('SELECT s.ID AS ScheduleID FROM db_academic.schedule_details_course sdc
+                                                  JOIN db_academic.schedule s ON (s.ID=sdc.ScheduleID)
+                                                  WHERE s.SemesterID = "'.$query['SemesterID'].'" 
+                                                  AND s.ProgramsCampusID = "'.$query['ProgramsCampusID'].'"
+                                                  AND sdc.ProdiID = "'.$query['ProdiID'].'"
+                                                  AND sdc.CDID = "'.$data_CDID[$i].'"
+                                                  AND sdc.MKID = "'.$data[0]['ID'].'"
+                                                  LIMIT 1
+                                                   ')->result_array();
+                $data[0]['ScheduleID'] = '';
+                if(count($sc)>0){
+                    $data[0]['ScheduleID'] = $sc[0]['ScheduleID'];
+                }
                 array_push($result,$data[0]);
             }
 
@@ -587,7 +602,8 @@ class M_api extends CI_Model {
                                           cl.Room 
                                           FROM db_academic.schedule_details sd
                                           LEFT JOIN db_academic.schedule s ON (s.ID=sd.ScheduleID)
-                                          LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
+                                          LEFT JOIN db_academic.schedule_details_course sdc ON (s.ID = sdc.ScheduleID)
+                                          LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = sdc.MKID)
                                           LEFT JOIN db_employees.employees em ON (em.NIP = s.Coordinator)
                                           LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)                                   
                                           WHERE sd.DayID = "'.$DayID.'" '.$ProgramsCampusID.' '.$SemesterID.' '.$ProdiID.' '.$CombinedClasses.' ORDER BY sd.StartSessions ASC ');
@@ -769,11 +785,27 @@ class M_api extends CI_Model {
     public function __checkSchedule($dataFilter){
 //        print_r($dataFilter);
         // Get Jadwal
-        $jadwal = $this->db->query('SELECT sd.ID AS sdID, sd.DayID,sd.StartSessions, sd.EndSessions, cl.Room, mk.NameEng, mk.ID AS MKID, mk.MKCode FROM db_academic.schedule s
+//        $jadwal = $this->db->query('SELECT s.ID AS ScheduleID, sd.ID AS sdID, sd.DayID,sd.StartSessions, sd.EndSessions, cl.Room,
+//                                              mk.NameEng, mk.ID AS MKID, mk.MKCode
+//                                              FROM db_academic.schedule s
+//                                              RIGHT JOIN db_academic.schedule_details sd ON (s.ID=sd.ScheduleID)
+//                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)
+//                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID)
+//                                              WHERE s.SemesterID="'.$dataFilter['SemesterID'].'"
+//                                              AND sd.ClassroomID="'.$dataFilter['ClassroomID'].'"
+//                                              AND sd.DayID="'.$dataFilter['DayID'].'"
+//                                              AND (("'.$dataFilter['StartSessions'].'" >= sd.StartSessions  AND "'.$dataFilter['StartSessions'].'" <= sd.EndSessions) OR
+//                                              ("'.$dataFilter['EndSessions'].'" >= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" <= sd.EndSessions) OR
+//                                              ("'.$dataFilter['StartSessions'].'" <= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" >= sd.EndSessions)
+//                                              ) ORDER BY sd.StartSessions ASC
+//                                              ')->result_array();
+
+        $jadwal = $this->db->query('SELECT s.ID AS ScheduleID,s.ClassGroup , sd.ID AS sdID, sd.DayID,sd.StartSessions, sd.EndSessions, cl.Room                                               
+                                              FROM db_academic.schedule s
                                               RIGHT JOIN db_academic.schedule_details sd ON (s.ID=sd.ScheduleID)   
                                               LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)
-                                              LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = s.MKID AND mk.MKCode = s.MKCode)
                                               WHERE s.SemesterID="'.$dataFilter['SemesterID'].'"
+                                              AND s.IsSemesterAntara="'.$dataFilter['IsSemesterAntara'].'" 
                                               AND sd.ClassroomID="'.$dataFilter['ClassroomID'].'" 
                                               AND sd.DayID="'.$dataFilter['DayID'].'" 
                                               AND (("'.$dataFilter['StartSessions'].'" >= sd.StartSessions  AND "'.$dataFilter['StartSessions'].'" <= sd.EndSessions) OR
@@ -781,6 +813,16 @@ class M_api extends CI_Model {
                                               ("'.$dataFilter['StartSessions'].'" <= sd.StartSessions AND "'.$dataFilter['EndSessions'].'" >= sd.EndSessions)
                                               ) ORDER BY sd.StartSessions ASC 
                                               ')->result_array();
+
+        if(count($jadwal)>0){
+            for($i=0;$i<count($jadwal);$i++){
+                $dataCourse = $this->db->query('SELECT sdc.*,mk.NameEng, mk.ID AS MKID, mk.MKCode FROM db_academic.schedule_details_course sdc
+                                                        LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = sdc.MKID)
+                                                        WHERE sdc.ScheduleID = "'.$jadwal[$i]['ScheduleID'].'" ')->result_array();
+
+                $jadwal[$i]['DetailsCourse'] = $dataCourse;
+            }
+        }
 
 //        if(count($jadwal)>0){
 //            $ce

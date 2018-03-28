@@ -594,46 +594,50 @@ class C_api extends CI_Controller {
             if($data_arr['action']=='add'){
                 $formData = (array) $data_arr['formData'];
 
+//                print_r($formData);
+//                exit;
+
                 // Scedule
                 $insertSchedule = (array) $formData['schedule'];
                 $this->db->insert('db_academic.schedule',$insertSchedule);
                 $insert_id = $this->db->insert_id();
 
-                //schedule_combinedclasses
-//                $dataCombine = (array) $formData['schedule_combinedclasses'];
-//                for($c=0;$c<count($dataCombine['ProdiIDArray']);$c++){
-//                    $dataInsert = array(
-//                        'ScheduleID' => $insert_id,
-//                        'ProdiID' => $dataCombine['ProdiIDArray'][$c]
-//                    );
-//                    $this->db->insert('db_academic.schedule_combinedclasses',$dataInsert);
-//                }
+                //schedule_class_group
+                $dataGroup = (array) $formData['schedule_class_group'];
+                $dataGroup['ScheduleID'] = $insert_id;
+                $this->db->insert('db_academic.schedule_class_group',$dataGroup);
 
-                // Schedule Details
+
+                // schedule_details
                 $dataScheduleDetails = (array) $formData['schedule_details'];
-                for($s=0;$s<count($dataScheduleDetails['dataScheduleDetailsArray']);$s++){
-                    $arr = (array) $dataScheduleDetails['dataScheduleDetailsArray'][$s];
+                for($s=0;$s<count($dataScheduleDetails);$s++){
+                    $arr = (array) $dataScheduleDetails[$s];
                     $arr['ScheduleID'] = $insert_id;
                     $this->db->insert('db_academic.schedule_details',$arr);
                 }
 
+
+                // schedule_details_course
+                $dataScheduleDetailsCourse = (array) $formData['schedule_details_course'];
+                for($sdc=0;$sdc<count($dataScheduleDetailsCourse);$sdc++){
+                    $arr = (array) $dataScheduleDetailsCourse[$sdc];
+                    $arr['ScheduleID'] = $insert_id;
+                    $this->db->insert('db_academic.schedule_details_course',$arr);
+                }
+
+
                 //schedule_team_teaching
                 if($insertSchedule['TeamTeaching']==1){
                     $dataTemaTeaching = (array) $formData['schedule_team_teaching'];
-                    for($t=0;$t<count($dataTemaTeaching['teamTeachingArray']);$t++){
-                        $arr = (array) $dataTemaTeaching['teamTeachingArray'][$t];
+                    for($t=0;$t<count($dataTemaTeaching);$t++){
+                        $arr = (array) $dataTemaTeaching[$t];
                         $arr['ScheduleID'] = $insert_id;
-
-//                        print_r($dataTemaTeaching['teamTeachingArray'][$t]);
 
                         $this->db->insert('db_academic.schedule_team_teaching',$arr);
                     }
                 }
 
-                //schedule_class_group
-                $dataGroup = (array) $formData['schedule_class_group'];
-                $dataGroup['ScheduleID'] = $insert_id;
-                $this->db->insert('db_academic.schedule_class_group',$dataGroup);
+
 
                 return print_r(1);
 

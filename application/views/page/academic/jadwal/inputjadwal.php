@@ -56,6 +56,11 @@
                 </td>
             </tr>
 
+            <tr id="divGabugan" class="hide">
+                <td colspan="3" class="td-center">
+                    <span class="label label-info span-sesi">Gabungan</span>
+                </td>
+            </tr>
             <tr class="">
                 <td>Program Studi</td>
                 <td>:</td>
@@ -70,6 +75,7 @@
                 <td>:</td>
                 <td>
                     <div id="dataMK1"></div>
+                    <input id="textTotalSKSMK" type="hide" class="hide" hidden readonly>
                 </td>
             </tr>
             <tbody id="bodyAddProdi"></tbody>
@@ -187,7 +193,6 @@
     $(document).ready(function () {
         loadSelectOptionBaseProdi('#formBaseProdi1');
         window.dataProdi = 1;
-
     });
 
     $('#btnAddProdi').click(function () {
@@ -207,6 +212,7 @@
             '                </td>' +
             '            </tr>');
 
+
         $('#btnRemoveProdi').prop('data-remove',dataProdi);
         loadSelectOptionBaseProdi('#formBaseProdi'+dataProdi);
 
@@ -214,8 +220,24 @@
 
     $('#btnRemoveProdi').click(function () {
         // var IDrm = $(this).attr('data-remove');
-        $('.tr-p'+dataProdi).remove();
-        dataProdi -= 1;
+
+        if(dataProdi>1){
+            $('.tr-p'+dataProdi).remove();
+            dataProdi -= 1;
+
+            if(dataProdi==1){
+                $('input[type=radio][name=formCombinedClasses][value=0]').prop('checked',true);
+                $('#btnControlProdi').addClass('hide');
+                $('#divGabugan').addClass('hide');
+                setGroupClass(0);
+            }
+        } else {
+            $('input[type=radio][name=formCombinedClasses][value=0]').prop('checked',true);
+            $('#btnControlProdi').addClass('hide');
+            $('#divGabugan').addClass('hide');
+            setGroupClass(0);
+
+        }
 
     });
 
@@ -256,7 +278,7 @@
                         var mk = jsonResult[i].Details;
                         for(var m=0;m<mk.length;m++){
                             var dataMK = mk[m];
-                            $('#formMataKuliah'+divNum).append('<option>Smt '+semester+' - '+dataMK.MKCode+' | '+dataMK.MKNameEng+'</option>');
+                            $('#formMataKuliah'+divNum).append('<option value="'+dataMK.CDID+'|'+dataMK.ID+'|'+dataMK.TotalSKS+'">Smt '+semester+' - '+dataMK.MKCode+' | '+dataMK.MKNameEng+'</option>');
                         }
                 }
 
@@ -266,6 +288,21 @@
             }
         });
     }
+
+    $(document).on('change','#formMataKuliah1',function () {
+        var data = $(this).val();
+        if(data!=null && data!=''){
+            // data.split('|');
+            // console.log(data);
+            // console.log(data.split('|')[2]);
+            $('#textTotalSKSMK').val(data.split('|')[2]);
+
+            // var cr = $('#formCredit1').val();
+            if(dataSesi==1){
+                $('#formCredit1').val(data.split('|')[2]);
+            }
+        }
+    });
 
     // $('#formBaseProdi1').change(function () {
     //     var Prodi  = $(this).val();
@@ -303,8 +340,6 @@
             loadAcademicYearOnPublish('SemesterAntara');
         }
 
-
-
         loadSelectOptionConf('#formProgramsCampusID','programs_campus','');
         // loadSelectOptionAllMataKuliahSingle('#formMataKuliah','');
         loadSelectOptionLecturersSingle('#formCoordinator','');
@@ -314,12 +349,6 @@
         fillDays('#formDay'+dataSesi,'Eng','');
 
         loadSelectOptionTimePerCredit('#formTimePerCredit'+dataSesi,'');
-
-
-        // loadSelectOptionLecturersSingle('#formTeamTeaching'+dataGroup,'');
-        // fillDays('#formDay'+dataGroup,'Eng','');
-        //
-        // loadSelectOptionClassGroup('#formClassGroup','');
 
 
         $('#formCoordinator,#formTeamTeaching').select2({allowClear: true});
@@ -334,13 +363,11 @@
         });
 
 
-
         $("#formSesiAwal"+dataSesi).datetimepicker(timeOption);
     });
 
 
-    $('#btnSavejadwal').click(function () {
-
+    $('#btnSavejadwal1').click(function () {
 
         var process = [];
 
@@ -409,8 +436,6 @@
                 process.push(0); requiredForm('#s2id_formTeamTeaching .select2-choices');
             }
         }
-
-
 
         // schedule_sesi ---
         var textTotalSKSMK = $('#textTotalSKSMK').val();
@@ -808,11 +833,13 @@
 
         if(value==1){
             $('#btnControlProdi').removeClass('hide');
+            $('#divGabugan').removeClass('hide');
             getCourseOfferings('','readgabungan');
 
         } else {
             dataProdi = 1;
             $('#btnControlProdi').addClass('hide');
+            $('#divGabugan').addClass('hide');
             $('.tr-prodi').remove();
 
             var Prodi  = $('#formBaseProdi1').val();
@@ -845,50 +872,72 @@
         }
     }
 
+    function resetFormSetSchedule() {
+        $('input[type=radio][name=formCombinedClasses][value=0]').prop('checked',true);
+        dataProdi = 1;
+        $('#bodyAddProdi').remove();
+        $('#btnControlProdi').addClass('hide');
+        $('#divGabugan').addClass('hide');
+
+        $('#formBaseProdi1').val('');
+        $('#formCoordinator').select2("val","");
+        $('#formMataKuliah1').select2("val","");
+
+        $('#viewClassGroup').text('-');
+        $('#formClassGroup,#formCredit1,#formSesiAwal1,#formSesiAkhir1,#textTotalSKSMK').val('');
+        $('#formTeamTeaching').prop('disabled',true);
+
+        dataSesi=1;
+        $('#subsesi1').addClass('hide');
+        $('#bodyAddSesi').html('');
+    }
+
     function loadDataSKS(dataMK) {
-        // console.log(dataMK);
-        var SemesterID = $('#formSemesterID').val();
-        var mk = dataMK.split('.');
-        var data = {
-            action : 'readOfferings',
-            dataForm : {
-                SemesterID : SemesterID,
-                MKID : mk[0],
-                MKCode : mk[1]
-            }
-
-        };
 
 
-
-        if(mk[3]==0){
-            // Cek Status MK Aktif Atau Tidak
-            $('#alertMK').html('<span style="color: red;">'+mk[1]+' - Non Active</span>');
-            $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
-        } else if(mk[2]!='null'){
-            // Cek MK Sudah Di set jadwal atau belum
-            $('#alertMK').html('<span style="color: blue;">'+mk[1]+' - Schedule Is Exist</span>');
-            $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
-        } else {
-            $('#alertMK').html('');
-            $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',false);
-        }
-
-        var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+"api/__crudMataKuliah";
-        $.post(url,{token:token},function (data_json) {
-
-            $('#textSemester').html(data_json.Semester);
-            $('#textTotalSKS').html(data_json.TotalSKS);
-            $('#textTotalSKSMK').val(data_json.TotalSKS);
-
-            var cr = $('#formCredit1').val();
-            if(dataSesi==1){
-                $('#formCredit1').val(data_json.TotalSKS);
-            }
-
-
-        });
+        //
+        // var SemesterID = $('#formSemesterID').val();
+        // var mk = dataMK.split('.');
+        // var data = {
+        //     action : 'readOfferings',
+        //     dataForm : {
+        //         SemesterID : SemesterID,
+        //         MKID : mk[0],
+        //         MKCode : mk[1]
+        //     }
+        //
+        // };
+        //
+        //
+        //
+        // if(mk[3]==0){
+        //     // Cek Status MK Aktif Atau Tidak
+        //     $('#alertMK').html('<span style="color: red;">'+mk[1]+' - Non Active</span>');
+        //     $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
+        // } else if(mk[2]!='null'){
+        //     // Cek MK Sudah Di set jadwal atau belum
+        //     $('#alertMK').html('<span style="color: blue;">'+mk[1]+' - Schedule Is Exist</span>');
+        //     $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',true);
+        // } else {
+        //     $('#alertMK').html('');
+        //     $('#btnSavejadwal,#addNewSesi,#removeNewSesi').prop('disabled',false);
+        // }
+        //
+        // var token = jwt_encode(data,'UAP)(*');
+        // var url = base_url_js+"api/__crudMataKuliah";
+        // $.post(url,{token:token},function (data_json) {
+        //
+        //     $('#textSemester').html(data_json.Semester);
+        //     $('#textTotalSKS').html(data_json.TotalSKS);
+        //     $('#textTotalSKSMK').val(data_json.TotalSKS);
+        //
+        //     var cr = $('#formCredit1').val();
+        //     if(dataSesi==1){
+        //         $('#formCredit1').val(data_json.TotalSKS);
+        //     }
+        //
+        //
+        // });
 
     }
 
@@ -915,6 +964,7 @@
                 action : 'check',
                 formData : {
                     SemesterID : SemesterID,
+                    IsSemesterAntara : ''+SemesterAntara,
                     ClassroomID : ClassroomID,
                     DayID : DayID,
                     StartSessions : StartSessions,
@@ -936,23 +986,186 @@
                         '                            <div class="alert alert-danger" role="alert">' +
                         '                                <b><i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right: 5px;"></i> Jadwal bentrok</b>, Silahklan rubah : Ruang / Hari / Jam' +
                         '                                <hr style="margin-bottom: 3px;margin-top: 10px;"/>' +
-                        '                                <ul id="ulbentrok'+ID+'">' +
-                        '                                </ul>' +
+                        '                                <ol id="ulbentrok'+ID+'">' +
+                        '                                </ol>' +
                         '                            </div>' +
                         '                        </div>' +
                         '' +
                         '                    </div>');
 
-                    var ul = $('#ulbentrok'+ID);
+                    var ol = $('#ulbentrok'+ID);
                     for(var i=0;i<json_result.length;i++){
                         var data = json_result[i];
-                        ul.append('<li>'+data.NameEng+' : <span style="color: blue;">'+data.Room+' | '+daysEng[(parseInt(data.DayID)-1)]+' '+data.StartSessions+' - '+data.EndSessions+'</span></li>');
+                        ol.append('<li>' +
+                            'Group <strong style="color:#333;">'+data.ClassGroup+'</strong> : <span style="color: blue;">'+data.Room+' | '+daysEng[(parseInt(data.DayID)-1)]+' '+data.StartSessions+' - '+data.EndSessions+'</span>' +
+                            '<ul style="color: #607d8b;" id="dtMK'+i+'"></ul>' +
+                            '</li>');
+
+                        var ul = $('#dtMK'+i);
+                        for(var m=0;m<data.DetailsCourse.length;m++){
+                            var mk_ = data.DetailsCourse[m];
+                            ul.append('<li>'+mk_.MKCode+' | '+mk_.NameEng+'</li>');
+                        }
                     }
                 }
             });
         }
 
     }
+</script>
+
+
+<!-- Save Scedule -->
+<script>
+    $('#btnSavejadwal').click(function () {
+
+        var process = [];
+
+        var SemesterID = $('#formSemesterID').val();
+        var ProgramsCampusID = $('#formProgramsCampusID').val();
+        // var CombinedClasses = $('input[name=formCombinedClasses]:checked').val();
+        var CombinedClasses = (dataProdi>1) ? '1' : '0';
+
+        var schedule_details_course=[];
+
+        for(var p=1;p<=dataProdi;p++){
+
+            var formBaseProdi = $('#formBaseProdi'+p).val();
+            var formMataKuliah = $('#formMataKuliah'+p).val();
+
+            if(formBaseProdi!=null && formBaseProdi!='' &&
+                formMataKuliah!=null && formMataKuliah!=''){
+
+                var cdArr = {
+                    ScheduleID : 0,
+                    ProdiID : formBaseProdi.split('.')[0],
+                    CDID : formMataKuliah.split('|')[0],
+                    MKID : formMataKuliah.split('|')[1]
+                };
+                schedule_details_course.push(cdArr);
+
+            } else {
+                requiredForm('#s2id_formBaseProdi'+p+' a');
+                requiredForm('#s2id_formMataKuliah'+p+' a');
+                process.push(0);
+            }
+        }
+
+        var ClassGroup = $('#formClassGroup').val();
+
+        var Coordinator = $('#formCoordinator').val(); if(Coordinator==''){ process.push(0); requiredForm('#s2id_formCoordinator a'); }
+
+        var TeamTeaching = $('input[name=formteamTeaching]:checked').val();
+        var UpdateBy = sessionNIP;
+        var UpdateAt = dateTimeNow();
+
+
+        var teamTeachingArray = [];
+        if(TeamTeaching==1){
+            var formTeamTeaching = $('#formTeamTeaching').val();
+
+            if(formTeamTeaching!=null){
+                for(var t=0;t<formTeamTeaching.length;t++){
+                    var dt = {
+                        ScheduleID : 0,
+                        NIP :  formTeamTeaching[t],
+                        Status : '0'
+                    };
+                    teamTeachingArray.push(dt);
+                }
+            }
+            else {
+                process.push(0); requiredForm('#s2id_formTeamTeaching .select2-choices');
+            }
+        }
+
+        // schedule_sesi ---
+        var textTotalSKSMK = $('#textTotalSKSMK').val();
+        var dataScheduleDetailsArray = [];
+        var totalCredit = 0;
+        for(var i=1;i<=dataSesi;i++){
+            var ClassroomID = $('#formClassroom'+i).val();
+            var DayID = $('#formDay'+i).val();
+            var Credit = $('#formCredit'+i).val(); if(Credit==''){process.push(0); requiredForm('#formCredit'+dataSesi);}
+            var TimePerCredit = $('#formTimePerCredit'+i).val();
+            var StartSessions = $('#formSesiAwal'+i).val(); if(StartSessions==''){process.push(0); requiredForm('#formSesiAwal'+dataSesi);}
+            var EndSessions = $('#formSesiAkhir'+i).val();if(EndSessions==''){process.push(0); requiredForm('#formSesiAkhir'+dataSesi);}
+
+            totalCredit = parseInt(totalCredit) + parseInt(Credit);
+            var arrSesi = {
+                ScheduleID : 0,
+                ClassroomID : ClassroomID,
+                Credit : Credit,
+                DayID : DayID,
+                TimePerCredit : TimePerCredit,
+                StartSessions : StartSessions,
+                EndSessions : EndSessions
+            };
+
+            dataScheduleDetailsArray.push(arrSesi);
+        }
+
+        if(CombinedClasses==0 && textTotalSKSMK!=totalCredit){
+            process.push(0);
+        }
+
+
+        if($.inArray(0,process)==-1){
+
+            $('#NotificationModal .modal-body').html('<div style="text-align: center;"><h3>Loading to saving...</h3></div>');
+            $('#NotificationModal').modal({
+                'show' : true,
+                'backdrop' : 'static'
+            });
+
+            var SubSesi = (dataSesi>1) ? '1' : '0';
+            var data = {
+                action : 'add',
+                ID : '',
+                formData :
+                    {
+                        schedule : {
+                            SemesterID : SemesterID,
+                            ProgramsCampusID : ProgramsCampusID,
+                            CombinedClasses : CombinedClasses,
+                            ClassGroup : ClassGroup,
+                            Coordinator : Coordinator,
+                            TeamTeaching : TeamTeaching,
+                            SubSesi : SubSesi,
+                            IsSemesterAntara : ''+SemesterAntara,
+                            UpdateBy : UpdateBy,
+                            UpdateAt : UpdateAt
+                        },
+                        schedule_class_group : {
+                            ScheduleID : 0,
+                            ProgramsCampusID : ProgramsCampusID,
+                            SemesterID : SemesterID,
+                            ProdiCode : ClassGroup.split('-')[0],
+                            Group : ClassGroup
+                        },
+                        schedule_details : dataScheduleDetailsArray,
+                        schedule_details_course : schedule_details_course,
+                        schedule_team_teaching : teamTeachingArray
+
+                    }
+            };
+
+            var token = jwt_encode(data,'UAP)(*');
+            var url = base_url_js+'api/__crudSchedule';
+            $.post(url,{token:token},function (result) {
+                resetFormSetSchedule();
+                setTimeout(function () {
+                    $('#NotificationModal').modal('hide');
+                },1000);
+            });
+
+        } else {
+            toastr.error('Form Required','Error!');
+        }
+
+
+
+    });
 </script>
 
 
