@@ -801,7 +801,8 @@
                 var data = {
                     ProgramsCampusID : ProgramsCampusID,
                     SemesterID : SemesterID,
-                    ProdiCode : ProdiCode
+                    ProdiCode : ProdiCode,
+                    IsSemesterAntara : SemesterAntara
                 };
                 var token = jwt_encode(data,'UAP)(*');
                 var url = base_url_js+'api/__getClassGroup';
@@ -1138,8 +1139,6 @@
                         },
                         schedule_class_group : {
                             ScheduleID : 0,
-                            ProgramsCampusID : ProgramsCampusID,
-                            SemesterID : SemesterID,
                             ProdiCode : ClassGroup.split('-')[0],
                             Group : ClassGroup
                         },

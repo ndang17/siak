@@ -23,17 +23,17 @@
     <div class="col-md-8" style="text-align: right;">
         <div class="btn-group" role="group" aria-label="...">
 
-            <button data-page="jadwal" type="button" class="btn btn-default btn-default-primary btn-action
+            <button data-page="jadwal" type="button" class="btn btn-primary btn-action
                         control-jadwal"><i class="fa fa-calendar right-margin" aria-hidden="true"></i> Schedule</button>
 
             <button data-page="ruangan" type="button" class="btn btn-default btn-default-primary btn-action
                         control-jadwal"><i class="fa fa-window-restore right-margin" aria-hidden="true"></i> Room Schedule</button>
         </div>
         |
-        <button data-page="penawaran_mk" type="button" class="btn btn-info btn-action control-jadwal">
+        <button data-page="penawaran_mk" type="button" class="btn btn-default btn-default-primary btn-action control-jadwal">
             <i class="fa fa-exchange right-margin" aria-hidden="true"></i> Course Offerings
         </button>
-        <button data-page="inputjadwal" type="button" class="btn btn-success btn-action control-jadwal">
+        <button data-page="inputjadwal" type="button" class="btn btn-default btn-default-primary btn-action control-jadwal">
             <i class="fa fa-pencil right-margin" aria-hidden="true"></i> Set Schedule
         </button>
     </div>
@@ -75,8 +75,10 @@
                 loadAcademicYearOnPublish('SemesterAntara');
             }
             resetFormSetSchedule();
-        } else if(PageNow='penawaran_mk'){
+        } else if(PageNow=='penawaran_mk'){
             resetPenawaranMK();
+        } else if(PageNow=='jadwal'){
+            loadPage('jadwal','');
         }
 
 
@@ -97,6 +99,17 @@
         var ScheduleID = (page=='editjadwal') ? $(this).attr('data-id') : '';
         PageNow = page;
         PageScdNow = ScheduleID;
+
+        if(page!='editjadwal'){
+            $('.btn-action').removeClass('btn-primary');
+            $('.btn-action').addClass('btn-default btn-default-primary');
+
+            $('button[data-page='+page+']').removeClass('btn-default btn-default-primary');
+            $('button[data-page='+page+']').addClass('btn-primary');
+        }
+
+
+
         loadPage(page,ScheduleID);
     });
 

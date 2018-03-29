@@ -637,16 +637,13 @@ CREATE TABLE `course_offerings` (
   `UpdateBy` varchar(25) DEFAULT NULL,
   `UpdateAt` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_offerings` */
 
 insert  into `course_offerings`(`ID`,`SemesterID`,`ProgramsCampusID`,`CurriculumID`,`ProdiID`,`Semester`,`Arr_CDID`,`IsSemesterAntara`,`UpdateBy`,`UpdateAt`) values 
-(1,13,1,5,2,2,'[\"953\",\"976\"]','0','2017090','2018-03-27 08:24:13'),
-(2,13,1,5,3,2,'[\"966\"]','0','2017090','2018-03-27 08:24:25'),
-(3,13,1,5,2,8,'[\"970\"]','0','2017090','2018-03-27 10:17:19'),
-(4,13,1,5,1,1,'[\"953\",\"971\"]','1','2017090','2018-03-27 15:51:38'),
-(5,13,1,5,1,1,'[\"954\",\"960\"]','0','2017090','2018-03-27 16:50:01');
+(1,13,1,5,1,1,'[\"953\",\"954\",\"955\"]','0','2017090','2018-03-29 09:54:30'),
+(2,13,1,4,1,3,'[\"952\"]','1','2017090','2018-03-29 10:35:03');
 
 /*Table structure for table `courses_groups` */
 
@@ -2530,9 +2527,9 @@ CREATE TABLE `schedule` (
 /*Data for the table `schedule` */
 
 insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`CombinedClasses`,`ClassGroup`,`Coordinator`,`TeamTeaching`,`SubSesi`,`IsSemesterAntara`,`UpdateBy`,`UpdateAt`) values 
-(1,13,1,'1','ZO-1','3114038','1','1','0','2017090','2018-03-28 13:58:05'),
-(2,13,1,'0','CEM-1','3115061','0','0','0','2017090','2018-03-28 16:24:08'),
-(3,13,1,'0','CEM-2','1116013','0','0','0','2017090','2018-03-28 16:35:29');
+(1,13,1,'0','ARC-1','3114014','0','0','0','2017090','2018-03-29 10:31:55'),
+(2,13,1,'0','ARC-1','3114037','0','0','1','2017090','2018-03-29 10:51:15'),
+(3,13,1,'1','ARC-2','1114005','1','1','0','2017090','2018-03-29 14:19:23');
 
 /*Table structure for table `schedule_class_group` */
 
@@ -2541,8 +2538,6 @@ DROP TABLE IF EXISTS `schedule_class_group`;
 CREATE TABLE `schedule_class_group` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ScheduleID` int(11) NOT NULL,
-  `ProgramsCampusID` int(11) NOT NULL,
-  `SemesterID` int(11) NOT NULL,
   `ProdiCode` varchar(10) DEFAULT NULL,
   `Group` varchar(10) NOT NULL,
   PRIMARY KEY (`ID`)
@@ -2550,10 +2545,10 @@ CREATE TABLE `schedule_class_group` (
 
 /*Data for the table `schedule_class_group` */
 
-insert  into `schedule_class_group`(`ID`,`ScheduleID`,`ProgramsCampusID`,`SemesterID`,`ProdiCode`,`Group`) values 
-(1,1,1,13,'ZO','ZO-1'),
-(2,2,1,13,'CEM','CEM-1'),
-(3,3,1,13,'CEM','CEM-2');
+insert  into `schedule_class_group`(`ID`,`ScheduleID`,`ProdiCode`,`Group`) values 
+(1,1,'ARC','ARC-1'),
+(2,2,'ARC','ARC-1'),
+(3,3,'ARC','ARC-2');
 
 /*Table structure for table `schedule_details` */
 
@@ -2574,10 +2569,10 @@ CREATE TABLE `schedule_details` (
 /*Data for the table `schedule_details` */
 
 insert  into `schedule_details`(`ID`,`ScheduleID`,`ClassroomID`,`Credit`,`DayID`,`TimePerCredit`,`StartSessions`,`EndSessions`) values 
-(1,1,1,3,1,50,'13:00:00','15:30:00'),
-(2,1,1,6,2,50,'08:00:00','13:00:00'),
-(3,2,1,4,1,50,'09:00:00','12:20:00'),
-(4,3,1,2,1,50,'07:15:00','08:55:00');
+(1,1,1,4,1,50,'07:30:00','10:50:00'),
+(2,2,1,4,1,50,'07:00:00','10:20:00'),
+(3,3,1,1,2,50,'08:00:00','08:50:00'),
+(4,3,1,1,3,50,'08:00:00','08:50:00');
 
 /*Table structure for table `schedule_details_course` */
 
@@ -2595,10 +2590,10 @@ CREATE TABLE `schedule_details_course` (
 /*Data for the table `schedule_details_course` */
 
 insert  into `schedule_details_course`(`ID`,`ScheduleID`,`ProdiID`,`CDID`,`MKID`) values 
-(1,1,1,960,99),
-(2,1,2,953,8),
-(3,2,2,970,14),
-(4,3,2,976,4);
+(1,1,1,953,8),
+(2,2,1,952,1),
+(3,3,1,955,168),
+(4,3,1,954,9);
 
 /*Table structure for table `schedule_team_teaching` */
 
@@ -2610,14 +2605,15 @@ CREATE TABLE `schedule_team_teaching` (
   `NIP` varchar(45) NOT NULL,
   `Status` enum('0','1') DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_team_teaching` */
 
 insert  into `schedule_team_teaching`(`ID`,`ScheduleID`,`NIP`,`Status`) values 
-(1,1,'1214044','0'),
-(2,1,'1114005','0'),
-(3,1,'1114013','0');
+(1,3,'2214036','0'),
+(2,3,'1114053','0'),
+(3,3,'3114014','0'),
+(4,3,'3114038','0');
 
 /*Table structure for table `semester` */
 

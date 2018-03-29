@@ -144,6 +144,20 @@
 
     }
 
+    .label-info-inline {
+        color: #658db3;
+        background-color: #fff;
+        border: 1px solid #658db3;
+    }
+
+    .label-success-inline{
+        color: #94b86e;
+        background-color: #fff;
+        border: 1px solid #94b86e;
+    }
+
+
+
     /*.dropdown-menu {*/
         /*min-width: 100%;*/
     /*}*/

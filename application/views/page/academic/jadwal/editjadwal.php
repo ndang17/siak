@@ -18,6 +18,7 @@
 
 <div class="row" style="margin-bottom: 30px;">
     <label class="col-md-8 col-md-offset-2">
+        <button data-page="jadwal" class="btn btn-warning btn-action"><i class="fa fa-arrow-left right-margin" aria-hidden="true"></i> Back Schedule</button>
 <!--        <button  data-page="jadwal" class="btn btn-info btn-action">-->
 <!--            <i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</button>-->
 
@@ -48,33 +49,34 @@
                 </td>
             </tr>
             <tr>
-                <td>Program Studi</td>
+                <td>Course</td>
                 <td>:</td>
                 <td>
                     <div id="viewBaseProdi"></div>
                 </td>
             </tr>
+<!--            <tr>-->
+<!--                <td style="width: 190px;">Mata Kuliah</td>-->
+<!--                <td style="width: 1px;">:</td>-->
+<!--                <td>-->
+<!--                    <div id="viewMataKuliah"></div>-->
+<!--                    <input type="hide" id="formMKID" class="hide" readonly />-->
+<!--                    <input type="hide" id="formMKCode" class="hide" readonly />-->
+<!--                    <input type="hide" id="formReplaceSD" class="hide" readonly />-->
+<!---->
+<!--                    <p style="margin-bottom: 0px;font-size: 10px;">-->
+<!--                        Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>-->
+<!--                        <input type="hide" class="hide" id="textTotalSKSMK" />-->
+<!--                    </p>-->
+<!---->
+<!--                </td>-->
+<!--            </tr>-->
+
             <tr>
                 <td>Group Kelas</td>
                 <td>:</td>
                 <td>
                     <span class="btn-default-primary" id="viewClassGroup" style="padding-left: 5px;padding-right: 5px;"> - </span>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 190px;">Mata Kuliah</td>
-                <td style="width: 1px;">:</td>
-                <td>
-                    <div id="viewMataKuliah"></div>
-                    <input type="hide" id="formMKID" class="hide" readonly />
-                    <input type="hide" id="formMKCode" class="hide" readonly />
-                    <input type="hide" id="formReplaceSD" class="hide" readonly />
-
-                    <p style="margin-bottom: 0px;font-size: 10px;">
-                        Semester : <span id="textSemester">-</span> | Total Credit : <span id="textTotalSKS">-</span>
-                        <input type="hide" class="hide" id="textTotalSKSMK" />
-                    </p>
-
                 </td>
             </tr>
             <tr>
@@ -506,20 +508,29 @@
             $('#semesterName').html('<b style="color:green;">'+JSONresult.semesterName+'</b>');
             $('#viewProgramsCampus').html('<b style="color:green;">'+JSONresult.viewProgramsCampus+'</b>');
             var viewCombinedClasses = (JSONresult.CombinedClasses==1) ? 'Yes' : 'No';
+
+            var dataProdi = JSONresult.Courses.length;
+            var viewBaseProdi = $('#viewBaseProdi');
+            for(var i=0;i<dataProdi;i++){
+
+            }
+
             $('#viewCombinedClasses').html('<b style="color:green;">'+viewCombinedClasses+'</b>');
 
-            var viewBaseProdi = (JSONresult.CombinedClasses==1) ? '-' : JSONresult.ProgramStudy;
-            $('#viewBaseProdi').html('<b style="color:green;">'+viewBaseProdi+'</b>');
+            // var viewBaseProdi = (JSONresult.CombinedClasses==1) ? '-' : JSONresult.ProgramStudy;
+            // $('#viewBaseProdi').html('<b style="color:green;">'+viewBaseProdi+'</b>');
+
+            // $('#viewMataKuliah').html('<b style="color:green;">'+JSONresult.viewMataKuliah+'</b><br/><i>'+JSONresult.viewMataKuliahEng+'</i>');
+            //
+            // $('#formMKID').val(JSONresult.MKID);
+            // $('#formMKCode').val(JSONresult.MKCode);
+            //
+            // $('#textSemester').text(JSONresult.Semester);
+            // $('#textTotalSKS').text(JSONresult.TotalSKS);
+            $('#textTotalSKSMK').val(JSONresult.TotalSKS);
 
             $('#viewClassGroup').text(JSONresult.viewClassGroup);
-            $('#viewMataKuliah').html('<b style="color:green;">'+JSONresult.viewMataKuliah+'</b><br/><i>'+JSONresult.viewMataKuliahEng+'</i>');
 
-            $('#formMKID').val(JSONresult.MKID);
-            $('#formMKCode').val(JSONresult.MKCode);
-
-            $('#textSemester').text(JSONresult.Semester);
-            $('#textTotalSKS').text(JSONresult.TotalSKS);
-            $('#textTotalSKSMK').val(JSONresult.TotalSKS);
 
             loadSelectOptionLecturersSingle('#formCoordinator',JSONresult.NIP);
             $('#formCoordinator').select2({allowClear: true});
