@@ -34,7 +34,35 @@
                                 </div>
                             </div>
                         <?php endif ?>
-                    <?php break; ?>    
+                    <?php break; ?> 
+                    <?php case "Required":  ?> 
+                        <?php if ($action == 'add'): ?>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><?php echo $getColoumn['field'][$i] ?> :</label>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <label class="col-sm-5 control-label">Automatic</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><?php echo $getColoumn['field'][$i] ?> :</label>
+                                <div class="col-sm-3">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <select id = "Required">
+                                                <option value = "Yes" <?php echo $selected = ($getData[0][$getColoumn['field'][$i]] == 'Yes') ? 'selected' : '' ?> >Yes</option>
+                                                <option value = "No" <?php echo $selected = ($getData[0][$getColoumn['field'][$i]] == 'No') ? 'selected' : '' ?> >No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         <?php endif ?>
+                     <?php break; ?> 
                     <?php default: ?>
                         <div class="form-group">
                             <label class="col-sm-4 control-label"><?php echo $getColoumn['field'][$i] ?> :</label>

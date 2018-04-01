@@ -343,7 +343,7 @@ class C_master extends MY_Controller {
                 $this->m_master->inserData_document_checklist($input['DocumentChecklist']);
                 break;
             case 'edit':
-                $this->m_master->editData_document_checklist($input['DocumentChecklist'],$input['CDID']);
+                $this->m_master->editData_document_checklist($input['DocumentChecklist'],$input['CDID'],$input['Required']);
                 break;
             case 'delete':
                 $this->m_master->delete_id_table($input['CDID'],'reg_doc_checklist');
