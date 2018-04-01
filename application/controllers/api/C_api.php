@@ -367,7 +367,7 @@ class C_api extends CI_Controller {
             if($data_arr['action']=='add'){
                 $dataForm = (array) $data_arr['dataForm'];
                 // Cek
-                $check = $this->db->get_where('db_academic.semester',array('YearCode'=>$dataForm['YearCode']))
+                $check = $this->db->get_where('db_academic.semester',array('Year'=>$dataForm['Year'],'Code'=>$dataForm['Code']))
                     ->result_array();
 
 //                print_r($check);
@@ -399,8 +399,51 @@ class C_api extends CI_Controller {
             else if($data_arr['action']=='read'){
 
                 $data = $this->db->order_by('ID', 'DESC')
-                    ->get_where('db_academic.semester',array('IsSemesterAntara'=>'0'))
+                    ->get('db_academic.semester')
                     ->result_array();
+
+                return print_r(json_encode($data));
+
+            }
+
+            else if($data_arr['action']=='addSemesterAntara'){
+                $dataForm = (array) $data_arr['dataForm'];
+                // Cek
+                $check = $this->db->get_where('db_academic.semester_antara',array('Year'=>$dataForm['Year'],'Code'=>$dataForm['Code']))
+                    ->result_array();
+
+                if(count($check)>0){
+                    return print_r(0);
+                } else {
+                    $this->db->insert('db_academic.semester_antara',$dataForm);
+                    $insert_id = $this->db->insert_id();
+
+//                    $this->db->insert('db_academic.academic_years',
+//                        array('SemesterID' => $insert_id));
+
+                    return print_r($insert_id);
+                }
+            }
+            else if($data_arr['action']=='readSemesterAntara'){
+                $data = $this->db
+                    ->select('semester_antara.*')
+                    ->join('db_academic.semester','semester.ID = semester_antara.SemesterID')
+                    ->order_by('semester_antara.Year', 'DESC')
+                    ->get('db_academic.semester_antara')
+                    ->result_array();
+
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action']=='checkSemesterAntara'){
+                $data = $this->db
+                    ->get_where('db_academic.semester_antara',array('Status'=>'1'))
+                    ->result_array();
+                return print_r(json_encode($data));
+            }
+
+            else if($data_arr['action']=='DataSemester'){
+
+                $data = $this->m_api->getSemesterCurriculum();
 
                 return print_r(json_encode($data));
 
@@ -442,94 +485,104 @@ class C_api extends CI_Controller {
 
     public function getAcademicYearOnPublish(){
 
-        $data = $this->m_api->__getAcademicYearOnPublish();
+        $smt = $this->input->get('smt');
+
+        if($smt=='SemesterAntara'){
+            $data = $this->db
+                ->get_where('db_academic.semester_antara',array('Status'=>'1'))
+                ->result_array();
+        } else {
+            $data = $this->m_api->__getAcademicYearOnPublish();
+        }
+
+
         return print_r(json_encode($data[0]));
     }
 
-    public function crudSchedule2(){
-
-        $token = $this->input->post('token');
-        $key = "UAP)(*";
-        $data_arr = (array) $this->jwt->decode($token,$key);
-
-//        print_r($data_arr);
-        if(count($data_arr)>0){
-
-            if($data_arr['action']=='add'){
-                $formData = (array) $data_arr['formData'];
-                $this->db->insert('db_academic.schedule', $formData);
-                $insert_id = $this->db->insert_id();
-
-                // Insert Group Kelas / krs
-                $formDataClassGroup = (array) $data_arr['formDataClassGroup'];
-                $formDataClassGroup['ScheduleID'] = $insert_id;
-                $this->db->insert('db_academic.schedule_class_group',$formDataClassGroup);
-
-                // Insert Base Prodi / Kelas Gabungan
-                $formBaseProdi = (array) $data_arr['formBaseProdi'];
-                if(count($formBaseProdi['formBaseProdi'])>0){
-                    for($i=0;$i<count($formBaseProdi['formBaseProdi']);$i++){
-                        $comb_insert = array(
-                            'ScheduleID' => $insert_id,
-                            'ProgramStudyID' => $formBaseProdi['formBaseProdi'][$i]
-                        );
-                        $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
-                    }
-                } else {
-                    $comb_insert = array(
-                        'ScheduleID' => $insert_id,
-                        'ProgramStudyID' => $formBaseProdi['formBaseProdi']
-                    );
-                    $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
-                }
-
-//                print_r($formData);
-                if($formData['TeamTeaching']!=0){
-                    // Insert Team Teaching
-                    $formTeamTeaching = (array) $data_arr['formTeamTeaching'];
-                    if(count($formTeamTeaching['formTeamDosen'])>0){
-                        for($i=0;$i<count($formTeamTeaching['formTeamDosen']);$i++){
-                            $td_insert = array(
-                                'ScheduleID' => $insert_id,
-                                'NIP' => $formTeamTeaching['formTeamDosen'][$i],
-                                'Status' => 0
-                            );
-                            $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
-                        }
-                    } else {
-                        $td_insert = array(
-                            'ScheduleID' => $insert_id,
-                            'NIP' => $formTeamTeaching['formTeamDosen']
-                        );
-                        $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
-                    }
-                }
-                return print_r($insert_id);
-
-            }
-
-            else if($data_arr['action']=='read'){
-                $dataWhere = (array) $data_arr['dataWhere'];
-
-                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
-
-                $daysName = (array) $dataWhere['DaysName'];
-
-//                return print_r(json_encode($data_arr));
-                for($i=0;$i<count($days);$i++){
-                    $data[$i]['Day'] = array(
-                        'DaysID' => $days[$i],
-                        'Eng' => $daysName['Eng'][$i],
-                        'Ind' => $daysName['Ind'][$i]
-                    );
-                    $data[$i]['Details'] = $this->m_api->getSchedule($days[$i],$dataWhere);
-                }
+//    public function crudSchedule2(){
 //
+//        $token = $this->input->post('token');
+//        $key = "UAP)(*";
+//        $data_arr = (array) $this->jwt->decode($token,$key);
 //
-                return print_r(json_encode($data));
-            }
-        }
-    }
+////        print_r($data_arr);
+//        if(count($data_arr)>0){
+//
+//            if($data_arr['action']=='add'){
+//                $formData = (array) $data_arr['formData'];
+//                $this->db->insert('db_academic.schedule', $formData);
+//                $insert_id = $this->db->insert_id();
+//
+//                // Insert Group Kelas / krs
+//                $formDataClassGroup = (array) $data_arr['formDataClassGroup'];
+//                $formDataClassGroup['ScheduleID'] = $insert_id;
+//                $this->db->insert('db_academic.schedule_class_group',$formDataClassGroup);
+//
+//                // Insert Base Prodi / Kelas Gabungan
+//                $formBaseProdi = (array) $data_arr['formBaseProdi'];
+//                if(count($formBaseProdi['formBaseProdi'])>0){
+//                    for($i=0;$i<count($formBaseProdi['formBaseProdi']);$i++){
+//                        $comb_insert = array(
+//                            'ScheduleID' => $insert_id,
+//                            'ProgramStudyID' => $formBaseProdi['formBaseProdi'][$i]
+//                        );
+//                        $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
+//                    }
+//                } else {
+//                    $comb_insert = array(
+//                        'ScheduleID' => $insert_id,
+//                        'ProgramStudyID' => $formBaseProdi['formBaseProdi']
+//                    );
+//                    $this->db->insert('db_academic.schedule_combinedclasses',$comb_insert);
+//                }
+//
+////                print_r($formData);
+//                if($formData['TeamTeaching']!=0){
+//                    // Insert Team Teaching
+//                    $formTeamTeaching = (array) $data_arr['formTeamTeaching'];
+//                    if(count($formTeamTeaching['formTeamDosen'])>0){
+//                        for($i=0;$i<count($formTeamTeaching['formTeamDosen']);$i++){
+//                            $td_insert = array(
+//                                'ScheduleID' => $insert_id,
+//                                'NIP' => $formTeamTeaching['formTeamDosen'][$i],
+//                                'Status' => 0
+//                            );
+//                            $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
+//                        }
+//                    } else {
+//                        $td_insert = array(
+//                            'ScheduleID' => $insert_id,
+//                            'NIP' => $formTeamTeaching['formTeamDosen']
+//                        );
+//                        $this->db->insert('db_academic.schedule_team_teaching',$td_insert);
+//                    }
+//                }
+//                return print_r($insert_id);
+//
+//            }
+//
+//            else if($data_arr['action']=='read'){
+//                $dataWhere = (array) $data_arr['dataWhere'];
+//
+//                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
+//
+//                $daysName = (array) $dataWhere['DaysName'];
+//
+////                return print_r(json_encode($data_arr));
+//                for($i=0;$i<count($days);$i++){
+//                    $data[$i]['Day'] = array(
+//                        'DaysID' => $days[$i],
+//                        'Eng' => $daysName['Eng'][$i],
+//                        'Ind' => $daysName['Ind'][$i]
+//                    );
+//                    $data[$i]['Details'] = $this->m_api->getSchedule($days[$i],$dataWhere);
+//                }
+////
+////
+//                return print_r(json_encode($data));
+//            }
+//        }
+//    }
 
     public function crudSchedule(){
         $token = $this->input->post('token');
@@ -541,46 +594,50 @@ class C_api extends CI_Controller {
             if($data_arr['action']=='add'){
                 $formData = (array) $data_arr['formData'];
 
+//                print_r($formData);
+//                exit;
+
                 // Scedule
                 $insertSchedule = (array) $formData['schedule'];
                 $this->db->insert('db_academic.schedule',$insertSchedule);
                 $insert_id = $this->db->insert_id();
 
-                //schedule_combinedclasses
-//                $dataCombine = (array) $formData['schedule_combinedclasses'];
-//                for($c=0;$c<count($dataCombine['ProdiIDArray']);$c++){
-//                    $dataInsert = array(
-//                        'ScheduleID' => $insert_id,
-//                        'ProdiID' => $dataCombine['ProdiIDArray'][$c]
-//                    );
-//                    $this->db->insert('db_academic.schedule_combinedclasses',$dataInsert);
-//                }
+                //schedule_class_group
+                $dataGroup = (array) $formData['schedule_class_group'];
+                $dataGroup['ScheduleID'] = $insert_id;
+                $this->db->insert('db_academic.schedule_class_group',$dataGroup);
 
-                // Schedule Details
+
+                // schedule_details
                 $dataScheduleDetails = (array) $formData['schedule_details'];
-                for($s=0;$s<count($dataScheduleDetails['dataScheduleDetailsArray']);$s++){
-                    $arr = (array) $dataScheduleDetails['dataScheduleDetailsArray'][$s];
+                for($s=0;$s<count($dataScheduleDetails);$s++){
+                    $arr = (array) $dataScheduleDetails[$s];
                     $arr['ScheduleID'] = $insert_id;
                     $this->db->insert('db_academic.schedule_details',$arr);
                 }
 
+
+                // schedule_details_course
+                $dataScheduleDetailsCourse = (array) $formData['schedule_details_course'];
+                for($sdc=0;$sdc<count($dataScheduleDetailsCourse);$sdc++){
+                    $arr = (array) $dataScheduleDetailsCourse[$sdc];
+                    $arr['ScheduleID'] = $insert_id;
+                    $this->db->insert('db_academic.schedule_details_course',$arr);
+                }
+
+
                 //schedule_team_teaching
                 if($insertSchedule['TeamTeaching']==1){
                     $dataTemaTeaching = (array) $formData['schedule_team_teaching'];
-                    for($t=0;$t<count($dataTemaTeaching['teamTeachingArray']);$t++){
-                        $arr = (array) $dataTemaTeaching['teamTeachingArray'][$t];
+                    for($t=0;$t<count($dataTemaTeaching);$t++){
+                        $arr = (array) $dataTemaTeaching[$t];
                         $arr['ScheduleID'] = $insert_id;
-
-//                        print_r($dataTemaTeaching['teamTeachingArray'][$t]);
 
                         $this->db->insert('db_academic.schedule_team_teaching',$arr);
                     }
                 }
 
-                //schedule_class_group
-                $dataGroup = (array) $formData['schedule_class_group'];
-                $dataGroup['ScheduleID'] = $insert_id;
-                $this->db->insert('db_academic.schedule_class_group',$dataGroup);
+
 
                 return print_r(1);
 
@@ -589,18 +646,15 @@ class C_api extends CI_Controller {
             else if($data_arr['action']=='read'){
                 $dataWhere = (array) $data_arr['dataWhere'];
 
-                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
+//                $days = (count((array) $dataWhere['Days'])>0) ? $dataWhere['Days'] : [1,2,3,4,5,6,7] ;
+                $days = $this->db->order_by('ID','ASC')->get('db_academic.days')->result_array();
 
-                $daysName = (array) $dataWhere['DaysName'];
+//                $daysName = (array) $dataWhere['DaysName'];
 
 //                return print_r(json_encode($data_arr));
                 for($i=0;$i<count($days);$i++){
-                    $data[$i]['Day'] = array(
-                        'DaysID' => $days[$i],
-                        'Eng' => $daysName['Eng'][$i],
-                        'Ind' => $daysName['Ind'][$i]
-                    );
-                    $data[$i]['Details'] = $this->m_api->getSchedule($days[$i],$dataWhere);
+                    $data[$i]['Day'] = $days[$i];
+                    $data[$i]['Details'] = $this->m_api->getSchedule($days[$i]['ID'],$dataWhere);
                 }
 //
 //
@@ -679,6 +733,12 @@ class C_api extends CI_Controller {
                 return print_r(1);
 
             }
+            else if($data_arr['action']=='readDetail') {
+
+                $data = $this->m_api->getScheduleDetails($data_arr['ScheduleID']);
+
+                return print_r(json_encode($data));
+            }
 
         }
     }
@@ -722,7 +782,7 @@ class C_api extends CI_Controller {
             }
             else if($data_arr['action']=='ReadSemesterActive'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getSemesterActive($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
+                $data = $this->m_api->getSemesterActive($formData['CurriculumID'],$formData['ProdiID'],$formData['Semester'],$formData['IsSemesterAntara']);
                 return print_r(json_encode($data));
             }
         }
@@ -750,7 +810,8 @@ class C_api extends CI_Controller {
             }
             else if($data_arr['action']=='read'){
                 $formData = (array) $data_arr['formData'];
-                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['CurriculumID'],$formData['ProdiID'],$formData['Semester']);
+                $data = $this->m_api->getAllCourseOfferings($formData['SemesterID'],$formData['CurriculumID'],
+                    $formData['ProdiID'],$formData['Semester'],$formData['IsSemesterAntara']);
                 return print_r(json_encode($data));
             }
             else if($data_arr['action']=='readgabungan'){
@@ -786,6 +847,10 @@ class C_api extends CI_Controller {
                 if(count($query)>0){
                     $Arr_CDID = json_decode($query[0]['Arr_CDID']);
 
+//                    print_r($Arr_CDID);
+//
+//                    exit;
+
                     if(count($Arr_CDID)>1){
                         $result = [];
                         if (($key = array_search($data_arr['CDID'], $Arr_CDID)) !== false) {
@@ -815,6 +880,13 @@ class C_api extends CI_Controller {
 
 
                 }
+
+            }
+            else if($data_arr['action']=='readToSchedule') {
+                $formData = (array) $data_arr['formData'];
+
+                $data = $this->m_api->getOfferingsToSetSchedule($formData);
+                return print_r(json_encode($data));
 
             }
         }
@@ -852,7 +924,8 @@ class C_api extends CI_Controller {
         $data = $this->m_api->__checkClassGroup(
             $data_arr['ProgramsCampusID'],
             $data_arr['SemesterID'],
-            $data_arr['ProdiCode']
+            $data_arr['ProdiCode'],
+            $data_arr['IsSemesterAntara']
             );
 
         $result = array(

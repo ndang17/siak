@@ -35,7 +35,7 @@
 
 
         if(action!='add'){
-            $('input[type=radio][name=semester][value=<?php echo $semester; ?>]').prop('checked',true);
+            $('input[type=radio][name=semester][value=<?php echo $Code; ?>]').prop('checked',true);
         }
 
     });

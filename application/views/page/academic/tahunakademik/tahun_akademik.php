@@ -82,7 +82,6 @@
         var tahun = $('#modalTahun').find(':selected').val().split('.');
         var semester = $('input[name=semester]:checked').val();
 
-        var YearCode = tahun[0].trim()+''+semester;
         var s = (semester==1) ? 'Ganjil' : 'Genap';
         var Name = tahun[1].trim()+' '+s;
 
@@ -103,7 +102,8 @@
                 ID : ID,
                 dataForm : {
                     ProgramCampusID : ProgramCampusID,
-                    YearCode : YearCode,
+                    Year : tahun[0].trim(),
+                    Code : semester,
                     Name : Name,
                     Status : 0,
                     UpdateBy : sessionNIP,

@@ -24,5 +24,12 @@ class C_semester_antara extends MY_Controller {
         $this->temp($content);
     }
 
+    public function loadDetails($SA_ID){
+        $department = parent::__getDepartement();
+        $data['SA_ID'] =$SA_ID;
+        $this->load->view('page/'.$department.'/semesterantara/details_sa',$data);
+
+    }
+
 
 }

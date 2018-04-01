@@ -144,6 +144,20 @@
 
     }
 
+    .label-info-inline {
+        color: #658db3;
+        background-color: #fff;
+        border: 1px solid #658db3;
+    }
+
+    .label-success-inline{
+        color: #94b86e;
+        background-color: #fff;
+        border: 1px solid #94b86e;
+    }
+
+
+
     /*.dropdown-menu {*/
         /*min-width: 100%;*/
     /*}*/
@@ -157,6 +171,9 @@
     }
 
     .td-center, .th-center , .tr-center {
+        text-align: center;
+    }
+    .head-center th {
         text-align: center;
     }
 
@@ -404,7 +421,7 @@
         console.log(data);
     }
 
-    function loadSelectOptionSemester(element,option,selected) {
+    function loadSelectOptionSemester(element,selected) {
 
         var token = jwt_encode({action:'read'},'UAP)(*');
         var url = base_url_js+'api/__crudTahunAkademik';
@@ -413,8 +430,9 @@
            if(jsonResult.length>0){
                for(var i=0;i<jsonResult.length;i++){
                    var dt = jsonResult[i];
-                   var v = (option=="Name") ? dt.Name : dt.ID;
-                   $(element).append('<option value="'+v+'">'+dt.Name+'</option>');
+                   var sc = (selected==dt.ID) ? 'selected' : '';
+                   // var v = (option=="Name") ? dt.Name : dt.ID;
+                   $(element).append('<option value="'+dt.ID+'.'+dt.Name+'" '+sc+'>'+dt.Name+'</option>');
                }
            }
         });

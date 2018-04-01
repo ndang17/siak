@@ -16,7 +16,7 @@
         <tr>
             <td class="td-center"><?php echo $no; ?></td>
             <td><?php echo $item_smt['ProgramName']; ?></td>
-            <td class="td-center"><?php echo $item_smt['YearCode']; ?></td>
+            <td class="td-center"><?php echo $item_smt['Year'].''.$item_smt['Code']; ?></td>
             <td>
 <!--                <a href="--><?php //echo base_url('academic/tahun-akademik/'.$item_smt['YearCode']); ?><!--">--><?php //echo $item_smt['Name']; ?><!--</a>-->
                 <a href="javascript:void(0)" class="btn-detail-tahun-akademik" data-id="<?php echo $item_smt['ID']; ?>"><?php echo $item_smt['Name']; ?></a>
