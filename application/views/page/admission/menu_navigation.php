@@ -179,11 +179,39 @@
                     Distribusi Formulir
                 </a>
             </li>
-            <li class="">
+            <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa'){echo "current open";} ?>">
                 <a href="#">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     Proses Calon Mahasiswa
                 </a>
+                <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokument' ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokument'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Verifikasi Dokumen
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == "check-calon-mahasiswa" ){echo "open-default";} ?>">
+                        <a href="javascript:void(0);">
+                        <i class="icon-angle-right"></i>
+                        Check Calon Mahasiswa
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == "check-calon-mahasiswa" && $this->uri->segment(4) == "tidak-melakukan-pembayaran"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/proses-calon-mahasiswa/check-calon-mahasiswa/tidak-melakukan-pembayaran'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Tidak Melakukan Pembayaran
+                                </a>
+                            </li>
+                            <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == "check-calon-mahasiswa" && $this->uri->segment(4) == "tidak-melakukan-pembayaran"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/proses-calon-mahasiswa/check-calon-mahasiswa/tidak-melakukan-pembayaran'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Bukti Upload Rejected
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
             <li class="">
                 <a href="#">
@@ -191,14 +219,7 @@
                     Koreksi Calon Mahasiswa
                 </a>
             </li>
-
-
-
-
         </ul>
-
-
-
         <div class="sidebar-widget align-center">
             <div class="btn-group" data-toggle="buttons" id="theme-switcher">
                 <label class="btn active">
