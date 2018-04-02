@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class C_admission extends MY_Controller {
+    public $data = array();
 
     function __construct()
     {
@@ -41,6 +42,7 @@ class C_admission extends MY_Controller {
 
     public function pagination_calon_mahasiswa($page= null)
     {
+
         $this->load->library('pagination');
         $config = array();
           $config["base_url"] = "#";
@@ -69,11 +71,12 @@ class C_admission extends MY_Controller {
         $this->pagination->initialize($config);
         $page = $this->uri->segment(6);
         $start = ($page - 1) * $config["per_page"];
-        //echo "LIMIT : ".$config["per_page"]." Start : ".$start;
+        $this->data['datadb'] = $this->m_admission->selectDataCalonMahasiswa($config["per_page"], $start);
+       $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/page_verifikasi_dokumen',$this->data,true);
 
         $output = array(
         'pagination_link'  => $this->pagination->create_links(),
-        'register_document_table'   => $this->m_admission->selectDataCalonMahasiswa($config["per_page"], $start)
+        'register_document_table'   => $content,
         );
         echo json_encode($output);
         
