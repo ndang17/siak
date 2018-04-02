@@ -669,7 +669,8 @@ class C_api extends CI_Controller {
             else if($data_arr['action']=='delete'){
                 $ID = $data_arr['ScheduleID'];
 
-                $tables = array('db_academic.schedule_class_group', 'db_academic.schedule_details', 'db_academic.schedule_team_teaching');
+                $tables = array('db_academic.schedule_class_group', 'db_academic.schedule_details',
+                    'db_academic.schedule_details_course', 'db_academic.schedule_team_teaching');
                 $this->db->where('ScheduleID', $ID);
                 $this->db->delete($tables);
 

@@ -776,6 +776,8 @@
         var CombinedClasses = $('input[name=formCombinedClasses]:checked').val();
         var formBaseProdi = $('#formBaseProdi1').val();
 
+        console.log(value);
+
         if(value==1){
             var ProgramsCampusID = $('#formProgramsCampusID').val();
             var SemesterID = $('#formSemesterID').val();
@@ -784,11 +786,13 @@
             var data = {
                 ProgramsCampusID : ProgramsCampusID,
                 SemesterID : SemesterID,
-                ProdiCode : ProdiCode
+                ProdiCode : ProdiCode,
+                IsSemesterAntara : SemesterAntara
             };
             var token = jwt_encode(data,'UAP)(*');
             var url = base_url_js+'api/__getClassGroup';
             $.post(url,{token:token},function (result) {
+                console.log(result);
                 $('#viewClassGroup').html(result.Group);
                 $('#formClassGroup').val(result.Group);
             });
@@ -831,6 +835,8 @@
     }
 
     function loadformCombinedClasses(value) {
+
+        console.log(value);
 
         if(value==1){
             $('#btnControlProdi').removeClass('hide');
@@ -1113,11 +1119,8 @@
 
         if($.inArray(0,process)==-1){
 
-            $('#NotificationModal .modal-body').html('<div style="text-align: center;"><h3>Loading to saving...</h3></div>');
-            $('#NotificationModal').modal({
-                'show' : true,
-                'backdrop' : 'static'
-            });
+            loading_button('#btnSavejadwal');
+            $('#removeNewSesi,#addNewSesi').prop('disabled',true);
 
             var SubSesi = (dataSesi>1) ? '1' : '0';
             var data = {
@@ -1153,8 +1156,10 @@
             var url = base_url_js+'api/__crudSchedule';
             $.post(url,{token:token},function (result) {
                 resetFormSetSchedule();
+                toastr.success('Schedule Saved','Success!!');
                 setTimeout(function () {
-                    $('#NotificationModal').modal('hide');
+                    $('#btnSavejadwal').html('Save');
+                    $('#btnSavejadwal,#removeNewSesi,#addNewSesi').prop('disabled',false);
                 },1000);
             });
 

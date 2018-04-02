@@ -702,7 +702,9 @@ class M_api extends CI_Model {
                                           WHERE sd.ScheduleID = "'.$ScheduleID.'" ');
             $result[0]['SubSesiDetails'] = $dataSesi->result_array();
 
-            $dataCourse = $this->db->query('SELECT * FROM db_academic.schedule_details_course sdc 
+            $dataCourse = $this->db->query('SELECT sdc.CDID, mk.ID AS MKID, mk.MKCode, mk.Name, mk.NameEng, 
+                                                      ps.ID AS ProdiID, ps.Code, ps.Name AS Prodi, ps.NameEng AS ProdiEng
+                                                      FROM db_academic.schedule_details_course sdc 
                                                       LEFT JOIN db_academic.program_study ps ON (ps.ID = sdc.ProdiID)
                                                       LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = sdc.MKID)
                                                       WHERE sdc.ScheduleID = "'.$ScheduleID.'" ');

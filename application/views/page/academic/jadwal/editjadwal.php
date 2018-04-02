@@ -18,7 +18,7 @@
 
 <div class="row" style="margin-bottom: 30px;">
     <label class="col-md-8 col-md-offset-2">
-        <button data-page="jadwal" class="btn btn-warning btn-action"><i class="fa fa-arrow-left right-margin" aria-hidden="true"></i> Back Schedule</button>
+<!--        <button data-page="jadwal" class="btn btn-warning btn-action"><i class="fa fa-arrow-left right-margin" aria-hidden="true"></i> Back Schedule</button>-->
 <!--        <button  data-page="jadwal" class="btn btn-info btn-action">-->
 <!--            <i class="fa fa-arrow-circle-left right-margin" aria-hidden="true"></i> Back</button>-->
 
@@ -263,7 +263,7 @@
 
         if($.inArray(0,process)==-1){
 
-            if(totalCredit<=textTotalSKSMK){
+            // if(totalCredit<=textTotalSKSMK){
 
 
                 var data = {
@@ -322,11 +322,11 @@
                     },3000);
 
                 });
-            } else {
-                toastr.warning('Credit Input & Total Credit Not Match','Warning!');
-                errorInput('.form-credit');
-                errorInput('.form-credit');
-            }
+            // } else {
+            //     toastr.warning('Credit Input & Total Credit Not Match','Warning!');
+            //     errorInput('.form-credit');
+            //     errorInput('.form-credit');
+            // }
 
         } else {
             toastr.error('Form Required','Error');
@@ -337,8 +337,8 @@
 
 
     $('#btnRemove').click(function () {
-        var MKCode = $(this).attr('data-code');
-        $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Remove Schedule <span style="color:red;">'+MKCode+'</span> ?? </b> ' +
+        // var ScheduleID = $(this).attr('data-id');
+        $('#NotificationModal .modal-body').html('<div style="text-align: center;"><b>Remove Schedule ?? </b> ' +
             '<button type="button" id="btnRemoveYes" class="btn btn-primary" style="margin-right: 5px;">Yes</button>' +
             '<button type="button" id="btnRemoveNo" class="btn btn-default" data-dismiss="modal">No</button>' +
             '</div>');
@@ -439,6 +439,7 @@
                 action : 'check',
                 formData : {
                     SemesterID : SemesterID,
+                    IsSemesterAntara : ''+SemesterAntara,
                     ClassroomID : ClassroomID,
                     DayID : DayID,
                     StartSessions : StartSessions,
@@ -457,18 +458,6 @@
                 $(element).html('');
                 $('.trNewSesi'+ID).css('background','#ffffff');
                 if(json_result.length>0){
-
-                    var btn_act_alert = '';
-                    if(json_result.length==1){
-                        // btn_act_alert = (MKID_ == json_result[0].MKID && MKCode_ == json_result[0].MKCode) ? '<button class="btn btn-warning btn-sm" id="replaceSchedule" data-id="'+json_result[0].sdID+'">Replace Schedule</button>' : '';
-                        btn_act_alert = (MKID_ == json_result[0].MKID && MKCode_ == json_result[0].MKCode) ? '<div class="checkbox">' +
-                            '    <label style="color: #FFEB3B;background: #333;">' +
-                            '      <input type="checkbox" id="replaceSchedule" value="'+json_result[0].sdID+'"> Replace Schedule' +
-                            '    </label>' +
-                            '  </div>' : '';
-                    }
-
-
                     $('#btnSavejadwal,#addNewSesi').prop('disabled',true);
                     $('.trNewSesi'+ID).css('background','#ffeb3b63');
                     $(element).append('<div class="row">' +
@@ -476,17 +465,26 @@
                         '                            <div class="alert alert-danger" role="alert">' +
                         '                                <b><i class="fa fa-exclamation-triangle" aria-hidden="true" style="margin-right: 5px;"></i> Jadwal bentrok</b>, Silahklan rubah : Ruang / Hari / Jam' +
                         '                                <hr style="margin-bottom: 3px;margin-top: 10px;"/>' +
-                        '                                <ul id="ulbentrok'+ID+'">' +
-                        '                                </ul>' +
+                        '                                <ol id="ulbentrok'+ID+'">' +
+                        '                                </ol>' +
                         '                            </div>' +
                         '                        </div>' +
                         '' +
                         '                    </div>');
 
-                    var ul = $('#ulbentrok'+ID);
+                    var ol = $('#ulbentrok'+ID);
                     for(var i=0;i<json_result.length;i++){
                         var data = json_result[i];
-                        ul.append('<li>'+data.NameEng+' : <span style="color: blue;">'+data.Room+' | '+daysEng[(parseInt(data.DayID)-1)]+' '+data.StartSessions+' - '+data.EndSessions+'</span> '+btn_act_alert+'</li>');
+                        ol.append('<li>' +
+                            'Group <strong style="color:#333;">'+data.ClassGroup+'</strong> : <span style="color: blue;">'+data.Room+' | '+daysEng[(parseInt(data.DayID)-1)]+' '+data.StartSessions+' - '+data.EndSessions+'</span>' +
+                            '<ul style="color: #607d8b;" id="dtMK'+i+'"></ul>' +
+                            '</li>');
+
+                        var ul = $('#dtMK'+i);
+                        for(var m=0;m<data.DetailsCourse.length;m++){
+                            var mk_ = data.DetailsCourse[m];
+                            ul.append('<li>'+mk_.MKCode+' | '+mk_.NameEng+'</li>');
+                        }
                     }
                 }
             });
@@ -504,6 +502,8 @@
         var token = jwt_encode(data,'UAP)(*');
 
         $.post(url,{token:token},function (JSONresult) {
+
+            // console.log(JSONresult);
 
             $('#semesterName').html('<b style="color:green;">'+JSONresult.semesterName+'</b>');
             $('#viewProgramsCampus').html('<b style="color:green;">'+JSONresult.viewProgramsCampus+'</b>');
@@ -527,6 +527,14 @@
             //
             // $('#textSemester').text(JSONresult.Semester);
             // $('#textTotalSKS').text(JSONresult.TotalSKS);
+
+
+            $('#viewBaseProdi').html('<ul id="listCourse" style="list-style-type: none;padding-left:0px;"></ul>');
+            for(var c=0;c<JSONresult.Courses.length;c++){
+                var course = JSONresult.Courses[c];
+                $('#listCourse').append('<li><strong><span style="color:#1785dc;">'+course.ProdiEng+'</span> | '+course.MKCode+' - '+course.NameEng+'</strong></li>');
+            }
+
             $('#textTotalSKSMK').val(JSONresult.TotalSKS);
 
             $('#viewClassGroup').text(JSONresult.viewClassGroup);
@@ -719,6 +727,7 @@
         var sdID = $(this).attr('data-sd');
 
         if(sdID==''){
+
             $('.trNewSesi'+Sesi).remove();
 
             dataSesiNewArr = $.grep(dataSesiNewArr, function(value) {
