@@ -39,11 +39,39 @@
 	    loadData_register_document(1);
 	});
 
+	$(document).on('change','#selectStatus', function () {
+    	loadData_register_document(1);
+    });
+
+    $(document).on('change','#selectTahun', function () {
+    	loadData_register_document(1);
+    });
+
+    $(document).on("keyup", "#Nama", function(event){
+    	var nama = $('#Nama').val();
+    	var n = nama.length;
+    	console.log(n);
+    	if( this.value.length < 3 && this.value.length != 0 ) return;
+    	   /* code to run below */
+    	 loadData_register_document(1);
+	  
+	 });
+
 	function loadData_register_document(page)
 	{
 		loading_page('#register_document_table');
 		var url = base_url_js+'admission/proses-calon-mahasiswa/verifikasi-dokument/register_document_table/pagination/'+page;
-		$.post(url,function (data_json) {
+		var selectTahun = $("#selectTahun").find(':selected').val();
+		var NamaCandidate = $("#Nama").val();
+		 if (NamaCandidate == '') {NamaCandidate = '%'};
+		var selectStatus = $("#selectStatus").find(':selected').val();
+		var data = {
+					selectTahun : selectTahun,
+					NamaCandidate : NamaCandidate,
+					selectStatus : selectStatus,					
+					};
+		var token = jwt_encode(data,"UAP)(*");			
+		$.post(url,{token:token},function (data_json) {
 		    // jsonData = data_json;
 		    var obj = JSON.parse(data_json); 
 		    // console.log(obj);

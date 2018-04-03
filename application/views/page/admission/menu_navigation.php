@@ -185,8 +185,8 @@
                     Proses Calon Mahasiswa
                 </a>
                 <ul class="sub-menu">
-                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokument' ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokument'); ?>">
+                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokumen' ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokumen'); ?>">
                         <i class="icon-angle-right"></i>
                         Verifikasi Dokumen
                         </a>

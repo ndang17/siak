@@ -23,14 +23,33 @@ class M_admission extends CI_Model {
         return $conVertINT;
     }
 
-    public function selectDataCalonMahasiswa($limit,$start)
+    public function selectDataCalonMahasiswa($limit,$start,$tahun,$nama,$status)
     {
       $arr_temp = array('data' => array());
+      if($nama != '%') {
+          $nama = '"%'.$nama.'%"'; 
+      }
+      else
+      {
+        $nama = '"%"'; 
+      }
+      if($status == 'Belum Done') {
+        $status = 'Status != "Done"';
+      }
+      else
+      {
+        $status = 'Status = "Done"';
+      }
+
+      $tahun = 'year(RegisterAT) = '.$tahun;
       $sql = "select * from (
               select a.ID,z.name as name_programstudy, 
               (select count(*) as total from db_admission.register_document 
-              where Status != 'Done' and ID_register_formulir = a.ID
+              where ".$status." and ID_register_formulir = a.ID
               GROUP BY ID_register_formulir limit 1) as document_undone,
+              (select count(*) as total from db_admission.register_document 
+              where Status = 'Progress Checking' and ID_register_formulir = a.ID
+              GROUP BY ID_register_formulir limit 1) as document_progress,
               a.ID_program_study,d.Name,a.IdentityCard,e.ctr_name as Nationality,concat(a.PlaceBirth,',',a.DateBirth) as PlaceDateBirth,g.JenisTempatTinggal,
               h.ctr_name as CountryAddress,i.ProvinceName as ProvinceAddress,j.RegionName as RegionAddress,k.DistrictName as DistrictsAddress,
                           a.District as DistrictAddress,a.Address,a.ZipCode,a.PhoneNumber,d.Email,n.SchoolName,l.sct_name_id as SchoolType,m.SchoolMajor,
@@ -64,11 +83,12 @@ class M_admission extends CI_Model {
               JOIN db_academic.program_study as z
               on a.ID_program_study = z.id
               ) as a
-              where document_undone > 0
+              where document_undone > 0 and Name like ".$nama." and ".$tahun."
+              order by document_progress desc
               LIMIT ".$start. ", ".$limit; // query undone
+
         $query=$this->db->query($sql, array())->result();
           $a = 0;
-          $b = 0;
           foreach ($query as $key) { // foreach 1
             $ID_register_formulir = $key->ID;
             $sql2 = "select a.*, b.DocumentChecklist,b.Required from db_admission.register_document as a
@@ -76,6 +96,7 @@ class M_admission extends CI_Model {
               on a.ID_reg_doc_checklist = b.ID where a.ID_register_formulir = ? ";
               $query2=$this->db->query($sql2, array($ID_register_formulir))->result();
               $arr_document = array();
+              $b = 0;
               foreach ($query2 as $row) { // foreach 2
                   $arr_document[$b] = array(
                                           'ID_register_document' => $row->ID,
@@ -99,6 +120,20 @@ class M_admission extends CI_Model {
               $a++;
           } // exit foreach 1
           return $arr_temp;
+    }
+
+    public function updateStatusVeriDokumen($data_arr,$Status)
+    {
+        for ($i=0; $i < count($data_arr); $i++) { 
+          $arr = explode(";", $data_arr[$i]);
+          $ID = $arr[0];
+          $NamaFile = ($arr[1] == 'nothing' ? $NamaFile="" : $NamaFile=$arr[1]);
+          $VerificationBY = $this->session->userdata('NIP');
+          $VerificationAT = date("Y-m-d H:i:s");
+          $sql = "update db_admission.register_document set Status = ?,Attachment = ?, VerificationBY = ?, VerificationAT = ? where ID = ?";
+          $query=$this->db->query($sql, array($Status,$NamaFile,$VerificationBY,$VerificationAT,$ID));
+        } 
+        
     }
   
 }

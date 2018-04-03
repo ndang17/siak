@@ -267,6 +267,7 @@
 	});
 
 	$(document).on('click','#btn-confirm', function () {
+		loading_button('#btn-confirm');
 		var RegisterID = getValueChecbox('.datatable2');
 		 if (RegisterID.length == 0) {
 		 	toastr.error("Silahkan checked dahulu", 'Failed!!');
@@ -315,7 +316,7 @@
 		 	}
 	 		 
 		 }
-
+		 $('#btn-confirm').prop('disabled',false).html('Confirm');
 	});
 
 	$(document).on('click','#confirmYesProcess', function () {
