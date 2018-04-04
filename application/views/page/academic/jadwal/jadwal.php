@@ -23,9 +23,9 @@
                 <option value="0">Combine Class No</option>
             </select>
         </div>
-        <div class="col-xs-3" style="text-align: right;padding-left: 0px;">
-
-
+<!--        <div class="col-xs-3" style="text-align: right;padding-left: 0px;">-->
+        <div class="col-xs-2">
+            <select class="form-control" id="filterSemesterSchedule"></select>
         </div>
         <!--                <div class="col-xs-2">-->
         <!--                    <button class="btn btn-"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat </button>-->
@@ -74,9 +74,9 @@
         loSelectOptionSemester('#filterSemester','selectedNow');
 
         loadAcademicYearOnPublish();
+        loadSelectOPtionAllSemester('#filterSemesterSchedule');
 
     });
-
 
     $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine',function () {
         filterSchedule();
@@ -205,6 +205,8 @@
                     var table = $('#trData'+i);
                     var sc = data_result[i].Details;
                     var no = 1;
+
+
                     for(var r=0;r<sc.length;r++){
 
                         var gabungan = (sc[r].CombinedClasses==0) ? 'No' : 'Yes';
@@ -220,44 +222,47 @@
                             .format('LT');
 
                         var teamTeaching = '';
-                        if(sc[r].TeamTeaching==1){
-                            for(var t=0;t<sc[r].DetailTeamTeaching.length;t++){
-                                var tcm = sc[r].DetailTeamTeaching;
-                                teamTeaching = teamTeaching +'<div style="margin-bottom: 7px;"><span class="label label-info-inline"><b>'+tcm[t].Lecturer+'</b></span></div>';
-                            }
-                        }
-
-                        var Subsesi = (sc[r].SubSesi==1)? '<span class="label label-warning">Sub-Sesi</span>' :'';
-
-                        table.append('<tr>' +
-                            '<td class="td-center" style="width:1%;">'+no+'</td>' +
-                            '<td class="td-center" style="width:5%;"><b><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'">'+sc[r].ClassGroup+'</a></b><br/>'+Subsesi+'</td>' +
-                            // '<td>' +
-                            // '<a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i>' +
-                            // '</td>' +
-
-                            '<td><ul id="listCourse'+i+''+r+'" style="padding-left:0px;list-style-type: none;"></ul></td>' +
-                            '<td class="td-center" style="width:5%;">'+sc[r].Credit+'</td>' +
-
-                            '<td style="width:20%;">' +
-                            '<div style="color: #427b44;margin-bottom: 10px;"><b>'+sc[r].Lecturer+'</b></div>'+teamTeaching+
-                            '</td>' +
-                            // '<td class="td-center">'+gabungan+'</td>' +
-                            '<td class="td-center" style="width:15%;">'+StartSessions+' - '+EndSessions+'</td>' +
-                            '<td class="td-center" style="width:5%;">'+sc[r].Room+'</td>' +
-
-                            // '<td class="td-center"><button class="btn btn-default btn-default-primary">Action</button></td>' +
-                            '</tr>');
-
-
                         var DetailCourse = sc[r].DetailCourse;
-                        var ls = $('#listCourse'+i+''+r);
 
-                        var lscss = (DetailCourse.length>1) ? 'style="margin-bottom: 15px;"' : '';
-                        for(var s=0;s<DetailCourse.length;s++){
-                            var course = DetailCourse[s];
-                            ls.append('<li '+lscss+'><b>'+course.MKNameEng+'</b><br/><i>'+course.MKName+'</i><br/>' +
-                                '<span class="label label-default">'+course.MKCode+'</span> | <span class="label label-success-inline"><b>'+course.ProdiEng+'</b></span></li>');
+                        if(DetailCourse.length>0){
+                            if(sc[r].TeamTeaching==1){
+                                for(var t=0;t<sc[r].DetailTeamTeaching.length;t++){
+                                    var tcm = sc[r].DetailTeamTeaching;
+                                    teamTeaching = teamTeaching +'<div style="margin-bottom: 7px;"><span class="label label-info-inline"><b>'+tcm[t].Lecturer+'</b></span></div>';
+                                }
+                            }
+
+                            var Subsesi = (sc[r].SubSesi==1)? '<span class="label label-warning">Sub-Sesi</span>' :'';
+
+                            table.append('<tr>' +
+                                '<td class="td-center" style="width:1%;">'+no+'</td>' +
+                                '<td class="td-center" style="width:5%;"><b><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'">'+sc[r].ClassGroup+'</a></b><br/>'+Subsesi+'</td>' +
+                                // '<td>' +
+                                // '<a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i>' +
+                                // '</td>' +
+
+                                '<td><ul id="listCourse'+i+''+r+'" style="padding-left:0px;list-style-type: none;"></ul></td>' +
+                                '<td class="td-center" style="width:5%;">'+sc[r].Credit+'</td>' +
+
+                                '<td style="width:20%;">' +
+                                '<div style="color: #427b44;margin-bottom: 10px;"><b>'+sc[r].Lecturer+'</b></div>'+teamTeaching+
+                                '</td>' +
+                                // '<td class="td-center">'+gabungan+'</td>' +
+                                '<td class="td-center" style="width:15%;">'+StartSessions+' - '+EndSessions+'</td>' +
+                                '<td class="td-center" style="width:5%;">'+sc[r].Room+'</td>' +
+
+                                // '<td class="td-center"><button class="btn btn-default btn-default-primary">Action</button></td>' +
+                                '</tr>');
+
+                            var ls = $('#listCourse'+i+''+r);
+
+                            var lscss = (DetailCourse.length>1) ? 'style="margin-bottom: 15px;"' : '';
+                            for(var s=0;s<DetailCourse.length;s++){
+                                var course = DetailCourse[s];
+                                ls.append('<li '+lscss+'><b>'+course.MKNameEng+'</b><br/><i>'+course.MKName+'</i><br/>' +
+                                    '<span class="label label-default">'+course.MKCode+'</span> | <span class="label label-success-inline"><b>'+course.ProdiEng+'</b></span></li>');
+                            }
+
                         }
 
                         no += 1;

@@ -831,9 +831,11 @@ class C_api extends CI_Controller {
             // Untuk mengecek apakah MK Offering sudah dibuatkan jadwal atau belum
             else if($data_arr['action']=='checkCourse'){
                 $dataWhere = (array) $data_arr['dataWhere'];
-                $query = $this->db
-                    ->get_where('db_academic.schedule', $dataWhere)
-                    ->result_array();
+//                $query = $this->db
+//                    ->get_where('db_academic.schedule', $dataWhere)
+//                    ->result_array();
+
+                $query = $this->m_api->__checkCourse($dataWhere['SemesterID'],$dataWhere['MKID']);
 
                 if(count($query)>0){
                     return print_r(0);

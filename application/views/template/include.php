@@ -494,6 +494,29 @@
         });
     }
 
+    function loadSelectOPtionAllSemester(element) {
+
+        var url = base_url_js+'api/__crudTahunAkademik';
+        var token = jwt_encode({action:'DataSemester'},'UAP)(*');
+        $.post(url,{token:token},function (jsonResult) {
+
+            $(element).append('<option value="" disabled selected>--- Select Semester ---</option>' +
+                '                <option disabled>------------------------------------------</option>');
+
+            for(var i=0;i<jsonResult.length;i++){
+                var color = (jsonResult[i].Semester>8) ? 'red' : '#333';
+                if(jsonResult[i].Semester<=14){
+                    $(element).append('<option style="color: '+color+';" value="'+jsonResult[i].Semester+'|'+jsonResult[i].Curriculum.ID+'.'+jsonResult[i].Curriculum.Year+'|'+jsonResult[i].Curriculum.NameEng+'">Semester '+jsonResult[i].Semester+'</option>');
+                }
+
+            }
+        })
+
+        // $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
+        //     '                <option disabled>------------------------------------------</option>');
+
+    }
+
     $(document).on('click','button[data-toggle=collapse]',function () {
         var cl = $(this).attr("class").split(" ");
 

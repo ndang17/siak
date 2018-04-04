@@ -267,6 +267,9 @@
         };
         var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
+
+            // console.log(jsonResult);
+
             if(jsonResult.length>0){
                 $('#dataMK'+divNum).html('<select class="select2-select-00 full-width-fix" size="5" id="formMataKuliah'+divNum+'">' +
                     '                        <option value=""></option>' +
@@ -278,8 +281,12 @@
                         var mk = jsonResult[i].Details;
                         for(var m=0;m<mk.length;m++){
                             var dataMK = mk[m];
-                            $('#formMataKuliah'+divNum).append('<option value="'+dataMK.CDID+'|'+dataMK.ID+'|'+dataMK.TotalSKS+'">Smt '+semester+' - '+dataMK.MKCode+' | '+dataMK.MKNameEng+'</option>');
+                            var asalSmt = (semester!=dataMK.Semester) ? '('+dataMK.Semester+')' : '';
+                            $('#formMataKuliah'+divNum).append('<option value="'+dataMK.CDID+'|'+dataMK.ID+'|'+dataMK.TotalSKS+'">Smt '+semester+' '+asalSmt+' - '+dataMK.MKCode+' | '+dataMK.MKNameEng+'</option>');
                         }
+
+                    $('#formMataKuliah'+divNum).append('<option disabled>-------</option>');
+
                 }
 
                 $('#formMataKuliah'+divNum).select2({allowClear: true});
@@ -776,7 +783,6 @@
         var CombinedClasses = $('input[name=formCombinedClasses]:checked').val();
         var formBaseProdi = $('#formBaseProdi1').val();
 
-        console.log(value);
 
         if(value==1){
             var ProgramsCampusID = $('#formProgramsCampusID').val();
