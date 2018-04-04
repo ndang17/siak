@@ -212,6 +212,9 @@
 		}
 	</script>
 <?php endfor; ?>
+<?php if (count($datadb['data']) == 0): ?>
+	<div align = 'center'>No Result Data...</div>
+<?php endif ?>
 <script type="text/javascript">
 $(document).on('click','#confirmYesProcess', function () {
 	$('#NotificationModal .modal-header').addClass('hide');

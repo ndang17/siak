@@ -3,6 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_admission extends CI_Model {
 
+  public $data = array(
+                      'ID_register_document' => null,
+                      );
+
   public function __construct()
     {
         parent::__construct();
@@ -134,6 +138,77 @@ class M_admission extends CI_Model {
           $query=$this->db->query($sql, array($Status,$NamaFile,$VerificationBY,$VerificationAT,$ID));
         } 
         
+    }
+
+    public function getKeylinkURLFormulirRegistration($ID_Register = null,$email = null)
+    {
+      $this->load->model('m_master');
+      $ID_register_document = $this->data['ID_register_document'];
+      $callback = array();
+      switch ($ID_Register) {
+        case null:
+          $sql = "select a.ID,a.Email from db_admission.register as a
+                  join db_admission.register_verification as b 
+                  on a.ID = b.RegisterID
+                  join db_admission.register_verified as c
+                  on b.ID = c.RegVerificationID 
+                  join db_admission.register_formulir as d
+                  on c.ID = d.ID_register_verified
+                  join db_admission.register_document as e
+                  on d.ID = e.ID_register_formulir
+                  where e.ID = ? LIMIT 1";
+          $query=$this->db->query($sql, array($ID_register_document))->result_array();
+          $RegisterID = $query[0]['ID'];
+          if ($email == null) {
+            $query = $this->m_master->caribasedprimary('db_admission.register','ID',$RegisterID);
+            $email = $query[0]['Email'];
+          }
+          $this->getlinkURLFormulirRegistration($RegisterID,$email);
+          break;
+        
+        default:
+          $this->load->library('JWT');
+          $key = "UAP)(*";
+          if ($email == null) {
+            $query = $this->m_master->caribasedprimary('db_admission.register','ID',$ID_Register);
+            $email = $query[0]['Email'];
+          }
+          $url = $this->jwt->encode($ID_Register.";".$email,$key);
+          $callback = array('url' => $url,'email' => $email);
+          $this->data['callback'] = $callback;
+          break;
+      }
+
+      return $callback;
+    }
+
+    private function getlinkURLFormulirRegistration($ID_Register,$email)
+    {
+      $this->load->library('JWT');
+      $key = "UAP)(*";
+      if ($email == null) {
+        $query = $this->m_master->caribasedprimary('db_admission.register','ID',$ID_Register);
+        $email = $query[0]['Email'];
+      }
+      $url = $this->jwt->encode($ID_Register.";".$email,$key);
+      $callback = array('url' => $url,'email' => $email);
+      $this->data['callback'] = $callback;
+    }
+
+    public function checkAllstatusDoneVeriDoc($ID_register_document)
+    {
+      $check = TRUE;
+      $query = $this->m_master->caribasedprimary('db_admission.register_document','ID',$ID_register_document);
+      $ID_register_formulir = $query[0]['ID_register_formulir'];
+      $query = $this->m_master->caribasedprimary('db_admission.register_document','ID_register_formulir',$ID_register_formulir);
+      for ($i=0; $i < count($query); $i++) { 
+        $Status = $query[$i]['Status'];
+        if ($Status != 'Done') {
+          $check = FALSE;
+          break;
+        }
+      }
+      return $check;
     }
   
 }

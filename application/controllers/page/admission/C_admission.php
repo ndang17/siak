@@ -9,6 +9,7 @@ class C_admission extends MY_Controller {
         parent::__construct();
         $this->load->model('master/m_master');
         $this->load->model('admission/m_admission');
+        $this->load->model('m_sendemail');
         $this->data['department'] = parent::__getDepartement();
     }
 
@@ -88,6 +89,9 @@ class C_admission extends MY_Controller {
 
     public function proses_document()
     {
+    $max_execution_time = 1000;
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', $max_execution_time); //60 seconds = 1 minutes
       $input = $this->getInputToken();
       $action = $input['action'];
       $data = $input['data_passing'];
@@ -102,6 +106,41 @@ class C_admission extends MY_Controller {
       }
 
       $this->m_admission->updateStatusVeriDokumen($data_arr,$Status);
+      $temp = explode(";", $data_arr[0]);
+      $ID_register_document = $temp[0];
+      if ($ID_register_document == 'nothing') {
+          $temp = explode(";", $data_arr[1]);
+          $ID_register_document = $temp[0];
+      }
+      $this->m_admission->data['ID_register_document'] = $ID_register_document;
+      $keyURL = $this->m_admission->getKeylinkURLFormulirRegistration();
+      $keyURL = $this->m_admission->data['callback'];
+
+      // send email
+      if ($Status == "Reject") {
+          $text = 'Dear Candidate,<br><br>
+                      You have document not approved yet, Please send your valid document.<br>
+                      '.$this->GlobalVariableAdi['url_registration']."formulir-registration/".$keyURL['url'].'
+                  ';
+          $to = $keyURL['email'];
+          $subject = "Link Formulir Registration Podomoro University";
+          $sendEmail = $this->m_sendemail->sendEmail($to,$subject,null,null,null,null,$text);        
+      }
+      else
+      { 
+        // check status if all done
+        $check = $this->m_admission->checkAllstatusDoneVeriDoc($ID_register_document);
+        if ($check) {
+            $text = 'Dear Candidate,<br><br>
+                        You have finished your all required document.<br>
+                        '.$this->GlobalVariableAdi['url_registration']."formulir-registration/".$keyURL['url'].'
+                    ';
+            $to = $keyURL['email'];
+            $subject = "Link Formulir Registration Podomoro University";
+            $sendEmail = $this->m_sendemail->sendEmail($to,$subject,null,null,null,null,$text);   
+        }
+
+      }
 
     }
 

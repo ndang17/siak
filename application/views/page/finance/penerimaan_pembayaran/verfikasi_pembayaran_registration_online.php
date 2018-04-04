@@ -12,12 +12,35 @@
 			<div class="widget-content">
 				<div class="form-horizontal">
 					<div class="form-group">
-						<label class="col-md-3 control-label">Upload Rek Koran:</label>
-						<div class="col-md-2">
-							<input type="file" data-style="fileinput" id="rekKoran">
+						<!-- <div class = "row"> -->
+							<div class="col-xs-2" style="">
+								<label class="control-label">Upload Rek Koran:</label>
+							</div>
+							<div class="col-xs-2">
+								<input type="file" data-style="fileinput" id="rekKoran">
+							</div>
+							<div class="col-xs-1">
+								<button class="btn btn-inverse btn-notification hide" id="btn-proses">Proses</button>
+							</div>
+							
 						</div>
-						<button class="btn btn-inverse btn-notification hide" id="btn-proses">Proses</button>
-					</div>
+					<!-- </div> -->
+				</div>
+				<div class="form-horizontal">
+					<div class="form-group">
+						<!-- <div class = "row"> -->
+							<div class="col-xs-2" style="">
+								<label class="control-label">Upload Rek Koran:</label>
+							</div>
+							<div class="col-xs-2">
+								<input type="file" data-style="fileinput" id="rekKoran">
+							</div>
+							<div class="col-xs-1">
+								<button class="btn btn-inverse btn-notification hide" id="btn-proses">Proses</button>
+							</div>
+							
+						</div>
+					<!-- </div> -->
 				</div>
 			</div>
 			<hr/>
