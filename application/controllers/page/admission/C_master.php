@@ -202,13 +202,13 @@ class C_master extends MY_Controller {
         }
     }
 
-    public function harga_formulir()
+    public function harga_formulir_online()
     {
         $content = $this->load->view('page/'.$this->data['department'].'/master/harga_formulir',$this->data,true);
         $this->temp($content);
     }
 
-    public function submit_harga_formulir()
+    public function submit_harga_formulir_online()
     {
         $input = $this->getInputToken();
 
@@ -224,6 +224,35 @@ class C_master extends MY_Controller {
                 break;        
             case 'getactive':
                 $this->m_master->getActive_id_active_table($input['CDID'],$input['Active'],'price_formulir');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function harga_formulir_offline()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/harga_formulir_offline',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_harga_formulir_offline()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_harga_formulir_offline($input['PriceFormulir']);
+                break;
+            case 'edit':
+                $this->m_master->editData_harga_formulir_offline($input['PriceFormulir'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'price_formulir_offline');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_active_table($input['CDID'],$input['Active'],'price_formulir_offline');
                 break;    
             default:
                 # code...

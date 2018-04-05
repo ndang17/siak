@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_master extends CI_Model {
 
+
+  function __construct()
+  {
+      parent::__construct();
+  }
   public function get_departement()
   {
     $data = $this->db->query('SELECT * FROM db_navigation.departement ORDER BY priority ASC');
@@ -166,6 +171,22 @@ class M_master extends CI_Model {
     $query=$this->db->query($sql, array());
   }
 
+  public function inserData_harga_formulir_offline($PriceFormulir)
+  {
+    $dataSave = array(
+            'PriceFormulir' => $PriceFormulir,
+            'CreateAT' => date('Y-m-d'),
+    );
+    $this->db->insert('db_admission.price_formulir_offline', $dataSave);
+
+    $sql = "select a.ID from db_admission.price_formulir_offline as a where a.active = 1 order by a.ID desc limit 1";
+    $query=$this->db->query($sql, array())->result_array();
+    $ID = $query[0]['ID'];
+
+    $sql = "update db_admission.price_formulir_offline set Active = 0 where ID != ".$ID;
+    $query=$this->db->query($sql, array());
+  }
+
   public function inserData_harga_formulir($PriceFormulir)
   {
     $dataSave = array(
@@ -180,6 +201,12 @@ class M_master extends CI_Model {
 
     $sql = "update db_admission.price_formulir set Active = 0 where ID != ".$ID;
     $query=$this->db->query($sql, array());
+  }
+
+  public function editData_harga_formulir_offline($PriceFormulir,$ID)
+  {
+    $sql = "update db_admission.price_formulir_offline set PriceFormulir = ? where ID = ".$ID;
+    $query=$this->db->query($sql, array($PriceFormulir));
   }
 
   public function editData_harga_formulir($PriceFormulir,$ID)
@@ -299,7 +326,7 @@ class M_master extends CI_Model {
 
   public function getDataFormulirOffline($tahun)
   {
-    $sql = "select a.ID,a.Years,a.FormulirCode,a.Status,a.CreateAT,b.Name from db_admission.formulir_number_offline_m as a join db_employees.employees as b on a.CreatedBY = b.NIP where a.Years = ?";
+    $sql = "select a.ID,a.Years,a.FormulirCode,a.Status,a.CreateAT,b.Name,a.Link from db_admission.formulir_number_offline_m as a join db_employees.employees as b on a.CreatedBY = b.NIP where a.Years = ?";
     $query=$this->db->query($sql, array($tahun))->result_array();
     return $query;
   }
@@ -333,9 +360,14 @@ class M_master extends CI_Model {
     for ($i=strlen($increment); $i < 3; $i++) { 
       $increment = "0".$increment;
     }
+    $this->load->library('JWT');
+    $key = "UAP)(*";
+    $url = $this->jwt->encode($yy.$code.$increment.";".$tahun,$key);
+    $baseURL = $this->GlobalVariableAdi['url_registration']."formulir-registration-offline/".$url;
     $dataSave = array(
             'Years' => $tahun,
             'FormulirCode' => $yy.$code.$increment,
+            'Link' => $baseURL,
             'CreateAT' => date('Y-m-d'),
             'CreatedBY' => $this->session->userdata('NIP'),
     );

@@ -210,5 +210,84 @@ class M_admission extends CI_Model {
       }
       return $check;
     }
+
+    public function totalDataFormulir_offline()
+    {
+      $sql = "select count(*) as total from (
+              select a.Name as NameCandidate,a.Email,z.SchoolName,c.FormulirCode,a.StatusReg
+              from db_admission.register as a 
+              join db_admission.register_verification as b
+              on a.ID = b.RegisterID
+              join db_admission.register_verified as c
+              on c.RegVerificationID = b.ID
+              join db_admission.school as z
+              on z.ID = a.SchoolID
+              where a.StatusReg = 1
+              ) as a right JOIN db_admission.formulir_number_offline_m as b
+              on a.FormulirCode = b.FormulirCode
+              left join db_employees.employees as c
+              on b.SellLinkBy = c.NIP";          
+      $query=$this->db->query($sql, array())->result_array();
+      $conVertINT = (int) $query[0]['total'];
+      return $conVertINT;
+    }
+
+    public function selectDataDitribusiFormulirOffline($limit, $start,$tahun,$NomorFormulir,$NamaStaffAdmisi,$status)
+    {
+      $arr_temp = array('data' => array());
+      if($NomorFormulir != '%') {
+          $NomorFormulir = '"%'.$NomorFormulir.'%"'; 
+      }
+      else
+      {
+        $NomorFormulir = '"%"'; 
+      }
+      if($NamaStaffAdmisi != '%') {
+          $NamaStaffAdmisi = ' and c.Name like "%'.$NamaStaffAdmisi.'%"'; 
+      }
+      else
+      {
+        $NamaStaffAdmisi = ''; 
+      }
+      if($status != '%') {
+        // $status = '"%'.$status.'%"'; 
+        // $status = 'StatusUsed != '.$status;
+        $status = ' and b.Status = '.$status;
+      }
+      else
+      {
+        $status = ''; 
+      }
+
+        $sql = 'select a.NameCandidate,a.Email,a.SchoolName,b.FormulirCode,a.StatusReg,b.Years,b.Status as StatusUsed, b.StatusJual, C.Name as SellName from (
+          select a.Name as NameCandidate,a.Email,z.SchoolName,c.FormulirCode,a.StatusReg
+          from db_admission.register as a 
+          join db_admission.register_verification as b
+          on a.ID = b.RegisterID
+          join db_admission.register_verified as c
+          on c.RegVerificationID = b.ID
+          join db_admission.school as z
+          on z.ID = a.SchoolID
+          where a.StatusReg = 1
+          ) as a right JOIN db_admission.formulir_number_offline_m as b
+          on a.FormulirCode = b.FormulirCode
+          left join db_employees.employees as c
+          on b.SellLinkBy = c.NIP where Years = "'.$tahun.'" and b.FormulirCode like '.$NomorFormulir.$NamaStaffAdmisi.$status.' LIMIT '.$start. ', '.$limit;
+           $query=$this->db->query($sql, array())->result_array();
+           return $query;
+    }
+
+    public function updateSelloutFormulir($data_arr)
+    {
+      $SellLinkBy = $this->session->userdata('NIP');
+
+      for ($i=0; $i < count($data_arr); $i++) { 
+        if ($data_arr == 'nothing') {
+          continue;
+        }
+        $sql = "update db_admission.formulir_number_offline_m set StatusJual = 1,SellLinkBy = ? where FormulirCode = ?";
+        $query=$this->db->query($sql, array($SellLinkBy,$data_arr[$i]));
+      }
+    }
   
 }

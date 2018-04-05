@@ -10,7 +10,7 @@
     <div class="col-md-8">
         <div class="widget box">
             <div class="widget-header">
-                <h4 class="header"><i class="icon-reorder"></i>Set Harga Formulir</h4>
+                <h4 class="header"><i class="icon-reorder"></i>Set Harga Formulir Online</h4>
                 <div class="toolbar no-padding">
                     <div class="btn-group">
                       <span data-smt="" class="btn btn-xs btn-add">
@@ -75,7 +75,7 @@
             'backdrop' : 'static',
             'show' : true
         });
-        var url = base_url_js+'admission/master-config/submit_harga_formulir';
+        var url = base_url_js+'admission/master-config/submit_harga_formulir_online';
         var aksi = "delete";
         var ID = $(this).attr('data-smt');
         var data = {
@@ -105,7 +105,7 @@
             'backdrop' : 'static',
             'show' : true
         });
-        var url = base_url_js+'admission/master-config/submit_harga_formulir';
+        var url = base_url_js+'admission/master-config/submit_harga_formulir_online';
         var aksi = "getactive";
         var ID = $(this).attr('data-smt');
         var Active = $(this).attr('data-active');
@@ -131,7 +131,7 @@
      var aksi = $("#ModalbtnSaveForm").attr('aksi');
      var id = $("#ModalbtnSaveForm").attr('kodeuniq');
      var PriceFormulir = $("#PriceFormulir").val();
-     var url = base_url_js+'admission/master-config/submit_harga_formulir';
+     var url = base_url_js+'admission/master-config/submit_harga_formulir_online';
      var data = {
          Action : aksi,
          CDID : id,
