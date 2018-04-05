@@ -156,6 +156,12 @@
         border: 1px solid #94b86e;
     }
 
+    .label-danger-inline {
+        color: #e25856;
+        background-color: #fff;
+        border: 1px solid #e25856;
+    }
+
 
 
     /*.dropdown-menu {*/
@@ -494,14 +500,14 @@
         });
     }
 
-    function loadSelectOPtionAllSemester(element) {
+    function loadSelectOPtionAllSemester(element,selected) {
 
         var url = base_url_js+'api/__crudTahunAkademik';
         var token = jwt_encode({action:'DataSemester'},'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
 
-            $(element).append('<option value="" disabled selected>--- Select Semester ---</option>' +
-                '                <option disabled>------------------------------------------</option>');
+            // $(element).append('<option value="" disabled selected>--- Select Semester ---</option>' +
+            //     '                <option disabled>------------------------------------------</option>');
 
             for(var i=0;i<jsonResult.length;i++){
                 var color = (jsonResult[i].Semester>8) ? 'red' : '#333';

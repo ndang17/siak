@@ -78,7 +78,7 @@
 
     });
 
-    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine',function () {
+    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine,#filterSemesterSchedule',function () {
         filterSchedule();
     });
 
@@ -125,7 +125,7 @@
     function loadAcademicYearOnPublish() {
         var url = base_url_js+"api/__getAcademicYearOnPublish";
         $.getJSON(url,function (data_json) {
-            getSchedule(1,data_json.ID,'','');
+            getSchedule(1,data_json.ID,'','',data_json.Semester);
         });
     }
 
@@ -135,11 +135,12 @@
         var Prodi = $('#filterBaseProdi').find(':selected').val();
         var ProdiID = (Prodi!='') ? Prodi.split('.')[0] : '';
         var CombinedClasses = $('#filterCombine').find(':selected').val();
+        var Semester = $('#filterSemesterSchedule').find(':selected').val().split('|');
 
-        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses);
+        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester[0]);
     }
 
-    function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses) {
+    function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester) {
 
         var data = {
             action : 'read',
@@ -148,7 +149,8 @@
                 SemesterID : SemesterID,
                 ProdiID : ProdiID,
                 CombinedClasses : CombinedClasses,
-                IsSemesterAntara : ''+SemesterAntara
+                IsSemesterAntara : ''+SemesterAntara,
+                Semester : Semester
                 // Days : checkedDay,
                 // DaysName : {
                 //     Eng : daysEng,
@@ -182,7 +184,7 @@
                         '<table class="table table-bordered table-striped" id="scTable'+i+'">' +
                         '    <thead>' +
                         '    <tr>' +
-                        '        <th style="width:3px;" class="th-center">No</th>' +
+                        // '        <th style="width:3px;" class="th-center">No</th>' +
                         '        <th style="width:20px;" class="th-center">Group</th>' +
                         '        <th style="width:200px;" class="th-center">Course</th>' +
                         '        <th style="width:20px;" class="th-center">Credit</th>' +
@@ -235,7 +237,7 @@
                             var Subsesi = (sc[r].SubSesi==1)? '<span class="label label-warning">Sub-Sesi</span>' :'';
 
                             table.append('<tr>' +
-                                '<td class="td-center" style="width:1%;">'+no+'</td>' +
+                                // '<td class="td-center" style="width:1%;">'+no+'</td>' +
                                 '<td class="td-center" style="width:5%;"><b><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'">'+sc[r].ClassGroup+'</a></b><br/>'+Subsesi+'</td>' +
                                 // '<td>' +
                                 // '<a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i>' +
@@ -259,8 +261,10 @@
                             var lscss = (DetailCourse.length>1) ? 'style="margin-bottom: 15px;"' : '';
                             for(var s=0;s<DetailCourse.length;s++){
                                 var course = DetailCourse[s];
-                                ls.append('<li '+lscss+'><b>'+course.MKNameEng+'</b><br/><i>'+course.MKName+'</i><br/>' +
-                                    '<span class="label label-default">'+course.MKCode+'</span> | <span class="label label-success-inline"><b>'+course.ProdiEng+'</b></span></li>');
+                                var baseSmt = (course.Semester!=course.BaseSemester) ? '('+course.BaseSemester+')' : '';
+                                ls.append('<li '+lscss+'><b>'+course.MKName+'</b><br/><i>'+course.MKNameEng+'</i><br/>' +
+                                    '<span class="label label-default">'+course.MKCode+'</span> | <span class="label label-success-inline"><b>'+course.ProdiEng+'</b></span> | ' +
+                                    '<span class="label label-danger-inline"><b>Semester '+course.Semester+' '+baseSmt+'</b></span></li>');
                             }
 
                         }
@@ -268,30 +272,6 @@
                         no += 1;
                     }
 
-
-                    // Untuk Data Table Jadwal
-                    // var table = $('#scTable'+i).DataTable({
-                    //     'iDisplayLength' : 10,
-                    //     "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
-                    //     "oTableTools": {
-                    //         "aButtons": [
-                    //             {
-                    //                 "sExtends" : "xls",
-                    //                 "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
-                    //             },
-                    //             {
-                    //                 "sExtends" : "pdf",
-                    //                 "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
-                    //                 "sPdfOrientation" : "landscape",
-                    //                 "sPdfMessage" : ""+data_result[i].Day.Eng
-                    //             }
-                    //
-                    //         ],
-                    //         "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
-                    //     }
-                    //
-                    //
-                    // });
                 }
             } else {
                 div.append('<h1>Data Kosong</h1>');
