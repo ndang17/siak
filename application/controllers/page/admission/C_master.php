@@ -498,4 +498,30 @@ class C_master extends MY_Controller {
         }
     }
 
+    public function ujian_masuk_per_prody()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/ujian_masuk_per_prody',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function modalform_ujian_masuk_per_prody()
+    {
+        $input = $this->getInputToken();
+        $this->data['action'] = $input['Action'];
+        $this->data['id'] = $input['CDID'];
+        echo $this->load->view('page/'.$this->data['department'].'/master/modalform_ujian_masuk_per_prody',$this->data,true);
+    }
+
+    public function table_ujian_masuk_per_prody()
+    {
+        $this->data['getColoumn'] = array('query' => array('ID','Program Study','NamaUjian','Bobot','Active','CreateAT') );
+        $this->data['getData'] = $this->m_master->showDataUjianMasukPerPrody();
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_ujian_masuk_per_prody',$this->data,true);
+    }
+
+    public function submit_ujian_masuk_per_prody()
+    {
+       
+    }
+
 }

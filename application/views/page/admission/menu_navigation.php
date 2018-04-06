@@ -141,14 +141,20 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "ujian-masuk-per-prody" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-registration/ujian-masuk-per-prody'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Ujian Masuk Per Prody
+                        </a>
+                    </li>
                     <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "sales-koordinator-wilayah" ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <a href="<?php echo base_url('#'); ?>">
                         <i class="icon-angle-right"></i>
                         Sales Koordinator Wilayah
                         </a>
                     </li>
                     <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "sales-koordinator-kota" ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <a href="<?php echo base_url('#'); ?>">
                         <i class="icon-angle-right"></i>
                         Sales Koordinator Kota
                         </a>

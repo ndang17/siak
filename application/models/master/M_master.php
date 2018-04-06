@@ -403,5 +403,12 @@ class M_master extends CI_Model {
     $sql = "update db_admission.register_major_school set SchoolMajor = ? where ID = ".$ID;
     $query=$this->db->query($sql, array($SchoolMajor));
   }
+
+  public function showDataUjianMasukPerPrody()
+  {
+    $sql = "select a.ID,b.Name as NamaProgramStudy,a.NamaUjian,a.Bobot,a.Active,a.CreateAT from db_admission.ujian_perprody_m as a join db_academic.program_study as b on a.ID_ProgramStudy = b.ID";
+    $query=$this->db->query($sql, array())->result_array();
+    return $query;
+  }
   
 }

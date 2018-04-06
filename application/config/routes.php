@@ -131,6 +131,12 @@ $route['admission/master-registration/jacket-size'] = 'page/admission/c_master/j
 $route['admission/master-register/submit_jacket_size'] = 'page/admission/c_master/submit_jacket_size';
 $route['admission/master-global/jurusan-sekolah'] = 'page/admission/c_master/jurusan_sekolah';
 $route['admission/master-config/submit_jurusan_sekolah'] = 'page/admission/c_master/submit_jurusan_sekolah';
+$route['admission/master-registration/ujian-masuk-per-prody'] = 'page/admission/c_master/ujian_masuk_per_prody';
+$route['admission/master-registration/ujian-masuk-per-prody/modalform'] = 'page/admission/c_master/modalform_ujian_masuk_per_prody';
+$route['admission/master-registration/ujian-masuk-per-prody/loadTable'] = 'page/admission/c_master/table_ujian_masuk_per_prody';
+
+$route['admission/master-registration/ujian-masuk-per-prody/submit'] = 'page/admission/c_master/submit_ujian_masuk_per_prody';
+
 
 $route['admission/proses-calon-mahasiswa/verifikasi-dokumen'] = 'page/admission/c_admission/verifikasi_dokumen_calon_mahasiswa';
 $route['admission/proses-calon-mahasiswa/verifikasi-dokument/register_document_table/pagination/(:num)'] = 'page/admission/c_admission/pagination_calon_mahasiswa/$1';
