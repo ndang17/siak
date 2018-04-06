@@ -23,9 +23,9 @@
                 <option value="0">Combine Class No</option>
             </select>
         </div>
-        <div class="col-xs-3" style="text-align: right;padding-left: 0px;">
-
-
+<!--        <div class="col-xs-3" style="text-align: right;padding-left: 0px;">-->
+        <div class="col-xs-2">
+            <select class="form-control" id="filterSemesterSchedule"></select>
         </div>
         <!--                <div class="col-xs-2">-->
         <!--                    <button class="btn btn-"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat </button>-->
@@ -74,11 +74,11 @@
         loSelectOptionSemester('#filterSemester','selectedNow');
 
         loadAcademicYearOnPublish();
+        loadSelectOPtionAllSemester('#filterSemesterSchedule');
 
     });
 
-
-    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine',function () {
+    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine,#filterSemesterSchedule',function () {
         filterSchedule();
     });
 
@@ -125,7 +125,7 @@
     function loadAcademicYearOnPublish() {
         var url = base_url_js+"api/__getAcademicYearOnPublish";
         $.getJSON(url,function (data_json) {
-            getSchedule(1,data_json.ID,'','');
+            getSchedule(1,data_json.ID,'','',data_json.Semester);
         });
     }
 
@@ -135,11 +135,12 @@
         var Prodi = $('#filterBaseProdi').find(':selected').val();
         var ProdiID = (Prodi!='') ? Prodi.split('.')[0] : '';
         var CombinedClasses = $('#filterCombine').find(':selected').val();
+        var Semester = $('#filterSemesterSchedule').find(':selected').val().split('|');
 
-        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses);
+        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester[0]);
     }
 
-    function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses) {
+    function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester) {
 
         var data = {
             action : 'read',
@@ -148,7 +149,8 @@
                 SemesterID : SemesterID,
                 ProdiID : ProdiID,
                 CombinedClasses : CombinedClasses,
-                IsSemesterAntara : ''+SemesterAntara
+                IsSemesterAntara : ''+SemesterAntara,
+                Semester : Semester
                 // Days : checkedDay,
                 // DaysName : {
                 //     Eng : daysEng,
@@ -182,7 +184,7 @@
                         '<table class="table table-bordered table-striped" id="scTable'+i+'">' +
                         '    <thead>' +
                         '    <tr>' +
-                        '        <th style="width:3px;" class="th-center">No</th>' +
+                        // '        <th style="width:3px;" class="th-center">No</th>' +
                         '        <th style="width:20px;" class="th-center">Group</th>' +
                         '        <th style="width:200px;" class="th-center">Course</th>' +
                         '        <th style="width:20px;" class="th-center">Credit</th>' +
@@ -205,6 +207,8 @@
                     var table = $('#trData'+i);
                     var sc = data_result[i].Details;
                     var no = 1;
+
+
                     for(var r=0;r<sc.length;r++){
 
                         var gabungan = (sc[r].CombinedClasses==0) ? 'No' : 'Yes';
@@ -220,73 +224,54 @@
                             .format('LT');
 
                         var teamTeaching = '';
-                        if(sc[r].TeamTeaching==1){
-                            for(var t=0;t<sc[r].DetailTeamTeaching.length;t++){
-                                var tcm = sc[r].DetailTeamTeaching;
-                                teamTeaching = teamTeaching +'<div style="margin-bottom: 7px;"><span class="label label-info-inline"><b>'+tcm[t].Lecturer+'</b></span></div>';
-                            }
-                        }
-
-                        var Subsesi = (sc[r].SubSesi==1)? '<span class="label label-warning">Sub-Sesi</span>' :'';
-
-                        table.append('<tr>' +
-                            '<td class="td-center" style="width:1%;">'+no+'</td>' +
-                            '<td class="td-center" style="width:5%;"><b><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'">'+sc[r].ClassGroup+'</a></b><br/>'+Subsesi+'</td>' +
-                            // '<td>' +
-                            // '<a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i>' +
-                            // '</td>' +
-
-                            '<td><ul id="listCourse'+i+''+r+'" style="padding-left:0px;list-style-type: none;"></ul></td>' +
-                            '<td class="td-center" style="width:5%;">'+sc[r].Credit+'</td>' +
-
-                            '<td style="width:20%;">' +
-                            '<div style="color: #427b44;margin-bottom: 10px;"><b>'+sc[r].Lecturer+'</b></div>'+teamTeaching+
-                            '</td>' +
-                            // '<td class="td-center">'+gabungan+'</td>' +
-                            '<td class="td-center" style="width:15%;">'+StartSessions+' - '+EndSessions+'</td>' +
-                            '<td class="td-center" style="width:5%;">'+sc[r].Room+'</td>' +
-
-                            // '<td class="td-center"><button class="btn btn-default btn-default-primary">Action</button></td>' +
-                            '</tr>');
-
-
                         var DetailCourse = sc[r].DetailCourse;
-                        var ls = $('#listCourse'+i+''+r);
 
-                        var lscss = (DetailCourse.length>1) ? 'style="margin-bottom: 15px;"' : '';
-                        for(var s=0;s<DetailCourse.length;s++){
-                            var course = DetailCourse[s];
-                            ls.append('<li '+lscss+'><b>'+course.MKNameEng+'</b><br/><i>'+course.MKName+'</i><br/>' +
-                                '<span class="label label-default">'+course.MKCode+'</span> | <span class="label label-success-inline"><b>'+course.ProdiEng+'</b></span></li>');
+                        if(DetailCourse.length>0){
+                            if(sc[r].TeamTeaching==1){
+                                for(var t=0;t<sc[r].DetailTeamTeaching.length;t++){
+                                    var tcm = sc[r].DetailTeamTeaching;
+                                    teamTeaching = teamTeaching +'<div style="margin-bottom: 7px;"><span class="label label-info-inline"><b>'+tcm[t].Lecturer+'</b></span></div>';
+                                }
+                            }
+
+                            var Subsesi = (sc[r].SubSesi==1)? '<span class="label label-warning">Sub-Sesi</span>' :'';
+
+                            table.append('<tr>' +
+                                // '<td class="td-center" style="width:1%;">'+no+'</td>' +
+                                '<td class="td-center" style="width:5%;"><b><a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'">'+sc[r].ClassGroup+'</a></b><br/>'+Subsesi+'</td>' +
+                                // '<td>' +
+                                // '<a href="javascript:void(0)" class="btn-action" data-page="editjadwal" data-id="'+sc[r].ID+'"><b>'+sc[r].MKName+'</b></a><br/><i>'+sc[r].MKNameEng+'</i>' +
+                                // '</td>' +
+
+                                '<td><ul id="listCourse'+i+''+r+'" style="padding-left:0px;list-style-type: none;"></ul></td>' +
+                                '<td class="td-center" style="width:5%;">'+sc[r].Credit+'</td>' +
+
+                                '<td style="width:20%;">' +
+                                '<div style="color: #427b44;margin-bottom: 10px;"><b>'+sc[r].Lecturer+'</b></div>'+teamTeaching+
+                                '</td>' +
+                                // '<td class="td-center">'+gabungan+'</td>' +
+                                '<td class="td-center" style="width:15%;">'+StartSessions+' - '+EndSessions+'</td>' +
+                                '<td class="td-center" style="width:5%;">'+sc[r].Room+'</td>' +
+
+                                // '<td class="td-center"><button class="btn btn-default btn-default-primary">Action</button></td>' +
+                                '</tr>');
+
+                            var ls = $('#listCourse'+i+''+r);
+
+                            var lscss = (DetailCourse.length>1) ? 'style="margin-bottom: 15px;"' : '';
+                            for(var s=0;s<DetailCourse.length;s++){
+                                var course = DetailCourse[s];
+                                var baseSmt = (course.Semester!=course.BaseSemester) ? '('+course.BaseSemester+')' : '';
+                                ls.append('<li '+lscss+'><b>'+course.MKName+'</b><br/><i>'+course.MKNameEng+'</i><br/>' +
+                                    '<span class="label label-default">'+course.MKCode+'</span> | <span class="label label-success-inline"><b>'+course.ProdiEng+'</b></span> | ' +
+                                    '<span class="label label-danger-inline"><b>Semester '+course.Semester+' '+baseSmt+'</b></span></li>');
+                            }
+
                         }
 
                         no += 1;
                     }
 
-
-                    // Untuk Data Table Jadwal
-                    // var table = $('#scTable'+i).DataTable({
-                    //     'iDisplayLength' : 10,
-                    //     "sDom": "<'row'<'dataTables_header clearfix'<'col-md-3'l><'col-md-9'Tf>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>", // T is new
-                    //     "oTableTools": {
-                    //         "aButtons": [
-                    //             {
-                    //                 "sExtends" : "xls",
-                    //                 "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> Excel',
-                    //             },
-                    //             {
-                    //                 "sExtends" : "pdf",
-                    //                 "sButtonText" : '<i class="fa fa-download" aria-hidden="true"></i> PDF',
-                    //                 "sPdfOrientation" : "landscape",
-                    //                 "sPdfMessage" : ""+data_result[i].Day.Eng
-                    //             }
-                    //
-                    //         ],
-                    //         "sSwfPath": "../assets/template/plugins/datatables/tabletools/swf/copy_csv_xls_pdf.swf"
-                    //     }
-                    //
-                    //
-                    // });
                 }
             } else {
                 div.append('<h1>Data Kosong</h1>');

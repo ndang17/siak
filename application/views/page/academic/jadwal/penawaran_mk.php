@@ -7,7 +7,7 @@
 
 
 <div class="row" style="margin-bottom: 15px;">
-    <div class="col-md-4 col-md-offset-4">
+    <div class="col-md-6 col-md-offset-3">
         <div class="thumbnail">
             <div class="row">
 <!--                <div class="col-xs-4">-->
@@ -16,13 +16,13 @@
 <!--                        <option disabled>------------------------------------------</option>-->
 <!--                    </select>-->
 <!--                </div>-->
-                <div class="col-xs-8">
+                <div class="col-xs-7">
                     <select class="form-control form-offer" id="formProdi">
                         <option value="" disabled selected>--- Select Program Study ---</option>
                         <option disabled>------------------------------------------</option>
                     </select>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-5">
                     <select class="form-control" id="formSemester"></select>
                 </div>
             </div>
@@ -156,32 +156,11 @@
 
         // getSemesterActive();
 
-        loadSelectOPtionAllSemester();
+        $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
+            '                <option disabled>------------------------------------------</option>');
+        loadSelectOPtionAllSemester('#formSemester');
 
     });
-
-    function loadSelectOPtionAllSemester() {
-
-        var url = base_url_js+'api/__crudTahunAkademik';
-        var token = jwt_encode({action:'DataSemester'},'UAP)(*');
-        $.post(url,{token:token},function (jsonResult) {
-            $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
-                '                <option disabled>------------------------------------------</option>');
-
-            for(var i=0;i<jsonResult.length;i++){
-                var color = (jsonResult[i].Semester>8) ? 'red' : '#333';
-                if(jsonResult[i].Semester<=14){
-                    $('#formSemester').append('<option style="color: '+color+';" value="'+jsonResult[i].Semester+'|'+jsonResult[i].Curriculum.ID+'.'+jsonResult[i].Curriculum.Year+'|'+jsonResult[i].Curriculum.NameEng+'">Semester '+jsonResult[i].Semester+'</option>');
-                }
-
-            }
-        })
-
-        // $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
-        //     '                <option disabled>------------------------------------------</option>');
-
-    }
-
 
     $(document).on('change','#formProdi',function () {
         // resetPenawaranMK();
