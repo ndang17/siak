@@ -226,12 +226,46 @@ class C_admission extends MY_Controller {
 
     public function set_jadwal_ujian_save()
     {
+      $max_execution_time = 1000;
+      ini_set('memory_limit', '-1');
+      ini_set('max_execution_time', $max_execution_time); //60 
+      $result = array('msg' => '');
       $input = $this->getInputToken();
-      $ID_ujian_perprody = $input['program_study'];
-      print_r($ID_ujian_perprody);
-      /*$DateTimeTest = $input['datetime_ujian'].':00';
+      $ID_ProgramStudy = $input['program_study'];
+      $DateTimeTest = $input['datetime_ujian'];
       $Lokasi = $input['Lokasi'];
-      $this->m_admission->save_jadwal_ujian($ID_ujian_perprody,$DateTimeTest,$Lokasi);*/
+      // $check = $this->m_admission->checKjadwalMasihActive($ID_ProgramStudy,$DateTimeTest);
 
+      // save data di register_jadwal_ujian dan return array ID nya
+      // get Data ID ujian_perprody
+      $arr_ID_ujian_per_prody = $this->m_admission->get_arr_ID_ujian_per_prody($ID_ProgramStudy);
+      $result['msg'] = $arr_ID_ujian_per_prody['result'];
+      if ($result['msg'] == '') {
+        $proses = $this->m_admission->saveDataJadwalUjian_returnArr($arr_ID_ujian_per_prody,$DateTimeTest,$Lokasi);
+
+        // get ID formulir berdasarkan ID_ProgramStudy
+        $arr_ID_register_formulir = $this->m_admission->getID_register_formulir_programStudy_arr($proses);
+        if (count($arr_ID_register_formulir) > 0) {
+          // insert data di register_formulir_jadwal_ujian
+          // gunakan try catch untuk continue data karena unique
+          $this->m_admission->saveDataregister_formulir_jadwal_ujian($arr_ID_register_formulir);
+
+        }
+      }
+      
+      return print_r(json_encode($result));
+
+    }
+
+    public function daftar_jadwal_ujian()
+    {
+      $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/daftar_jadwal_ujian',$this->data,true);
+      $this->temp($content);
+    }
+
+    public function daftar_jadwal_ujian_load_data_now()
+    {
+      $generate = $this->m_admission->daftar_jadwal_ujian_load_data_now();
+      return print_r(json_encode($generate));
     }
 }

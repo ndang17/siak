@@ -219,10 +219,26 @@
                     Proses Calon Mahasiswa
                 </a>
                 <ul class="sub-menu">
-                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'set-jadwal-ujian' ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/set-jadwal-ujian'); ?>"> <i class="icon-angle-right"></i>
-                        Set Jadwal Ujian
+                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'jadwal-ujian' ){echo "open-default";} ?>">
+                        <a href="javascript:void(0);">
+                        <!-- <a href="<?php echo base_url('admission/proses-calon-mahasiswa/set-jadwal-ujian'); ?>"> <i class="icon-angle-right"></i> -->
+                        <i class="icon-angle-right"></i>
+                        Jadwal Ujian
                         </a>
+                        <ul class="sub-menu">
+                            <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == "jadwal-ujian" && $this->uri->segment(4) == "set-jadwal-ujian"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/proses-calon-mahasiswa/jadwal-ujian/set-jadwal-ujian'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Set Jadwal Ujian
+                                </a>
+                            </li>
+                            <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == "jadwal-ujian" && $this->uri->segment(4) == "daftar-jadwal-ujian"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/proses-calon-mahasiswa/jadwal-ujian/daftar-jadwal-ujian'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Daftar Jadwal Ujian Calon Mahasiswa
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokumen' ){echo "current";} ?>">
                         <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokumen'); ?>">
