@@ -202,13 +202,13 @@ class C_master extends MY_Controller {
         }
     }
 
-    public function harga_formulir()
+    public function harga_formulir_online()
     {
         $content = $this->load->view('page/'.$this->data['department'].'/master/harga_formulir',$this->data,true);
         $this->temp($content);
     }
 
-    public function submit_harga_formulir()
+    public function submit_harga_formulir_online()
     {
         $input = $this->getInputToken();
 
@@ -224,6 +224,35 @@ class C_master extends MY_Controller {
                 break;        
             case 'getactive':
                 $this->m_master->getActive_id_active_table($input['CDID'],$input['Active'],'price_formulir');
+                break;    
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function harga_formulir_offline()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/harga_formulir_offline',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function submit_harga_formulir_offline()
+    {
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_harga_formulir_offline($input['PriceFormulir']);
+                break;
+            case 'edit':
+                $this->m_master->editData_harga_formulir_offline($input['PriceFormulir'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'price_formulir_offline');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_active_table($input['CDID'],$input['Active'],'price_formulir_offline');
                 break;    
             default:
                 # code...
@@ -467,6 +496,32 @@ class C_master extends MY_Controller {
                 # code...
                 break;
         }
+    }
+
+    public function ujian_masuk_per_prody()
+    {
+        $content = $this->load->view('page/'.$this->data['department'].'/master/ujian_masuk_per_prody',$this->data,true);
+        $this->temp($content);
+    }
+
+    public function modalform_ujian_masuk_per_prody()
+    {
+        $input = $this->getInputToken();
+        $this->data['action'] = $input['Action'];
+        $this->data['id'] = $input['CDID'];
+        echo $this->load->view('page/'.$this->data['department'].'/master/modalform_ujian_masuk_per_prody',$this->data,true);
+    }
+
+    public function table_ujian_masuk_per_prody()
+    {
+        $this->data['getColoumn'] = array('query' => array('ID','Program Study','NamaUjian','Bobot','Active','CreateAT') );
+        $this->data['getData'] = $this->m_master->showDataUjianMasukPerPrody();
+        echo $this->load->view('page/'.$this->data['department'].'/master/table_ujian_masuk_per_prody',$this->data,true);
+    }
+
+    public function submit_ujian_masuk_per_prody()
+    {
+       
     }
 
 }

@@ -141,14 +141,20 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "ujian-masuk-per-prody" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-registration/ujian-masuk-per-prody'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Ujian Masuk Per Prody
+                        </a>
+                    </li>
                     <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "sales-koordinator-wilayah" ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <a href="<?php echo base_url('#'); ?>">
                         <i class="icon-angle-right"></i>
                         Sales Koordinator Wilayah
                         </a>
                     </li>
                     <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "sales-koordinator-kota" ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/master-sma/integration'); ?>">
+                        <a href="<?php echo base_url('#'); ?>">
                         <i class="icon-angle-right"></i>
                         Sales Koordinator Kota
                         </a>
@@ -165,19 +171,47 @@
                         Document Checklist
                         </a>
                     </li>
-                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "harga-formulir" ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/master-registration/harga-formulir'); ?>">
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "harga-formulir" ){echo "open-default";} ?>">
+                        <a href="javascript:void(0);">
                         <i class="icon-angle-right"></i>
                         Harga Formulir
                         </a>
+                        <ul class="sub-menu">
+                            <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "harga-formulir" && $this->uri->segment(4) == "online"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/master-registration/harga-formulir/online'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Online
+                                </a>
+                            </li>
+                            <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "harga-formulir" && $this->uri->segment(4) == "offline"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/master-registration/harga-formulir/offline'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Offline
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>
-            <li class="">
-                <a href="#">
-                  <i class="fa fa-list-alt" aria-hidden="true"></i>
+            <li class="<?php if($this->uri->segment(2)=='distribusi-formulir'){echo "current open";} ?>">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-list-alt"></i>
                     Distribusi Formulir
                 </a>
+                <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='distribusi-formulir' && $this->uri->segment(3) == "formulir-online" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/distribusi-formulir/formulir-online'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Formulir Online
+                        </a>
+                    </li>
+                    <li class="<?php if($this->uri->segment(2)=='distribusi-formulir' && $this->uri->segment(3) == "formulir-offline" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/distribusi-formulir/formulir-offline'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Formulir Offline
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa'){echo "current open";} ?>">
                 <a href="#">
@@ -185,8 +219,8 @@
                     Proses Calon Mahasiswa
                 </a>
                 <ul class="sub-menu">
-                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokument' ){echo "current";} ?>">
-                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokument'); ?>">
+                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokumen' ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokumen'); ?>">
                         <i class="icon-angle-right"></i>
                         Verifikasi Dokumen
                         </a>

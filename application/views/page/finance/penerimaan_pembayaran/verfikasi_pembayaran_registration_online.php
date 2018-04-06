@@ -12,12 +12,81 @@
 			<div class="widget-content">
 				<div class="form-horizontal">
 					<div class="form-group">
-						<label class="col-md-3 control-label">Upload Rek Koran:</label>
-						<div class="col-md-2">
-							<input type="file" data-style="fileinput" id="rekKoran">
+						<!-- <div class = "row"> -->
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Baris Awal Data</label>
+							</div>
+							<div class="col-xs-2">
+								<select class="col-md-12 full-width-fix angkaSelect" id="baris">
+								  <option></option>
+								</select>
+							</div>
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Kolom Price</label>
+							</div>
+							<div class="col-xs-2">
+								<select class="col-md-12 full-width-fix angkaSelect" id="kolom">
+								  <option></option>
+								</select>
+							</div>
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Kolom Debit</label>
+							</div>
+							<div class="col-xs-2">
+								<select class="col-md-12 full-width-fix angkaSelect" id="kolomDebit">
+								  <option></option>
+								</select>
+							</div>
 						</div>
-						<button class="btn btn-inverse btn-notification hide" id="btn-proses">Proses</button>
+					<!-- </div> -->
+				</div>
+				<div class="form-horizontal">
+					<div class="form-group">
+						<!-- <div class = "row"> -->
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Kolom Kredit</label>
+							</div>
+							<div class="col-xs-2">
+								<select class="col-md-12 full-width-fix angkaSelect" id="kolomKredit">
+								  <option></option>
+								</select>
+							</div>
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Nama Debit</label>
+							</div>
+							<div class="col-xs-2">
+								<input type="text" id = "DeBitName" class="form-control">
+							</div>
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Nama Credit</label>
+							</div>
+							<div class="col-xs-2">
+								<input type="text" id = "CreditName" class="form-control">
+							</div>
 					</div>
+					<!-- </div> -->
+				</div>
+				<div class="form-horizontal">
+					<div class="form-group">
+						<!-- <div class = "row"> -->
+							<div class="col-xs-2" style="">
+								<label class="control-label">Set Nama Line Akhir Data</label>
+							</div>
+							<div class="col-xs-2">
+								<input type="text" id = "LineAkhirData" class="form-control">
+							</div>
+							<div class="col-xs-2" style="">
+								<label class="control-label">Upload Rek Koran:</label>
+							</div>
+							<div class="col-xs-2">
+								<input type="file" data-style="fileinput" id="rekKoran">
+							</div>
+							<div class="col-xs-1">
+								<button class="btn btn-inverse btn-notification hide" id="btn-proses">Proses</button>
+							</div>
+							
+						</div>
+					<!-- </div> -->
 				</div>
 			</div>
 			<hr/>
@@ -81,7 +150,24 @@
 	$(document).ready(function () {
 	    loadDataRegVerification();
 	    loadDataRegVerified();
+	    loadSelectbaris();
 	});
+
+	function loadSelectbaris()
+	{
+		// var thisYear = (new Date()).getFullYear();
+		var angkaAwal = 20;
+		var startAngka = 1;
+		var selisih = parseInt(angkaAwal) - parseInt(startAngka);
+		for (var i = 0; i <= selisih; i++) {
+		    var selected = (i==5) ? 'selected' : '';
+		    $('.angkaSelect').append('<option value="'+ ( parseInt(startAngka) + parseInt(i) ) +'" '+selected+'>'+( parseInt(startAngka) + parseInt(i) )+'</option>');
+		}
+		$('.angkaSelect').select2({
+		  // allowClear: true
+		});
+
+	}
 
 	function loadDataRegVerified()
 	{
@@ -147,36 +233,82 @@
 	    var totalData = 0;
 	    var totalDataChecking = 0;
 
-	    for (var i=0; i<allTextLines.length; i++) {
-	        var data = allTextLines[i].split(',');
-	        if(i<5)
-	        {
-	        	if (data[4] == "DB" || data[4] == "CR") {
-	        		toastr.error("Format tidak sesuai", 'Failed!!');
-	        		break;
-	        	}
-	        }
-	        else
-	        {
-	        	if (data[4] == "DB" || data[4] == "CR") {
-	        		totalData++;
-	        		lines.push(data);
-	        	}
+	    var DeBitName = $("#DeBitName").val().trim();
+	    var CreditName = $("#CreditName").val().trim();
+	    var baris = $("#baris").val();
+	    var kolom = $("#kolom").val();
+	    var kolomKredit = $("#kolomKredit").val();
+	    var kolomDebit = $("#kolomDebit").val();
+	    var LineAkhirData = $('#LineAkhirData').val().trim();
+	    var dataValidation = {
+	    						DeBitName : DeBitName,
+	    						CreditName : CreditName,
+	    						LineAkhirData : LineAkhirData
+	    					};
 
-	        	if (data[0] == "Saldo Awal") {
-	        		totalDataChecking = parseInt(i) - parseInt(5);
-	        	}
-	        }
-	    }
+	    if (validation(dataValidation)) {
+	    	baris = parseInt(baris) - parseInt(1); // karena array dimulai dari 0
+	    	kolom = parseInt(kolom) - parseInt(1); // karena array dimulai dari 0
+	    	kolomKredit = parseInt(kolomKredit) - parseInt(1); // karena array dimulai dari 0
+	    	kolomDebit = parseInt(kolomDebit) - parseInt(1); // karena array dimulai dari 0
+	    	for (var i=0; i<allTextLines.length; i++) {
+	    	    var data = allTextLines[i].split(',');
+	    	    if(i<baris)
+	    	    {
+	    	    	if (data[kolomDebit] == DeBitName || data[kolomKredit] == CreditName) {
+	    	    		toastr.error("Format tidak sesuai", 'Failed!!');
+	    	    		break;
+	    	    	}
+	    	    }
+	    	    else
+	    	    {
+	    	    	if (data[kolomDebit] == DeBitName || data[kolomKredit] == CreditName) {
+	    	    		totalData++;
+	    	    		lines.push(data);
+	    	    	}
 
-	    if (totalData = totalDataChecking) {
-	    	processData2(lines)
-	    }
-	    else
-	    {
-	    	toastr.error("Format tidak sesuai", 'Failed!!');
-	    }	
+	    	    	if (data[0] == LineAkhirData) {
+	    	    		totalDataChecking = parseInt(i) - parseInt(5);
+	    	    	}
+	    	    }
+	    	}
+
+	    	if (totalData = totalDataChecking) {
+	    		processData2(lines)
+	    	}
+	    	else
+	    	{
+	    		toastr.error("Format tidak sesuai", 'Failed!!');
+	    	}	
+	    }	// exit if				
 	}
+
+  function validation(arr)
+  {
+  	// console.log(arr);
+    var toatString = "";
+    var result = "";
+    for(var key in arr) {
+       switch(key)
+       {
+        case  "DeBitName" :
+        case  "CreditName" :
+        case  "LineAkhirData" :
+              result =  Validation_required(arr[key],key);
+              if (result['status'] == 0) {
+                toatString += result['messages'] + "<br>";
+              }
+              break;
+       }
+
+    }
+    if (toatString != "") {
+      toastr.error(toatString, 'Failed!!');
+      return false;
+    }
+
+    return true;
+  }
 
 	function processData2(datacsv) {
 	    var dataSaveTBL = []; 
@@ -267,6 +399,7 @@
 	});
 
 	$(document).on('click','#btn-confirm', function () {
+		loading_button('#btn-confirm');
 		var RegisterID = getValueChecbox('.datatable2');
 		 if (RegisterID.length == 0) {
 		 	toastr.error("Silahkan checked dahulu", 'Failed!!');
@@ -315,7 +448,7 @@
 		 	}
 	 		 
 		 }
-
+		 $('#btn-confirm').prop('disabled',false).html('Confirm');
 	});
 
 	$(document).on('click','#confirmYesProcess', function () {

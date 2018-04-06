@@ -6,6 +6,7 @@
     		<th style="width: 15px;">No</th>
     		<th>Tahun</th>
     		<th>Formulir Code</th>
+    		<th>Link</th>
     		<th>Status</th>
     		<th>Create At</th>
     		<th>Created By</th>
@@ -52,6 +53,7 @@
 						'<td>'+no+'</td>'+
 						'<td>'+response[i]['Years']+'</td>'+
 						'<td>'+response[i]['FormulirCode']+'</td>'+
+						'<td>'+response[i]['Link']+'</td>'+
 						status+
 						'<td>'+response[i]['CreateAT']+'</td>'+
 						'<td>'+response[i]['Name']+'</td>'+
