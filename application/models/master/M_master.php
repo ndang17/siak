@@ -410,5 +410,22 @@ class M_master extends CI_Model {
     $query=$this->db->query($sql, array())->result_array();
     return $query;
   }
+
+  public function inserData_ujian_masuk($NamaUjian,$Bobot,$ID_ProgramStudy)
+  {
+    $dataSave = array(
+            'NamaUjian' => strtoupper($NamaUjian),
+            'Bobot' => $Bobot,
+            'ID_ProgramStudy' => $ID_ProgramStudy,
+            'CreateAT' => date('Y-m-d'),
+    );
+    $this->db->insert('db_admission.ujian_perprody_m', $dataSave);
+  }
+
+  public function editData_ujian_masuk($NamaUjian,$Bobot,$ID_ProgramStudy,$ID)
+  {
+    $sql = "update db_admission.ujian_perprody_m set NamaUjian = ? , Bobot = ? , ID_ProgramStudy = ? where ID = ".$ID;
+    $query=$this->db->query($sql, array($NamaUjian,$Bobot,$ID_ProgramStudy));
+  }
   
 }

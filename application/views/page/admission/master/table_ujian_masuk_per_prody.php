@@ -20,7 +20,7 @@
 				<td><?php echo $getData[$i]['NamaProgramStudy'] ?></td>
 				<td><?php echo $getData[$i]['NamaUjian'] ?></td>
 				<td><?php echo $getData[$i]['Bobot'] ?></td>
-				<td><?php echo $status ?></td>
+				<?php echo $status ?>
 				<td><?php echo $getData[$i]['CreateAT'] ?></td>
 				<td>
 					<div class="btn-group">

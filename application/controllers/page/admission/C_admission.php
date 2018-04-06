@@ -206,4 +206,32 @@ class C_admission extends MY_Controller {
       $this->m_admission->updateSelloutFormulir($data_arr);
     }
 
+    public function set_jadwal_ujian()
+    {
+      $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/set_jadwal_ujian',$this->data,true);
+      $this->temp($content);
+    }
+
+    public function set_jadwal_ujian_load_table()
+    {
+       $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/set_jadwal_ujian_load_table',$this->data,true);
+       echo json_encode($content);
+    }
+
+    public function set_jadwal_ujian_load_table_getJsonApi()
+    {
+      $generate = $this->m_admission->getJadwalUjian();
+      return print_r(json_encode($generate));
+    }
+
+    public function set_jadwal_ujian_save()
+    {
+      $input = $this->getInputToken();
+      $ID_ujian_perprody = $input['program_study'];
+      print_r($ID_ujian_perprody);
+      /*$DateTimeTest = $input['datetime_ujian'].':00';
+      $Lokasi = $input['Lokasi'];
+      $this->m_admission->save_jadwal_ujian($ID_ujian_perprody,$DateTimeTest,$Lokasi);*/
+
+    }
 }

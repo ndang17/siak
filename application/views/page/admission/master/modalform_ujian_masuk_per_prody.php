@@ -74,19 +74,46 @@
               for(var i=0;i<data_json.length;i++){
                   var selected = (i==0) ? 'selected' : '';
                   //var selected = (data_json[i].RegionName=='Kota Jakarta Pusat') ? 'selected' : '';
-                  $('#selectPrody').append('<option value="'+data_json[i].ID+'" '+selected+'>'+data_json[i].NameEng+'</option>');
+                  $('#selectPrody').append('<option value="'+data_json[i].ID+'" '+selected+'>'+data_json[i].Name+'</option>');
               }
               $('#selectPrody').select2({
                  //allowClear: true
               });
         }).done(function () {
-          
+          <?php if ($action == 'edit'): ?>
+              loadDataEdit();
+          <?php endif ?> 
         });
     }
 
     <?php if ($action == 'edit'): ?>
 
-    <?php else: ?>
+    function loadDataEdit()
+    {
+        var NamaUjian = "<?php echo $getDataEdit[0]['NamaUjian'] ?>";
+        var ID_ProgramStudy = "<?php echo $getDataEdit[0]['ID_ProgramStudy'] ?>";
+        var Bobot = "<?php echo $getDataEdit[0]['Bobot'] ?>";
+
+        $("#selectPrody option").filter(function() {
+           //may want to use $.trim in here
+           return $(this).val() == ID_ProgramStudy; 
+        }).prop("selected", true);
+
+        $('#selectPrody').select2({
+           //allowClear: true
+        });
+
+        $("#selectBobot option").filter(function() {
+           //may want to use $.trim in here
+           return $(this).val() == Bobot; 
+        }).prop("selected", true);
+
+        $('#selectBobot').select2({
+          // allowClear: true
+        });
+
+        $("#nm_ujian").val(NamaUjian);
+    }
 
     <?php endif ?> 
 </script>
