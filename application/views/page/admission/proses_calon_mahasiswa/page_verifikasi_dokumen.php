@@ -25,7 +25,7 @@
 			<br>
 			<label class="control-label"><?php echo $datadb['data'][$i]['Name'] ?> </label>
 		</div>
-		<div class="col-xs-2" style="">
+		<div class="col-xs-3" style="">
 			<label class="control-label">Email :</label>
 			<br>
 			<label class="control-label"><?php echo $datadb['data'][$i]['Email'] ?> </label>

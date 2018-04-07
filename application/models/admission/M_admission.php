@@ -232,6 +232,64 @@ class M_admission extends CI_Model {
       return $conVertINT;
     }
 
+    public function totalDataFormulir_online()
+    {
+      $sql = "select count(*) as total from (
+              select a.Name as NameCandidate,a.Email,z.SchoolName,c.FormulirCode,a.StatusReg
+              from db_admission.register as a 
+              join db_admission.register_verification as b
+              on a.ID = b.RegisterID
+              join db_admission.register_verified as c
+              on c.RegVerificationID = b.ID
+              join db_admission.school as z
+              on z.ID = a.SchoolID
+              where a.StatusReg = 0
+              ) as a right JOIN db_admission.formulir_number_online_m as b
+              on a.FormulirCode = b.FormulirCode
+              ";          
+      $query=$this->db->query($sql, array())->result_array();
+      $conVertINT = (int) $query[0]['total'];
+      return $conVertINT;
+    }
+
+    public function selectDataDitribusiFormulirOnline($limit, $start,$tahun,$NomorFormulir,$status)
+    {
+      $arr_temp = array('data' => array());
+      if($NomorFormulir != '%') {
+          $NomorFormulir = '"%'.$NomorFormulir.'%"'; 
+      }
+      else
+      {
+        $NomorFormulir = '"%"'; 
+      }
+      
+      if($status != '%') {
+        // $status = '"%'.$status.'%"'; 
+        // $status = 'StatusUsed != '.$status;
+        $status = ' and b.Status = '.$status;
+      }
+      else
+      {
+        $status = ''; 
+      }
+
+        $sql = 'select a.NameCandidate,a.Email,a.SchoolName,b.FormulirCode,a.StatusReg,b.Years,b.Status as StatusUsed from (
+          select a.Name as NameCandidate,a.Email,z.SchoolName,c.FormulirCode,a.StatusReg
+          from db_admission.register as a 
+          join db_admission.register_verification as b
+          on a.ID = b.RegisterID
+          join db_admission.register_verified as c
+          on c.RegVerificationID = b.ID
+          join db_admission.school as z
+          on z.ID = a.SchoolID
+          where a.StatusReg = 0
+          ) as a right JOIN db_admission.formulir_number_online_m as b
+          on a.FormulirCode = b.FormulirCode
+          where Years = "'.$tahun.'" and b.FormulirCode like '.$NomorFormulir.$status.' LIMIT '.$start. ', '.$limit;
+           $query=$this->db->query($sql, array())->result_array();
+           return $query;
+    }
+
     public function selectDataDitribusiFormulirOffline($limit, $start,$tahun,$NomorFormulir,$NamaStaffAdmisi,$status)
     {
       $arr_temp = array('data' => array());
@@ -299,7 +357,8 @@ class M_admission extends CI_Model {
               on a.ID_ujian_perprody = b.ID
               join db_academic.program_study as c
               on c.ID = b.ID_ProgramStudy
-              GROUP BY a.ID_ujian_perprody";          
+              GROUP BY C.Name,DATE(a.DateTimeTest)
+              ";          
       $query=$this->db->query($sql, array())->result_array();
       return $query;
     }
@@ -313,5 +372,174 @@ class M_admission extends CI_Model {
       );
       $this->db->insert('db_admission.register_jadwal_ujian', $dataSave);
     }
-  
+
+    public function getID_register_formulir_programStudy_arr($arr)
+    {
+      $arr_temp = array();
+      for ($i=0; $i < count($arr); $i++) { 
+        $sql = "select ID from db_admission.register_formulir where ID_program_study = ? ";          
+        $query=$this->db->query($sql, array($arr[$i]['ID_ProgramStudy']))->result_array();
+        for ($j=0; $j < count($query); $j++) { 
+          $arr_temp[] = array('ID_register_formulir' => $query[$j]['ID'],'ID_register_jadwal_ujian' => $arr[$i]['ID_register_jadwal_ujian']);
+        }
+      }
+      
+      return $arr_temp;
+    }
+
+    public function get_arr_ID_ujian_per_prody($arr_ID_ProgramStudy)
+    {
+      $arr_temp = array('result' => '','data' => array());
+      $arr = array();
+      $x = 0;
+      for ($i=0; $i <  count($arr_ID_ProgramStudy) ; $i++) { 
+        $sql = "select ID,ID_ProgramStudy from db_admission.ujian_perprody_m where ID_ProgramStudy = ? ";          
+        $query=$this->db->query($sql, array($arr_ID_ProgramStudy[$i]))->result_array();
+        // print_r($query);
+          if (count($query) == 0) {
+            $arr_temp['result'] = 'Ujian Masuk Per Prody belum disetting, silahkan inputkan dulu pada Master Registration Ujian Per Prody';  
+            break;
+          }
+          else
+          {
+              for ($j=0; $j < count($query); $j++) { 
+                $arr[$x] = array('ID_ujian_perprody' =>$query[$j]['ID'], 'ID_ProgramStudy' => $query[$j]['ID_ProgramStudy'] );
+                $x++;
+              }
+          }
+      }
+      $arr_temp['data'] = $arr;
+      return $arr_temp;
+    }
+
+    public function saveDataJadwalUjian_returnArr($arr_ID_ujian_per_prody,$DateTimeTest,$Lokasi)
+    {
+      $arr_temp = array();
+      $x = 0;
+       // print_r($arr_ID_ujian_per_prody['data']);
+      for ($i=0; $i < count($arr_ID_ujian_per_prody['data']); $i++) {
+        try{
+          $dataSave = array(
+                  'ID_ujian_perprody' => $arr_ID_ujian_per_prody['data'][$i]['ID_ujian_perprody'],
+                  'DateTimeTest' => $DateTimeTest,
+                  'Lokasi' => $Lokasi,
+          );
+          $this->db->insert('db_admission.register_jadwal_ujian', $dataSave);
+        }
+        catch(Exception $e)
+        {
+          continue;
+        } 
+        
+        $sql = "select ID from db_admission.register_jadwal_ujian where ID_ujian_perprody = ? and DateTimeTest = ? and Lokasi = ?";          
+        $query=$this->db->query($sql, array($arr_ID_ujian_per_prody['data'][$i]['ID_ujian_perprody'],$DateTimeTest,$Lokasi))->result_array();
+        $arr = array();
+        for ($j=0; $j < count($query) ; $j++) { 
+          $arr_temp[$x] = array('ID_register_jadwal_ujian' => $query[0]['ID'],'ID_ProgramStudy' => $arr_ID_ujian_per_prody['data'][$i]['ID_ProgramStudy'] );
+          $x++;
+        }
+      }
+
+      return $arr_temp;
+    }
+
+    public function saveDataregister_formulir_jadwal_ujian($arr_id)
+    {
+      error_reporting(0);
+      for ($i=0; $i < count($arr_id); $i++) { 
+        try
+        {
+          // check ID_register_formulir sudah ada pada jadwal ujian atau belum 
+          $sql = 'select count(*) as total from db_admission.register_formulir_jadwal_ujian where ID_register_formulir = ?';
+          $query=$this->db->query($sql, array($arr_id[$i]['ID_register_formulir']))->result_array();
+          if (count($query) == 0) {
+            $dataSave = array(
+                    'ID_register_jadwal_ujian' => $arr_id[$i]['ID_register_jadwal_ujian'],
+                    'ID_register_formulir' => $arr_id[$i]['ID_register_formulir'],
+            );
+            $this->db->insert('db_admission.register_formulir_jadwal_ujian', $dataSave);
+          }
+          
+        }
+        catch(Exception $e)
+        {
+          continue;
+        }
+      }
+      
+    }
+
+    public function daftar_jadwal_ujian_load_data_now()
+    {
+      $sql = 'select C.Name as prody,a.ID_ujian_perprody,DATE(a.DateTimeTest) as tanggal
+        ,CONCAT((EXTRACT(HOUR FROM a.DateTimeTest)),":",(EXTRACT(MINUTE FROM a.DateTimeTest))) as jam,
+        a.Lokasi,
+        h.Name as NameCandidate,h.Email,i.SchoolName,f.FormulirCode,e.ID as ID_register_formulir
+        from db_admission.register_jadwal_ujian as a 
+        join db_admission.ujian_perprody_m as b
+        on a.ID_ujian_perprody = b.ID
+        join db_academic.program_study as c
+        on c.ID = b.ID_ProgramStudy
+        join db_admission.register_formulir_jadwal_ujian as d
+        ON a.ID = d.ID_register_jadwal_ujian
+        JOIN db_admission.register_formulir as e
+        on e.ID = d.ID_register_formulir
+        join db_admission.register_verified as f
+        on e.ID_register_verified = f.ID
+        join db_admission.register_verification as g
+        on g.ID = f.RegVerificationID
+        join db_admission.register as h
+        on h.ID = g.RegisterID
+        join db_admission.school as i
+        on i.ID = h.SchoolID
+        where DATE(a.DateTimeTest) = CURDATE()
+        GROUP BY C.Name,DATE(a.DateTimeTest),e.ID';
+      $query=$this->db->query($sql, array())->result_array();
+      return $query;
+    }
+
+    public function daftar_jadwal_ujian_load_data_paging($limit, $start,$Nama,$FormulirCode)
+    {
+      $where = 'where DATE(a.DateTimeTest) > CURDATE() ';
+      if ($Nama != '') {
+        $where .= ' and h.Name like "%'.$Nama.'%" or i.SchoolName like "%'.$Nama.'%"';
+        if ($FormulirCode != '') {
+           $where .= ' and f.FormulirCode like "%'.$FormulirCode.'%"';
+         } 
+      }
+      else
+      {
+        if ($FormulirCode != '') {
+          $where .= ' and f.FormulirCode like "%'.$FormulirCode.'%"';
+        }
+      }
+
+      $sql = 'select C.Name as prody,a.ID_ujian_perprody,DATE(a.DateTimeTest) as tanggal
+        ,CONCAT((EXTRACT(HOUR FROM a.DateTimeTest)),":",(EXTRACT(MINUTE FROM a.DateTimeTest))) as jam,
+        a.Lokasi,
+        h.Name as NameCandidate,h.Email,i.SchoolName,f.FormulirCode,e.ID as ID_register_formulir
+        from db_admission.register_jadwal_ujian as a 
+        join db_admission.ujian_perprody_m as b
+        on a.ID_ujian_perprody = b.ID
+        join db_academic.program_study as c
+        on c.ID = b.ID_ProgramStudy
+        join db_admission.register_formulir_jadwal_ujian as d
+        ON a.ID = d.ID_register_jadwal_ujian
+        JOIN db_admission.register_formulir as e
+        on e.ID = d.ID_register_formulir
+        join db_admission.register_verified as f
+        on e.ID_register_verified = f.ID
+        join db_admission.register_verification as g
+        on g.ID = f.RegVerificationID
+        join db_admission.register as h
+        on h.ID = g.RegisterID
+        join db_admission.school as i
+        on i.ID = h.SchoolID
+        '.$where.' 
+        GROUP BY C.Name,DATE(a.DateTimeTest),e.ID '.' LIMIT '.$start. ', '.$limit;
+      $query=$this->db->query($sql, array())->result_array();
+      return $query;
+
+    }
+
 }

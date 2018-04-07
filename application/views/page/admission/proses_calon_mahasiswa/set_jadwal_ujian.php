@@ -54,14 +54,15 @@
         var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
         $('#datetime_ujian').datetimepicker({
         	// startDate: today,
-        	startDate: '+1d',
+        	startDate: '+2d',
         });
 	});
 
 	$(document).on('click','#btn-save', function () {
 		// show data
-		var program_study = getCheckbox('.chkProStudy');
-		console.log(program_study);
+		loading_button('#btn-save');
+		var program_study = getCheckbox('#tablechkProStudy');
+		// console.log(program_study);
 		var datetime_ujian = $("#datetime_ujian").val();
 		var Lokasi = $("#Lokasi").val();
 		var url = base_url_js+'admission/proses-calon-mahasiswa/set-jadwal-ujian/save';
@@ -70,23 +71,67 @@
 		            datetime_ujian : datetime_ujian,
 		            Lokasi : Lokasi
 		        };
-		var token = jwt_encode(data,"UAP)(*");
-		$.post(url,{token:token},function (data_json) {
-		    // jsonData = data_json;
-		    // var obj = JSON.parse(data_json); 
-		    // console.log(obj);
-		}).done(function() {
-  		    setTimeout(function () {
-  	       	    toastr.options.fadeOut = 10000;
-  	       	    toastr.success('Data berhasil disimpan', 'Success!');
-  		    },500);
-	    }).fail(function() {
-	      toastr.error('The Database connection error, please try again', 'Failed!!');;
-	    }).always(function() {
-	    	loadTableJson(1);
-	      	$('#NotificationModal').modal('hide');
-	    });
+		if (validationInput = validation(data)) {
+			var token = jwt_encode(data,"UAP)(*");
+			$.post(url,{token:token},function (data_json) {
+			    // jsonData = data_json;
+			    var obj = JSON.parse(data_json); 
+			    if (obj.msg != '') {
+			    	toastr.error(obj.msg, 'Failed!!');
+			    }
+			    else
+			    {
+			    	toastr.options.fadeOut = 10000;
+			    	toastr.success('Data berhasil disimpan','Success!');
+			    }
+			    console.log(obj);
+			}).done(function() {
+	  		    setTimeout(function () {
+	  	       	    loadTableJson(1);
+	  		    },500);
+		    }).fail(function() {
+		      toastr.error('The Database connection error, please try again', 'Failed!!');;
+		    }).always(function() {
+		    	$('#btn-save').prop('disabled',false).html('Save');
+		    });
+		}
+		else
+		{
+		   $('#btn-save').prop('disabled',false).html('Save');
+		}	
+		
 	});
+
+	function validation(arr)
+	{
+	  var toatString = "";
+	  var result = "";
+	  for(var key in arr) {
+	     switch(key)
+	     {
+	      case  "Lokasi" :
+            result = Validation_leastCharacter(3,arr[key],key);
+            if (result['status'] == 0) {
+              toatString += result['messages'] + "<br>";
+            }
+            break;
+           case  "datetime_ujian" :
+           case  "program_study" :
+	           result = Validation_required(arr[key],key);
+	           if (result['status'] == 0) {
+	             toatString += result['messages'] + "<br>";
+	           }
+           break;
+	     }
+
+	  }
+	  if (toatString != "") {
+	    toastr.error(toatString, 'Failed!!');
+	    return false;
+	  }
+
+	  return true;
+	}
 
 	function LoadData()
 	{
@@ -147,7 +192,7 @@
 		}).done(function() {
 	      
 	    }).fail(function() {
-	      toastr.error('The Database connection error, please try again', 'Failed!!');;
+	      toastr.error('Duplicate Jadwal', 'Failed!!');;
 	    }).always(function() {
 	      	$('#NotificationModal').modal('hide');
 	    });
@@ -155,12 +200,11 @@
 
 	function getCheckbox(name)
     {
-    	var valuee = "";
-    	$('input[name="'+name+'"]:checked').each(function() {
-    	   valuee = this.value;
+    	var allVals = [];
+    	$(name+' :checked').each(function() {
+    	  allVals.push($(this).val());
     	});
-
-    	return valuee;
+    	return allVals;
     }
 	
 </script>

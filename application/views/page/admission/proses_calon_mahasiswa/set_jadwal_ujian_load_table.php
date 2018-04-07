@@ -8,7 +8,7 @@
 	    		<th>Tanggal Ujian</th>
 	    		<th>Jam Ujian</th>
 	    		<th>Lokasi</th>
-	    		<th>Active</th>
+	    		<!-- <th>Active</th> -->
     		</tr>
     	</thead>
     	<tbody>
@@ -47,8 +47,9 @@
 						'<td>'+response[i]['Name']+'</td>'+
 						'<td>'+response[i]['tanggal']+'</td>'+
 						'<td>'+response[i]['jam']+'</td>'+
-						status+
 						'<td>'+response[i]['Lokasi']+'</td>'+
+						// status+
+						// '<td>'+response[i]['Lokasi']+'</td>'+
 						// '<td>'+response[i]['Name']+'</td>'+
 					'</tr>'	
 					);
