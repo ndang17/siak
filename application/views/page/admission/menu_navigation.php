@@ -238,6 +238,12 @@
                                 Daftar Jadwal Ujian Calon Mahasiswa
                                 </a>
                             </li>
+                            <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == "jadwal-ujian" && $this->uri->segment(4) == "set-nilai-ujian"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/proses-calon-mahasiswa/jadwal-ujian/set-nilai-ujian'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Set Nilai Ujian
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokumen' ){echo "current";} ?>">

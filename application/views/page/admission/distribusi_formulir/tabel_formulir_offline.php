@@ -39,7 +39,7 @@
 			<tbody> 
 				<?php for ($i = 0; $i < count($datadb); $i++): ?>
 							 <tr>
-							 	<?php if ($datadb[$i]['StatusUsed'] == 1 || $datadb[$i]['StatusJual'] == 1): ?>
+							 	<?php if ($datadb[$i]['StatusUsed'] == 1 && $datadb[$i]['StatusJual'] == 1): ?>
 							 		<td></td>
 							 	<?php else: ?>
 						 			<td class="checkbox-column">

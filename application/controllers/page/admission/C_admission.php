@@ -366,4 +366,15 @@ class C_admission extends MY_Controller {
         echo json_encode($output);
         
     }
+
+    public function set_nilai_ujian()
+    {
+      $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/set_nilai_ujian',$this->data,true);
+      $this->temp($content);
+    }
+
+    public function set_nilai_ujian_load_data_paging($page = null)
+    {
+      
+    }
 }
