@@ -16,16 +16,16 @@
 						Nomor Formulir
 						<input class="form-control" id="NomorFormulir" placeholder="All..." "="">
 					</div>
-					<div class="col-xs-2" style="">
+					<div class="col-xs-2 hide" style="">
 						Nama Pendistribusi Formulir
 						<input class="form-control" id="NamaStaffAdmisi" placeholder="All..." "="">
 					</div>
 					<div class="col-xs-2" style="">
-						Status
+						Status Activated by Candidate
 						<select class="select2-select-00 col-md-4 full-width-fix" id="selectStatus">
 						    <option value= "%" selected>All</option>
-						    <option value= "0">IN</option>
-						    <option value= "1">Sold Out</option>
+						    <option value= "0">No</option>
+						    <option value= "1">Yes</option>
 						</select>
 					</div>
 					<div  class="col-xs-4" align="right" id="pagination_link"></div>	

@@ -219,6 +219,11 @@
                     Proses Calon Mahasiswa
                 </a>
                 <ul class="sub-menu">
+                    <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'set-jadwal-ujian' ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/proses-calon-mahasiswa/set-jadwal-ujian'); ?>"> <i class="icon-angle-right"></i>
+                        Set Jadwal Ujian
+                        </a>
+                    </li>
                     <li class="<?php if($this->uri->segment(2)=='proses-calon-mahasiswa' && $this->uri->segment(3) == 'verifikasi-dokumen' ){echo "current";} ?>">
                         <a href="<?php echo base_url('admission/proses-calon-mahasiswa/verifikasi-dokumen'); ?>">
                         <i class="icon-angle-right"></i>

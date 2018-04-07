@@ -141,6 +141,11 @@ $route['admission/master-registration/ujian-masuk-per-prody/submit'] = 'page/adm
 $route['admission/proses-calon-mahasiswa/verifikasi-dokumen'] = 'page/admission/c_admission/verifikasi_dokumen_calon_mahasiswa';
 $route['admission/proses-calon-mahasiswa/verifikasi-dokument/register_document_table/pagination/(:num)'] = 'page/admission/c_admission/pagination_calon_mahasiswa/$1';
 $route['admission/proses-calon-mahasiswa/verifikasi-dokument/proses_document'] = 'page/admission/c_admission/proses_document';
+$route['admission/proses-calon-mahasiswa/set-jadwal-ujian'] = 'page/admission/c_admission/set_jadwal_ujian';
+$route['admission/proses-calon-mahasiswa/set-jadwal-ujian/load_table'] = 'page/admission/c_admission/set_jadwal_ujian_load_table';
+$route['admission/proses-calon-mahasiswa/set-jadwal-ujian/load_table_getjsonApi'] = 'page/admission/c_admission/set_jadwal_ujian_load_table_getJsonApi';
+$route['admission/proses-calon-mahasiswa/set-jadwal-ujian/save'] = 'page/admission/c_admission/set_jadwal_ujian_save';
+
 
 $route['admission/distribusi-formulir/formulir-offline'] = 'page/admission/c_admission/distribusi_formulir_offline';
 $route['admission/distribusi-formulir/formulir-offline/pagination/(:num)'] = 'page/admission/c_admission/pagination_formulir_offline/$1';

@@ -509,6 +509,9 @@ class C_master extends MY_Controller {
         $input = $this->getInputToken();
         $this->data['action'] = $input['Action'];
         $this->data['id'] = $input['CDID'];
+        if ($input['Action'] == 'edit') {
+            $this->data['getDataEdit'] =  $this->m_master->caribasedprimary('db_admission.ujian_perprody_m','ID',$input['CDID']);
+        }
         echo $this->load->view('page/'.$this->data['department'].'/master/modalform_ujian_masuk_per_prody',$this->data,true);
     }
 
@@ -521,7 +524,25 @@ class C_master extends MY_Controller {
 
     public function submit_ujian_masuk_per_prody()
     {
-       
+        $input = $this->getInputToken();
+
+        switch ($input['Action']) {
+            case 'add':
+                $this->m_master->inserData_ujian_masuk($input['nm_ujian'],$input['selectBobot'],$input['selectPrody']);
+                break;
+            case 'edit':
+                $this->m_master->editData_ujian_masuk($input['nm_ujian'],$input['selectBobot'],$input['selectPrody'],$input['CDID']);
+                break;
+            case 'delete':
+                $this->m_master->delete_id_table($input['CDID'],'ujian_perprody_m');
+                break;        
+            case 'getactive':
+                $this->m_master->getActive_id_activeAll_table($input['CDID'],$input['Active'],'ujian_perprody_m');
+                break;    
+            default:
+                # code...
+                break;
+        }        
     }
 
 }

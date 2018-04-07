@@ -28,9 +28,9 @@
 					</th>
 					<th>Tahun</th>
 					<th>Formulir Code</th>
-					<th>Status</th>
+					<th style="width: 100px;">Activated by Candidate</th>
 					<th>Status Jual</th>
-					<th>Jual Oleh</th>
+					<!-- <th>Jual Oleh</th> -->
 					<th>Nama Candidate</th>
 					<th>Email</th>
 					<th>Sekolah</th>
@@ -50,19 +50,17 @@
 							 	<td><?php echo $datadb[$i]['Years'] ?></td>
 							 	<td><?php echo $datadb[$i]['FormulirCode'] ?></td>
 							 	<?php if ($datadb[$i]['StatusUsed'] == 0): ?>
-							 		<?php $status_used = '<td style="color:  green;">IN</td>'; ?>
+							 		<?php $status_used = '<td style="color:  green;">No</td>'; ?>
 							 	<?php else: ?>
-							 		<?php $status_used = '<td style="color:  red;">Sold Out</td>'; ?>
+							 		<?php $status_used = '<td style="color:  red;">Yes</td>'; ?>
 							 	<?php endif ?>
-							 	<!-- <td><?php echo $status_used ?></td> -->
 							 	<?php echo $status_used ?>
 							 	<?php if ($datadb[$i]['StatusJual'] == 0): ?>
-							 		<?php $status_jual = '<i class="fa fa-minus-circle" style="color: red;"></i>'; ?>
+							 		<?php $status_jual = '<td style="color:  green;">IN</td>'; ?>
 							 	<?php else: ?>
-							 		<?php $status_jual = '<i class="fa fa-check-circle" style="color: green;"></i>'; ?>
+							 		<?php $status_jual = '<td style="color:  red;">Sold Out</td>'; ?>
 							 	<?php endif ?>
-							 	<td><?php echo $status_jual ?></td>
-							 	<td><?php echo $datadb[$i]['SellName'] ?></td>
+							 	<?php echo $status_jual ?>
 							 	<td><?php echo $datadb[$i]['NameCandidate'] ?></td>
 							 	<td><?php echo $datadb[$i]['Email'] ?></td>
 							 	<td><?php echo $datadb[$i]['SchoolName'] ?></td>
