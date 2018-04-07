@@ -150,6 +150,58 @@ class C_admission extends MY_Controller {
       $this->temp($content);
     }
 
+    public function distribusi_formulir_online()
+    {
+      $content = $this->load->view('page/'.$this->data['department'].'/distribusi_formulir/formulir_online',$this->data,true);
+      $this->temp($content);
+    }
+
+    public function pagination_formulir_online($page= null)
+    {
+       $input =  $this->getInputToken();
+       // print_r($input);
+       $tahun = $input['selectTahun'];
+       $NomorFormulir = $input['NomorFormulir'];
+       $status = $input['selectStatus'];
+
+       $this->load->library('pagination');
+       $config = array();
+       $config["base_url"] = "#";
+       $config["total_rows"] =  $this->m_admission->totalDataFormulir_online();
+       $config["per_page"] = 15;
+       $config["uri_segment"] = 5;
+       $config["use_page_numbers"] = TRUE;
+       $config["full_tag_open"] = '<ul class="pagination">';
+       $config["full_tag_close"] = '</ul>';
+       $config["first_tag_open"] = '<li>';
+       $config["first_tag_close"] = '</li>';
+       $config["last_tag_open"] = '<li>';
+       $config["last_tag_close"] = '</li>';
+       $config['next_link'] = '&gt;';
+       $config["next_tag_open"] = '<li>';
+       $config["next_tag_close"] = '</li>';
+       $config["prev_link"] = "&lt;";
+       $config["prev_tag_open"] = "<li>";
+       $config["prev_tag_close"] = "</li>";
+       $config["cur_tag_open"] = "<li class='active'><a href='#'>";
+       $config["cur_tag_close"] = "</a></li>";
+       $config["num_tag_open"] = "<li>";
+       $config["num_tag_close"] = "</li>";
+       $config["num_links"] = 1;
+
+       $this->pagination->initialize($config);
+       $page = $this->uri->segment(5);
+       $start = ($page - 1) * $config["per_page"];
+       $this->data['datadb'] = $this->m_admission->selectDataDitribusiFormulirOnline($config["per_page"], $start,$tahun,$NomorFormulir,$status);
+      $content = $this->load->view('page/'.$this->data['department'].'/distribusi_formulir/tabel_formulir_online',$this->data,true);
+
+       $output = array(
+       'pagination_link'  => $this->pagination->create_links(),
+       'tabel_formulir_online'   => $content,
+       );
+       echo json_encode($output);
+    }
+
     public function pagination_formulir_offline($page= null)
     {
        $input =  $this->getInputToken();
@@ -267,5 +319,51 @@ class C_admission extends MY_Controller {
     {
       $generate = $this->m_admission->daftar_jadwal_ujian_load_data_now();
       return print_r(json_encode($generate));
+    }
+
+    public function daftar_jadwal_ujian_load_data_paging($page= null)
+    {
+        $input =  $this->getInputToken();
+        $Nama = $input['Nama'];
+        $FormulirCode = $input['FormulirCode'];
+
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = "#";
+        $config["total_rows"] =  1000;
+        $config["per_page"] = 5;
+        $config["uri_segment"] = 6;
+        $config["use_page_numbers"] = TRUE;
+        $config["full_tag_open"] = '<ul class="pagination">';
+        $config["full_tag_close"] = '</ul>';
+        $config["first_tag_open"] = '<li>';
+        $config["first_tag_close"] = '</li>';
+        $config["last_tag_open"] = '<li>';
+        $config["last_tag_close"] = '</li>';
+        $config['next_link'] = '&gt;';
+        $config["next_tag_open"] = '<li>';
+        $config["next_tag_close"] = '</li>';
+        $config["prev_link"] = "&lt;";
+        $config["prev_tag_open"] = "<li>";
+        $config["prev_tag_close"] = "</li>";
+        $config["cur_tag_open"] = "<li class='active'><a href='#'>";
+        $config["cur_tag_close"] = "</a></li>";
+        $config["num_tag_open"] = "<li>";
+        $config["num_tag_close"] = "</li>";
+        $config["num_links"] = 1;
+
+        $this->pagination->initialize($config);
+        $page = $this->uri->segment(6);
+        $start = ($page - 1) * $config["per_page"];
+        $this->data['datadb'] = $this->m_admission->daftar_jadwal_ujian_load_data_paging($config["per_page"], $start,$Nama,$FormulirCode);
+       $this->data['no'] = $start + 1;
+       $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/daftar_jadwal_ujian_load_data_paging',$this->data,true);
+
+        $output = array(
+        'pagination_link'  => $this->pagination->create_links(),
+        'loadtable'   => $content,
+        );
+        echo json_encode($output);
+        
     }
 }

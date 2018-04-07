@@ -232,6 +232,64 @@ class M_admission extends CI_Model {
       return $conVertINT;
     }
 
+    public function totalDataFormulir_online()
+    {
+      $sql = "select count(*) as total from (
+              select a.Name as NameCandidate,a.Email,z.SchoolName,c.FormulirCode,a.StatusReg
+              from db_admission.register as a 
+              join db_admission.register_verification as b
+              on a.ID = b.RegisterID
+              join db_admission.register_verified as c
+              on c.RegVerificationID = b.ID
+              join db_admission.school as z
+              on z.ID = a.SchoolID
+              where a.StatusReg = 0
+              ) as a right JOIN db_admission.formulir_number_online_m as b
+              on a.FormulirCode = b.FormulirCode
+              ";          
+      $query=$this->db->query($sql, array())->result_array();
+      $conVertINT = (int) $query[0]['total'];
+      return $conVertINT;
+    }
+
+    public function selectDataDitribusiFormulirOnline($limit, $start,$tahun,$NomorFormulir,$status)
+    {
+      $arr_temp = array('data' => array());
+      if($NomorFormulir != '%') {
+          $NomorFormulir = '"%'.$NomorFormulir.'%"'; 
+      }
+      else
+      {
+        $NomorFormulir = '"%"'; 
+      }
+      
+      if($status != '%') {
+        // $status = '"%'.$status.'%"'; 
+        // $status = 'StatusUsed != '.$status;
+        $status = ' and b.Status = '.$status;
+      }
+      else
+      {
+        $status = ''; 
+      }
+
+        $sql = 'select a.NameCandidate,a.Email,a.SchoolName,b.FormulirCode,a.StatusReg,b.Years,b.Status as StatusUsed from (
+          select a.Name as NameCandidate,a.Email,z.SchoolName,c.FormulirCode,a.StatusReg
+          from db_admission.register as a 
+          join db_admission.register_verification as b
+          on a.ID = b.RegisterID
+          join db_admission.register_verified as c
+          on c.RegVerificationID = b.ID
+          join db_admission.school as z
+          on z.ID = a.SchoolID
+          where a.StatusReg = 0
+          ) as a right JOIN db_admission.formulir_number_online_m as b
+          on a.FormulirCode = b.FormulirCode
+          where Years = "'.$tahun.'" and b.FormulirCode like '.$NomorFormulir.$status.' LIMIT '.$start. ', '.$limit;
+           $query=$this->db->query($sql, array())->result_array();
+           return $query;
+    }
+
     public function selectDataDitribusiFormulirOffline($limit, $start,$tahun,$NomorFormulir,$NamaStaffAdmisi,$status)
     {
       $arr_temp = array('data' => array());
@@ -438,6 +496,50 @@ class M_admission extends CI_Model {
         GROUP BY C.Name,DATE(a.DateTimeTest),e.ID';
       $query=$this->db->query($sql, array())->result_array();
       return $query;
+    }
+
+    public function daftar_jadwal_ujian_load_data_paging($limit, $start,$Nama,$FormulirCode)
+    {
+      $where = 'where DATE(a.DateTimeTest) > CURDATE() ';
+      if ($Nama != '') {
+        $where .= ' and h.Name like "%'.$Nama.'%" or i.SchoolName like "%'.$Nama.'%"';
+        if ($FormulirCode != '') {
+           $where .= ' and f.FormulirCode like "%'.$FormulirCode.'%"';
+         } 
+      }
+      else
+      {
+        if ($FormulirCode != '') {
+          $where .= ' and f.FormulirCode like "%'.$FormulirCode.'%"';
+        }
+      }
+
+      $sql = 'select C.Name as prody,a.ID_ujian_perprody,DATE(a.DateTimeTest) as tanggal
+        ,CONCAT((EXTRACT(HOUR FROM a.DateTimeTest)),":",(EXTRACT(MINUTE FROM a.DateTimeTest))) as jam,
+        a.Lokasi,
+        h.Name as NameCandidate,h.Email,i.SchoolName,f.FormulirCode,e.ID as ID_register_formulir
+        from db_admission.register_jadwal_ujian as a 
+        join db_admission.ujian_perprody_m as b
+        on a.ID_ujian_perprody = b.ID
+        join db_academic.program_study as c
+        on c.ID = b.ID_ProgramStudy
+        join db_admission.register_formulir_jadwal_ujian as d
+        ON a.ID = d.ID_register_jadwal_ujian
+        JOIN db_admission.register_formulir as e
+        on e.ID = d.ID_register_formulir
+        join db_admission.register_verified as f
+        on e.ID_register_verified = f.ID
+        join db_admission.register_verification as g
+        on g.ID = f.RegVerificationID
+        join db_admission.register as h
+        on h.ID = g.RegisterID
+        join db_admission.school as i
+        on i.ID = h.SchoolID
+        '.$where.' 
+        GROUP BY C.Name,DATE(a.DateTimeTest),e.ID '.' LIMIT '.$start. ', '.$limit;
+      $query=$this->db->query($sql, array())->result_array();
+      return $query;
+
     }
 
 }

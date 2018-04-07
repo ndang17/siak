@@ -71,29 +71,67 @@
 		            datetime_ujian : datetime_ujian,
 		            Lokasi : Lokasi
 		        };
-		var token = jwt_encode(data,"UAP)(*");
-		$.post(url,{token:token},function (data_json) {
-		    // jsonData = data_json;
-		    var obj = JSON.parse(data_json); 
-		    if (obj.msg != '') {
-		    	toastr.error(obj.msg, 'Failed!!');
-		    }
-		    else
-		    {
-		    	toastr.options.fadeOut = 10000;
-		    	toastr.success('Data berhasil disimpan','Success!');
-		    }
-		    console.log(obj);
-		}).done(function() {
-  		    setTimeout(function () {
-  	       	    loadTableJson(1);
-  		    },500);
-	    }).fail(function() {
-	      toastr.error('The Database connection error, please try again', 'Failed!!');;
-	    }).always(function() {
-	    	$('#btn-save').prop('disabled',false).html('Save');
-	    });
+		if (validationInput = validation(data)) {
+			var token = jwt_encode(data,"UAP)(*");
+			$.post(url,{token:token},function (data_json) {
+			    // jsonData = data_json;
+			    var obj = JSON.parse(data_json); 
+			    if (obj.msg != '') {
+			    	toastr.error(obj.msg, 'Failed!!');
+			    }
+			    else
+			    {
+			    	toastr.options.fadeOut = 10000;
+			    	toastr.success('Data berhasil disimpan','Success!');
+			    }
+			    console.log(obj);
+			}).done(function() {
+	  		    setTimeout(function () {
+	  	       	    loadTableJson(1);
+	  		    },500);
+		    }).fail(function() {
+		      toastr.error('The Database connection error, please try again', 'Failed!!');;
+		    }).always(function() {
+		    	$('#btn-save').prop('disabled',false).html('Save');
+		    });
+		}
+		else
+		{
+		   $('#btn-save').prop('disabled',false).html('Save');
+		}	
+		
 	});
+
+	function validation(arr)
+	{
+	  var toatString = "";
+	  var result = "";
+	  for(var key in arr) {
+	     switch(key)
+	     {
+	      case  "Lokasi" :
+            result = Validation_leastCharacter(3,arr[key],key);
+            if (result['status'] == 0) {
+              toatString += result['messages'] + "<br>";
+            }
+            break;
+           case  "datetime_ujian" :
+           case  "program_study" :
+	           result = Validation_required(arr[key],key);
+	           if (result['status'] == 0) {
+	             toatString += result['messages'] + "<br>";
+	           }
+           break;
+	     }
+
+	  }
+	  if (toatString != "") {
+	    toastr.error(toatString, 'Failed!!');
+	    return false;
+	  }
+
+	  return true;
+	}
 
 	function LoadData()
 	{

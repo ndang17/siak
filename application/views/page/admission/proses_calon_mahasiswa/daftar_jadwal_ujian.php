@@ -22,7 +22,7 @@
 		</div>
 	</div> <!-- /.col-md-6 -->
 </div>
-<div class="row" style="margin-top: 30px;">
+<div class="row" style="margin-top: 5px;">
     <div class="col-md-12">
         <div class="widget box">
             <div class="widget-header">
@@ -41,9 +41,9 @@
 					<div  class="col-xs-6" align="right" id="pagination_link"></div>	
 					<!-- <div class = "table-responsive" id= "register_document_table"></div> -->
 				</div>
-                <div class = 'row'>
+                <!-- <div class = 'row'> -->
                 	<div id= "loadtable"></div>
-                </div>
+                <!-- </div> -->
                 <!-- -->
             </div>
         </div>
@@ -117,42 +117,61 @@
 			}
 		}).done(function() {
   		    LoaddataTable('.datatable');
+  		    loadDataDataUjian(1);
 	    })
 	});	
 
-	/*function loadDataUjianNOW()
+	function loadDataDataUjian(page)
 	{
-		var url = base_url_js+'admission/proses-calon-mahasiswa/jadwal-ujian/daftar-jadwal-ujian/load-data-now'
-		loading_page('#loadtableNow');
-		$.post(url,function (data_json) {
-			var response = jQuery.parseJSON(data_json);
-			var no = 1;
-			$("#loadingProcess").remove();
-			for (var i = 0; i < response.length; i++) {
-				var status = '<td style="'+
-    							'color:  green;'+
-								'">IN'+
-							  '</td>';
-				if (response[i]['Status'] == 1 ) {
-					status = '<td style="'+
-    							'color:  red;'+
-								'">Sold Out'+
-							  '</td>';
-				}
-				$(".datatable tbody").append(
-					'<tr>'+
-						'<td>'+no+'</td>'+
-						'<td>'+response[i]['Years']+'</td>'+
-						'<td>'+response[i]['FormulirCode']+'</td>'+
-						'<td>'+response[i]['Link']+'</td>'+
-						status+
-						'<td>'+response[i]['CreateAT']+'</td>'+
-						'<td>'+response[i]['Name']+'</td>'+
-					'</tr>'	
-					);
-				no++;
-			}
-		    LoaddataTable('.datatable');
-		});
-	}*/
+		loading_page('#loadtable');
+		var url = base_url_js+'admission/proses-calon-mahasiswa/jadwal-ujian/daftar-jadwal-ujian/pagination/'+page;
+		var Nama = $("#Nama").val();
+		var	FormulirCode = $("#FormulirCode").val();
+		var data = {
+					Nama : Nama,
+					FormulirCode : FormulirCode,
+					};
+		var token = jwt_encode(data,"UAP)(*");			
+		$.post(url,{token:token},function (data_json) {
+		    // jsonData = data_json;
+		    var obj = JSON.parse(data_json); 
+		    // console.log(obj);
+		    setTimeout(function () {
+	       	    $("#loadtable").html(obj.loadtable);
+	            $("#pagination_link").html(obj.pagination_link);
+		    },1000);
+		}).done(function() {
+	      
+	    }).fail(function() {
+	      toastr.error('The Database connection error, please try again', 'Failed!!');;
+	    }).always(function() {
+	      // $('#btn-dwnformulir').prop('disabled',false).html('Formulir');
+	    });
+	}
+
+	$(document).on("click", ".pagination li a", function(event){
+	  event.preventDefault();
+	  var page = $(this).data("ci-pagination-page");
+	  loadDataDataUjian(page);
+	});
+
+    $(document).on("keyup", "#Nama", function(event){
+    	var nama = $('#Nama').val();
+    	var n = nama.length;
+    	console.log(n);
+    	if( this.value.length < 3 && this.value.length != 0 ) return;
+    	   /* code to run below */
+    	 loadDataDataUjian(1);
+	  
+	 });
+
+    $(document).on("keyup", "#FormulirCode", function(event){
+    	var nama = $('#FormulirCode').val();
+    	var n = nama.length;
+    	console.log(n);
+    	if( this.value.length < 3 && this.value.length != 0 ) return;
+    	   /* code to run below */
+    	 loadDataDataUjian(1);
+	  
+	 });
 </script>
