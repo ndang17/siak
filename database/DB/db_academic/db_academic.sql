@@ -2535,7 +2535,7 @@ insert  into `schedule`(`ID`,`SemesterID`,`ProgramsCampusID`,`CombinedClasses`,`
 (4,13,1,'0','ARC-2','3115006','1','1','0','2017090','2018-04-02 14:15:00'),
 (5,13,1,'0','ARC-3','3114014','0','0','0','2017090','2018-04-02 14:15:51'),
 (6,13,1,'0','ARC-4','2416026','0','0','0','2017090','2018-04-02 14:16:32'),
-(7,13,1,'0','ARC-5','2215017','0','0','0','2017090','2018-04-04 16:30:00');
+(7,13,1,'0','ARC-5','2215017','0','1','0','2017090','2018-04-06 17:02:47');
 
 /*Table structure for table `schedule_class_group` */
 
@@ -2573,7 +2573,7 @@ CREATE TABLE `schedule_details` (
   `StartSessions` time NOT NULL,
   `EndSessions` time NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `schedule_details` */
 
@@ -2584,7 +2584,10 @@ insert  into `schedule_details`(`ID`,`ScheduleID`,`ClassroomID`,`Credit`,`DayID`
 (6,4,1,4,2,50,'10:00:00','13:20:00'),
 (7,5,1,3,3,50,'08:00:00','10:30:00'),
 (8,6,1,4,4,50,'09:00:00','12:20:00'),
-(9,7,1,8,5,50,'08:00:00','14:40:00');
+(9,7,2,2,5,50,'08:00:00','09:40:00'),
+(10,7,2,2,2,50,'08:00:00','09:40:00'),
+(11,7,2,2,3,50,'08:00:00','09:40:00'),
+(12,7,2,2,4,50,'08:00:00','09:40:00');
 
 /*Table structure for table `schedule_details_course` */
 
@@ -2720,15 +2723,14 @@ CREATE TABLE `std_krs` (
   `ApprovalPA_At` datetime DEFAULT NULL,
   `ApprovalKaprodi_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `std_krs` */
 
 insert  into `std_krs`(`ID`,`SemesterID`,`NPM`,`ScheduleID`,`CDID`,`Status`,`Input_At`,`ApprovalPA_At`,`ApprovalKaprodi_At`) values 
-(1,13,'21150007',6,977,'0','2018-04-04 11:35:06',NULL,NULL),
-(3,13,'21150007',4,854,'0','2018-04-04 14:36:09',NULL,NULL),
-(4,13,'21150007',5,855,'0','2018-04-04 15:08:15',NULL,NULL),
-(5,13,'21150008',6,977,'0','2018-04-04 16:33:40',NULL,NULL);
+(5,13,'21150008',6,977,'0','2018-04-04 16:33:40',NULL,NULL),
+(6,13,'21150007',7,430,'0','2018-04-06 17:03:10',NULL,NULL),
+(7,13,'21150007',4,854,'0','2018-04-06 17:03:17',NULL,NULL);
 
 /*Table structure for table `std_schedule` */
 
