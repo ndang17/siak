@@ -19,7 +19,7 @@ class M_master extends CI_Model {
   {
   	$sql = "select * from ".$tabel; 
   	$query=$this->db->query($sql, array());
-  	return $query->result();
+  	return $query->result_array();
   }
 
   public function showDataActive($tabel)

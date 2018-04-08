@@ -380,7 +380,7 @@ class M_admission extends CI_Model {
         $sql = "select ID from db_admission.register_formulir where ID_program_study = ? ";          
         $query=$this->db->query($sql, array($arr[$i]['ID_ProgramStudy']))->result_array();
         for ($j=0; $j < count($query); $j++) { 
-          $arr_temp[] = array('ID_register_formulir' => $query[$j]['ID'],'ID_register_jadwal_ujian' => $arr[$i]['ID_register_jadwal_ujian']);
+          $arr_temp[] = array('ID_register_formulir' => $query[$j]['ID'],'ID_register_jadwal_ujian' => $arr[$i]['ID_register_jadwal_ujian'],'ID_ProgramStudy'=>$arr[$i]['ID_ProgramStudy']);
         }
       }
       
@@ -445,14 +445,18 @@ class M_admission extends CI_Model {
 
     public function saveDataregister_formulir_jadwal_ujian($arr_id)
     {
-      error_reporting(0);
+      //error_reporting(0);
       for ($i=0; $i < count($arr_id); $i++) { 
         try
         {
           // check ID_register_formulir sudah ada pada jadwal ujian atau belum 
           $sql = 'select count(*) as total from db_admission.register_formulir_jadwal_ujian where ID_register_formulir = ?';
           $query=$this->db->query($sql, array($arr_id[$i]['ID_register_formulir']))->result_array();
-          if (count($query) == 0) {
+
+          $sql2 = 'select count(*) as total from db_admission.ujian_perprody_m where ID_ProgramStudy = ?';
+          $query2=$this->db->query($sql2, array($arr_id[$i]['ID_ProgramStudy']))->result_array();
+          // print_r($query[0]['total']);
+          if ($query[0]['total'] != $query2[0]['total']) {
             $dataSave = array(
                     'ID_register_jadwal_ujian' => $arr_id[$i]['ID_register_jadwal_ujian'],
                     'ID_register_formulir' => $arr_id[$i]['ID_register_formulir'],
@@ -540,6 +544,46 @@ class M_admission extends CI_Model {
       $query=$this->db->query($sql, array())->result_array();
       return $query;
 
+    }
+
+    public function daftar_set_nilai_ujian_load_data_paging($limit, $start,$ID_ProgramStudy)
+    {
+      $sql = 'select C.Name as prody,a.ID_ujian_perprody,DATE(a.DateTimeTest) as tanggal
+              ,CONCAT((EXTRACT(HOUR FROM a.DateTimeTest)),":",(EXTRACT(MINUTE FROM a.DateTimeTest))) as jam,
+              a.Lokasi,b.NamaUjian,b.Bobot,
+              h.Name as NameCandidate,e.ID as ID_register_formulir,b.ID_ProgramStudy
+              from db_admission.register_jadwal_ujian as a 
+              RIGHT JOIN db_admission.ujian_perprody_m as b
+              on a.ID_ujian_perprody = b.ID
+              join db_academic.program_study as c
+              on c.ID = b.ID_ProgramStudy
+              join db_admission.register_formulir_jadwal_ujian as d
+              ON a.ID = d.ID_register_jadwal_ujian
+              JOIN db_admission.register_formulir as e
+              on e.ID = d.ID_register_formulir
+              join db_admission.register_verified as f
+              on e.ID_register_verified = f.ID
+              join db_admission.register_verification as g
+              on g.ID = f.RegVerificationID
+              join db_admission.register as h
+              on h.ID = g.RegisterID
+              where b.ID_ProgramStudy = ? and b.Active = 1 and d.ID not in(select ID_register_formulir_jadwal_ujian from db_admission.register_hasil_ujian)
+              GROUP by e.ID
+              LIMIT '.$start. ', '.$limit;
+      $query=$this->db->query($sql, array($ID_ProgramStudy))->result_array();
+      return $query;
+    }
+
+    public function select_mataUjian($ID_ProgramStudy)
+    {
+      $sql = 'select * from db_admission.ujian_perprody_m where ID_ProgramStudy = ?';
+      $query=$this->db->query($sql, array($ID_ProgramStudy))->result_array();
+      return $query;
+    }
+
+    public function saveDataNilaiUjian($arr)
+    {
+      print_r($arr);
     }
 
 }

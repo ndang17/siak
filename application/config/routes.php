@@ -148,6 +148,11 @@ $route['admission/proses-calon-mahasiswa/set-jadwal-ujian/save'] = 'page/admissi
 $route['admission/proses-calon-mahasiswa/jadwal-ujian/daftar-jadwal-ujian'] = 'page/admission/c_admission/daftar_jadwal_ujian';
 $route['admission/proses-calon-mahasiswa/jadwal-ujian/daftar-jadwal-ujian/load-data-now'] = 'page/admission/c_admission/daftar_jadwal_ujian_load_data_now';
 $route['admission/proses-calon-mahasiswa/jadwal-ujian/daftar-jadwal-ujian/pagination/(:num)'] = 'page/admission/c_admission/daftar_jadwal_ujian_load_data_paging/$1';
+$route['admission/proses-calon-mahasiswa/jadwal-ujian/set-nilai-ujian'] = 'page/admission/c_admission/set_nilai_ujian';
+$route['admission/proses-calon-mahasiswa/jadwal-ujian/set-nilai-ujian/pagination/(:num)'] = 'page/admission/c_admission/set_nilai_ujian_load_data_paging/$1';
+$route['admission/proses-calon-mahasiswa/jadwal-ujian/set-nilai-ujian/save'] = 'page/admission/c_admission/set_nilai_ujian_save';
+
+
 
 
 $route['admission/distribusi-formulir/formulir-offline'] = 'page/admission/c_admission/distribusi_formulir_offline';
