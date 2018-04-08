@@ -375,6 +375,54 @@ class C_admission extends MY_Controller {
 
     public function set_nilai_ujian_load_data_paging($page = null)
     {
-      
+       $input =  $this->getInputToken();
+       $Nama = $input['selectPrody'];
+       $selectPrody = $input['selectPrody'];
+
+       $this->load->library('pagination');
+       $config = array();
+       $config["base_url"] = "#";
+       $config["total_rows"] =  1000;
+       $config["per_page"] = 5;
+       $config["uri_segment"] = 6;
+       $config["use_page_numbers"] = TRUE;
+       $config["full_tag_open"] = '<ul class="pagination">';
+       $config["full_tag_close"] = '</ul>';
+       $config["first_tag_open"] = '<li>';
+       $config["first_tag_close"] = '</li>';
+       $config["last_tag_open"] = '<li>';
+       $config["last_tag_close"] = '</li>';
+       $config['next_link'] = '&gt;';
+       $config["next_tag_open"] = '<li>';
+       $config["next_tag_close"] = '</li>';
+       $config["prev_link"] = "&lt;";
+       $config["prev_tag_open"] = "<li>";
+       $config["prev_tag_close"] = "</li>";
+       $config["cur_tag_open"] = "<li class='active'><a href='#'>";
+       $config["cur_tag_close"] = "</a></li>";
+       $config["num_tag_open"] = "<li>";
+       $config["num_tag_close"] = "</li>";
+       $config["num_links"] = 1;
+
+       $this->pagination->initialize($config);
+       $page = $this->uri->segment(6);
+       $start = ($page - 1) * $config["per_page"];
+       $this->data['datadb'] = $this->m_admission->daftar_set_nilai_ujian_load_data_paging($config["per_page"], $start,$selectPrody);
+       $this->data['mataujian'] = $this->m_admission->select_mataUjian($selectPrody);
+       $this->data['grade'] = json_encode($this->m_master->showData('db_academic.grade'));
+      $this->data['no'] = $start + 1;
+      $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/daftar_nilai_ujian_load_data_paging',$this->data,true);
+
+       $output = array(
+       'pagination_link'  => $this->pagination->create_links(),
+       'loadtable'   => $content,
+       );
+       echo json_encode($output);
+    }
+
+    public function set_nilai_ujian_save()
+    {
+      $input = $this->getInputToken();
+      $this->m_admission->saveDataNilaiUjian($input);
     }
 }

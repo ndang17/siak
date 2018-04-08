@@ -546,4 +546,44 @@ class M_admission extends CI_Model {
 
     }
 
+    public function daftar_set_nilai_ujian_load_data_paging($limit, $start,$ID_ProgramStudy)
+    {
+      $sql = 'select C.Name as prody,a.ID_ujian_perprody,DATE(a.DateTimeTest) as tanggal
+              ,CONCAT((EXTRACT(HOUR FROM a.DateTimeTest)),":",(EXTRACT(MINUTE FROM a.DateTimeTest))) as jam,
+              a.Lokasi,b.NamaUjian,b.Bobot,
+              h.Name as NameCandidate,e.ID as ID_register_formulir,b.ID_ProgramStudy
+              from db_admission.register_jadwal_ujian as a 
+              RIGHT JOIN db_admission.ujian_perprody_m as b
+              on a.ID_ujian_perprody = b.ID
+              join db_academic.program_study as c
+              on c.ID = b.ID_ProgramStudy
+              join db_admission.register_formulir_jadwal_ujian as d
+              ON a.ID = d.ID_register_jadwal_ujian
+              JOIN db_admission.register_formulir as e
+              on e.ID = d.ID_register_formulir
+              join db_admission.register_verified as f
+              on e.ID_register_verified = f.ID
+              join db_admission.register_verification as g
+              on g.ID = f.RegVerificationID
+              join db_admission.register as h
+              on h.ID = g.RegisterID
+              where b.ID_ProgramStudy = ? and b.Active = 1 and d.ID not in(select ID_register_formulir_jadwal_ujian from db_admission.register_hasil_ujian)
+              GROUP by e.ID
+              LIMIT '.$start. ', '.$limit;
+      $query=$this->db->query($sql, array($ID_ProgramStudy))->result_array();
+      return $query;
+    }
+
+    public function select_mataUjian($ID_ProgramStudy)
+    {
+      $sql = 'select * from db_admission.ujian_perprody_m where ID_ProgramStudy = ?';
+      $query=$this->db->query($sql, array($ID_ProgramStudy))->result_array();
+      return $query;
+    }
+
+    public function saveDataNilaiUjian($arr)
+    {
+      print_r($arr);
+    }
+
 }
