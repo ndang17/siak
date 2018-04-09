@@ -23,7 +23,7 @@
 			<!-- <caption><strong>List Dokumen</strong></caption> -->
 			<thead>
 				<tr>
-					<th>No</th>
+					<th style="width: 10px;">No</th>
 					<th style="width: 200px;">Nama</th>
 					<?php for ($i = 0; $i < count($mataujian); $i++): ?>
 						<?php 
@@ -31,9 +31,10 @@
 						 ?>
 						<th style="width: 100px;"><?php echo $NamaUjian.'('.$mataujian[$i]['Bobot'].')' ?></th>
 					<?php endfor; ?>
-					<th>Jml Bobot</th>
+					<th style="width: 40px;">Jml Bobot</th>
 					<th style="width: 100px;">Jml Bobot * Nilai</th>
 					<th style="width: 40px;">Indeks</th>
+					<th style="width: 40px;" class = 'autohide hide'>Kelulusan</th>
 				</tr>
 			</thead>
 			<tbody> 
@@ -56,6 +57,12 @@
 							<td><input type="text" class = 'jml_bobot form-control' value="<?php echo $jml_bobot ?>" readonly></td>
 							<td><input type="text" class = 'bobot_nilai form-control' id = 'bobot_nilai<?php echo $datadb[$i]['ID_register_formulir'] ?>' readonly></td>
 							<td><input type="text" class = 'indeks form-control' id = 'indeks<?php echo $datadb[$i]['ID_register_formulir'] ?>' readonly></td>
+							<td class = 'autohide hide'>
+								<select id='kelulusan<?php echo $datadb[$i]['ID_register_formulir'] ?>' class="kelulusan select2-select-00 col-md-4 full-width-fix">
+									<option value ='Lulus;<?php echo $datadb[$i]['ID_register_formulir'] ?>' selected>Lulus</option>
+									<option value ='Tidak Lulus;<?php echo $datadb[$i]['ID_register_formulir'] ?>'>Tidak Lulus</option>
+								</select>
+							</td>
 						</tr>	
 				<?php endfor; ?>
 			</tbody>
@@ -73,6 +80,10 @@
 	window.grade = <?php echo $grade ?>;
 	$(document).ready(function () {
 		$('.ID_ujian_perprody').select2({
+		   //allowClear: true
+		});
+
+		$('.kelulusan').select2({
 		   //allowClear: true
 		});
 		// console.log(grade);

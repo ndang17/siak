@@ -424,5 +424,6 @@ class C_admission extends MY_Controller {
     {
       $input = $this->getInputToken();
       $this->m_admission->saveDataNilaiUjian($input);
+      echo json_encode( array('msg' => 'Data berhasil disimpan') );
     }
 }
