@@ -191,6 +191,38 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "biaya-kuliah" ){echo "current";} ?>">
+                        <a href="<?php echo base_url('admission/master-registration/biaya-kuliah'); ?>">
+                        <i class="icon-angle-right"></i>
+                        Biaya Kuliah
+                        </a>
+                    </li>
+                     <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "program-beasiswa" ){echo "open-default";} ?>">
+                        <a href="javascript:void(0);">
+                        <i class="icon-angle-right"></i>
+                        Program Beasiswa
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "program-beasiswa" && $this->uri->segment(4) == "jalur-prestasi-akademik"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/master-registration/program-beasiswa/jalur-prestasi-akademik'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Jalur Prestasi Akademik
+                                </a>
+                            </li>
+                            <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "program-beasiswa" && $this->uri->segment(4) == "jalur-prestasi-akademik-umum"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/master-registration/program-beasiswa/jalur-prestasi-akademik-umum'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Jalur Prestasi Akademik Umum
+                                </a>
+                            </li>
+                            <li class="<?php if($this->uri->segment(2)=='master-registration' && $this->uri->segment(3) == "program-beasiswa" && $this->uri->segment(4) == "jalur-prestasi-bidang-or-seni"){echo "current";} ?>">
+                                <a href="<?php echo base_url('admission/master-registration/program-beasiswa/jalur-prestasi-bidang-or-seni'); ?>">
+                                <i class="icon-angle-right"></i>
+                                Jalur Prestasi Olah Raga dan Kesenian
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li class="<?php if($this->uri->segment(2)=='distribusi-formulir'){echo "current open";} ?>">
