@@ -114,6 +114,9 @@
 
 	function prosesData()
 	{
+			// processs = [];
+			processs = [];
+			processs1 = [];
 			var no = 0;
 			var arr = [];
 			var arr_pass = [];
@@ -153,6 +156,19 @@
 		       }
 
 		       $("#indeks"+arr_pass[key].id_formulir).val(gradeIndeks);
+
+		       // get selected status 
+		       if (Nilai_Indeks < 60) {
+			       	$("#kelulusan"+arr_pass[key].id_formulir+" option").filter(function() {
+			       	   //may want to use $.trim in here
+			       	   return $(this).val() == "Tidak Lulus;"+arr_pass[key].id_formulir; 
+			       	}).prop("selected", true);
+			       	$('#kelulusan'+arr_pass[key].id_formulir).select2({
+			       	   //allowClear: true
+			       	});
+			       	console.log('#kelulusan'+arr_pass[key].id_formulir);
+		       }
+
 		       var dataPush = {
 		       		value : arr_pass[key].value,
 		       		id_mataujian : arr_pass[key].id_mataujian,
@@ -176,22 +192,39 @@
 			       		gradeIndeks : processs[i].gradeIndeks
 				}
 			}
-
+			
 			$("#btn-Save").removeClass("hide");
+			$(".autohide").removeClass("hide");
 		// console.log(bobot_nilai);
 	}
 
 	$(document).on('click','#btn-Save', function () {
 		loading_button('#btn-Save');
-		  var data = processs1;
+		 var allVals = [];
+	     $('.kelulusan').each(function() {
+	       allVals.push($(this).val());
+	     });
+	       // console.log(processs);
+		   // var data = processs1;
+		  var data = {
+		  					processs1 : processs,
+		  					kelulusan : allVals
+		  			};
 		  var token = jwt_encode(data,"UAP)(*");
 		  var url = base_url_js+'admission/proses-calon-mahasiswa/jadwal-ujian/set-nilai-ujian/save';
-		  $.post(url,{token:token},function (data_json) {
-	        var response = jQuery.parseJSON(data_json);
-	        toastr.success('Data berhasil disimpan', 'Success!');
-	        loadTableData(1);
-	        $('#btn-Save').prop('disabled',false).html('Save');
-	      })
+		  	$.post(url,{token:token},function (data_json) {
+		        var response = jQuery.parseJSON(data_json);
+		        toastr.success('Data berhasil disimpan', 'Success!');
+		        loadTableData(1);
+		        $('#btn-Save').prop('disabled',false).html('Save');
+	      	}).done(function() {
+	      	      loadTableData(1);
+	      	      $('#btn-Save').prop('disabled',false).html('Save');
+	  	    }).fail(function() {
+	  	      toastr.error('The Database connection error, please try again', 'Failed!!');;
+	  	    }).always(function() {
+	  	      $('#btn-Save').prop('disabled',false).html('Save');
+	  	    });
 	});
 </script>
 

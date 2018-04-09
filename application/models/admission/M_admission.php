@@ -583,7 +583,49 @@ class M_admission extends CI_Model {
 
     public function saveDataNilaiUjian($arr)
     {
-      print_r($arr);
+      // print_r($arr['processs1']);
+      // return;
+      for ($i=0; $i < count($arr['processs1']); $i++) { 
+        $sql = 'select c.ID from db_admission.ujian_perprody_m as a
+                join db_admission.register_jadwal_ujian as b
+                on a.ID = b.ID_ujian_perprody
+                join db_admission.register_formulir_jadwal_ujian as c
+                on c.ID_register_jadwal_ujian = b.ID
+                where a.ID = ? and c.ID_register_formulir = ?';
+
+        // print_r($arr[$i]->id_mataujian);        
+        $ID_ujian_perprody = $arr['processs1'][$i]->id_mataujian;
+        $ID_register_formulir = $arr['processs1'][$i]->id_formulir;          
+        $query=$this->db->query($sql, array($ID_ujian_perprody,$ID_register_formulir))->result_array();
+          for ($j=0; $j < count($query); $j++) { 
+              $ID_register_formulir_jadwal_ujian = $query[$j]['ID'];
+              $dataSave = array(
+                      'ID_register_formulir_jadwal_ujian' => $ID_register_formulir_jadwal_ujian,
+                      'Value' => $arr['processs1'][$i]->value,
+                      'CreateAT' => date('Y-m-d'),
+                      'CreateBY' => $this->session->userdata('NIP'),
+              );
+              $this->db->insert('db_admission.register_hasil_ujian', $dataSave);
+          }        
+      }
+
+      // print_r($arr['kelulusan']);
+
+      for ($i=0; $i < count($arr['kelulusan']); $i++) { 
+        $a = $arr['kelulusan'][$i];
+        if ($a != '') {
+          $arr_temp = explode(";", $a);
+           // print_r($arr_temp);
+          $Kelulusan = $arr_temp[0];
+          $ID_register_formulir = $arr_temp[1];
+          $dataSave = array(
+                  'ID_register_formulir' => $ID_register_formulir,
+                  'Kelulusan' => $Kelulusan,
+          );
+          $this->db->insert('db_admission.register_kelulusan_ujian', $dataSave);
+        }
+      }
+
     }
 
 }
