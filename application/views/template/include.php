@@ -500,12 +500,18 @@
         });
     }
 
-    function loadSelectOPtionAllSemester(element,selected) {
+    function loadSelectOPtionAllSemester(element,selected,SemesterID,IsSemesterAntara) {
 
         var url = base_url_js+'api/__crudTahunAkademik';
-        var token = jwt_encode({action:'DataSemester'},'UAP)(*');
+        var data = {
+            action:'DataSemester',
+            SemesterID:SemesterID,
+            IsSemesterAntara:IsSemesterAntara
+        };
+        var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
 
+            // console.log(jsonResult);
             // $(element).append('<option value="" disabled selected>--- Select Semester ---</option>' +
             //     '                <option disabled>------------------------------------------</option>');
 
@@ -681,13 +687,15 @@
             var option = $(element);
             if(data_json.length>0){
                 for(var i=0;i<data_json.length;i++){
+                    var selc = '';
                     if(selected=='selectedNow') {
-                        selected = (data_json[i].Status==1) ? 'selected' : '';
+                        selc = (data_json[i].Status==1) ? 'selected' : '';
+
                     } else {
-                        selected = (selected==data_json[i].ID) ? 'selected' : '';
+                        selc = (selected==data_json[i].ID) ? 'selected' : '';
                     }
 
-                    option.append('<option value="'+data_json[i].ID+'.'+data_json[i].YearCode+'" '+selected+'>'+data_json[i].Name+'</option>');
+                    option.append('<option value="'+data_json[i].ID+'.'+data_json[i].Year+'.'+data_json[i].Code+'" '+selc+'>'+data_json[i].Name+'</option>');
 
                 }
             }

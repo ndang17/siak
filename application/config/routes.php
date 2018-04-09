@@ -63,6 +63,8 @@ $route['academic/ModalKetersediaanDosen'] = 'page/academic/c_akademik/Modal_Kete
 
 $route['academic/jadwal'] = 'page/academic/c_jadwal';
 
+$route['academic/study-planning'] = 'page/academic/c_study_planning';
+
 
 $route['academic/reference'] = 'page/academic/C_reference';
 
@@ -215,6 +217,7 @@ $route['api/__checkSchedule'] = 'api/c_api/checkSchedule';
 
 $route['api/__crudCourseOfferings'] = 'api/c_api/crudCourseOfferings';
 $route['api/__crudLecturer'] = 'api/c_api/crudLecturer';
+$route['api/__crudStudyPlanning'] = 'api/c_api/crudStudyPlanning';
 
 $route['rest/__checkDateKRS'] = 'api/c_rest/checkDateKRS';
 

@@ -443,7 +443,8 @@ class C_api extends CI_Controller {
 
             else if($data_arr['action']=='DataSemester'){
 
-                $data = $this->m_api->getSemesterCurriculum();
+
+                $data = $this->m_api->getSemesterCurriculum($data_arr['SemesterID'],$data_arr['IsSemesterAntara']);
 
                 return print_r(json_encode($data));
 
@@ -1123,6 +1124,26 @@ class C_api extends CI_Controller {
     {
         $getData = $this->m_api->getDataRegisterVerified();
         echo json_encode($getData);
+    }
+
+    public function crudStudyPlanning()
+    {
+        $token = $this->input->post('token');
+        $key = "UAP)(*";
+        $data_arr = (array)$this->jwt->decode($token, $key);
+
+        if (count($data_arr) > 0) {
+            if ($data_arr['action'] == 'read') {
+                $dataWhere = (array) $data_arr['dataWhere'];
+                $data = $this->m_api->__getStudyPlanning($dataWhere);
+                return print_r(json_encode($data));
+            }
+            else if($data_arr['action'] == 'detailStudent'){
+                $data = $this->m_api->getDetailStudyPlanning($data_arr['NPM'],$data_arr['ta']);
+                return print_r(json_encode($data));
+            }
+        }
+
     }
 
 

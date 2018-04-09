@@ -71,14 +71,32 @@
         window.checkedDay = [];
         loadSelectOptionProgramCampus('#filterProgramCampus','');
         loadSelectOptionBaseProdi('#filterBaseProdi','');
-        loSelectOptionSemester('#filterSemester','selectedNow');
+        $('#filterSemester').append('<option value="" disabled selected>-- Year Academic--</option>' +
+            '                <option disabled>------------------------------------------</option>');
+        // loSelectOptionSemester('#filterSemester','selectedNow');
+        loSelectOptionSemester('#filterSemester','');
 
         loadAcademicYearOnPublish();
-        loadSelectOPtionAllSemester('#filterSemesterSchedule');
+        // var Semester = $('#filterSemester').val();
+        // var SemesterID = (Semester!='' && Semester!= null) ? Semester.split('.')[0] : '';
+        // $('#filterSemesterSchedule').append('<option value="" disabled selected>-- Semester --</option>' +
+        //     '                <option disabled>------------------------------------------</option>');
+        // loadSelectOPtionAllSemester('#filterSemesterSchedule','',SemesterID,SemesterAntara);
 
     });
 
-    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine,#filterSemesterSchedule',function () {
+    $(document).on('change','#filterSemester',function () {
+        var Semester = $('#filterSemester').val();
+        var SemesterID = (Semester!='' && Semester!= null) ? Semester.split('.')[0] : '';
+        $('#filterSemesterSchedule').empty();
+        $('#filterSemesterSchedule').append('<option value="" disabled selected>-- Semester --</option>' +
+            '                <option disabled>------------</option>');
+        loadSelectOPtionAllSemester('#filterSemesterSchedule','',SemesterID,SemesterAntara);
+        // filterSchedule();
+
+    });
+
+    $(document).on('change','#filterProgramCampus,#filterBaseProdi,#filterCombine,#filterSemesterSchedule',function () {
         filterSchedule();
     });
 
@@ -135,9 +153,10 @@
         var Prodi = $('#filterBaseProdi').find(':selected').val();
         var ProdiID = (Prodi!='') ? Prodi.split('.')[0] : '';
         var CombinedClasses = $('#filterCombine').find(':selected').val();
-        var Semester = $('#filterSemesterSchedule').find(':selected').val().split('|');
+        var filterSemesterSchedule = $('#filterSemesterSchedule').find(':selected').val();
+        var Semester = (filterSemesterSchedule!='' && filterSemesterSchedule!=null) ? filterSemesterSchedule.split('|')[0] : filterSemesterSchedule;
 
-        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester[0]);
+        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester);
     }
 
     function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester) {
