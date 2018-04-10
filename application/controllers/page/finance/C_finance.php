@@ -65,6 +65,10 @@ class C_finance extends MY_Controller {
                             Please click link below to get <strong>Formulir Registration</strong> :<br>
                             '.$this->GlobalVariableAdi['url_registration']."formulir-registration/".$arr_email_url[$i]['url'].'
                         ';
+                /*$text = 'Dear Candidate,<br><br>
+                            Please click link below to login your portal <br>
+                            '.$this->GlobalVariableAdi['url_registration']."login/".'
+                        ';*/        
                 $to = $arr_email_url[$i]['email'];
                 $subject = "Link Formulir Registration Podomoro University";
                 $sendEmail = $this->m_sendemail->sendEmail($to,$subject,null,null,null,null,$text);

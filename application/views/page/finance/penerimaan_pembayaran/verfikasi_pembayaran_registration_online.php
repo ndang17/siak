@@ -25,7 +25,7 @@
 								<label class="control-label">Set Kolom Price</label>
 							</div>
 							<div class="col-xs-2">
-								<select class="col-md-12 full-width-fix angkaSelect" id="kolom">
+								<select class="col-md-12 full-width-fix angkaSelect" id="kolomPrice">
 								  <option></option>
 								</select>
 							</div>
@@ -55,13 +55,13 @@
 								<label class="control-label">Set Nama Debit</label>
 							</div>
 							<div class="col-xs-2">
-								<input type="text" id = "DeBitName" class="form-control">
+								<input type="text" id = "DeBitName" class="form-control" value = "DB">
 							</div>
 							<div class="col-xs-2" style="">
 								<label class="control-label">Set Nama Credit</label>
 							</div>
 							<div class="col-xs-2">
-								<input type="text" id = "CreditName" class="form-control">
+								<input type="text" id = "CreditName" class="form-control" value = "CR">
 							</div>
 					</div>
 					<!-- </div> -->
@@ -73,7 +73,7 @@
 								<label class="control-label">Set Nama Line Akhir Data</label>
 							</div>
 							<div class="col-xs-2">
-								<input type="text" id = "LineAkhirData" class="form-control">
+								<input type="text" id = "LineAkhirData" class="form-control" value = "Saldo Awal">
 							</div>
 							<div class="col-xs-2" style="">
 								<label class="control-label">Upload Rek Koran:</label>
@@ -163,6 +163,23 @@
 		    var selected = (i==5) ? 'selected' : '';
 		    $('.angkaSelect').append('<option value="'+ ( parseInt(startAngka) + parseInt(i) ) +'" '+selected+'>'+( parseInt(startAngka) + parseInt(i) )+'</option>');
 		}
+
+		 $("#kolomPrice option").filter(function() {
+		   //may want to use $.trim in here
+		   return $(this).val() == 4; 
+		 }).prop("selected", true);
+
+		 $("#kolomDebit option").filter(function() {
+		   //may want to use $.trim in here
+		   return $(this).val() == 5; 
+		 }).prop("selected", true);
+
+
+		 $("#kolomKredit option").filter(function() {
+		   //may want to use $.trim in here
+		   return $(this).val() == 5; 
+		 }).prop("selected", true);
+
 		$('.angkaSelect').select2({
 		  // allowClear: true
 		});
