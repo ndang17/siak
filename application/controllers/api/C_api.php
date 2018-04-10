@@ -496,9 +496,9 @@ class C_api extends CI_Controller {
             $data = $this->m_api->__getAcademicYearOnPublish();
         }
 
-        $dataSMT = $this->m_api->getSemesterCurriculum();
+//        $dataSMT = $this->m_api->getSemesterCurriculum();
 
-        $data[0]['Semester'] = $dataSMT[0]['Semester'];
+//        $data[0]['Semester'] = $dataSMT[0]['Semester'];
 
 
         return print_r(json_encode($data[0]));

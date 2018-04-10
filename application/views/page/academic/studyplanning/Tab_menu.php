@@ -14,6 +14,10 @@
         padding-top: 3px;
         padding-bottom: 3px;
     }
+    .list-scd {
+        list-style-type: none;
+        padding-left: 0px;
+    }
 </style>
 
 <div class="row" style="margin-top: 30px;">
@@ -99,36 +103,41 @@
         };
         var url = base_url_js+'api/__crudStudyPlanning';
         var token = jwt_encode(data,'UAP)(*');
-        $.post(url,{token:token},function () {
+        $.post(url,{token:token},function (jsonResult) {
+
+            console.log(jsonResult);
+
+            var dataStd = jsonResult;
+
             $('#divPage').html('<div class="col-md-8 col-md-offset-2" style="margin-bottom: 15px;">' +
                 '            <div class="row">' +
                 '<div class="col-md-12" style="margin-bottom: 15px;"><button class="btn btn-warning" id="btnBack"><i class="fa fa-arrow-left right-margin" aria-hidden="true"></i> Back</button></div>' +
                 '                <div class="col-xs-2">' +
-                '                    <img class="img-thumbnail" style="width: 100%;" src="http://siak.podomorouniversity.ac.id/includes/foto/11140010-FANDY_PRATAMA.jpg">' +
+                '                    <img class="img-thumbnail" style="width: 100%;" src="http://siak.podomorouniversity.ac.id/includes/foto/'+dataStd.Photo+'">' +
                 '                </div>' +
                 '                <div class="col-xs-9">' +
-                '                    <b>21150007 - Nandang Mulyadi</b><br/>' +
-                '                    <span>nandang.mulyadi@podomorouniversity.ac.id</span><br/>' +
+                '                    <b>'+dataStd.NPM+' - '+dataStd.Name+'</b><br/>' +
+                '                    <span>'+dataStd.EmailPU+'</span><br/>' +
                 '                    <a style="font-size: 10px;"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send Message</a>' +
                 '                    <div class="thumbnail" style="margin-bottom: 10px;margin-top: 10px;">' +
                 '                        <table class="table" id="tableStd">' +
                 '                            <tr>' +
                 '                                <td style="width: 15%;">Mentor</td>' +
                 '                                <td style="width: 1%;">:</td>' +
-                '                                <td><b>Nandang Mulyadi</b>' +
-                '                                    <br/>nandang.mulyadi@podomorouniversity.ac.id' +
+                '                                <td><b>'+dataStd.Mentor+'</b>' +
+                '                                    <br/>' + dataStd.MentorEmailPU +
                 '                                    <br/><a style="font-size: 10px;"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send Message</a>' +
                 '                                </td>' +
                 '                            </tr>' +
                 '                            <tr>' +
                 '                                <td>IPK</td>' +
                 '                                <td>:</td>' +
-                '                                <td>2.7</td>' +
+                '                                <td>'+dataStd.DetailSemester.LastIPS.IPK+'</td>' +
                 '                            </tr>' +
                 '                            <tr>' +
                 '                                <td>Last IPS</td>' +
                 '                                <td>:</td>' +
-                '                                <td>3.4 | 16 Credit</td>' +
+                '                                <td>'+dataStd.DetailSemester.LastIPS.IPS+' | '+dataStd.DetailSemester.MaxCredit.Credit+' Credit</td>' +
                 '                            </tr>' +
                 '                        </table>' +
                 '                    </div>' +
@@ -136,7 +145,7 @@
                 '                </div>' +
                 '            </div>' +
                 '        </div>' +
-                '        <table class="table">' +
+                '        <table class="table table-striped table-bordered">' +
                 '            <thead>' +
                 '            <tr>' +
                 '                <th>Code</th>' +
@@ -144,10 +153,32 @@
                 '                <th>Credit</th>' +
                 '                <th>Group</th>' +
                 '                <th>Schedule</th>' +
-                '                <th>Room</th>' +
                 '            </tr>' +
-                '            </thead>' +
-                '        </table>');
+                '            </thead><tbody id="dataSchedule"></tbody>' +
+                '        </table><hr/>');
+
+            var tr = $('#dataSchedule');
+            for(var i=0;i<dataStd.Schedule.length;i++){
+                var dataSc = dataStd.Schedule[i];
+                tr.append('<tr>' +
+                    '<td>'+dataSc.MKCode+'</td>' +
+                    '<td><b>'+dataSc.NameEng+'</b><br/><i>'+dataSc.Name+'</i></td>' +
+                    '<td>'+dataSc.Credit+'</td>' +
+                    '<td>'+dataSc.ClassGroup+'</td>' +
+                    '<td><ul id="sc'+i+'" class="list-scd"></ul></td>' +
+                    '</tr>');
+
+                var sc = $('#sc'+i);
+                for(var s=0;s<dataSc.DetailSchedule.length;s++){
+                    var dataSCD = dataSc.DetailSchedule[s];
+                    var st = dataSCD.StartSessions.split(':');
+                    var en = dataSCD.EndSessions.split(':');
+
+                    var start = st[0]+':'+st[1];
+                    var end = en[0]+':'+en[1];
+                    sc.append('<li>R.'+dataSCD.Room+' | <span style="text-align: right;">'+dataSCD.DayNameEng+', '+start+' - '+end+'<span></li>');
+                }
+            }
         });
 
     });

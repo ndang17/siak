@@ -142,27 +142,63 @@
     }
 </script>
 
-<!--<div class="tabbable tabbable-custom tabbable-full-width">-->
-<!--    <ul class="nav nav-tabs">-->
-<!--        <li class="--><?php //if($this->uri->segment(2)=='jadwal' && $this->uri->segment(3)==''){echo 'active';} ?><!--">-->
-<!--            <a href="--><?php //echo base_url('academic/jadwal'); ?><!--">Jadwal</a>-->
-<!--        </li>-->
-<!--        <li class="--><?php //if($this->uri->segment(2)=='jadwal1' && $this->uri->segment(3)==''){echo 'active';} ?><!--">-->
-<!--            <a href="--><?php //echo base_url('academic/jadwal'); ?><!--">Ruang</a>-->
-<!--        </li>-->
-<!---->
-<!--        <li class="tab-right --><?php //if($this->uri->segment(3)=='group-kelas'){echo 'active';} ?><!--">-->
-<!--            <a href="--><?php //echo base_url('academic/jadwal/group-kelas'); ?><!--"><i class="fa fa-wrench right-margin" aria-hidden="true"></i>  Group Kelas</a>-->
-<!--        </li>-->
-<!--        <li class="tab-right --><?php //if($this->uri->segment(3)=='ruang'){echo 'active';} ?><!--">-->
-<!--            <a href="--><?php //echo base_url('academic/jadwal/ruang'); ?><!--"><i class="fa fa-wrench right-margin" aria-hidden="true"></i>  Ruang</a>-->
-<!--        </li>-->
-<!--        <li class="tab-right --><?php //if($this->uri->segment(3)=='input-jadwal'){echo 'active';} ?><!--">-->
-<!--            <a href="--><!--"><i class="fa fa-wrench right-margin" aria-hidden="true"></i> Jadwal</a>-->
-<!--        </li>-->
-<!---->
-<!--    </ul>-->
-<!--    <div style="border:none; border-top:1px solid #ddd;padding-top: 30px;">-->
-<!--        --><?php //echo $contenttabs; ?>
-<!--    </div>-->
-<!--</div>-->
+<script>
+    // Untuk Page Jadwal
+    $(document).on('change','#filterSemester',function () {
+        var Semester = $('#filterSemester').val();
+        var SemesterID = (Semester!='' && Semester!= null) ? Semester.split('.')[0] : '';
+
+        $('#selectSemesterSc').html('<select class="form-control" id="filterSemesterSchedule"></select>');
+        // $('#filterSemesterSchedule').empty();
+        $('#filterSemesterSchedule').append('<option value="" disabled selected>-- Semester --</option>' +
+            '                <option disabled>------------</option>');
+        loadSelectOPtionAllSemester('#filterSemesterSchedule','',SemesterID,SemesterAntara);
+        console.log('ok');
+        // filterSchedule();
+
+    });
+
+    $(document).on('change','#filterProgramCampus,#filterBaseProdi,#filterCombine,#filterSemesterSchedule',function () {
+        filterSchedule();
+    });
+
+    $('input[type=checkbox][class=filterDay]').change(function () {
+        var v = $(this).val();
+
+        // console.log($('input[type=checkbox][class=filterDay]:checked').val());
+
+        if(v==0){
+            $('input[type=checkbox][class=filterDay]').prop('checked',false);
+            $(this).prop('checked',true);
+            checkedDay = [];
+        } else {
+
+            if($('input[type=checkbox][value='+v+']').is(':checked')){
+                checkedDay.push($(this).val());
+            } else {
+                checkedDay = $.grep(checkedDay, function(value) {
+                    return value != v;
+                });
+            }
+
+
+            $('input[type=checkbox][value=0]').prop('checked',false);
+            // $(this).prop('checked',true);
+        }
+
+        if(checkedDay.length==0){
+            $('input[type=checkbox][value=0]').prop('checked',true);
+            $('.widget-schedule').removeClass('hide');
+        } else {
+            $('.widget-schedule').addClass('hide');
+            if(checkedDay.length>0){
+                for(var i=0;i<checkedDay.length;i++){
+                    $('#dayWidget'+checkedDay[i]).removeClass('hide');
+                }
+            }
+        }
+
+
+
+    });
+</script>
