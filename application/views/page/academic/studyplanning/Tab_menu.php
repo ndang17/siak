@@ -53,8 +53,6 @@
 <div class="row">
     <div class="col-md-12">
         <hr/>
-
-
         <div id="divPage"></div>
     </div>
 </div>
@@ -105,7 +103,7 @@
         var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
 
-            console.log(jsonResult);
+            // console.log(jsonResult);
 
             var dataStd = jsonResult;
 

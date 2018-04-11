@@ -1231,7 +1231,7 @@ class M_api extends CI_Model {
 
     public function getDetailStudyPlanning($NPM,$ta){
         $db_ta = 'ta_'.$ta;
-        $data = $this->db->query('SELECT s.NPM,s.Name, s.Photo, s.AcademicMentor,
+        $data = $this->db->query('SELECT s.NPM,s.Name, s.Photo, s.AcademicMentor,s.Gender,
                                     ast.EmailPU ,
                                     em.Name AS Mentor, em.EmailPU AS MentorEmailPU
                                     FROM '.$db_ta.'.students s 
@@ -1243,8 +1243,11 @@ class M_api extends CI_Model {
         $data[0]['DetailSemester'] = $this->getMaxCredit($db_ta,$NPM,$ta);
 
         $smtActive = $this->_getSemesterActive();
-        $dataPlanning = $this->db->query('SELECT s.ID AS ScheduleID, mk.ID AS MKID, mk.Name, mk.NameEng, mk.MKCode, cd.Semester, cd.TotalSKS AS Credit, 
-                                                    s.ClassGroup
+        $dataPlanning = $this->db->query('SELECT s.ID AS ScheduleID, mk.ID AS MKID, 
+                                                    mk.Name, mk.NameEng, mk.MKCode, 
+                                                    cd.Semester, cd.TotalSKS AS Credit, 
+                                                    s.ClassGroup,
+                                                    sk.ID AS KRSID
                                                     FROM db_academic.std_krs sk 
                                                     LEFT JOIN db_academic.curriculum_details cd ON (cd.ID = sk.CDID)
                                                     LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = cd.MKID)

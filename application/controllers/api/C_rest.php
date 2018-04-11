@@ -55,6 +55,24 @@ class C_rest extends CI_Controller {
 
     }
 
+    function getDetailKRS(){
+        $token = $this->input->post('token');
+        $key = "s3Cr3T-G4N";
+        $dataToken = (array) $this->jwt->decode($token,$key);
+
+        $cekUser = $this->cekAuthAPI($dataToken['auth']);
+        if($cekUser){
+            $data = $this->m_api->getDetailStudyPlanning($dataToken['NPM'],$dataToken['ta']);
+            return print_r(json_encode($data));
+        } else {
+            $msg = array(
+                'msg' => 'Error'
+            );
+            return print_r(json_encode($msg));
+        }
+
+    }
+
 
 
 

@@ -219,8 +219,6 @@ $route['api/__crudCourseOfferings'] = 'api/c_api/crudCourseOfferings';
 $route['api/__crudLecturer'] = 'api/c_api/crudLecturer';
 $route['api/__crudStudyPlanning'] = 'api/c_api/crudStudyPlanning';
 
-$route['rest/__checkDateKRS'] = 'api/c_rest/checkDateKRS';
-
 // get data SMA dan SMK per Wilayah
 $route['api/__insertWilayahURLJson'] = 'api/c_api/insertWilayahURLJson';
 $route['api/__insertSchoolURLJson'] = 'api/c_api/insertSchoolURLJson';
@@ -231,3 +229,5 @@ $route['api/__getSMAWilayah'] = 'api/c_api/getSMAWilayah';
 $route['api/__getDataRegisterUpload'] = 'api/c_api/getDataRegisterUpload';
 $route['api/__getDataRegisterVerified'] = 'api/c_api/getDataRegisterVerified';
 
+ $route['rest/__checkDateKRS'] = 'api/c_rest/checkDateKRS';
+ $route['rest/__getDetailKRS'] = 'api/c_rest/getDetailKRS';
