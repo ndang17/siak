@@ -409,7 +409,7 @@ class C_admission extends MY_Controller {
        $start = ($page - 1) * $config["per_page"];
        $this->data['datadb'] = $this->m_admission->daftar_set_nilai_ujian_load_data_paging($config["per_page"], $start,$selectPrody);
        $this->data['mataujian'] = $this->m_admission->select_mataUjian($selectPrody);
-       $this->data['grade'] = json_encode($this->m_master->showData('db_academic.grade'));
+       $this->data['grade'] = json_encode($this->m_admission->showData('db_academic.grade'));
       $this->data['no'] = $start + 1;
       $content = $this->load->view('page/'.$this->data['department'].'/proses_calon_mahasiswa/daftar_nilai_ujian_load_data_paging',$this->data,true);
 

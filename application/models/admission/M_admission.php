@@ -628,4 +628,11 @@ class M_admission extends CI_Model {
 
     }
 
+    public function showData($tabel)
+    {
+      $sql = "select * from ".$tabel; 
+      $query=$this->db->query($sql, array());
+      return $query->result_array();
+    }
+
 }

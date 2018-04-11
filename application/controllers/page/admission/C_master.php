@@ -545,4 +545,9 @@ class C_master extends MY_Controller {
         }        
     }
 
+    public function biaya_kuliah()
+    {
+        
+    }
+
 }

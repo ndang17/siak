@@ -134,8 +134,10 @@ $route['admission/master-config/submit_jurusan_sekolah'] = 'page/admission/c_mas
 $route['admission/master-registration/ujian-masuk-per-prody'] = 'page/admission/c_master/ujian_masuk_per_prody';
 $route['admission/master-registration/ujian-masuk-per-prody/modalform'] = 'page/admission/c_master/modalform_ujian_masuk_per_prody';
 $route['admission/master-registration/ujian-masuk-per-prody/loadTable'] = 'page/admission/c_master/table_ujian_masuk_per_prody';
-
 $route['admission/master-registration/ujian-masuk-per-prody/submit'] = 'page/admission/c_master/submit_ujian_masuk_per_prody';
+
+$route['admission/master-registration/biaya-kuliah'] = 'page/admission/c_master/biaya_kuliah';
+
 
 
 $route['admission/proses-calon-mahasiswa/verifikasi-dokumen'] = 'page/admission/c_admission/verifikasi_dokumen_calon_mahasiswa';
