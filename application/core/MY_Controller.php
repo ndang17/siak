@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
-    public $GlobalVariableAdi = array('url_registration' => 'http://10.1.10.230/register/');
+    // public $GlobalVariableAdi = array('url_registration' => 'http://10.1.10.230/register/');
+    public $GlobalVariableAdi = array('url_registration' => 'http://demo.web.podomorouniversity.ac.id/registeronline/');
 
     function __construct()
     {
