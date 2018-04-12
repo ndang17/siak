@@ -1247,11 +1247,13 @@ class M_api extends CI_Model {
                                                     mk.Name, mk.NameEng, mk.MKCode, 
                                                     cd.Semester, cd.TotalSKS AS Credit, 
                                                     s.ClassGroup,
-                                                    sk.ID AS KRSID
+                                                    sk.ID AS KRSID, sk.Status AS KRSStatus,
+                                                    skc.ID AS ReasonID, skc.Reason
                                                     FROM db_academic.std_krs sk 
                                                     LEFT JOIN db_academic.curriculum_details cd ON (cd.ID = sk.CDID)
                                                     LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = cd.MKID)
                                                     LEFT JOIN db_academic.schedule s ON (s.ID = sk.ScheduleID)
+                                                    LEFT JOIN db_academic.std_krs_comment skc ON (skc.KRSID = sk.ID)
                                                     WHERE sk.SemesterID = "'.$smtActive['ID'].'" AND sk.NPM = "'.$NPM.'" ')->result_array();
 
         for($i=0;$i<count($dataPlanning);$i++){
