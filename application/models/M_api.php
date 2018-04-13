@@ -564,28 +564,43 @@ class M_api extends CI_Model {
         return $result;
     }
 
-    public function getSemesterCurriculum(){
+    public function getSemesterCurriculum($SemesterID,$IsSemesterAntara){
 
+        $where = ($SemesterID!='' && $SemesterID!=0) ? 's.ID = '.$SemesterID : 's.Status = 1';
 
         $dataCurriculum = $this->db->query('SELECT * FROM db_academic.curriculum c 
                                                     WHERE c.Year <= (
-                                                      SELECT Year FROM db_academic.semester s WHERE s.Status = 1 LIMIT 1) 
-                                                      ORDER BY c.Year DESC ')->result_array();
+                                                      SELECT Year FROM db_academic.semester s WHERE '.$where.' LIMIT 1) 
+                                                      ORDER BY c.Year DESC ')
+                                ->result_array();
 
         $result=[];
+
         for($s=0;$s<count($dataCurriculum);$s++){
             $data = $this->db->query('SELECT s.* FROM db_academic.semester s 
-                                                    WHERE s.Year>="'.$dataCurriculum[$s]['Year'].'" ')->result_array();
+                                                    WHERE s.Year>="'.$dataCurriculum[$s]['Year'].'" ')
+                                ->result_array();
 
             $smt=1;
 
+
             for($i=0;$i<count($data);$i++){
 
-                if($data[$i]['Status']==0){
-                    $smt = $smt + 1;
+                if($SemesterID!='' && $SemesterID!=0){
+                    if($data[$i]['ID']!=$SemesterID){
+                        $smt = $smt + 1;
+                    } else {
+                        break;
+                    }
                 } else {
-                    break;
+                    if($data[$i]['Status']==0){
+                        $smt = $smt + 1;
+                    } else {
+                        break;
+                    }
                 }
+
+
 
 
             }
@@ -595,9 +610,14 @@ class M_api extends CI_Model {
                 'Semester' => $smt
             );
 
+
             array_push($result,$d);
 
         }
+
+
+
+
 
         return $result;
     }
@@ -1130,6 +1150,125 @@ class M_api extends CI_Model {
                                   WHERE s.SemesterID = "'.$SemesterID.'" 
                                   AND sdc.MKID = "'.$MKID.'" ');
         return $data->result_array();
+    }
+
+    private function _getSemesterActive(){
+        $data = $this->db->get_where('db_academic.semester', array('Status'=>'1'),1);
+
+        return $data->result_array()[0];
+    }
+
+    public function __getStudyPlanning($dataWhere){
+
+        $db_ta = 'ta_'.$dataWhere['ClassOf'];
+
+        $data = $this->db->query('SELECT s.Name,s.NPM,s.ClassOf,ast.EmailPU FROM '.$db_ta.'.Students s 
+                                                    LEFT JOIN db_academic.auth_students ast ON (ast.NPM = s.NPM)
+                                                    WHERE s.ProdiID = "'.$dataWhere['ProdiID'].'" 
+                                                    AND s.ProgramID = "'.$dataWhere['ProgramID'].'" ')
+                        ->result_array();
+        $result = [];
+        if(count($data)>0){
+            for($i=0;$i<count($data);$i++){
+                $data_stdCourse = $this->db->query('SELECT cd.Semester FROM db_academic.std_krs sk 
+                                                      LEFT JOIN db_academic.curriculum_details cd ON (cd.ID = sk.CDID)
+                                                      WHERE sk.NPM = "'.$data[$i]['NPM'].'" ')
+                                        ->result_array();
+
+                $data[$i]['DetailSemester'] = $this->getMaxCredit($db_ta,$data[$i]['NPM'],$dataWhere['ClassOf']);
+
+                $dataRes = array(
+                    'Student' => $data[$i],
+                    'StudyPlanning' => $data_stdCourse
+                );
+
+                array_push($result,$dataRes);
+            }
+        }
+
+        return $result;
+
+    }
+
+    private function getMaxCredit($db_ta,$NPM,$ClassOf){
+
+        $dataSemester = $this->db->query('SELECT ID FROM db_academic.semester s1 
+                                            WHERE s1.ID < (SELECT ID FROM db_academic.semester s WHERE s.Status=1) 
+                                            ORDER BY s1.ID DESC LIMIT 1')->result_array()[0];
+
+        $dataResult = $this->db->query('SELECT * FROM '.$db_ta.'.study_results s 
+                                                WHERE s.NPM = "'.$NPM.'" 
+                                                AND s.SemesterID = "'.$dataSemester['ID'].'" LIMIT 1')->result_array();
+
+        $dataMakCredit = $this->db->query('SELECT * FROM db_academic.range_credits WHERE 
+                                                      IPSStart <= '.$dataResult[0]['IPS'].' 
+                                                      AND IPSEnd >= '.$dataResult[0]['IPS'].' LIMIT 1')->result_array();
+
+
+        // Semester Saat Ini
+        $dataTotalSmt = $this->db->query('SELECT s.Status FROM db_academic.semester s 
+                                                    WHERE s.ID >= (SELECT ID FROM db_academic.semester s2 
+                                                    WHERE s2.Year="'.$ClassOf.'" 
+                                                    LIMIT 1)')->result_array();
+
+        $smt = 0;
+        for($s=0;$s<count($dataTotalSmt);$s++){
+            if($dataTotalSmt[$s]['Status']=='1'){
+                $smt += 1;
+                break;
+            } else {
+                $smt += 1;
+            }
+        }
+
+        $result = array(
+            'LastIPS' => $dataResult[0],
+            'MaxCredit' => $dataMakCredit[0],
+            'Semester' => $smt
+        );
+        return $result;
+    }
+
+    public function getDetailStudyPlanning($NPM,$ta){
+        $db_ta = 'ta_'.$ta;
+        $data = $this->db->query('SELECT s.NPM,s.Name, s.Photo, s.AcademicMentor,s.Gender,
+                                    ast.EmailPU ,
+                                    em.Name AS Mentor, em.EmailPU AS MentorEmailPU
+                                    FROM '.$db_ta.'.students s 
+                                    LEFT JOIN db_academic.auth_students ast ON (s.NPM = ast.NPM)
+                                    LEFT JOIN db_employees.employees em ON (s.AcademicMentor = em.NIP)
+                                    WHERE s.NPM = "'.$NPM.'" AND s.StatusStudentID = "3" ')
+                            ->result_array();
+
+        $data[0]['DetailSemester'] = $this->getMaxCredit($db_ta,$NPM,$ta);
+
+        $smtActive = $this->_getSemesterActive();
+        $dataPlanning = $this->db->query('SELECT s.ID AS ScheduleID, mk.ID AS MKID, 
+                                                    mk.Name, mk.NameEng, mk.MKCode, 
+                                                    cd.Semester, cd.TotalSKS AS Credit, 
+                                                    s.ClassGroup,
+                                                    sk.ID AS KRSID, sk.Status AS KRSStatus,
+                                                    skc.ID AS ReasonID, skc.Reason
+                                                    FROM db_academic.std_krs sk 
+                                                    LEFT JOIN db_academic.curriculum_details cd ON (cd.ID = sk.CDID)
+                                                    LEFT JOIN db_academic.mata_kuliah mk ON (mk.ID = cd.MKID)
+                                                    LEFT JOIN db_academic.schedule s ON (s.ID = sk.ScheduleID)
+                                                    LEFT JOIN db_academic.std_krs_comment skc ON (skc.KRSID = sk.ID)
+                                                    WHERE sk.SemesterID = "'.$smtActive['ID'].'" AND sk.NPM = "'.$NPM.'" ')->result_array();
+
+        for($i=0;$i<count($dataPlanning);$i++){
+
+            $dataPlanning[$i]['DetailSchedule'] = $this->db->query('SELECT sd.*,cl.Room,d.NameEng AS DayNameEng FROM db_academic.schedule_details sd
+                                                                              LEFT JOIN db_academic.classroom cl ON (cl.ID = sd.ClassroomID)
+                                                                              LEFT JOIN db_academic.days d ON (d.ID = sd.DayID)
+                                                                              WHERE sd.ScheduleID = "'.$dataPlanning[$i]['ScheduleID'].'" ')
+                                                            ->result_array();
+
+        }
+
+        $data[0]['Schedule'] = $dataPlanning;
+
+        return $data[0];
     }
 
 

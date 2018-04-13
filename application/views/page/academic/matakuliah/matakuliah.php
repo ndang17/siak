@@ -33,9 +33,7 @@
 </style>
 <script>
     $(document).ready(function() {
-
         loadDataTableMK();
-
     } );
 
     $('#btn_addmk').click(function () {
@@ -56,7 +54,7 @@
             '<td>:</td>' +
             '<td>' +
             '<div class="input-group">' +
-            '  <span class="input-group-addon" id="frontCode">ARC</span>' +
+            // '  <span class="input-group-addon" id="frontCode">ARC</span>' +
             '  <input type="text" class="form-control" id="formCode" style="max-width: 150px;">' +
             '</div>' +
             '</td>' +
@@ -134,10 +132,10 @@
         });
     });
 
-    $(document).on('change','#FormBaseProdi',function () {
-        var prodi = $('#FormBaseProdi').find(':selected').val().split('.');
-        $('#frontCode').text(prodi[1]);
-    });
+    // $(document).on('change','#FormBaseProdi',function () {
+    //     var prodi = $('#FormBaseProdi').find(':selected').val().split('.');
+    //     $('#frontCode').text(prodi[1]);
+    // });
 
     $(document).on('click','#btnAddMK',function () {
 
@@ -149,13 +147,14 @@
 
         var prodi = $('#FormBaseProdi').find(':selected').val().split('.');
         var formCode = $('#formCode').val();
-        process = formRequired('#formCode',formCode);
 
-        var MKCode = (action=='add') ? prodi[1].trim() + ''+formCode : formCode ;
+
+        var MKCode = formCode ;
         var Name = $('#formName').val();
-        process = formRequired('#formName',Name);
+
         var NameEng = $('#formNameEng').val();
-        process = formRequired('#formNameEng',NameEng);
+
+        process = formRequired('#formCode,#formName,#formNameEng');
 
         if(process){
             // Cek Kesamaan Kode MK
@@ -304,14 +303,31 @@
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
-    function formRequired(element,value) {
-        if(value==''){
-            $(''+element).css('border','1px solid red');
-            return false;
-        } else {
-            $(''+element).css('border','1px solid #ccc');
-            return true;
+    function formRequired(element) {
+
+        var elementArr = element.split(',');
+
+        console.log(elementArr);
+
+        var res;
+        for(var i=0;i<elementArr.length;i++){
+            console.log(elementArr[i]);
+            var val = $(elementArr[i]).val();
+            if(val==''){
+                $(''+elementArr[i]).css('border','1px solid red');
+                res = false;
+                break;
+            } else {
+                $(''+elementArr[i]).css('border','1px solid #ccc');
+                res = true;
+            }
+
         }
+
+        return res;
+
+
+
     }
 
 </script>

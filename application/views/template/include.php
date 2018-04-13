@@ -2,6 +2,7 @@
 
 <!-- Bootstrap -->
 <link href="<?php echo base_url('assets/template/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('assets/custom/custom.css'); ?>" rel="stylesheet" type="text/css" />
 
 <!-- jQuery UI -->
 <!--<link href="plugins/jquery-ui/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" />-->
@@ -74,95 +75,6 @@
     .theme-dark #content {
         background-color : #ffffff;
     }
-
-
-    /*Custom Button*/
-    .btn-default-danger {
-        background: #fff !important;
-        color: #bd362f !important;;
-        border: 1px solid #bd362f !important;;
-    }
-
-    .btn-default-danger:hover {
-        background: #bd362f  !important;;
-        color: #ffffff  !important;;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-
-    }
-
-    .btn-default-warning {
-        background: #fff !important;
-        color: #f89406 !important;;
-        border: 1px solid #f89406 !important;;
-    }
-
-    .btn-default-warning:hover {
-        background: #f89406  !important;;
-        color: #ffffff  !important;;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-
-    }
-
-    /* BTN SUCCESS */
-    .btn-default-success {
-        background: #fff  !important;;
-        color: #51a351  !important;;
-        border: 1px solid #51a351  !important;;
-    }
-    .btn-default-success:hover {
-        background: #51a351  !important;;
-        color: #ffffff  !important;;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-
-    }
-    .btn-default-success:hover .caret {
-        border-top-color: #ffffff !important;
-    }
-    .btn-default-success .caret {
-        border-top-color: #51a351 !important;
-    }
-
-    /* BTN SUCCESS CLOSE */
-
-    .btn-default-primary {
-        color: #3968c6  !important;;
-        background: #ffffff !important;;
-        border: 1px solid #3968c6 !important;;
-    }
-    .btn-default-primary:hover {
-        background: #3968c6 !important;;
-        color: #ffffff !important;;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-
-    }
-
-    .label-info-inline {
-        color: #658db3;
-        background-color: #fff;
-        border: 1px solid #658db3;
-    }
-
-    .label-success-inline{
-        color: #94b86e;
-        background-color: #fff;
-        border: 1px solid #94b86e;
-    }
-
-    .label-danger-inline {
-        color: #e25856;
-        background-color: #fff;
-        border: 1px solid #e25856;
-    }
-
-
 
     /*.dropdown-menu {*/
         /*min-width: 100%;*/
@@ -500,12 +412,18 @@
         });
     }
 
-    function loadSelectOPtionAllSemester(element,selected) {
+    function loadSelectOPtionAllSemester(element,selected,SemesterID,IsSemesterAntara) {
 
         var url = base_url_js+'api/__crudTahunAkademik';
-        var token = jwt_encode({action:'DataSemester'},'UAP)(*');
+        var data = {
+            action:'DataSemester',
+            SemesterID:SemesterID,
+            IsSemesterAntara:IsSemesterAntara
+        };
+        var token = jwt_encode(data,'UAP)(*');
         $.post(url,{token:token},function (jsonResult) {
 
+            // console.log(jsonResult);
             // $(element).append('<option value="" disabled selected>--- Select Semester ---</option>' +
             //     '                <option disabled>------------------------------------------</option>');
 
@@ -681,13 +599,15 @@
             var option = $(element);
             if(data_json.length>0){
                 for(var i=0;i<data_json.length;i++){
+                    var selc = '';
                     if(selected=='selectedNow') {
-                        selected = (data_json[i].Status==1) ? 'selected' : '';
+                        selc = (data_json[i].Status==1) ? 'selected' : '';
+
                     } else {
-                        selected = (selected==data_json[i].ID) ? 'selected' : '';
+                        selc = (selected==data_json[i].ID) ? 'selected' : '';
                     }
 
-                    option.append('<option value="'+data_json[i].ID+'.'+data_json[i].YearCode+'" '+selected+'>'+data_json[i].Name+'</option>');
+                    option.append('<option value="'+data_json[i].ID+'.'+data_json[i].Year+'.'+data_json[i].Code+'" '+selc+'>'+data_json[i].Name+'</option>');
 
                 }
             }

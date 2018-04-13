@@ -30,7 +30,8 @@
                     </div>
                 </td>
 
-                <td><?php echo $item_mk['Code'].' | '.$item_mk['NameProdi']; ?></td>
+<!--                <td>--><?php //echo $item_mk['Code'].' | '.$item_mk['NameProdiEng']; ?><!--</td>-->
+                <td><?php echo $item_mk['NameProdiEng']; ?></td>
             </tr>
         <?php } ?>
         </tbody>

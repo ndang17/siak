@@ -158,7 +158,7 @@
 
         $('#formSemester').append('<option value="" disabled selected>--- Select Semester ---</option>' +
             '                <option disabled>------------------------------------------</option>');
-        loadSelectOPtionAllSemester('#formSemester');
+        loadSelectOPtionAllSemester('#formSemester','','',SemesterAntara);
 
     });
 

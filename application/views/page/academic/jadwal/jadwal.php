@@ -25,7 +25,10 @@
         </div>
 <!--        <div class="col-xs-3" style="text-align: right;padding-left: 0px;">-->
         <div class="col-xs-2">
-            <select class="form-control" id="filterSemesterSchedule"></select>
+
+            <div id="selectSemesterSc">
+                <select class="form-control" id="filterSemesterSchedule"></select>
+            </div>
         </div>
         <!--                <div class="col-xs-2">-->
         <!--                    <button class="btn btn-"><i class="fa fa-eye right-margin" aria-hidden="true"></i> Liat </button>-->
@@ -71,56 +74,21 @@
         window.checkedDay = [];
         loadSelectOptionProgramCampus('#filterProgramCampus','');
         loadSelectOptionBaseProdi('#filterBaseProdi','');
-        loSelectOptionSemester('#filterSemester','selectedNow');
+        $('#filterSemester').append('<option value="" disabled selected>-- Year Academic--</option>' +
+            '                <option disabled>------------------------------------------</option>');
+        // loSelectOptionSemester('#filterSemester','selectedNow');
+        loSelectOptionSemester('#filterSemester','');
 
         loadAcademicYearOnPublish();
-        loadSelectOPtionAllSemester('#filterSemesterSchedule');
+        // var Semester = $('#filterSemester').val();
+        // var SemesterID = (Semester!='' && Semester!= null) ? Semester.split('.')[0] : '';
+        // $('#filterSemesterSchedule').append('<option value="" disabled selected>-- Semester --</option>' +
+        //     '                <option disabled>------------------------------------------</option>');
+        // loadSelectOPtionAllSemester('#filterSemesterSchedule','',SemesterID,SemesterAntara);
 
     });
 
-    $(document).on('change','#filterProgramCampus,#filterSemester,#filterBaseProdi,#filterCombine,#filterSemesterSchedule',function () {
-        filterSchedule();
-    });
 
-    $('input[type=checkbox][class=filterDay]').change(function () {
-        var v = $(this).val();
-
-        // console.log($('input[type=checkbox][class=filterDay]:checked').val());
-
-        if(v==0){
-            $('input[type=checkbox][class=filterDay]').prop('checked',false);
-            $(this).prop('checked',true);
-            checkedDay = [];
-        } else {
-
-            if($('input[type=checkbox][value='+v+']').is(':checked')){
-                checkedDay.push($(this).val());
-            } else {
-                checkedDay = $.grep(checkedDay, function(value) {
-                    return value != v;
-                });
-            }
-
-
-            $('input[type=checkbox][value=0]').prop('checked',false);
-            // $(this).prop('checked',true);
-        }
-
-        if(checkedDay.length==0){
-            $('input[type=checkbox][value=0]').prop('checked',true);
-            $('.widget-schedule').removeClass('hide');
-        } else {
-            $('.widget-schedule').addClass('hide');
-            if(checkedDay.length>0){
-                for(var i=0;i<checkedDay.length;i++){
-                    $('#dayWidget'+checkedDay[i]).removeClass('hide');
-                }
-            }
-        }
-
-
-
-    });
 
     function loadAcademicYearOnPublish() {
         var url = base_url_js+"api/__getAcademicYearOnPublish";
@@ -135,9 +103,10 @@
         var Prodi = $('#filterBaseProdi').find(':selected').val();
         var ProdiID = (Prodi!='') ? Prodi.split('.')[0] : '';
         var CombinedClasses = $('#filterCombine').find(':selected').val();
-        var Semester = $('#filterSemesterSchedule').find(':selected').val().split('|');
+        var filterSemesterSchedule = $('#filterSemesterSchedule').find(':selected').val();
+        var Semester = (filterSemesterSchedule!='' && filterSemesterSchedule!=null) ? filterSemesterSchedule.split('|')[0] : filterSemesterSchedule;
 
-        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester[0]);
+        getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester);
     }
 
     function getSchedule(ProgramsCampusID,SemesterID,ProdiID,CombinedClasses,Semester) {

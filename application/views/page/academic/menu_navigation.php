@@ -71,8 +71,8 @@
 <!--                    Kelas Pengganti-->
 <!--                </a>-->
 <!--            </li>-->
-            <li class="">
-                <a href="#">
+            <li class="<?php if($this->uri->segment(2)=='study-planning'){echo "current";} ?>">
+                <a href="<?php echo base_url('academic/study-planning'); ?>">
                     <i class="fa fa-tasks"></i>
                     Rencana Studi
                 </a>

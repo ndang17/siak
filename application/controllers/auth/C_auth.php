@@ -164,7 +164,7 @@ class C_auth extends MY_Controller {
             print_r($no_sama);
         }
         else if($table=='mhs'){
-            $angkatan = 2016;
+            $angkatan = 2017;
 
             $db_lokal = 'ta_'.$angkatan;
                 $data = $this->db_server->query('SELECT d.NIP AS AcademicMentor,mhs.* FROM siak4.mahasiswa mhs 
@@ -454,7 +454,7 @@ class C_auth extends MY_Controller {
 
         }
         else if($table=='krs'){
-            $angkatan = 2015;
+            $angkatan = 2017;
 
             $db_lokal = 'ta_'.$angkatan;
 //            $data = $this->db_server->query('SELECT r.ID,j.TahunID AS SemesterID, th.TahunID AS YearCode,m.NPM,r.JadwalID AS ScheduleID,
@@ -529,7 +529,7 @@ class C_auth extends MY_Controller {
 
         }
         else if($table=='khs'){
-            $angkatan = 2015;
+            $angkatan = 2017;
 
             $db_lokal = 'ta_'.$angkatan;
 
